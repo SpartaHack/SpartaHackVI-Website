@@ -1,0 +1,121 @@
+[{
+    "answer": "Send them our way at hello@spartahack.com or come see us at the Help Desk on the first floor!",
+    "display": true,
+    "id": 53,
+    "placement": "live",
+    "priority": 5,
+    "question": "I have other questions!",
+    "user_id": 3304
+}, {
+    "answer": "Opening ceremony slides can be found <a href='https://docs.google.com/presentation/d/1zP16RM4efiDYUQDG0RTHU0Br0w5ZBmtqFfUv8UOLKbQ/edit?usp=sharing'>here</a> and they include an overview of our judging procedure!",
+    "display": true,
+    "id": 50,
+    "placement": "live",
+    "priority": 5,
+    "question": "Where can I find your opening ceremony slides? What is your judging procedure?",
+    "user_id": 3304
+}, {
+    "answer": "You can park in <a href='http://maps.msu.edu/interactive/index.php?location=DPLE' target='_blank'>Ramp 5</a> except for spaces on the first floor, spaces with a pay-by-plate designation, or 24-hour reserved spaces.",
+    "display": true,
+    "id": 46,
+    "placement": "live",
+    "priority": 1,
+    "question": "Where can I park?",
+    "user_id": 3304
+}, {
+    "answer": "Ask questions about mentorship by texting now at MLH Mentor Hotline  +1 832-A-MENTOR",
+    "display": true,
+    "id": 49,
+    "placement": "live",
+    "priority": 5,
+    "question": "How does your mentorship system work?",
+    "user_id": 3304
+}, {
+    "answer": "The starbucks hours are - <br> Saturday 9:30 AM to 9 PM <br> Sunday 9:30 AM to 4:00 PM",
+    "display": true,
+    "id": 54,
+    "placement": "live",
+    "priority": 5,
+    "question": "What are the starbucks hours?",
+    "user_id": 3304
+}, {
+    "answer": "Definitely not! No programming experience is necessary; we have workshops and mentors at the event to help you learn about a variety of topics.",
+    "display": true,
+    "id": 41,
+    "placement": "home",
+    "priority": 3,
+    "question": "Do I need to know how to code to come to SpartaHack?",
+    "user_id": null
+}, {
+    "answer": "Anyone who is currently a student or has graduated within 12 months of SpartaHack! Graduate students, undergrads, and high-school students from any field of study are welcome.",
+    "display": true,
+    "id": 42,
+    "placement": "home",
+    "priority": 3,
+    "question": "Who can come to SpartaHack?",
+    "user_id": null
+}, {
+    "answer": "Whatever you want to! A lot of people use hackathons as an opportunity to learn a new piece of tech, while others work with tools they know already to build something more challenging. You can check out last year\u2019s projects <a target='_blank' href='https://spartahack2017.devpost.com/submissions'>here</a>",
+    "display": true,
+    "id": 43,
+    "placement": "home",
+    "priority": 3,
+    "question": "What should I make at SpartaHack?",
+    "user_id": null
+}, {
+    "answer": "Applications are open! <a href='/apply'>Apply Here!</a>",
+    "display": true,
+    "id": 40,
+    "placement": "home",
+    "priority": 3,
+    "question": "How do I sign up for SpartaHack?",
+    "user_id": null
+}, {
+    "answer": "Yes! As an MLH member event, all attendees must agree to the <a target='_blank' href='https://static.mlh.io/docs/mlh-code-of-conduct.pdf'>MLH Code of Conduct</a>",
+    "display": true,
+    "id": 44,
+    "placement": "home",
+    "priority": 3,
+    "question": "Do you have a Code of Conduct?",
+    "user_id": null
+}, {
+    "answer": "Reach out to us at <a href='mailto:hello@spartahack.com'>hello@spartahack.com</a> and we\u2019ll get back to you!",
+    "display": true,
+    "id": 45,
+    "placement": "home",
+    "priority": 10,
+    "question": "I have a question that isn\u2019t in this list!",
+    "user_id": null
+}, {
+    "answer": "Come see us at our Help Desk on the first floor!",
+    "display": true,
+    "id": 47,
+    "placement": "live",
+    "priority": 5,
+    "question": "Where can I borrow hardware?",
+    "user_id": null
+}, {
+    "answer": "Teams can have up to 4 students.",
+    "display": true,
+    "id": 48,
+    "placement": "home",
+    "priority": 5,
+    "question": "How many students can be on a team?",
+    "user_id": null
+}, {
+    "answer": "SpartaHack is a 36-hour programming marathon and competition held at Michigan State University on the weekend of January 18th-20th. We provide tons of meals, snacks, nap spaces, and swag, free of cost so all you need to worry about is making something cool.",
+    "display": true,
+    "id": 51,
+    "placement": "home",
+    "priority": 1,
+    "question": "What is SpartaHack?",
+    "user_id": null
+}, {
+    "answer": "SpartaHack is from January 18th to January 20th in Wells Hall at Michigan State University. Check-in starts at 6pm! Hope to see you there!",
+    "display": true,
+    "id": 52,
+    "placement": "home",
+    "priority": 2,
+    "question": "When and where is SpartaHack?",
+    "user_id": null
+}]
