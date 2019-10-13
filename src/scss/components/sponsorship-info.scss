@@ -21,4 +21,18 @@
             margin: 0;
         }
     }
+    @media only screen and (max-width: $break-b2) {
+        section {
+            width: 50%;
+        }
+    }
+    @media only screen and (max-width: $break-c1) {
+        img {
+            width: 30%;
+        }
+    
+        section {
+            width: 65%;
+        }
+    }
 }

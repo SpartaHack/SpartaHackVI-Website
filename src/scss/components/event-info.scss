@@ -1,11 +1,24 @@
+#event-photo-1 
+    { background-image: url('../../assets/event-photo-1.jpg'); }
+#event-photo-2
+    { background-image: url('../../assets/event-photo-2.jpg'); }
+#event-photo-3
+    { background-image: url('../../assets/event-photo-3.jpg'); }
+
 #event-info {
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
     box-sizing: content-box;
     padding-bottom: 7.5rem;
     height: 65vh;
 
+    margin: 0 auto;
+    position: relative;
+
     section {
         width: 40%;
+        margin: auto;
 
         display: flex;
         flex-direction: column;
@@ -22,15 +35,62 @@
         justify-content: space-around;
         align-content: flex-start;
 
-        section {
-            border: $border-width solid $white;
+        .event-photo {
             flex: 1;
-
             margin: 0 .5rem;
+            border: $border-width solid $white;
+
+            background-repeat:no-repeat;
+            background-size:cover;
+            background-position:center;
         }
         
-        .short-event-img {
+        #event-photo-2 {
             margin-top: 15%;
         }
     }
+
+    @media only screen and (max-width: $break-a1) 
+        { aside { width: 45%; } }
+    @media only screen and (max-width: $break-a2) 
+        { aside { width: 50%; } }
+    @media only screen and (max-width: $break-b2) 
+        { aside { width: 55%; } }
+    @media only screen and (max-width: $break-c1) {
+        section { width: 85%; }
+
+        aside {
+            height: 10rem;
+            width: 75vw;
+            justify-content: space-around;            
+            flex-direction: column;
+
+            position: absolute;
+            bottom: 15%;
+            left: 25vw;
+            z-index: -1;
+            opacity: .5;
+
+            .event-photo {
+                flex: 1;
+                box-sizing: content-box;
+                min-height: 10vh;
+
+                margin: 0 0 2rem 0;
+                border: $border-width solid $red;
+            }
+            #event-photo-2 {
+                width: 52.5vw;
+                margin: 0 auto 2rem auto;
+                background-position: center 25%;
+            }
+            #event-photo-3 
+                { background-position: center 15%; }
+        }
+    }
 }
+
+
+
+
+

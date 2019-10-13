@@ -1,2 +1,2 @@
-# SpartaHackVI-Website
-SpartaHackVI Website repo
+# SpartahackVI-Website
+SpartahackVI Website repo

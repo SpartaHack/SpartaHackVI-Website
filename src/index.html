@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SpartaHack VI</title>
+    <title>Spartahack VI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="Home of SpartaHack VI, Michigan State University's official hackathon!">
-    <meta name="keywords" content="SpartaHack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU">
+    <meta name="description" content="Home of Spartahack VI, Michigan State University's official hackathon!">
+    <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU">
     <meta name="author" content="Jarek Troyer, Manish Rajendran">
 
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
@@ -16,12 +16,12 @@
       <section id="nav-logotype">
         <img src="assets/logo.svg" />
 
-        <h2>SpartaHack VI</h2>
+        <h2>Spartahack VI</h2>
       </section>
 
       <ul id="nav-options">
         <li>
-          <a href="#" id="nav-about">About</a>
+          <a href="#event-info" id="nav-about">About</a>
         </li>
 
         <!-- <li>
@@ -38,8 +38,8 @@
         ></div>
 
         <li>
-          <a href="#" id="nav-about">
-            Interested in Sponsoring?
+          <a href="#sponsorship-info" id="nav-about">
+            Interested in <br class="responsive-break" /> Sponsoring?
           </a>
         </li>
       </ul>
@@ -48,7 +48,7 @@
     <main id="splash-area" class="screen">
       <section id="splash-info">
         <h4>Michigan State University's Official Hackathon</h4>
-        <h1>SpartaHack VI</h1>
+        <h1>Spartahack VI</h1>
         
         <div class="hrz-barrier"></div>
 
@@ -56,8 +56,9 @@
         <h3>Jan. 24-26, 2020</h3>
 
         <nav>
-          <button id="registration-info">Register</button>
-          <button id="sponsor-info">Sponsor</button>
+          <!-- Very temporary onclicks, no external scripts since they aren't yet necessary -->
+          <button id="registration-info" onclick="window.alert('We\'re working on this, check back mid-November!')">Register</button>
+          <button id="sponsor-info" onclick="window.location='#sponsorship-info'">Sponsor</button>
         </nav>
       </section>
 
@@ -67,32 +68,32 @@
     <article id="event-info" class="screen">
       <section>
         <p class="paragraph">
-          The weekend of January 24th we're bringing students of all skill levels and disciplines
-          together with tech industry professionals at Michigan State University. Each year we
-          provide a space to get creative with tech, make connections, and forget the words "I can't."
+          The weekend of January 24th we're bringing together students of all skill levels and disciplines
+          with tech industry professionals at Michigan State University. Every year at Spartahack
+          we provide a space to get creative with tech, make connections, and forget the words "I can't."
           <br /><br />
           We're excited to see what you will create!
         </p>
 
-        <a href="#" target="_blank" id="past-projects-prizes" class="txt-lnk paragraph">
+        <a href="https://spartahackv.devpost.com/submissions" target="_blank" id="past-projects-prizes" class="txt-lnk paragraph">
           See Past Projects & Prizes!
         </a>
       </section>
 
       <aside id="event-pictures">
-        <section id="event-picture-1"></section>
+        <section id="event-photo-1" class="event-photo"></section>
 
-        <section id="event-picture-2" class="short-event-img"></section>
+        <section id="event-photo-2" class="event-photo short-event-img"></section>
 
-        <section id="event-picture-3"></section>
+        <section id="event-photo-3" class="event-photo"></section>
       </aside>
     </article>
-
+  
     <article id="sponsorship-info" class="screen">
       <img src="assets/logo.svg" alt="sponsorship logo" id="sponsor-logo" />
 
       <section>
-        <h1>Sponsor SpartaHack</h1>
+        <h1>Sponsor Spartahack</h1>
 
         <div class="hrz-barrier"></div>
 
@@ -102,19 +103,20 @@
           have the opportunity to help guide next generation of tech workers.
         </p>
         <br />
-        
-
         <span class="paragraph" id="sponsor-email-action">
           Interested in sponsoring? 
 
           <br /><br />
           Email us -
-          <a href="mailto:hello@spartahack.com" class="txt-lnk">hello@spartahack.com</a>
+          <a href="mailto:hello@Spartahack.com" class="txt-lnk">hello@Spartahack.com</a>
 
           <br /><br />
-          <a class="paragraph txt-lnk" href="https://19.spartahack.com" target="_blank">
+          <!--
+            uncomment when last year's static site isn't broken
+
+            <a class="paragraph txt-lnk" href="https://19.Spartahack.com" target="_blank">
             See last year's sponsors
-          </a>
+          </a> -->
         </span>
       </section>
     </article>
@@ -122,5 +124,5 @@
 
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
   <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
-  <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+  <!-- <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script> -->
 </html>
