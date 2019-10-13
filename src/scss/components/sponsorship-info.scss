@@ -1,0 +1,24 @@
+#sponsorship-info {
+    justify-content: space-around;
+    height: 65vh;
+
+    img {
+        width: 40%;
+    }
+
+    section {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+        }
+    }
+}

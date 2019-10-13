@@ -4,6 +4,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 .type { font-family: 'Roboto', sans-serif; }
+.paragraph {
+    font-size: 1.2rem;
+}
 
 //colors & misc.
 
@@ -12,19 +15,30 @@ $red: #C90E19;
 $white: #F2F2F2;
 
 $border-width: .1rem;
+$border-height: .3rem;
 
 //elements
 
-#vrt-barrier {
+.vrt-barrier {
     display: inline-block;
 
     height: 100% !important;
     width: $border-width !important;
 
     padding: 0;
-    margin: auto 1rem;
+    margin: auto 1rem !important;
 
     background-color: $white;
+}
+.hrz-barrier {
+    display: inline-block;
+
+    height: $border-height !important;
+    width: 7.5rem !important;
+    background-color: $red !important;
+
+    padding: 0;
+    margin: 1rem 0 !important;
 }
 
 button {
