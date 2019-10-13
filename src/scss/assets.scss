@@ -1,4 +1,49 @@
-//Split into assets folder once the site gets bigger
+//Split into assets folder if the file gets too big
 
-//colors
+//font
+
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.type { font-family: 'Roboto', sans-serif; }
+
+//colors & misc.
+
 $black: #181818;
+$red: #C90E19;
+$white: #F2F2F2;
+
+$border-width: .1rem;
+
+//elements
+
+#vrt-barrier {
+    display: inline-block;
+
+    height: 100% !important;
+    width: $border-width !important;
+
+    padding: 0;
+    margin: auto 1rem;
+
+    background-color: $white;
+}
+
+button {
+    cursor: pointer;
+    color: $black;
+
+    border: none;
+    border-radius: .5rem;
+    padding: .5rem !important;
+    
+    font-weight: 350;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+
+    transform: scale(.9);
+    transition: transform .35s ease-in-out;
+
+    &:hover, &:active {
+        background-color: $white;
+        transform: scale(1);
+    }
+}

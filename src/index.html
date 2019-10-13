@@ -12,45 +12,60 @@
   </head>
   
   <body>
-    <nav>
-      <section>
-        <img src="assets/small-logo.svg" />
+    <nav id="main-nav">
+      <section id="nav-logotype">
+        <img src="assets/logo.svg" />
 
         <h2>SpartaHack VI</h2>
       </section>
 
-      <ul>
-        <li>About</li>
-        <li>Sponsors</li>
-        <li>Team</li>
-        <li>FAQ</li>
+      <ul id="nav-options">
+        <li>
+          <a href="#" id="nav-about">About</a>
+        </li>
 
-        <div id="vrt-barrier"></div>
+        <!-- <li>
+            <a href="#" id="nav-sponsors">Sponsors</a>
+        </li>
+        <li>
+            <a href="#" id="nav-team">Team</a>
+        </li>
+        <li>
+            <a href="#" id="nav-faq">FAQ</a>
+        </li> -->
+
+        <div id="vrt-barrier"
+        ></div>
 
         <li>
-          <h1>Interested in Sponsoring?</h1>
+          <a href="#" id="nav-about">
+            Interested in Sponsoring?
+          </a>
         </li>
       </ul>
     </nav>
 
-    <main>
+    <main id="splash-area" class="screen">
       <section id="splash-info">
         <h4>Michigan State University's Official Hackathon</h4>
         <h1>SpartaHack VI</h1>
+        
+        <div class="hrz-barrier"></div>
+
         <h2>Live by the code</h2>
         <h3>Jan. 24-26, 2020</h3>
+
+        <nav>
+          <button id="registration-info">Register</button>
+          <button id="sponsor-info">Sponsor</button>
+        </nav>
       </section>
 
       <img alt="splash logo" id="splash-logo" src="assets/logo.svg" />
-
-      <nav>
-        <button id="registration-info">Register</button>
-        <button id="sponsor-info">Sponsor</button>
-      </nav>
     </main>
 
-    <article id="event-info">
-      <section class="corner-logo-bg">
+    <article id="event-info" class="screen">
+      <section>
         <p>
           The weekend of January 24th we're bringing students of all skill levels and disciplines
           together with tech industry professionals at Michigan State University. Each year we
@@ -73,17 +88,17 @@
       </aside>
     </article>
 
-    <article id="sponsorship-info">
+    <article id="sponsorship-info" class="screen">
       <img src="assets/small-logo.svg" alt="sponsorship logo" id="sponsor-logo" />
 
       <section>
-        <h1>Sponsor SpaartaHack</h1>
+        <h1>Sponsor SpartaHack</h1>
 
         <div class="hrz-barrier"></div>
 
         <p>
           Our sponsors make it possible for our annual event to host 1,000+ emerging
-          developers, designers, and builders. Those who contribute to the event 
+          developers, designers, and builders. Those who contribute to the event
           have the opportunity to help guide next generation of tech workers.
         </p>
 
@@ -100,5 +115,4 @@
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
   <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
   <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
-  
 </html>
