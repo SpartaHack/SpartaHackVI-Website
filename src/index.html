@@ -12,7 +12,89 @@
   </head>
   
   <body>
+    <nav>
+      <section>
+        <img src="assets/small-logo.svg" />
 
+        <h2>SpartaHack VI</h2>
+      </section>
+
+      <ul>
+        <li>About</li>
+        <li>Sponsors</li>
+        <li>Team</li>
+        <li>FAQ</li>
+
+        <div id="vrt-barrier"></div>
+
+        <li>
+          <h1>Interested in Sponsoring?</h1>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="splash-info">
+        <h4>Michigan State University's Official Hackathon</h4>
+        <h1>SpartaHack VI</h1>
+        <h2>Live by the code</h2>
+        <h3>Jan. 24-26, 2020</h3>
+      </section>
+
+      <img alt="splash logo" id="splash-logo" src="assets/logo.svg" />
+
+      <nav>
+        <button id="registration-info">Register</button>
+        <button id="sponsor-info">Sponsor</button>
+      </nav>
+    </main>
+
+    <article id="event-info">
+      <section class="corner-logo-bg">
+        <p>
+          The weekend of January 24th we're bringing students of all skill levels and disciplines
+          together with tech industry professionals at Michigan State University. Each year we
+          provide a space to get creative with tech, make connections, and forget the words "I can't."
+          <br />
+          We're excited to see what you will create!
+        </p>
+
+        <a href="#" target="_blank" id="past-projects-prizes">
+          See Past Projects & Prizes!
+        </a>
+      </section>
+
+      <aside id="event-pictures">
+        <img alt="event picture 1" src="assets/info-1.png">
+
+        <img alt="event picture 2" src="assets/info-2.png">
+
+        <img alt="event picture 3" src="assets/info-3.png">
+      </aside>
+    </article>
+
+    <article id="sponsorship-info">
+      <img src="assets/small-logo.svg" alt="sponsorship logo" id="sponsor-logo" />
+
+      <section>
+        <h1>Sponsor SpaartaHack</h1>
+
+        <div class="hrz-barrier"></div>
+
+        <p>
+          Our sponsors make it possible for our annual event to host 1,000+ emerging
+          developers, designers, and builders. Those who contribute to the event 
+          have the opportunity to help guide next generation of tech workers.
+        </p>
+
+        <a href="19.spartahack.com" target="_blank">See last year's sponsors</a>
+
+        <span id="sponsor-email-action">
+          Interested in sponsoring? Email us:
+          <a href="mailto:hello@spartahack.com">hello@spartahack.com</a>
+        </span>
+      </section>
+    </article>
   </body>
 
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
