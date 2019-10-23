@@ -22,7 +22,7 @@
             <label for="university">University</label>
 
             <span id="uni-wrapper">
-              <input type="text" id="university">
+              <input type="text" id="university" class="field-in text auto">
             </span>
           </div>
 
@@ -30,14 +30,14 @@
             <label for="major">Major</label>
 
             <span id="major-wraper">
-              <input type="text" id="major">
+              <input type="text" id="major" class="field-in text auto">
             </span>
           </div>
 
           <div class="field-container">
             <label for="grad-year-opts">Graduation Year</label>
 
-            <select id="grad-year-opts">
+            <select id="grad-year-opts" class="field-in select">
               <option>2020</option>
               <option>2021</option>
               <option>2022</option>
@@ -49,7 +49,7 @@
           <div class="field-container">
             <label for="grad-year-opts">Graduation Season</label>
 
-            <select id="grad-year-opts">
+            <select id="grad-year-opts" class="field-in select">
               <option>Spring</option>
               <option>Fall</option>
               <option>Summer</option>
@@ -60,31 +60,32 @@
             <label for="mlh-experience">Number of Hackathons</label>
 
             <span id="mlh-experience-wrapper">
-              <input type="number" id="mlh-experience">
+              <input type="number" id="mlh-experience" class="field-in">
             </span>
           </div>
 
           <div class="field-container">
             <label for="user-links">Links</label>
 
-            <ul>
+            <ul id="user-links">
+              <!-- Set up single function to validate all link input -->
               <li>
                 <p>LinkedIn.com/user/</p>
-                <input type="text">
+                <input type="text" id="linkedin" data-linkPre="" class="field-in text link">
               </li>
 
               <li>
                   <p>Github.com/</p>
-                  <input type="text">
+                  <input type="text" id="github" data-linkPre="" class="field-in text link">
               </li>
 
               <li>
                   <p>Devpost.com/</p>
-                  <input type="text">
+                  <input type="text" id="devpost" data-linkPre="" class="field-in text link">
               </li>
 
               <li>
-                  <input type="text" placeholder="Other Site">
+                  <input type="text" id="other-site" data-linkPre="" class="field-in text link" placeholder="Other Site">
               </li>
             </ul>
           </div>
