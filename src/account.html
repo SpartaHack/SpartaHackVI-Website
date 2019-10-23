@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Account: SpartaHack</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Sign up for a Spartahack account, or log into your existing one!">
+    <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU, Log In, Sign Up, Apply">
+    <meta name="author" content="Jarek Troyer">
+
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  </head>
+
+  <body>
+    <header>
+      <h3>Your Application</h3>
+    </header>
+
+    <main>
+        <section id="about-fields">
+          <div class="field-container">
+            <label for="university">University</label>
+
+            <span id="uni-wrapper">
+              <input type="text" id="university">
+            </span>
+          </div>
+
+          <div class="field-container">
+            <label for="major">Major</label>
+
+            <span id="major-wraper">
+              <input type="text" id="major">
+            </span>
+          </div>
+
+          <div class="field-container">
+            <label for="grad-year-opts">Graduation Year</label>
+
+            <select id="grad-year-opts">
+              <option>2020</option>
+              <option>2021</option>
+              <option>2022</option>
+              <option>2023</option>
+              <option>2024</option>
+            </select>
+          </div>
+          
+          <div class="field-container">
+            <label for="grad-year-opts">Graduation Season</label>
+
+            <select id="grad-year-opts">
+              <option>Spring</option>
+              <option>Fall</option>
+              <option>Summer</option>
+            </select>
+          </div>
+
+          <div class="field-container">
+            <label for="mlh-experience">Number of Hackathons</label>
+
+            <span id="mlh-experience-wrapper">
+              <input type="number" id="mlh-experience">
+            </span>
+          </div>
+
+          <div class="field-container">
+            <label for="user-links">Links</label>
+
+            <ul>
+              <li>
+                <p>LinkedIn.com/user/</p>
+                <input type="text">
+              </li>
+
+              <li>
+                  <p>Github.com/</p>
+                  <input type="text">
+              </li>
+
+              <li>
+                  <p>Devpost.com/</p>
+                  <input type="text">
+              </li>
+
+              <li>
+                  <input type="text" placeholder="Other Site">
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="demo-fields">
+          <div class="field-container">
+              <label for="birthday-wrapper" class="app-field-label">Birthday</label>
+  
+              <span id="birthday-wrapper">
+                  <!-- Use ::after for "/" -->
+                  <input id="birth-day" type="text" class="app-field text-field birthday-field">
+                  <input id="birth-month" type="text" class="app-field text-field birthday-field">
+                  <input id="birth-year" type="text" class="app-field text-field birthday-field">
+              </span>
+          </div>
+
+          <div class="field-container">
+              <label for="gender-opts" class="app-field-label">Pronouns</label>
+
+              <select id="gender-opts">
+                  <option>He/Him/His</option>
+                  <option>She/Her/Hers</option>
+                  <option>They/Them/Their</option>
+                  <input type="text" placeholder="Other" class="app-field text-field">
+              </select>
+          </div>
+        </section>      
+    </main>
+
+    <nav>
+      <div>
+        <button>Done</button>
+        <button>Next</button>
+        <button>Previous</button>
+      </div>
+    </nav>
+  </body>
+</html>
