@@ -17,6 +17,11 @@ class Application {
             'github': text.github,
             'major': text.major
         }
+        this.autocomplete = {
+            'travel-origin': text.travelOrigin,
+            'university': text.university,
+            'major': text.major
+        }
         this.needed = {
             'grad-season-opts': true,
             'grad-year-opts': true,
