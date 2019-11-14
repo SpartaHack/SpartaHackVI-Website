@@ -1,5 +1,7 @@
 import '../scss/application.scss'
-const validationDirector = require('./appValidators/director')
+const Application = require('./appValidators/director').default
 
-validationDirector(
-    document.getElementsByClassName('field-in'))
+let app = new Application()
+Array.from(document.getElementsByClassName('field-in')).forEach(fe => {
+    fe.addEventListener('change', e => app.update(fe))
+})
