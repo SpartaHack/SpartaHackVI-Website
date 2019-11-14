@@ -1,6 +1,8 @@
-//outputs css to our dist folder
-import '../scss/index.scss'
-import '../scss/application.scss'
-
-//copies assets to dist
 require.context('./../../assets')
+import '../scss/index.scss'
+const auth = require('./auth_cofig').default
+
+auth(
+    authObj => document.getElementById('nav-login')
+    .addEventListener('click', () => authObj.loginWithPopup())
+)

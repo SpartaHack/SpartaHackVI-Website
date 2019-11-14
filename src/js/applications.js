@@ -1,5 +1,5 @@
 import '../scss/application.scss'
-const valid = require('./appValidators/index')
+const validationDirector = require('./appValidators/director')
 
-let values = document.getElementsByClassName('field-in')
-valid(values)
+validationDirector(
+    document.getElementsByClassName('field-in'))

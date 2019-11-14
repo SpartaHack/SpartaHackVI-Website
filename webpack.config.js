@@ -25,6 +25,7 @@ module.exports = {
                   }
               }
           },
+          {test: "/\.json$/", loader: "json-loader"},
         {
           test: /\.scss$/,
           use:  [  MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']

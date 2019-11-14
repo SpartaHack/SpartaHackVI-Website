@@ -9,11 +9,13 @@
     "build": "webpack --mode production"
   },
   "keywords": [
-    "ClickTime",
-    "Tech",
-    "Challenge",
-    "Summer",
-    "2020"
+    "SpartaHack",
+    "MLH",
+    "Hackathon",
+    "2020",
+    "MSU",
+    "CSE",
+    "internships"
   ],
   "author": "Jarek Troyer",
   "license": "MIT",
