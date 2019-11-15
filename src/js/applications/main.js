@@ -8,4 +8,3 @@ Array.from(document.getElementsByClassName('field-in')).forEach(fe => {
     fe.addEventListener('change', e => app.update(fe))
     autocomplete(fe)
 })
-

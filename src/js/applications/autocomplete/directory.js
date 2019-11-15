@@ -1,6 +1,6 @@
 let autoDOM = (element, options) => {
+    console.log(element)
     console.log(options)
-    // console.log(element)
 }
 let autoFuncs = {
     'travel-origin': require('./travelOrigin').default,

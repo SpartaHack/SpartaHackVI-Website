@@ -1,5 +1,5 @@
 import createAuth0Client from '@auth0/auth0-spa-js'
-import auth from './../../auth.json';
+import auth from './../../auth.json'
 
 async function auth_func (cb) {
     let auth0 = await createAuth0Client(auth)
