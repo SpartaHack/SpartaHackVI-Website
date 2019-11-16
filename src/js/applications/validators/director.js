@@ -7,15 +7,15 @@ class Application {
             'grad-season-opts': misc.select,
             'grad-year-opts': misc.select,
             'mlh-experience': misc.select,
-            'travel-origin': text.travelOrigin,
+            'travel-origin': text.fromDict,
             'gender-opts': misc.select,
-            'university': text.university,
+            'university': text.fromDict,
             'other-site': text.otherSite,
             'birthday': misc.birthday,
             'linkedin': text.linkedin,
             'devpost': text.devpost,
             'github': text.github,
-            'major': text.major
+            'major': text.fromDict
         }
         this.autocomplete = {
             'travel-origin': text.travelOrigin,
@@ -42,10 +42,12 @@ class Application {
     update(src) {
         let field = src.id
         let func = this.validators[field]
+
         if (!func) return undefined;
 
         let result
         let worked = func(src, result)
+        result = result ? result : (typeof worked == "string" ? worked : src.value)
 
         if (worked) {
             this.out[field] = result
@@ -54,9 +56,14 @@ class Application {
         else {
             delete this.out[field]
             this.needed[field] = true
+            this.error(src)
         }
-
+        console.log(this.out)
         return this.needed[field]
+    }
+
+    error(errored) {
+
     }
 
     export(out) {
