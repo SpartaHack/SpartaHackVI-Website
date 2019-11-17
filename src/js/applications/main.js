@@ -1,4 +1,7 @@
-import './../../scss/application.scss'
+import './../../scss/sheets/nav.scss'
+import './../../scss/sheets/application.scss'
+
+
 const Application = require('./validators/director').default
 const autocomplete = require('./validators/autocomplete').default
 

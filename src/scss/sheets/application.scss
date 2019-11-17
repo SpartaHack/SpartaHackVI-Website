@@ -1,0 +1,9 @@
+@import './../components/assets.scss';
+
+h3 { color: red; }
+
+* { 
+    @extend .type;
+    color: $white;
+    box-sizing: border-box;
+}

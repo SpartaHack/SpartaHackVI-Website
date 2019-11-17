@@ -1,5 +1,7 @@
 require.context('./../../assets')
-import '../scss/index.scss'
+import './../scss/sheets/nav.scss'
+import './../scss/sheets/index.scss'
+import './../scss/sheets/footer.scss'
 const auth = require('./auth_cofig').default
 
 auth(

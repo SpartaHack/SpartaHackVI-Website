@@ -78,3 +78,24 @@ button {
         transform: scale(1);
     }
 }
+
+
+// Defaults
+
+body { background-color: $black; }
+
+* { 
+    @extend .type;
+    color: $white;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: $white;
+}
+.txt-lnk 
+    { text-decoration: underline $white; }
+
+h1, h2, button
+    { text-transform: uppercase; }
