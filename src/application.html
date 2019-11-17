@@ -48,7 +48,7 @@
               <label for="university">University</label>
 
               <span id="uni-wrapper">
-                <input type="text" id="university" class="field-in text auto" data-out="university">
+                <input placeholder="Your University" type="text" id="university" class="field-in text auto" data-out="university">
               </span>
             </div>
 
@@ -56,7 +56,7 @@
               <label for="major">Major</label>
 
               <span id="major-wraper">
-                <input type="text" id="major" class="field-in text auto" data-out="major">
+                <input placeholder="Your Major" type="text" id="major" class="field-in text auto" data-out="major">
               </span>
             </div>
 
@@ -64,6 +64,7 @@
               <label for="grad-year-opts">Graduation Year</label>
 
               <select id="grad-year-opts" class="field-in select" data-out="graduation-year">
+                  <option value="" selected>Graduation Year</option>
                 <option value=2020>2020</option>
                 <option value=2021>2021</option>
                 <option value=2022>2022</option>
@@ -76,6 +77,7 @@
               <label for="grad-season-opts">Graduation Season</label>
 
               <select id="grad-season-opts" class="field-in select" data-out="graduation-season">
+                <option default selected="selected">Graduation Season</option>
                 <option value="spring">Spring</option>
                 <option value="fall">Fall</option>
                 <option value="summer">Summer</option>
@@ -86,7 +88,7 @@
                 <label for="travel-origin">Traveling From</label>
   
                 <span id="travel-origin-wrapper">
-                  <input type="text" id="travel-origin" class="field-in" data-out="travel-origin">
+                  <input placeholder="Traveling from..." type="text" id="travel-origin" class="field-in" data-out="travel-origin">
                 </span>
             </div>
 
@@ -102,6 +104,7 @@
                 <label for="gender-opts" class="app-field-label">Gender</label>
 
                 <select name="gender" id="gender-opts" class="field-in select" data-out="gendder">
+                    <option value="" selected>Your Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="non-binary">Non-Binary</option>
@@ -118,21 +121,21 @@
                   <!-- Set up single function to validate all link input -->
                   <li>
                     <p>LinkedIn.com/user/</p>
-                    <input type="text" id="linkedin" data-out="linkedin" data-linkPre="" class="field-in text link">
+                    <input placeholder="profile-url" type="text" id="linkedin" data-out="linkedin" data-linkPre="" class="field-in text link">
                   </li>
   
                   <li>
                       <p>Github.com/</p>
-                      <input type="text" id="github" data-out="github" data-linkPre=""  class="field-in text link">
+                      <input placeholder="profile-url" type="text" id="github" data-out="github" data-linkPre=""  class="field-in text link">
                   </li>
   
                   <li>
                       <p>Devpost.com/</p>
-                      <input type="text" id="devpost" data-out="devpost" data-linkPre="" class="field-in text link">
+                      <input placeholder="profile-url" type="text" id="devpost" data-out="devpost" data-linkPre="" class="field-in text link">
                   </li>
   
                   <li>
-                      <input type="text" id="other-site" data-out="other-link" data-linkPre="" class="field-in text link" placeholder="Other Site">
+                      <input placeholder="yoursite.com" type="text" id="other-site" data-out="other-link" data-linkPre="" class="field-in text link" placeholder="Other Site">
                   </li>
                 </ul>
               </div>
