@@ -1,4 +1,6 @@
-@import './../components/assets.scss';
+@import 
+'./../components/assets.scss',
+'./../components/form.scss';
 
 h3 { color: red; }
 
@@ -7,3 +9,47 @@ h3 { color: red; }
     color: $white;
     box-sizing: border-box;
 }
+
+#app-wrap {
+    
+    margin: 0;
+    padding: 0 5%;
+    box-sizing: border-box;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+    overflow: hidden auto;
+    height: calc(100vh - 10rem);
+    max-height: 100% !important;
+
+    main { margin: auto 0; }
+}
+
+#app-navigator {
+    max-width: 100%;
+    height: 4.75rem;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    ul {
+        width: 90%;
+        padding: 0;
+        margin: auto;
+        font-size: 1rem;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        button:first-child { margin: 0 auto 0 0 }
+    }
+
+    #personal, #event {
+        flex-direction: column !important;
+    }
+}
+
