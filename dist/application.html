@@ -39,24 +39,26 @@
 
     <div id="app-wrap">
       <header>
-        <h3>Your Application</h3>
+        <div id="header-wrap">
+          <h3>Your Application</h3>
+        </div>
       </header>
 
       <main>
-          <section id="personal">
+          <section id="personal" class="other-section">
             <div class="field-container">
               <label for="university">University</label>
 
-              <span id="uni-wrapper">
-                <input placeholder="Your University" type="text" id="university" class="field-in text auto" data-out="university">
+              <span id="uni-wrapper" class="auto-span">
+                <input placeholder="Michigan State University" type="text" id="university" class="field-in text auto" data-out="university">
               </span>
             </div>
 
             <div class="field-container">
               <label for="major">Major</label>
 
-              <span id="major-wraper">
-                <input placeholder="Your Major" type="text" id="major" class="field-in text auto" data-out="major">
+              <span id="major-wraper" class="auto-span">
+                <input placeholder="Computer Science" type="text" id="major" class="field-in text auto" data-out="major">
               </span>
             </div>
 
@@ -64,7 +66,7 @@
               <label for="grad-year-opts">Graduation Year</label>
 
               <select id="grad-year-opts" class="field-in select" data-out="graduation-year">
-                  <option value="" selected>Graduation Year</option>
+                <option value="" selected>20XX</option>
                 <option value=2020>2020</option>
                 <option value=2021>2021</option>
                 <option value=2022>2022</option>
@@ -83,12 +85,12 @@
                 <option value="summer">Summer</option>
               </select>
             </div>
-            
+              
             <div class="field-container">
                 <label for="travel-origin">Traveling From</label>
   
-                <span id="travel-origin-wrapper">
-                  <input placeholder="Traveling from..." type="text" id="travel-origin" class="field-in" data-out="travel-origin">
+                <span id="travel-origin-wrapper" class="auto-span">
+                  <input placeholder="New York City" type="text" id="travel-origin" class="field-in" data-out="travel-origin">
                 </span>
             </div>
 
@@ -113,46 +115,49 @@
             </div>
           </section>
 
-          <section id="event">
-              <div class="field-container">
+          <section id="event" class="other-section">
+              
+
+              <div class="field-container" id="link-fields-wrap">
                 <label for="user-links">Links</label>
   
                 <ul id="user-links">
-                  <!-- Set up single function to validate all link input -->
-                  <li>
+                  <li class="link-field-wrap">
                     <p>LinkedIn.com/user/</p>
                     <input placeholder="profile-url" type="text" id="linkedin" data-out="linkedin" data-linkPre="" class="field-in text link">
                   </li>
   
-                  <li>
+                  <li class="link-field-wrap">
                       <p>Github.com/</p>
                       <input placeholder="profile-url" type="text" id="github" data-out="github" data-linkPre=""  class="field-in text link">
                   </li>
   
-                  <li>
+                  <li class="link-field-wrap">
                       <p>Devpost.com/</p>
                       <input placeholder="profile-url" type="text" id="devpost" data-out="devpost" data-linkPre="" class="field-in text link">
                   </li>
   
-                  <li>
+                  <li id="custom-site">
                       <input placeholder="yoursite.com" type="text" id="other-site" data-out="other-link" data-linkPre="" class="field-in text link" placeholder="Other Site">
                   </li>
                 </ul>
               </div>
+
+              <div class="field-container" id="num-hack-wrap">
+                  <label for="mlh-experience">Number of Hackathons</label>
+    
+                  <span id="mlh-experience-wrapper">
+                    <input type="number" placeholder="# of Hackathons" id="mlh-experience" data-out="hackathons" class="field-in">
+                  </span>
+              </div>
   
-              <div class="field-container">
+              <div class="field-container" id="statement-wrap">
                 <label for="statement">Why do you want to participate?</label>
   
                 <textarea id="statement" data-out="statement"></textarea>
               </div>
   
-              <div class="field-container">
-                  <label for="mlh-experience">Number of Hackathons</label>
-    
-                  <span id="mlh-experience-wrapper">
-                    <input type="number" id="mlh-experience" data-out="hackathons" class="field-in">
-                  </span>
-              </div>
+              
             </section>
       </main>
 
@@ -166,7 +171,7 @@
     </aside>
   </body>
 
-  <link rel="stylesheet" href="apps.e6567791b10abc064d20.css?e6567791b10abc064d20">
-  <script src="apps.ceb9f3a391eb3accc460.js?e6567791b10abc064d20"></script>
+  <link rel="stylesheet" href="apps.b2be122418e090ddf85d.css?b2be122418e090ddf85d">
+  <script src="apps.96903199d1142a459bda.js?b2be122418e090ddf85d"></script>
   <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
 </html>
