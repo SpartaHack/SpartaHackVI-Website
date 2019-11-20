@@ -6,9 +6,11 @@ const dicts = {
 module.exports.fromDict = (input, out) => {
     if (!input.value) return undefined
     
+    console.log(input)
     if (input.value in dicts[input.id]) 
         out[input.id] = input.value
-    
+
+        
     else return false
     return true
 }
@@ -20,7 +22,7 @@ module.exports.linkedin = (input, out) => {
 
     if (
         input.value.length > 3 && input.value.length < 100 
-        && !input.value.search(/^\w|\-/)
+        && !input.value.search(/^[\w\-]/)
     ) out[input.id] = input.value
 
     else return false
@@ -34,7 +36,7 @@ let githubDevpost = (input, out) => {
 
     if (
         input.value.length > 3 && input.value.length < 100 
-        && !input.value.search(/^\w|\-|\_/)
+        && !input.value.search(/^[\w\-\_]/)
     ) out[input.id] = input.value
     
     else return false
@@ -50,27 +52,26 @@ module.exports.otherSite = (input, out) => {
 
     let p0 = str => str.search(/^http?s\:\/\//)
     let p1 = str => str.search(/www\./)
-    let p2 = str => str.search(/((\w|\d|\-|\_)+\.){1,5}\w{3}\/.+$/)
+    let p2 = str => str.search(/([\w|\d|\-|\_]{3,}\.){1,5}\w{1,3}\/?(.+)$/)
     // definitely could have better regex for url contents
 
     let val = input.value
     let domainStart = p2(val)
+    let urlStart = p1(val)
+    domainStart += !domainStart && domainStart == urlStart ? 4 : 0
 
-    if (domainStart == 0) val = 'https://' + val
+    console.log(urlStart, domainStart)
 
+    if (domainStart == 0 && urlStart) 
+        val = 'https://' + val
     else if (p2 < 3) return false
-
-    else {
-        let urlStart = p1(val)
-
-        if (
-            (urlStart == 0 && domainStart != 4) ||
-            (p0(val) == 0 && 
-            (urlStart != 7 && urlStart != 8))
-        ) return false
-
-        val = 'https://' + val.substr(domainStart)
-    }
+    else if (
+        (urlStart == 0 && domainStart != 4) ||
+        (p0(val) == 0 && 
+        (urlStart != 7 && urlStart != 8))
+    ) 
+    return false
+    else val = 'https://' + val.substr(domainStart)
 
     out[input.id] = val
     return true
@@ -81,7 +82,6 @@ module.exports.otherSite = (input, out) => {
 module.exports.select = (input, out) => {
     if (input.selectedIndex == 0) return undefined
 
-    
     let possibleValues = []
     Array.from(input.querySelectorAll('option')).forEach(
         p => possibleValues.push(p.value) )
@@ -92,7 +92,7 @@ module.exports.select = (input, out) => {
 
 // ---
 
-module.exports.birthday = (input, out) =>{
+module.exports.birthday = (input, out) => {
     if (!input.value) return false
 
     let year = 3600 * 24 * 365
@@ -100,7 +100,6 @@ module.exports.birthday = (input, out) =>{
     let yearsOld = // epoch subtraction /1000 bc JS is weird
         Math.floor((new Date()-new Date(input.value))/1000/year)
 
-        console.log(yearsOld)
     if (yearsOld > 12 && yearsOld < 120) {
         out['birth_year'] = input.value.substr(0,4)
         out['birth_month'] = input.value.substr(5,2)
@@ -108,5 +107,27 @@ module.exports.birthday = (input, out) =>{
     }
     
     else return false
+    return true
+}
+
+// ---
+
+module.exports.statement = (input, out) => {
+    if (!input.value || input.value.length < 25 || input.value.search(/[\<\>\`]/) != -1)
+        return false
+
+    out[input.id] = input.value
+
+    return true
+}
+
+// ---
+
+module.exports.mlh = (input, out) => {
+    if (!input.value || input.value.length > 200)
+        return false
+
+        out[input.id] = input.value
+
     return true
 }

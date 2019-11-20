@@ -35,3 +35,5 @@ let change = forward => {
 showCurrent()
 buttons.n.addEventListener('click', () => change(true))
 buttons.p.addEventListener('click', () => change(false))
+
+buttons.d.addEventListener('click', () => {})

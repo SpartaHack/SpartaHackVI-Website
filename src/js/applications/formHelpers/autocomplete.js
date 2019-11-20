@@ -77,27 +77,30 @@ let autoData = (element, keycode) => {
     return true
 }
 
-let autoDone = (element, val) => {
+let autoDone = (element, val, director) => {
     val = val ? val :
         element.parentNode.lastChild.querySelector('.active-auto').dataset.val
     if (!val) return
     
+    element.value = val
     let autocompleted = element
-    autocompleted.value = val
-
+    
     element.parentNode.replaceChild(element, autocompleted)
-    element.blur()
+    element.parentNode.dataset.value = val
     element.parentNode.removeChild(element.parentNode.lastChild)
+
+    element.blur()
+    director.update(autocompleted)
 }
 
-module.exports.default = element => {
+module.exports.default = (element, director) => {
     let autoSrc = filterIndex[element.id]
 
     if (autoSrc) element.addEventListener('keyup', e => {
         if (e.keyCode == 38 || e.keyCode == 40)
             autoData(element, e.keyCode)
         else if (e.keyCode == 13) 
-            autoDone(element)       
+            autoDone(element, false, director)       
         else
             autoDOM(element, filter(element, autoSrc))
     })

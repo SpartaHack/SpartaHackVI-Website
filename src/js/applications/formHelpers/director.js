@@ -27,63 +27,60 @@ class Application {
             },
             'devpost': {
                 'validator': validators.devpost,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'github': {
                 'validator': validators.github,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'linkedin': {
                 'validator': validators.linkedin,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'other-site': {
                 'validator': validators.otherSite,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'birthday': {
                 'validator': validators.birthday,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'grad-season-opts': {
                 'validator': validators.select,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'grad-year-opts': {
                 'validator': validators.select,
-                'autocomplete': false,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'mlh-experience': {
-                'validator': validators.select,
-                'autocomplete': false,
+                'validator': validators.mlh,
                 'needed': true,
                 'dom': undefined,
                 'error': true
             },
             'gender-opts': {
                 'validator': validators.select,
-                'autocomplete': false,
+                'needed': true,
+                'dom': undefined,
+                'error': true
+            },
+            'statement': {
+                'validator': validators.statement,
                 'needed': true,
                 'dom': undefined,
                 'error': true
@@ -96,14 +93,15 @@ class Application {
         let fieldItems = this.fields[src.id]
 
         if (!fieldItems) return
-        if (fieldItems.dom === undefined) {
+        if (fieldItems.dom === undefined || fieldItems.dom != src) {
             fieldItems.dom = src
             
-            src.addEventListener( 'change',
-                () => this.update(src) )
-
             if (fieldItems.autocomplete) 
-                autocomplete(src)
+                autocomplete(src, this)
+                
+            src.addEventListener( 'change',
+                () => this.update(this.fields[src.id].dom) )
+
         }
 
         return fieldItems
@@ -117,7 +115,8 @@ class Application {
         let worked = func(src, this.out)
         
         if (!worked) this.error(src, worked)
-        console.log(worked)
+        console.log(this.out)
+        
         fieldItems['needed'] = worked
         return worked
     }
