@@ -16,33 +16,23 @@ module.exports.fromDict = (input, out) => {
 
 // ---
 
-module.exports.linkedin = (input, out) => {
+let site = (input, out, comparison) => {
     if (!input.value) return undefined
 
+    let validPortion = input.value.match(/[a-zA-Z\-\_]{3,99}/)
     if (
         input.value.length > 3 && input.value.length < 100 
-        && !input.value.search(/^[\w\-]/)
-    ) out[input.id] = input.value
-
-    else return false
-    return true
-}
-
-// ---
-
-let githubDevpost = (input, out) => {
-    if (!input.value) return undefined
-
-    if (
-        input.value.length > 3 && input.value.length < 100 
-        && !input.value.search(/^[\w\-\_]/)
+        && validPortion && validPortion[0] == input.value
     ) out[input.id] = input.value
     
-    else return false
+    else return -1
     return true  
 }
+
+let githubDevpost = (input, out) => site(input, out, /[a-zA-Z\-\_]{3,99}/)
 module.exports.github = githubDevpost
 module.exports.devpost = githubDevpost
+module.exports.linkedin = (input, out) => site(input, out, /[a-zA-Z\-\_]{3,99}/)
 
 // ---
 
@@ -61,13 +51,13 @@ module.exports.otherSite = (input, out) => {
 
     if (domainStart == 0 && urlStart) 
         val = 'https://' + val
-    else if (p2 < 3) return false
+    else if (p2 < 3) return -1
     else if (
         (urlStart == 0 && domainStart != 4) ||
         (p0(val) == 0 && 
         (urlStart != 7 && urlStart != 8))
     ) 
-    return false
+    return -1
     else val = 'https://' + val.substr(domainStart)
 
     out[input.id] = val

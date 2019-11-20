@@ -73,7 +73,9 @@
         }
     }
 }
-
+.errored {
+    border-color: rgba($red, .75) !important;
+}
 
 #statement-wrap {
     flex-wrap: wrap;

@@ -11,7 +11,9 @@ Array.from(document.getElementsByClassName('field-in'))
 
 // --- navigation
 
-var current = 0
+var current = Number(localStorage.getItem('pos'))
+current = current === NaN ? 0 : current
+
 const sections = document.querySelectorAll('#app-wrap main section')
 const buttons = {
     'p': document.querySelector('aside ul button:first-child'),
@@ -20,15 +22,18 @@ const buttons = {
 }
 
 let showCurrent = () => {
+    buttons.p.className = current == 0 ?
+        'other-section' : ''
+    buttons.n.className = current == sections.length - 1 ?
+        'other-section' : ''
+
     for (var i = 0; i < sections.length; i++)
         sections[i].className = i == current ? 'app-section' : 'other-section'
 }
 let change = forward => {
     current += forward ? 1 : -1
+    localStorage.setItem('pos', current)
     
-    buttons.n.className = current == sections.length-1 
-        ? 'other-section' : ''
-
     showCurrent(current, sections)
 }
 

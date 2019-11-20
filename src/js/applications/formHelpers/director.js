@@ -96,7 +96,6 @@ class Application {
             if (savedValue && savedValue != "undefined") {
                 this.import(document.getElementById(f))
                 let savedTarget = this.fields[f].dom
-                console.log(savedValue)
     
                 if (savedTarget instanceof HTMLSelectElement) 
                     savedTarget.selectedIndex = savedValue
@@ -110,7 +109,7 @@ class Application {
 
     import(src) {
         if (!src instanceof HTMLInputElement || !src instanceof HTMLSelectElement) return
-        
+
         let fieldItems = this.fields[src.id]
         if (!fieldItems) return
 
@@ -131,56 +130,49 @@ class Application {
         
         let func = fieldItems['validator']
         let worked = func(src, this.out)
-        
-        if (!worked) this.error(src, worked)
-        else 
+
+        this.fields[src.id].needed = this.fields[src.id].needed ? 
+            !(Boolean(worked)) : this.fields[src.id].needed
+
+        if (worked !== true) this.error(src, worked)
+        else {
             localStorage.setItem(src.id, 
-                fieldItems.dom instanceof HTMLSelectElement ? 
-                fieldItems.dom.selectedIndex : fieldItems.dom.value )
-        
-        fieldItems['needed'] = !fieldItems['needed'] ? 
-            fieldItems['needed'] : !(Boolean(worked))
+            fieldItems.dom instanceof HTMLSelectElement ? fieldItems.dom.selectedIndex : fieldItems.dom.value )
             
+            this.domError(src, true)
+        }
+
         return worked
     }
 
     error(errored, type) {
-        if (!(errored instanceof Element) || !this.fields[errored.id]) 
-            return
+        let fieldItems = this.import(errored)
+        if (!fieldItems) return undefined;
         
-        let fatal = !(this.optional.has(errored.id))
-
-        if (fatal)
-            this.fields[errored.id].needed = true
-        
-        localStorage.removeItem(errored.id)            
+        localStorage.removeItem(errored.id)
         delete this.out[errored.id]
-        this.domError(errored)
 
-        return fatal
+        let optional = this.optional.has(errored.id)
+        if ((optional && type === -1) || !optional)
+            this.domError(errored)
+
+        return true
     }
 
-    domError(errored) {
-
-    }
-
-    errorAll(errored) {
-        if (!Array.isArray(errored) || errored.length == 0) return
-
-        let fatal = false
-        for (var i = 0; i < errored.length; i++) {
-            fatal = this.error(this.fields[errored[i]].dom)
-
-            if  (fatal) break
-        }
-        return fatal
+    domError(errored, off) {
+        let target = errored.placeholder == 'profile-url' ? errored.parentNode : errored
+        if (off) target.classList.remove('errored')
+        else target.classList.add('errored')
     }
 
     export() {
         let stillNeeded = []
 
         Object.keys(this.fields).forEach(fn => {
-            if (!this.update(this.fields[fn].dom)) 
+            let updated = this.update(this.fields[fn].dom)
+            let opt = this.optional.has(fn)
+
+            if ((opt && updated == -1) || (!opt && !updated)) 
                 stillNeeded.push(fn)
         })
 
@@ -188,14 +180,16 @@ class Application {
     }
 
     submit() {
-       if (this.errorAll(this.export())) {
+        let stillNeeded = this.export()
+        console.log(stillNeeded)
+        if (stillNeeded.length) {
             //UI form incompletion notification
             console.log('form not done')
-       }
-       else {
+        }
+        else {
             // post request
             console.log('form done')
-       }
+        }
        console.log(this.out)
     }
 }
