@@ -2,12 +2,7 @@ import './../../scss/sheets/nav.scss'
 import './../../scss/sheets/application.scss'
 
 const Application = require('./formHelpers/director').default
-const autocomplete = require('./formHelpers/autocomplete').default
-
 let app = new Application()
-
-Array.from(document.getElementsByClassName('field-in'))
-     .forEach(fe => app.import(fe))
 
 // --- navigation
 

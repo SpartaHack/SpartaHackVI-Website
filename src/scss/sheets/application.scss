@@ -11,7 +11,8 @@ body {
     display: flex !important;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
 }
 
 #app-wrap {
@@ -19,6 +20,8 @@ body {
     margin: 0;
     padding: 0 5%;
     box-sizing: border-box;
+    height: auto !important;
+    overflow-y: visible;
     
     display: flex;
     flex-direction: column;
@@ -62,19 +65,25 @@ body {
     align-content: center;
     
     height: 100%;
-    max-height: 600px;
+    
     width: 100%;
     max-width: 960px;
     margin: auto;
 }
 
-#personal { justify-content: space-around; }
-#event { justify-content: center; }
+#personal { 
+    justify-content: space-around;
+    max-height: 600px;
+}
+#event { 
+    justify-content: center; 
+}
 
 #app-navigator {
-    width: 100%;
-    padding: 1rem 0;
     box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    margin: 1rem 0;
 
     display: flex;
     flex-direction: column;
@@ -93,4 +102,62 @@ body {
         justify-content: flex-end;
         button:first-child { margin: 0 auto 0 0 }
     }
+}
+
+#report-incomplete-bg {
+    &, * { box-sizing: border-box; }
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+    background-color: rgba($white, .6);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    #report-incomplete {
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+
+        background-color: $black;
+        border-radius: .5rem;
+
+        min-width: 560px;
+        max-width: 95vw;
+
+        margin: auto;
+        padding: 1rem;
+        * { 
+            padding: 0; 
+            z-index: 101;
+        }
+
+        #report-title {
+            font-size: 1.5rem;
+            margin: 0 0 .75rem 0;
+        }
+
+        #report-summary {
+            font-size: 1rem;
+            margin: 0 0 1.25rem 0;
+        }
+
+        #needed-fields {
+            margin: 0 0 1.25rem 0;
+            font-size: 1rem;
+            list-style: none;
+            li {
+                margin: 0 0 .5rem 0;
+            }
+        }
+    }
+
 }

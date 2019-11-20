@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Account: SpartaHack</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="description" content="Sign up for a Spartahack account, or log into your existing one!">
-    <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU, Log In, Sign Up, Apply">
     <meta name="author" content="Jarek Troyer">
 
+    <title>Apply: SpartaHack VI</title>
+    <meta name="description" content="Application page for SpartaHack VI">
+    <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU, Account, Apply">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
   </head>
 
@@ -21,11 +21,11 @@
 
       <ul id="nav-options">
         <li>
-          <a href="/" id="nav-home">Home</a>
+          <a href="/" tabIndex=-1 id="nav-home">Home</a>
         </li>
 
         <li>
-            <a href="/" id="nav-account">Account</a>
+            <a href="/" tabIndex=-1 id="nav-account">Account</a>
         </li>
 
         <div class="vrt-barrier"
@@ -50,7 +50,7 @@
               <label for="university">University</label>
 
               <span id="uni-wrapper" class="auto-span">
-                <input placeholder="Michigan State University" type="text" id="university" class="field-in text auto" data-out="university" autocomplete="off">
+                <input tabIndex=1 placeholder="Michigan State University" type="text" id="university" class="field-in text auto" data-out="university" autocomplete="off">
               </span>
             </div>
 
@@ -159,14 +159,14 @@
             </section>
       </main>
 
+      <aside id="app-navigator">
+        <ul>
+          <button>Previous</button>
+          <button>Next</button>
+          <button>Done</button>
+        </ul>
+      </aside>
     </div>
-    <aside id="app-navigator">
-      <ul>
-        <button>Previous</button>
-        <button>Next</button>
-        <button>Done</button>
-      </ul>
-    </aside>
   </body>
 
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.apps.css %>">

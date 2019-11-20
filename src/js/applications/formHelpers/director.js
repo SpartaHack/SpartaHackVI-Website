@@ -9,81 +9,81 @@ class Application {
                 'autocomplete': true,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Travel Origin'
             },
             'university': {
                 'validator': validators.fromDict,
                 'autocomplete': true,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'University'
             },
             'major': {
                 'validator': validators.fromDict,
                 'autocomplete': true,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Major'
             },
             'devpost': {
                 'validator': validators.devpost,
                 'needed': false,
                 'dom': undefined,
-                'error': true
+                'error': 'Devpost profile address'
             },
             'github': {
                 'validator': validators.github,
                 'needed': false,
                 'dom': undefined,
-                'error': true
+                'error': 'Devpost profile address'
             },
             'linkedin': {
                 'validator': validators.linkedin,
                 'needed': false,
                 'dom': undefined,
-                'error': true
+                'error': 'Devpost profile address'
             },
             'other-site': {
                 'validator': validators.otherSite,
                 'needed': false,
                 'dom': undefined,
-                'error': true
+                'error': 'Other website'
             },
             'birthday': {
                 'validator': validators.birthday,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Birthday'
             },
             'grad-season-opts': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Graduation Season'
             },
             'grad-year-opts': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Graduation Year'
             },
             'mlh-experience': {
                 'validator': validators.mlh,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Number of Hackathons'
             },
             'gender-opts': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Gender'
             },
             'statement': {
                 'validator': validators.statement,
                 'needed': true,
                 'dom': undefined,
-                'error': true
+                'error': 'Personal Statement'
             }
         }
 
@@ -91,20 +91,38 @@ class Application {
         this.out = {}
 
         Object.keys(this.fields).forEach(f => {
-            let savedValue = localStorage.getItem(f)
-
-            if (savedValue && savedValue != "undefined") {
-                this.import(document.getElementById(f))
-                let savedTarget = this.fields[f].dom
+            let fieldItems = this.import(document.getElementById(f))
+            if (fieldItems) {
+                let savedValue = localStorage.getItem(f)
     
-                if (savedTarget instanceof HTMLSelectElement) 
-                    savedTarget.selectedIndex = savedValue
-                else savedTarget.value = savedValue
-
-                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+                if (savedValue && savedValue != "undefined") {
+                    
+                    let savedTarget = this.fields[f].dom
+        
+                    if (savedTarget instanceof HTMLSelectElement) 
+                        savedTarget.selectedIndex = savedValue
+                    else savedTarget.value = savedValue
+    
+                    this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+                }
             }
-
         })       
+    }
+
+    submit() {
+        let stillNeeded = this.export()
+        let neededReport = this.report(stillNeeded)
+        
+        if (neededReport) {
+            //UI form incompletion notification
+            console.log('form not done')
+            document.body.appendChild(neededReport)
+        }
+        else {
+            // post request
+            console.log('form done')
+        }
+       console.log(this.out)
     }
 
     import(src) {
@@ -122,6 +140,19 @@ class Application {
             src.addEventListener('change', () => this.update(this.fields[src.id].dom))
         }
         return fieldItems
+    }
+    export() {
+        let stillNeeded = []
+
+        Object.keys(this.fields).forEach(fn => {
+            let updated = this.update(this.fields[fn].dom)
+            let opt = this.optional.has(fn)
+
+            if ((opt && updated == -1) || (!opt && !updated)) 
+                stillNeeded.push(fn)
+        })
+
+        return stillNeeded
     }
 
     update(src) {
@@ -145,6 +176,12 @@ class Application {
         return worked
     }
 
+    domError(errored, off) {
+        let target = errored.placeholder == 'profile-url' ? errored.parentNode : errored
+        if (off) target.classList.remove('errored')
+        else target.classList.add('errored')
+    }
+
     error(errored, type) {
         let fieldItems = this.import(errored)
         if (!fieldItems) return undefined;
@@ -157,40 +194,51 @@ class Application {
             this.domError(errored)
 
         return true
-    }
+    }    
 
-    domError(errored, off) {
-        let target = errored.placeholder == 'profile-url' ? errored.parentNode : errored
-        if (off) target.classList.remove('errored')
-        else target.classList.add('errored')
-    }
+    report(needed) {
+        if (!Array.isArray(needed) || !needed.length) return
 
-    export() {
-        let stillNeeded = []
+        let exitWrap = document.createElement('div')
+        exitWrap.id = 'report-incomplete-bg'
 
-        Object.keys(this.fields).forEach(fn => {
-            let updated = this.update(this.fields[fn].dom)
-            let opt = this.optional.has(fn)
+        let reportWrap = document.createElement('aside')
+        reportWrap.id = 'report-incomplete'
 
-            if ((opt && updated == -1) || (!opt && !updated)) 
-                stillNeeded.push(fn)
+        reportWrap.appendChild(document.createElement('h3'))
+        reportWrap.appendChild(document.createElement('p'))
+
+        reportWrap.firstChild.innerHTML = 'Application Incomplete'
+        reportWrap.firstChild.id = 'report-title'
+
+        reportWrap.lastChild.innerHTML = 'The following fields need to be changed or completed'
+        reportWrap.lastChild.id = 'report-summary'
+
+        reportWrap.appendChild(document.createElement('ul'))
+        reportWrap.lastChild.id = 'needed-fields'
+
+        needed.forEach(nf => {
+            reportWrap.lastChild.appendChild(document.createElement('li'))
+            reportWrap.lastChild.lastChild.innerHTML = this.fields[nf].error
         })
 
-        return stillNeeded
-    }
+        reportWrap.appendChild(document.createElement('div'))
+        
+        let exitButton = document.createElement('button')
+        exitButton.id="exit-button"
+        exitButton.innerHTML = "Exit"
+        reportWrap.lastChild.appendChild(exitButton)    
 
-    submit() {
-        let stillNeeded = this.export()
-        console.log(stillNeeded)
-        if (stillNeeded.length) {
-            //UI form incompletion notification
-            console.log('form not done')
-        }
-        else {
-            // post request
-            console.log('form done')
-        }
-       console.log(this.out)
+        let completeButton = document.createElement('button')
+        completeButton.innerHTML = "Complete"
+        completeButton.id="complete-button"
+        reportWrap.lastChild.appendChild(completeButton)
+        
+        let removeModal = () => document.body.removeChild(exitWrap)
+        exitButton.addEventListener('click', removeModal)
+
+        exitWrap.appendChild(reportWrap)
+        return exitWrap  
     }
 }
 

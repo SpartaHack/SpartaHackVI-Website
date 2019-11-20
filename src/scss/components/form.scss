@@ -18,6 +18,7 @@
 
         font-weight: 500;
         font-size: 1.25rem;
+        padding-right: 1rem;
     }
 
     input, select, textarea {
@@ -31,6 +32,8 @@
         
         ::placeholder { color: rgba($white, .85); }
     }
+
+    select { padding-right: .25rem}
     .auto-span {
         position: relative;
 
@@ -38,9 +41,11 @@
             position: absolute;
             left: 0;
             bottom: .5rem;
+            min-width: 100%;
             transform: translateY(100%);
     
             
+            border-radius:  0 0 .5rem .5rem;
             background-color: $white;//$black;
             box-sizing: border-box;
             padding: .25rem .5rem;
@@ -48,10 +53,6 @@
             max-height: 5rem;
             overflow-y: auto;
             z-index: 50;
-
-            border-radius:  0 0 .5rem .5rem;
-
-            min-width: 100%;
 
             ul {
                 list-style: none;
@@ -101,11 +102,15 @@
         list-style: none;
         padding: 0;
         margin: 0;
+
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
+
         flex: 1;
+        max-width: 100%;
+        overflow-x: hidden;
 
         li {
             flex: 1;
@@ -140,4 +145,21 @@
     }
 
     #custom-site input { width: 100%; }
+}
+
+@media screen and (max-width: 1050px) {
+    #link-fields-wrap #user-links li 
+        { max-width: 45%; }
+}
+
+@media screen and (max-width: 875px) {
+    #link-fields-wrap #user-links li 
+        { max-width: 48%; }
+}
+
+@media screen and (max-width: 560px) {
+    #link-fields-wrap #user-links li {
+        min-width: 80vw;
+        max-width: 100%;
+    }
 }
