@@ -6,7 +6,6 @@ const dicts = {
 module.exports.fromDict = (input, out) => {
     if (!input.value) return undefined
     
-    console.log(input)
     if (input.value in dicts[input.id]) 
         out[input.id] = input.value
 
@@ -60,8 +59,6 @@ module.exports.otherSite = (input, out) => {
     let urlStart = p1(val)
     domainStart += !domainStart && domainStart == urlStart ? 4 : 0
 
-    console.log(urlStart, domainStart)
-
     if (domainStart == 0 && urlStart) 
         val = 'https://' + val
     else if (p2 < 3) return false
@@ -99,11 +96,11 @@ module.exports.birthday = (input, out) => {
     year -= (year/365)/4 // for leap years
     let yearsOld = // epoch subtraction /1000 bc JS is weird
         Math.floor((new Date()-new Date(input.value))/1000/year)
-
+    
     if (yearsOld > 12 && yearsOld < 120) {
-        out['birth_year'] = input.value.substr(0,4)
-        out['birth_month'] = input.value.substr(5,2)
-        out['birth_day'] = input.value.substr(8,2)
+        out['birth_year']= input.value.substr(0,4)
+        out['birth_month']= input.value.substr(5,2)
+        out['birth_day']= input.value.substr(8,2)
     }
     
     else return false

@@ -27,25 +27,25 @@ class Application {
             },
             'devpost': {
                 'validator': validators.devpost,
-                'needed': true,
+                'needed': false,
                 'dom': undefined,
                 'error': true
             },
             'github': {
                 'validator': validators.github,
-                'needed': true,
+                'needed': false,
                 'dom': undefined,
                 'error': true
             },
             'linkedin': {
                 'validator': validators.linkedin,
-                'needed': true,
+                'needed': false,
                 'dom': undefined,
                 'error': true
             },
             'other-site': {
                 'validator': validators.otherSite,
-                'needed': true,
+                'needed': false,
                 'dom': undefined,
                 'error': true
             },
@@ -86,24 +86,42 @@ class Application {
                 'error': true
             }
         }
+
+        this.optional = new Set(['devpost','github','linkedin','other-site'])
         this.out = {}
+
+        Object.keys(this.fields).forEach(f => {
+            let savedValue = localStorage.getItem(f)
+
+            if (savedValue && savedValue != "undefined") {
+                this.import(document.getElementById(f))
+                let savedTarget = this.fields[f].dom
+                console.log(savedValue)
+    
+                if (savedTarget instanceof HTMLSelectElement) 
+                    savedTarget.selectedIndex = savedValue
+                else savedTarget.value = savedValue
+
+                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+            }
+
+        })       
     }
 
     import(src) {
+        if (!src instanceof HTMLInputElement || !src instanceof HTMLSelectElement) return
+        
         let fieldItems = this.fields[src.id]
-
         if (!fieldItems) return
+
         if (fieldItems.dom === undefined || fieldItems.dom != src) {
             fieldItems.dom = src
             
             if (fieldItems.autocomplete) 
                 autocomplete(src, this)
                 
-            src.addEventListener( 'change',
-                () => this.update(this.fields[src.id].dom) )
-
+            src.addEventListener('change', () => this.update(this.fields[src.id].dom))
         }
-
         return fieldItems
     }
 
@@ -115,29 +133,70 @@ class Application {
         let worked = func(src, this.out)
         
         if (!worked) this.error(src, worked)
-        console.log(this.out)
+        else 
+            localStorage.setItem(src.id, 
+                fieldItems.dom instanceof HTMLSelectElement ? 
+                fieldItems.dom.selectedIndex : fieldItems.dom.value )
         
-        fieldItems['needed'] = worked
+        fieldItems['needed'] = !fieldItems['needed'] ? 
+            fieldItems['needed'] : !(Boolean(worked))
+            
         return worked
     }
 
     error(errored, type) {
+        if (!(errored instanceof Element) || !this.fields[errored.id]) 
+            return
+        
+        let fatal = !(this.optional.has(errored.id))
+
+        if (fatal)
+            this.fields[errored.id].needed = true
+        
+        localStorage.removeItem(errored.id)            
         delete this.out[errored.id]
+        this.domError(errored)
+
+        return fatal
     }
 
-    export(out) {
-        if (typeof out != Object) return undefined
+    domError(errored) {
 
+    }
+
+    errorAll(errored) {
+        if (!Array.isArray(errored) || errored.length == 0) return
+
+        let fatal = false
+        for (var i = 0; i < errored.length; i++) {
+            fatal = this.error(this.fields[errored[i]].dom)
+
+            if  (fatal) break
+        }
+        return fatal
+    }
+
+    export() {
         let stillNeeded = []
 
         Object.keys(this.fields).forEach(fn => {
-            if (this.fields[fn]['needed'])
-                stillNeeded.push(n)
-
-            else out[n] = this.out[n]
+            if (!this.update(this.fields[fn].dom)) 
+                stillNeeded.push(fn)
         })
 
         return stillNeeded
+    }
+
+    submit() {
+       if (this.errorAll(this.export())) {
+            //UI form incompletion notification
+            console.log('form not done')
+       }
+       else {
+            // post request
+            console.log('form done')
+       }
+       console.log(this.out)
     }
 }
 
