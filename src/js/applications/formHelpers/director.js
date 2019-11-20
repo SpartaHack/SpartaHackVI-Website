@@ -99,7 +99,7 @@ class Application {
         if (fieldItems.dom === undefined) {
             fieldItems.dom = src
             
-            src.addEventListener('blur', 
+            src.addEventListener( 'change',
                 () => this.update(src) )
 
             if (fieldItems.autocomplete) 
@@ -115,18 +115,15 @@ class Application {
         
         let func = fieldItems['validator']
         let worked = func(src, this.out)
-
-        if (!worked) {
-            this.error(src)
-            delete this.out[src.id]
-        }
-
+        
+        if (!worked) this.error(src, worked)
+        console.log(worked)
         fieldItems['needed'] = worked
         return worked
     }
 
-    error(errored) {
-
+    error(errored, type) {
+        delete this.out[errored.id]
     }
 
     export(out) {
