@@ -9,6 +9,7 @@
     <meta name="author" content="Jarek Troyer">
 
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.navFooter.css %>">
   </head>
   
   <body>
@@ -22,6 +23,10 @@
       <ul id="nav-options">
         <li>
           <a href="#event-info" id="nav-about">About</a>
+        </li>
+
+        <li>
+          <p id="nav-login">Login</p>
         </li>
 
         <!-- <li>
@@ -119,8 +124,8 @@
       </section>
     </article>
   </body>
-
+  
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
   <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
-  <!-- <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script> -->
+  <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </html>

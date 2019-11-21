@@ -1,0 +1,101 @@
+//Split into assets folder if the file gets too big
+
+//font
+
+// @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.type { font-family: 'Arial', sans-serif; }
+.paragraph {
+    font-size: 1.2rem;
+}
+
+//colors & misc.
+
+$black: #181818;
+$red: #C90E19;
+$white: #F2F2F2;
+
+$border-width: .1rem;
+$border-height: .3rem;
+
+$break-a1: 1260px;
+$break-a2: 1150px;
+
+$break-b1: 1024px;
+$break-b2: 960px;
+$break-b3: 800px;
+
+$break-c1: 700px;
+$break-c2: 600px;
+$break-c3: 530px;
+//elements
+
+.vrt-barrier {
+    display: inline-block;
+
+    height: 100% !important;
+    width: $border-width !important;
+
+    padding: 0;
+    margin: auto 1rem !important;
+
+    background-color: $white;
+}
+.hrz-barrier {
+    display: inline-block;
+
+    height: $border-height !important;
+    width: 7.5rem !important;
+    background-color: $red !important;
+
+    padding: 0;
+    margin: 1rem 0 !important;
+}
+
+.responsive-break {
+    display: none;
+    @media only screen and (max-width: $break-c1) {
+        display: block;
+    }
+}
+
+button {
+    cursor: pointer;
+    color: $black;
+
+    border: none;
+    border-radius: .5rem;
+    padding: .5rem !important;
+    
+    font-weight: 350;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+
+    transform: scale(.9);
+    transition: transform .35s ease-in-out;
+
+    &:hover, &:active {
+        background-color: $white;
+        transform: scale(1);
+    }
+}
+
+
+// Defaults
+
+body { background-color: $black; }
+
+* { 
+    @extend .type;
+    color: $white;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: $white;
+}
+.txt-lnk 
+    { text-decoration: underline $white; }
+
+h1, h2, button
+    { text-transform: uppercase; }
