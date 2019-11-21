@@ -1,4 +1,3 @@
-import './../../scss/sheets/nav.scss'
 import './../../scss/sheets/application.scss'
 
 const Application = require('./formHelpers/director').default
@@ -37,3 +36,6 @@ buttons.n.addEventListener('click', () => change(true))
 buttons.p.addEventListener('click', () => change(false))
 
 buttons.d.addEventListener('click', () => app.submit())
+
+
+// -- 
