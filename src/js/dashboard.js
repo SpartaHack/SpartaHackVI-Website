@@ -1,8 +1,7 @@
 const auth = require('./auth_cofig').default
 
-async function testing(auth0) {
-    const isAuthenticated = await auth0.isAuthenticated();
-    console.log(isAuthenticated)
+let testing = async auth0=> {
+    console.log(auth0)
 }
 
 auth(testing)
