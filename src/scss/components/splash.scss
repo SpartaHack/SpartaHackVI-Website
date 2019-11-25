@@ -12,6 +12,9 @@
         justify-content: center;
         flex-direction: column;
 
+        box-sizing: border-box;
+        padding: .5rem;
+
         * {
             margin: .35rem 0;
             padding: 0;
@@ -28,8 +31,7 @@
         }
         h4 { 
             font-size: 1.5rem;
-            letter-spacing: .15rem
-            ;
+            letter-spacing: .15rem;
          }
 
         div {
@@ -54,7 +56,7 @@
         margin: auto 5%;
     }
 
-    @media only screen and (max-width: $break-b2) {
+    @media only screen and (max-width: $break-b1) {
         #splash-info {    
             margin-left: .5rem;
 
@@ -70,7 +72,7 @@
         #splash-logo { margin: auto 0; }
     }
 
-    @media only screen and (max-width: $break-c2) {
+    @media only screen and (max-width: $break-c1) {
         #splash-info { 
             margin-left: .5rem;
 
@@ -89,7 +91,7 @@
 
         #splash-logo { width: 35%; }
     }
-    @media only screen and (max-width: $break-c3) {
+    @media only screen and (max-width: $break-c2) {
         #splash-info nav button { margin: .5rem; }
     }
 }

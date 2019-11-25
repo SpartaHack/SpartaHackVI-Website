@@ -24,6 +24,8 @@
         flex-direction: column;
         justify-content: center;
         align-content: flex-start;
+
+        * { margin: .25rem 0; }
     }
 
     aside {

@@ -30,13 +30,13 @@ $break-c3: 530px;
 //elements
 
 .vrt-barrier {
-    display: inline-block;
+    // display: inline-block;
 
-    height: 100% !important;
+    height: 2rem !important;
     width: $border-width !important;
 
-    padding: 0;
-    margin: auto 1rem !important;
+    // padding: ;
+    margin: 0 1rem !important;
 
     background-color: $white;
 }
