@@ -9,23 +9,15 @@ let login = async auth0 => {
         try {
             await auth0.handleRedirectCallback()
             let token = await auth0.getIdTokenClaims()
-            
+            console.log(await auth0.getUser())
             return true
         } catch (error) {
             console.log('failed', auth0)
             return false
         }
     else {
-        
-        userCode = window.localStorage.getItem('userCode')
-        // if (userCode)
-        //     window.location = '/dashboard.html?code=' + userCode
-        let token = await auth0.getIdTokenClaims()
-        console.log(token)
-        // console.log(userCode)
-
-        // if (userCode !== undefined)
-        //     auth0.exchangeCode(userCode)
+        let test = await auth0.isAuthenticated()
+        console.log(test)
     }
 
     
