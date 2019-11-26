@@ -1,12 +1,12 @@
 const auth = require('./auth_cofig').default
 
-let testing = async auth0=> {
-    let f = await auth0.handleRedirectCallback()
-    let y = await auth0.getUser()
-    console.log(y)
+let login = require('./login').default
 
-    // console.log(auth0)
+let testing = async auth0=> {
+    console.log(await auth0.getUser())
 }
 
-auth(testing)
+// auth(testing)
+
+login(testing)
 
