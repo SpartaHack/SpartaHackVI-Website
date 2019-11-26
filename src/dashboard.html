@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="author" content="Jarek Troyer">
+
+    <title>Account: SpartaHack VI</title>
+    <meta name="description" content="Application page for SpartaHack VI">
+    <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU, Account, Apply">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.navFooter.css %>">
+  </head>
+
+  <body>
+    <nav id="main-nav">
+      <section id="nav-logotype">
+        <img src="assets/logo.svg" />
+
+        <h2>Spartahack VI</h2>
+      </section>
+
+      <ul id="nav-options">
+        <li>
+          <a href="/" tabIndex=-1 id="nav-home">Home</a>
+        </li>
+
+        <div class="vrt-barrier"
+        ></div>
+
+        <li>
+          <p id="nav-logout">Logout</p>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="user-info"></section>
+
+      <aside id="app-preview">
+
+      </aside>
+    </main>
+    
+  </body>
+
+  <!-- <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.apps.css %>"> -->
+  <script src="<%= htmlWebpackPlugin.files.chunks.dashboard.entry %>"></script>
+  <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
+</html>
