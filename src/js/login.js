@@ -1,7 +1,8 @@
 const auth = require('./auth_cofig').default
 
 let login = async auth0 => {
-    let args = window.location.toString()
+    console.log(auth0.parseHash({hash: window.location.hash }))
+    /*let args = window.location.toString()
     let userCode = args.match(/code\=.+(?=\&)/)
 
     if (userCode && userCode.length == 1)        
@@ -20,12 +21,11 @@ let login = async auth0 => {
             return false
         }
     else {
-        // let t = await auth0.getTokenWithPopup()
         await auth0.checkSession()
         let t = await auth0.getTokenSilently()
         console.log(await auth0.isAuthenticated())
         
-    }
+    }*/
 
     
 }
