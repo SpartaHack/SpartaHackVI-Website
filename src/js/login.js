@@ -1,33 +1,34 @@
 const auth = require('./auth_cofig').default
 
-let login = async auth0 => {
-    console.log(auth0.parseHash({hash: window.location.hash }))
-    /*let args = window.location.toString()
-    let userCode = args.match(/code\=.+(?=\&)/)
+let newCreds = auth0 => {
+    if (!auth0 || !auth0.authorize) return
 
-    if (userCode && userCode.length == 1)        
-        try {
-            await auth0.handleRedirectCallback()
-            let info = await auth0.getIdTokenClaims()
-            let token = await auth0.getTokenSilently()
-
-            window.localStorage.setItem('info', JSON.stringify(info))
-            window.localStorage.setItem('token', token)
-            console.log(window.localStorage.getItem('info'), 'init succ')
-            
-            return true
-        } catch (error) {
-            console.log(window.localStorage.getItem('info'), 'arg err')
-            return false
-        }
-    else {
-        await auth0.checkSession()
-        let t = await auth0.getTokenSilently()
-        console.log(await auth0.isAuthenticated())
-        
-    }*/
-
+    auth0.authorize()
     
+    return true
+}
+
+let oldCreds = auth0 => {
+    let info = JSON.parse(window.localStorage.getItem('stutoken'))
+    if (!info || !info.accessToken || !info.idToken) return newCreds(auth0)
+
+    let now = new Date(); now = now.getTime()/1000
+    if (now >= info.idTokenPayload.exp) return newCreds(auth0)
+    return true
+}
+
+let login = async auth0 => {
+    let args = window.location.hash
+    window.location.hash = ""
+
+    if (args.search(/access\_token/) == -1) return oldCreds(auth0)
+    
+    auth0.parseHash({hash: args}, (err, info) => {
+        if (!info) return oldCreds()
+        
+        window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
+        window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
+    })    
 }
 module.exports.default = after => {
     if (after instanceof Function)

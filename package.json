@@ -6,7 +6,7 @@
   "scripts": {
     "srv": "webpack-dev-server",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "rm -rf dist; webpack --mode production"
   },
   "keywords": [
     "SpartaHack",
