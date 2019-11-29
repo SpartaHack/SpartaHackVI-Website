@@ -2,7 +2,13 @@ import './../scss/sheets/dashboard.scss'
 
 let login = require('./login').default
 
-let appState = () => 0
+let appState = () => {
+    let current = window.localStorage.getItem('application')
+
+    if (!current) return 0
+
+    return 1
+}
 const thisState = appState()
 // *
 let fillBanner = async auth0 => {
@@ -25,7 +31,7 @@ let fillBanner = async auth0 => {
         case 0:
         temp = "You're set to start your application"; break
         case 1:
-        temp = "Welcome back, we've saved your spot"; break
+        temp = "We've saved your spot"; break
         case 2:
         temp = "Thanks for applying, we'll get back to you shortly"
         case 3:
@@ -67,12 +73,36 @@ let fillButton = async auth0 => {
     if (!thisState) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
+
     }
     else {
         button.firstElementChild.innerHTML = "Continue"
         btnIco.className = 'far fa-caret-square-right'
     }
     button.appendChild(btnIco)
+    button.addEventListener('click', () => window.location = "/application.html")
+}
+// -
+let getApp = async () => {
+    return {}
+}
+let updateStatus = (statDom, state) => {
+    statDom = statDom.lastElementChild
+
+    let indicator = document.createElement('i')
+    if (state) {
+        statDom.firstElementChild.classList.add('on-indicator')
+        indicator.className = "fas fa-check"
+    }
+    else {
+        statDom.firstElementChild.classList.remove('on-indicator')
+        indicator.className = "fas fa-times"
+    }
+    statDom.firstElementChild.appendChild(indicator)
+}
+let status = async () => {
+    Array.from(document.getElementsByClassName('status'))
+        .forEach(s => updateStatus(s, false))
 }
 // *
-login([fillBanner, fillInfo, fillButton])
+login([fillBanner, fillInfo, fillButton, status])

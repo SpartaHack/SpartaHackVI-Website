@@ -5,20 +5,30 @@
 
 body {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    height: 100vh;
+    margin-bottom: 5rem;
 }
 main {
     display: flex;
     flex-direction: row;
-    align-content: flex-start;
+    align-content: center;
     justify-content: space-between;
 
     width: 100%;
-    margin: 2rem 0 0 0;
+    margin: 5rem auto 0 auto;
     max-width: 1260px;
 }
+#user-info, #app-preview { flex: .45; margin: auto 0; }
+#app-preview, #image-area, #app-button, #app-button-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
 #user-info {
     display: flex;
     flex-wrap: wrap;
@@ -26,15 +36,14 @@ main {
     align-content: center;
     justify-content: flex-start;
 
-    flex: .45;
+    margin: 0 0 0 1rem;
 
     #banner {
         width: 100%;
-        margin: 0 0 1rem 0;
+        margin: 0 0 5rem 0;
 
         p {
             margin: 0;
-
             @extend .type;
             font-size: 1.5rem;
             font-weight: 400;
@@ -42,12 +51,6 @@ main {
         }
     }
 
-    #image-area, #app-button, #app-button-wrap {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-content: center;
-    }
     #image-area {
         width: 40%;
 
@@ -63,6 +66,8 @@ main {
         display: flex;
         flex-direction: column;
         justify-content: center;
+
+        margin: 0 0 0 .75rem;
         
         p {
             font-size: 1.25rem;
@@ -83,8 +88,81 @@ main {
 }
 
 #app-preview {
-    flex: .45;
-    padding: .5rem;
-    border-radius: 1rem;
-    background-color: rgba($white, .5);
+    
+}
+
+.status {
+    margin: auto 1rem;
+    
+    flex: 1;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+
+    h3 {
+        text-align: center;
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+    .stat-wrap {
+        width: 5rem;
+        max-width: 20vw;//100%;
+        height: 5rem;
+        max-height: 20vw;//100%;
+
+        margin: 0 auto;
+        background-color: rgba($red, .75);
+        &, .stat-inner {border-radius: 50%;}
+
+        .stat-inner {
+            width: 80%;
+            height: 80%;
+            margin: auto;
+            background-color: $white;
+
+            i {
+                margin: auto;
+                color: $black;
+                font-size: 200%;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $break-b2) {
+    main { 
+        margin: 3rem auto 0 auto;
+        flex-direction: column;
+        width: 90vw;
+    }
+    #user-info, #app-preview { flex: 1; }
+
+    #user-info {
+        margin: 0 !important;
+        justify-content: center;
+
+        #banner {
+            margin: 0 0 3rem 0;
+            p {text-align: center;}
+        }
+
+        #app-button-wrap {
+            margin: 3rem 0;
+        }
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    #user-attrs {
+        @media only screen and (max-width: 399px) 
+            {margin: .5rem 0 0 0 !important;}
+        p {margin: .5rem 0 !important;}
+    }
+    .status {
+        margin: auto 5vw;
+    }
 }
