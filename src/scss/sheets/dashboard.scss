@@ -1,0 +1,90 @@
+@import 
+'./../components/assets.scss';
+
+* { box-sizing: border-box; }
+
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+    margin: 2rem 0 0 0;
+    max-width: 1260px;
+}
+#user-info {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+
+    flex: .45;
+
+    #banner {
+        width: 100%;
+        margin: 0 0 1rem 0;
+
+        p {
+            margin: 0;
+
+            @extend .type;
+            font-size: 1.5rem;
+            font-weight: 400;
+            text-align: start;
+        }
+    }
+
+    #image-area, #app-button, #app-button-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+    }
+    #image-area {
+        width: 40%;
+
+        img {
+            height: auto;
+            margin: 0 auto;
+            max-width: 10rem;
+            border-radius: 50%;
+        }
+    }
+
+    #user-attrs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        p {
+            font-size: 1.25rem;
+            margin: .75rem 0;
+        }
+    }
+
+    #app-button-wrap {
+        width: 40%;
+        margin: 1rem 0 0 0;        
+
+        #app-button * { 
+            margin: 0 .25rem;
+            display: inline-block;
+            color: $black; 
+        }
+    }
+}
+
+#app-preview {
+    flex: .45;
+    padding: .5rem;
+    border-radius: 1rem;
+    background-color: rgba($white, .5);
+}
