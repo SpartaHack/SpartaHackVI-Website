@@ -21,3 +21,16 @@ body, html {
     flex-wrap: wrap;
     flex-direction: row;
 }
+
+#mlh-trust-badge {
+    display:block;
+    max-width:100px;
+    min-width:50px;
+    position:absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 50px;
+    transform: translateY(100%);
+    width:10%;
+    z-index:10000;
+}

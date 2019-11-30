@@ -17,6 +17,11 @@ let oldCreds = auth0 => {
 
     return (now < info.exp) ? true : newCreds(auth0)
 }
+
+let callHomme = auth0 => {
+    
+}
+
 let login = async auth0 => {
     let args = window.location.hash
     window.location.hash = ""
