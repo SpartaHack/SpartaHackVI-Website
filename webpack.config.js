@@ -77,6 +77,12 @@ module.exports = {
         template: './src/application.html',
         filename: 'application.html'
       }),
+      new HtmlWebpackPlugin({
+        inject: false,
+        hash: true,
+        template: './src/dashboard.html',
+        filename: 'dashboard.html'
+      }),
       new WebpackMd5Hash()
     ],
     devServer: {
