@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.navFooter.css %>">
+
+    <META HTTP-EQUIV="Access-Control-Allow-Origin" CONTENT="https://spartahack-dev.auth0.com">
   </head>
 
   <body>
@@ -35,16 +37,55 @@
     </nav>
 
     <main>
-      <section id="user-info"></section>
+      <section id="user-info">
+        <aside id="banner">
+          <p>Good <span id="time-of-day"></span>! <span id="user-message"></span></p>
+        </aside>
+
+        <div id="image-area"></div>
+
+        <section id="user-attrs">
+          <p id="user-name"></p>
+          <p id="user-email"></p>
+        </section>
+
+        <div id="app-button-wrap">
+          <button id="app-button">
+            <p id="app-button-message"></p>
+          </button>
+        </div>
+      </section>
 
       <aside id="app-preview">
+        <section id="applied" class="status">
+          <h3>Applied</h3>
+          <div class="stat-wrap">
+            <div class="stat-inner">
 
+            </div>
+          </div>
+        </section>
+        <section id="accepted" class="status">
+          <h3>Accepted</h3>
+          <div class="stat-wrap">
+            <div class="stat-inner">
+
+            </div>
+          </div>
+        </section>
+        <section id="RSVP'd" class="status">
+          <h3>RSVP'd</h3>
+          <div class="stat-wrap">
+            <div class="stat-inner">
+
+            </div>
+          </div>
+        </section>
       </aside>
     </main>
-    
   </body>
 
-  <!-- <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.apps.css %>"> -->
+  <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.dashboard.css %>">
   <script src="<%= htmlWebpackPlugin.files.chunks.dashboard.entry %>"></script>
-  <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
+  <script src="https://kit.fontawesome.com/a31625db37.js"></script>
 </html>

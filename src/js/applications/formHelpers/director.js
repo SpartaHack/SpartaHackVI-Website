@@ -88,23 +88,21 @@ class Application {
         }
 
         this.optional = new Set(['devpost','github','linkedin','other-site'])
-        this.out = {}
+        this.out = localStorage.getItem('application') ? 
+            JSON.parse(localStorage.getItem('application')) : {}
+
 
         Object.keys(this.fields).forEach(f => {
             let fieldItems = this.import(document.getElementById(f))
-            if (fieldItems) {
-                let savedValue = localStorage.getItem(f)
+
+            if (fieldItems && this.out[f]) {
+                let savedTarget = this.fields[f].dom
     
-                if (savedValue && savedValue != "undefined") {
-                    
-                    let savedTarget = this.fields[f].dom
-        
-                    if (savedTarget instanceof HTMLSelectElement) 
-                        savedTarget.selectedIndex = savedValue
-                    else savedTarget.value = savedValue
-    
-                    this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
-                }
+                if (savedTarget instanceof HTMLSelectElement) 
+                    savedTarget.selectedIndex = this.out[f]
+                else savedTarget.value = this.out[f]
+
+                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
             }
         })       
     }
@@ -167,12 +165,11 @@ class Application {
 
         if (worked !== true) this.error(src, worked)
         else {
-            localStorage.setItem(src.id, 
-            fieldItems.dom instanceof HTMLSelectElement ? fieldItems.dom.selectedIndex : fieldItems.dom.value )
+            localStorage.setItem('application', JSON.stringify(this.out))
             
             this.domError(src, true)
         }
-
+        console.log(this.out)
         return worked
     }
 

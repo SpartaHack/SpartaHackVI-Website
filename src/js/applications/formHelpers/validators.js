@@ -68,12 +68,8 @@ module.exports.otherSite = (input, out) => {
 
 module.exports.select = (input, out) => {
     if (input.selectedIndex == 0) return undefined
-
-    let possibleValues = []
-    Array.from(input.querySelectorAll('option')).forEach(
-        p => possibleValues.push(p.value) )
     
-    out[input.id] = possibleValues[input.selectedIndex]
+    out[input.id] = input.selectedIndex
     return true
 }
 

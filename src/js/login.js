@@ -1,27 +1,34 @@
 const auth = require('./auth_cofig').default
 
-let login = async auth0 => {
-    let args = window.location.toString()
-    let userCode = args.match(/code\=.+(?=\&)/)
-    let appState = args.match(/state\=.+/)
+let newCreds = auth0 => {
+    if (!auth0 || !auth0.authorize) return
 
-    if (userCode && userCode.length == 1)        
-        try {
-            await auth0.handleRedirectCallback()
-            let token = await auth0.getIdTokenClaims()
-            console.log(await auth0.getUser())
-            return true
-        } catch (error) {
-            console.log('failed', auth0)
-            return false
-        }
-    else {
-        let test = await auth0.isAuthenticated()
-        console.log(test)
-    }
+    auth0.authorize()
 
-    
+    return true
 }
+let oldCreds = auth0 => {
+    let info = JSON.parse(window.localStorage.getItem('stutoken'))
+    if (!info || !info.accessToken || !info.idToken) return newCreds(auth0)
+
+    let now = new Date(); now = now.getTime()/1000
+    if (now >= info.idTokenPayload.exp) return newCreds(auth0)
+    return true
+}
+let login = async auth0 => {
+    let args = window.location.hash
+    window.location.hash = ""
+
+    if (args.search(/access\_token/) == -1) return oldCreds(auth0)
+    
+    auth0.parseHash({hash: args}, (err, info) => {
+        if (err || !info) return oldCreds()
+        
+        window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
+        window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
+    })    
+}
+
 module.exports.default = after => {
     if (after instanceof Function)
         auth([login, after])
