@@ -8,12 +8,14 @@ let newCreds = auth0 => {
     return true
 }
 let oldCreds = auth0 => {
-    let info = JSON.parse(window.localStorage.getItem('stutoken'))
-    if (!info || !info.accessToken || !info.idToken) return newCreds(auth0)
+    let creds = JSON.parse(window.localStorage.getItem('stutoken'))
+    let info = JSON.parse(window.localStorage.getItem('stuinfo'))
+
+    if (!creds || !info) return newCreds(auth0)
 
     let now = new Date(); now = now.getTime()/1000
-    if (now >= info.idTokenPayload.exp) return newCreds(auth0)
-    return true
+
+    return (now < info.exp) ? true : newCreds(auth0)
 }
 let login = async auth0 => {
     let args = window.location.hash
@@ -23,7 +25,7 @@ let login = async auth0 => {
     
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
-        
+
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
     })    
