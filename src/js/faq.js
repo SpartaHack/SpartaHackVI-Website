@@ -1,3 +1,4 @@
+require('./../scss/components/faqs.scss')
 let indDom = (item, main, listings) => {
     let listing = document.createElement('li')
     listing.className = 'question-wrap'
@@ -11,7 +12,7 @@ let indDom = (item, main, listings) => {
     listing.firstElementChild.class = 'question'
 
     content.appendChild(document.createElement('div'))
-    content.firstElementChild.id = "answer-content-wrap"
+    content.firstElementChild.className = "answer-content-wrap"
 
     let head = document.createElement('div')
     head.appendChild(document.createElement('h2'))
@@ -23,20 +24,13 @@ let indDom = (item, main, listings) => {
     head.appendChild(exit)
     
     content.firstElementChild.appendChild(head)
-
     content.firstElementChild.appendChild(document.createElement('p'))
     content.firstElementChild.lastElementChild.innerHTML = item.answer
 
-    let ntr = () => {
-        main.removeChild(main.lastElementChild)
-        main.appendChild(content)
-    }
-    listing.addEventListener('click', ntr)
-
-    let xit = () => {
-        main.removeChild(main.lastElementChild)
-        main.appendChild(listings)
-    }
+    let ntr = () => 
+        main.replaceChild(content, main.lastElementChild)    
+    let xit = () => 
+        main.replaceChild(listings, main.lastElementChild)
     
     let getContent = () => {
         exit.addEventListener('click', xit)
@@ -49,6 +43,7 @@ let indDom = (item, main, listings) => {
         return content
     }
 
+    listing.addEventListener('click', ntr)
     return {'listing': listing, 'content': getContent}
 }
 
@@ -58,9 +53,9 @@ let dom = items => {
     let wrap = document.createElement('div')
     wrap.id = "faqs-questions"
 
-    wrap.appendChild(document.createElement('h3'))
-    wrap.firstElementChild.innerHTML = 'FAQs'
-    wrap.firstElementChild.id ="questions-title"
+    container.appendChild(document.createElement('h3'))
+    container.firstElementChild.innerHTML = 'FAQs'
+    container.firstElementChild.id ="questions-title"
     
     let db = {}
     wrap.appendChild(document.createElement('ul'))

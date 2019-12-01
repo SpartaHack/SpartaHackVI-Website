@@ -50,6 +50,7 @@ let fillBanner = async auth0 => {
 // -
 let fillInfo = async auth0 => {
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
+    // if (!info) login()
     // *
     let imgArea = document.getElementById('image-area')
 
@@ -60,12 +61,11 @@ let fillInfo = async auth0 => {
     imgArea.appendChild(img)
     // -
     let name = document.getElementById('user-name')
-    name.innerHTML = info.name
+    if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
+    else name.innerHTML = info.name
     // -
     let email = document.getElementById('user-email')
     email.innerHTML = info.email
-
-    if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
 }
 // -
 let fillButton = async auth0 => {

@@ -1,57 +1,105 @@
+@import '../components/assets.scss';
+
 #faqs-wrap {
-    width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-content: center;
-    height: 400px;
-    // max-height: 400px;
-    background-color: $red;
+
+    width: 100%;
+    
+    margin: 0;
+    padding: 0;
     overflow: auto;
 
+    background-color: $red;
+    
+    h3 {
+        margin: 2rem auto 0 auto;
+        font-size: 1.75rem;
+        width: 100%;
+        max-width: 1260px;
+        user-select: none;
+    }
     div {
         width: auto;
         width: 100%;
         max-width: 1260px;
-        box-sizing: border-box;
 
         display: flex;
+        &, * { box-sizing: border-box;}
+
+        height: 350px;
+        max-height: 350px;
+
+        margin: 0 auto;
+    
+        &.answer {
+            div {
+                &, * {height: auto;}
+                flex-direction: column;
+                div {
+                    flex-direction: row;
+                    justify-content: space-between;
+                    h2 {
+                        flex: .8;
+                        text-align: left;
+                        margin: 0;
+                        user-select: none;
+                    }
+                    i {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
     }
-}
+}    
 
 #faqs-questions {
     flex-direction: column;
     align-content: center;
+    justify-content: flex-start;
+    
+    overflow: hidden;
+    margin: 2rem .5rem 0;
+
+    &, * {
+        box-sizing: border-box;
+        user-select: none;
+    }
+
     ul {
         padding: 0;
+        margin: 2rem 0 2rem 2rem;
+        border-bottom: .1rem solid rgba($black, .5);
+
         width: 95%;
-        margin: 0 0 0 5%;
+        overflow: auto;
+
         display: flex;
-        flex-direction: column;
         list-style: none;
-        padding: none;
         flex-direction: row;
-        flex-wrap: wrap-reverse;
+        flex-wrap: wrap;
+
         li {
-            cursor: pointer;
             user-select: none;
+            cursor: pointer;
             :hover { text-decoration: underline;}
             
             width: 33%;
+            box-sizing: border-box;
+
             font-size: 1rem;
             text-align: left;
-            // box-sizing: border-box;
-
+            
             h4 {
-                max-width: 65%;
+                max-width: 85%;
+                padding: .5rem;
+                margin: 1.5rem 0;
+                box-sizing: border-box;
+                font-weight: 500;
             }
         }
-    }
-}
-
-.answer {
-    div {
-
-        flex-direction: column;
     }
 }

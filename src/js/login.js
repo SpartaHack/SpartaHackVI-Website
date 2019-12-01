@@ -41,4 +41,5 @@ module.exports.default = after => {
         auth([login, after])
     else if (after instanceof Array)
         auth([login, ...after])
+        
 }
