@@ -64,12 +64,13 @@ body, html {
 
             font-size: .85rem;
             font-weight: 200;
+            line-height: 1.15rem;
             letter-spacing: .15rem;
             text-transform: uppercase;
         }
 
         li {
-            
+            :hover { text-decoration: underline;}
             * {cursor: pointer;}
         }
     }

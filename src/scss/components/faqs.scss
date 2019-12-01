@@ -19,17 +19,39 @@
     }
 }
 
-#faqs-section {
-    flex-direction: row;
+#faqs-questions {
+    flex-direction: column;
+    align-content: center;
+    ul {
+        padding: 0;
+        width: 95%;
+        margin: 0 0 0 5%;
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: none;
+        flex-direction: row;
+        flex-wrap: wrap-reverse;
+        li {
+            cursor: pointer;
+            user-select: none;
+            :hover { text-decoration: underline;}
+            
+            width: 33%;
+            font-size: 1rem;
+            text-align: left;
+            // box-sizing: border-box;
 
-    #questions-title {
-        // margin
+            h4 {
+                max-width: 65%;
+            }
+        }
     }
 }
 
 .answer {
     div {
-        
+
         flex-direction: column;
     }
 }

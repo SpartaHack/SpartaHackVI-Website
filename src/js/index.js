@@ -13,6 +13,8 @@ auth(authObj => {
     .addEventListener('click', () => authObj.authorize())
 })
 
-countdown.innerHTML = Math.ceil((new Date('12/1/19')- new Date())/(1000*3600*24)).toString() + countdown.innerHTML
+countdown.innerHTML = Math.ceil(
+        (new Date('12/1/19')-new Date())/(1000*3600*24)
+    ).toString() + countdown.innerHTML
 
 faqs()
