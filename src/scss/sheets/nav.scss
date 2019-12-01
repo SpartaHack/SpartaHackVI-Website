@@ -31,7 +31,8 @@ body, html {
         padding: 0;
 
         justify-content: flex-start;
-
+        border: none !important;
+        outline: none !important;
         img { 
             margin: 0 .5rem 0 0; 
             height: 3.5rem;
@@ -65,6 +66,11 @@ body, html {
             font-weight: 200;
             letter-spacing: .15rem;
             text-transform: uppercase;
+        }
+
+        li {
+            
+            * {cursor: pointer;}
         }
     }
 
