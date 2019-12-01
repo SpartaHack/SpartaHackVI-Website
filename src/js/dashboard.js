@@ -64,6 +64,8 @@ let fillInfo = async auth0 => {
     // -
     let email = document.getElementById('user-email')
     email.innerHTML = info.email
+
+    if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
 }
 // -
 let fillButton = async auth0 => {
