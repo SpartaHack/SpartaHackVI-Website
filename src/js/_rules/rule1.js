@@ -1,7 +1,9 @@
 function test(user, context, callback) {
     let nameSpace = "http://localhost:9000/";
-
+    var thisTry = 0;
+    console.log(user, context, "\n####\n");
     let CB = (err, response, body, cb) => {
+        console.log("\n----->>>>\n", body, ++thisTry, "\n----->>>>\n");
         if (response && response.statusCode === 200) {
             context.idToken[nameSpace + "pt"] = body.auth_id;
             callback(null, user, context);
@@ -51,26 +53,3 @@ function test(user, context, callback) {
     
     request.post(tryCreate, createCb);
 }
-
-    /*{
-        if (response && response.statusCode === 200) {
-            context.idToken[nameSpace + "pt"] = body.auth_id;
-            callback(null, user, context)
-        }
-        else if (response.finished) request.post(tryLogin, loginCb);
-
-        CB(err, response, body, () => request.post(tryLogin, loginCb));
-    };
-
-    {
-        if (response && response.statusCode === 200) {
-            context.idToken[nameSpace + "pt"] = body.auth_id;
-            callback(null, user, context);
-        }
-        else if (response.finished) {
-            // context.idToken[nameSpace + "pt"] = "invalid";
-            callback(new Error('Invalid user'));            
-        }
-    };
-
-    */

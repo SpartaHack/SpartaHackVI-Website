@@ -99,3 +99,19 @@ a {
 
 h1, h2, button
     { text-transform: uppercase; }
+
+
+::-webkit-scrollbar {
+    width: 1rem;
+}
+::-webkit-scrollbar-track {
+    border-radius: 50%;
+    background-color: none;
+    border: none;
+
+
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba($black, .75);
+    // bor
+}

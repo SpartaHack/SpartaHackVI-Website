@@ -13,46 +13,28 @@
     overflow: auto;
 
     background-color: $red;
+    * {max-width: $break-b2;}
     
     h3 {
         margin: 2rem auto 0 auto;
         font-size: 1.75rem;
         width: 100%;
-        max-width: 1260px;
+        
         user-select: none;
     }
     div {
         width: auto;
         width: 100%;
-        max-width: 1260px;
+        
 
         display: flex;
         &, * { box-sizing: border-box;}
 
-        height: 350px;
-        max-height: 350px;
+ 
 
         margin: 0 auto;
     
-        &.answer {
-            div {
-                &, * {height: auto;}
-                flex-direction: column;
-                div {
-                    flex-direction: row;
-                    justify-content: space-between;
-                    h2 {
-                        flex: .8;
-                        text-align: left;
-                        margin: 0;
-                        user-select: none;
-                    }
-                    i {
-                        cursor: pointer;
-                    }
-                }
-            }
-        }
+    
     }
 }    
 
@@ -64,15 +46,20 @@
     overflow: hidden;
     margin: 2rem .5rem 0;
 
+    height: 350px;
+    max-height: 350px;
+
     &, * {
         box-sizing: border-box;
         user-select: none;
     }
 
-    ul {
+    article {
         padding: 0;
         margin: 2rem 0 2rem 2rem;
-        border-bottom: .1rem solid rgba($black, .5);
+        border: .25rem solid rgba($black, .5);
+        border-right: none;
+        border-left: none;
 
         width: 95%;
         overflow: auto;
@@ -82,7 +69,8 @@
         flex-direction: row;
         flex-wrap: wrap;
 
-        li {
+        
+        span {     
             user-select: none;
             cursor: pointer;
             :hover { text-decoration: underline;}
@@ -102,4 +90,14 @@
             }
         }
     }
+}
+
+
+.answer-space {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
 }
