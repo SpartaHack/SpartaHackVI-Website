@@ -79,6 +79,12 @@ class Application {
                 'dom': undefined,
                 'error': 'Gender'
             },
+            'race-opts': {
+                'validator': validators.select,
+                'needed': true,
+                'dom': undefined,
+                'error': 'Race'
+            },
             'statement': {
                 'validator': validators.statement,
                 'needed': true,
@@ -102,7 +108,10 @@ class Application {
                     savedTarget.selectedIndex = this.out[f]
                 else savedTarget.value = this.out[f]
 
-                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+                this.update(savedTarget)
+                // console.log(this.fields[f].dom, this.fields[f].dom.parentNode)
+                if (this.fields[f].dom.parentNode)
+                    this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
             }
         })       
     }
@@ -163,13 +172,16 @@ class Application {
         this.fields[src.id].needed = this.fields[src.id].needed ? 
             !(Boolean(worked)) : this.fields[src.id].needed
 
-        if (worked !== true) this.error(src, worked)
-        else {
+        // if (worked !== true) t
+        if (worked === true) {
             localStorage.setItem('application', JSON.stringify(this.out))
-            
             this.domError(src, true)
         }
-        console.log(this.out)
+        else if (worked instanceof Node) {
+            
+        }
+        else this.error(src, worked)
+        // console.log(this.out)
         return worked
     }
 
@@ -194,7 +206,7 @@ class Application {
     }    
 
     report(needed) {
-        if (!Array.isArray(needed) || !needed.length) return
+        if (needed && !Array.isArray(needed)) return
 
         let exitWrap = document.createElement('div')
         exitWrap.id = 'report-incomplete-bg'
@@ -203,21 +215,49 @@ class Application {
         reportWrap.id = 'report-incomplete'
 
         reportWrap.appendChild(document.createElement('h3'))
-        reportWrap.appendChild(document.createElement('p'))
+        reportWrap.lastChild.id = 'report-title'
+        
+        let checks
+        if (!1){//needed && needed.length) {
+            reportWrap.appendChild(document.createElement('p'))
+            reportWrap.lastChild.id = 'report-summary'
+            
+            reportWrap.firstChild.innerHTML = 'Application Incomplete'
+            reportWrap.lastChild.innerHTML = 'The following fields need to be changed or completed'
+    
+            reportWrap.appendChild(document.createElement('ul'))
+            reportWrap.lastChild.id = 'needed-fields'
+    
+            needed.forEach(nf => {
+                reportWrap.lastChild.appendChild(document.createElement('li'))
+                reportWrap.lastChild.lastChild.innerHTML = this.fields[nf].error
+            })
+        }
+        else {
+            reportWrap.firstChild.innerHTML = 'Before we continue'
+            checks = []
 
-        reportWrap.firstChild.innerHTML = 'Application Incomplete'
-        reportWrap.firstChild.id = 'report-title'
+            let getCheck = (body, sId) => {
+                let wrap = document.createElement('p')
+                wrap.id = sId + 'Wrap'
 
-        reportWrap.lastChild.innerHTML = 'The following fields need to be changed or completed'
-        reportWrap.lastChild.id = 'report-summary'
+                wrap.appendChild(document.createElement('input'))
+                wrap.lastChild.type = "checkbox"
+                wrap.lastChild.id = sId
+                checks.push(wrap.lastChild)
 
-        reportWrap.appendChild(document.createElement('ul'))
-        reportWrap.lastChild.id = 'needed-fields'
+                wrap.appendChild(document.createElement('span'))
+                wrap.lastChild.innerHTML = body
 
-        needed.forEach(nf => {
-            reportWrap.lastChild.appendChild(document.createElement('li'))
-            reportWrap.lastChild.lastChild.innerHTML = this.fields[nf].error
-        })
+                return wrap
+            }
+            
+            let b1 = 'I authorize you to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in-line with the MLH Privacy Policy. I further I agree to the terms of both the MLH Contest Terms and Conditions and the MLH Privacy Policy.'
+            let b2 = 'I have read and agree to the MLH Code of Conduct.'
+            
+            reportWrap.appendChild(getCheck(b1, 'privacy'))
+            reportWrap.appendChild(getCheck(b2, 'conduct'))
+        }
 
         reportWrap.appendChild(document.createElement('div'))
         
