@@ -75,6 +75,19 @@
                 <option value=2024>2024</option>
               </select>
             </div>
+            <div class="field-container">
+              <label for="edu-lvl-opts">Education Level</label>
+
+              <select id="edu-lvl-opts" class="field-in select" data-out="education-level">
+                <option value="" disabled=true>20XX</option>
+                <option value="college0">Some undergrad</option>
+                <option value="college1">Completed undergrad</option>
+                <option value="university0">Some postgrad</option>
+                <option value="university0">Completed postgrad</option>
+                <option value="secondary1">Completed secondary</option>
+                <option value="secondary0">Some secondary</option>
+              </select>
+            </div>            
             
             <div class="field-container">
               <label for="grad-season-opts">Graduation Season</label>
@@ -106,7 +119,7 @@
             <div class="field-container">
                 <label for="gender-opts" class="app-field-label">Gender</label>
 
-                <select name="gender" id="gender-opts" class="field-in select" data-out="gendder">
+                <select name="gender-opts" id="gender-opts" class="field-in select" data-out="gender" autocomplete="off">
                     <option value="" disabled=true>Your Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -117,7 +130,7 @@
             <div class="field-container">
               <label for="race-opts" class="app-field-label">Race</label>
 
-              <select name="gender" id="race-opts" class="field-in select" data-out="race">
+              <select name="race-opts" id="race-opts" class="field-in select" data-out="race" autocomplete="off">
                   <option value="" disabled=true>Your Race</option>
                   <option value="American Indian or Alaskan Native">American Indian / Alaskan Native</option>
                   <option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
@@ -131,8 +144,6 @@
           </section>
 
           <section id="event" class="other-section">
-              
-
               <div class="field-container" id="link-fields-wrap">
                 <label for="user-links">Links</label>
   

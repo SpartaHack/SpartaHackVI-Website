@@ -67,21 +67,15 @@ module.exports.otherSite = (input, out) => {
 // ---
 
 module.exports.select = (input, out) => {
-    if (input instanceof HTMLInputElement && input.type == "text" && input.length < 200)
+    if (input && input.type == "text" && input.value.length < 200) 
         out[input.id] = input.value
-    if (input instanceof HTMLSelectElement && input.selectedIndex) {
-        // arithmetic due to option labels
-        if (input.childNodes[(2 * input.selectedIndex) + 1].value == "!OTHER") {
+    else if (input.selectedIndex && input.selectedIndex > 0) {
+        let val = input.childNodes[(2 * input.selectedIndex) + 1].value
+        if (val == "!OTHER") {
             delete out[input.id]
-
-            let alt = document.createElement('input')
-            alt.attributes = input.attributes
-            alt.type = "text"
-    
-            input.parentNode.replaceChild(alt, input)
-            return input
+            return "selectSwap"
         }
-        else out[input.id] = input.selectedIndex
+        else out[input.id] = val
     }
     else return undefined
     

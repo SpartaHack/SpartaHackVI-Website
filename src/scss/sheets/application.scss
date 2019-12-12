@@ -131,7 +131,9 @@ body {
         border-radius: .5rem;
 
         min-width: 560px;
-        max-width: $break-b3;
+        
+        max-width: 95vw;
+        box-sizing: border-box;;
 
         margin: auto;
         padding: 1rem;
@@ -158,6 +160,20 @@ body {
                 margin: 0 0 .5rem 0;
             }
         }
+
+        .consentor {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            @extend .type;
+            input {
+                font-size: 2rem;
+                margin: 0 .5rem
+            }
+        }
+
+        #report-summary, .consentor 
+            { max-width: 90vw; }
     }
 
 }

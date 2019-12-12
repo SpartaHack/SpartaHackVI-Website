@@ -9,7 +9,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
-    <link rel="stylesheet" href="navFooter.9aea959117b4c650499a.css?9aea959117b4c650499a">
+    <link rel="stylesheet" href="navFooter.2ad6eaae79b8e59dcda0.css?2ad6eaae79b8e59dcda0">
   </head>
 
   <body>
@@ -75,6 +75,19 @@
                 <option value=2024>2024</option>
               </select>
             </div>
+            <div class="field-container">
+              <label for="edu-lvl-opts">Education Level</label>
+
+              <select id="edu-lvl-opts" class="field-in select" data-out="education-level">
+                <option value="" disabled=true>20XX</option>
+                <option value="college0">Some undergrad</option>
+                <option value="college1">Completed undergrad</option>
+                <option value="university0">Some postgrad</option>
+                <option value="university0">Completed postgrad</option>
+                <option value="secondary1">Completed secondary</option>
+                <option value="secondary0">Some secondary</option>
+              </select>
+            </div>            
             
             <div class="field-container">
               <label for="grad-season-opts">Graduation Season</label>
@@ -106,19 +119,31 @@
             <div class="field-container">
                 <label for="gender-opts" class="app-field-label">Gender</label>
 
-                <select name="gender" id="gender-opts" class="field-in select" data-out="gendder">
+                <select name="gender-opts" id="gender-opts" class="field-in select" data-out="gender" autocomplete="off">
                     <option value="" disabled=true>Your Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="non-binary">Non-Binary</option>
-                    <option value="other">Other</option>
+                    <option value="!OTHER">Other</option>
+                    <option value="non-binary">Prefer Not to Answer</option>
                 </select>
             </div>
+            <div class="field-container">
+              <label for="race-opts" class="app-field-label">Race</label>
+
+              <select name="race-opts" id="race-opts" class="field-in select" data-out="race" autocomplete="off">
+                  <option value="" disabled=true>Your Race</option>
+                  <option value="American Indian or Alaskan Native">American Indian / Alaskan Native</option>
+                  <option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
+                  <option value="Black or African American">Black / African American</option>
+                  <option value="Hispanic">Hispanic</option>
+                  <option value="White / Caucasian">White / Caucasian</option>
+                  <option value="!OTHER">Other</option>
+                  <option value="Prefer not to answer">Prefer not to answer</option>
+              </select>
+          </div>            
           </section>
 
           <section id="event" class="other-section">
-              
-
               <div class="field-container" id="link-fields-wrap">
                 <label for="user-links">Links</label>
   
@@ -170,7 +195,7 @@
     </div>
   </body>
 
-  <link rel="stylesheet" href="apps.9aea959117b4c650499a.css?9aea959117b4c650499a">
-  <script src="apps.ea701441f08f2898856d.js?9aea959117b4c650499a"></script>
+  <link rel="stylesheet" href="apps.2ad6eaae79b8e59dcda0.css?2ad6eaae79b8e59dcda0">
+  <script src="apps.b56670aa7ba222a282aa.js?2ad6eaae79b8e59dcda0"></script>
   <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
 </html>

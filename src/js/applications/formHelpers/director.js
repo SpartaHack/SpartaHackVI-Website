@@ -103,15 +103,22 @@ class Application {
 
             if (fieldItems && this.out[f]) {
                 let savedTarget = this.fields[f].dom
-    
-                if (savedTarget instanceof HTMLSelectElement) 
-                    savedTarget.selectedIndex = this.out[f]
+                // drop down completion
+                if (savedTarget instanceof HTMLSelectElement) {
+                    // "other"
+                    if (typeof this.out[f] === "string") {
+                        this.selectSwap(this.fields[f])
+                        savedTarget = this.fields[f].dom
+                        savedTarget.value = this.out[f]
+                    }
+                    // drop down option
+                    else savedTarget.selectedIndex = this.out[f]
+                }
+                // text field completion
                 else savedTarget.value = this.out[f]
 
-                this.update(savedTarget)
-                // console.log(this.fields[f].dom, this.fields[f].dom.parentNode)
-                if (this.fields[f].dom.parentNode)
-                    this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+                // update field for user
+                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
             }
         })       
     }
@@ -172,17 +179,41 @@ class Application {
         this.fields[src.id].needed = this.fields[src.id].needed ? 
             !(Boolean(worked)) : this.fields[src.id].needed
 
-        // if (worked !== true) t
         if (worked === true) {
             localStorage.setItem('application', JSON.stringify(this.out))
             this.domError(src, true)
         }
-        else if (worked instanceof Node) {
-            
-        }
+        else if (worked === "selectSwap") this.selectSwap(fieldItems)
+        
         else this.error(src, worked)
-        // console.log(this.out)
+        
+        console.log(this.out)
         return worked
+    }
+
+    selectSwap(fieldItems) {
+        let alt = document.createElement('input')
+        alt.type = "text"
+        alt.id = fieldItems.dom.id
+        alt.placeholder = "ESC for list"
+
+        fieldItems.dom.parentNode.replaceChild(alt, fieldItems.dom)
+        fieldItems['old'] = fieldItems.dom
+        fieldItems.dom = alt
+
+        fieldItems.dom.addEventListener('change', () => this.update(fieldItems.dom))
+        fieldItems.dom.addEventListener('keyup', e => {
+            if (e.keyCode === 27) this.swapBack(fieldItems) } )
+    }
+
+    swapBack(fieldItems) {
+        if (!fieldItems.old) return
+        delete this.out[fieldItems.dom.id]
+        
+        console.log(fieldItems)
+        fieldItems.old.selectedIndex = 0
+        fieldItems.dom.parentNode.replaceChild(fieldItems.old, fieldItems.dom)
+        fieldItems.dom = fieldItems.old
     }
 
     domError(errored, off) {
@@ -239,6 +270,7 @@ class Application {
 
             let getCheck = (body, sId) => {
                 let wrap = document.createElement('p')
+                wrap.className = "consentor"
                 wrap.id = sId + 'Wrap'
 
                 wrap.appendChild(document.createElement('input'))
@@ -269,7 +301,20 @@ class Application {
         let completeButton = document.createElement('button')
         completeButton.innerHTML = "Complete"
         completeButton.id="complete-button"
-        reportWrap.lastChild.appendChild(completeButton)
+
+        if (Array.isArray(checks)) {
+            checks.forEach(c => c.addEventListener('change', () => {
+                let total = checks.length
+                let checked = 0
+
+                checks.forEach(c => {if (c.checked) ++checked}) 
+                
+                if (total == checked) 
+                    reportWrap.lastChild.appendChild(completeButton)
+                else if (reportWrap.lastChild.lastChild == completeButton)
+                    reportWrap.lastChild.removeChild(completeButton)
+            }) )
+        }
         
         let removeModal = () => document.body.removeChild(exitWrap)
         exitButton.addEventListener('click', removeModal)
