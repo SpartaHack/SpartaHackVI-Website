@@ -23,14 +23,14 @@ module.exports.getApp = (info, current) => {
 module.exports.sendApp = (app, info) => {
     let submitRq = {
         headers: {
-            "Content-Type":"text/plain",
-            "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
+            "Content-Type":"application/json",
+            // "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
+            // "Access-Control-Request-Method": "POST",
             "X-WWW-USER-TOKEN": info.sub
         },
         body: { "application": app },
-        url: "http://api.elephant.spartahack.com/applications/",
-        json: true,
-        https: true
+        url: "http://api.elephant.spartahack.com/applications",
+        json: true
     }
 
     let submitApp = (err, response, body) => {

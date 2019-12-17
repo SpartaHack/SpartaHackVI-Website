@@ -91,13 +91,13 @@ module.exports = {
       port: 9000,
       host: '0.0.0.0',
 
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Headers": "*"
+      // headers: {
+      //   "Access-Control-Allow-Origin": "api.elephant.spartahack",
+      //   "Access-Control-Allow-Methods": "POST",
+      //   "Access-Control-Allow-Headers": "access-control-allow-origin"
 
         
-      }
+      // }
     },
     watchOptions: {
       aggregateTimeout: 600

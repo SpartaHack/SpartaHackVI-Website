@@ -3,7 +3,7 @@ function test(user, context, callback) {
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
-        // console.log(++count, "\n----->>>>\n", err, body, "\n----->>>>\n");
+        console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
         if (response && response.statusCode === 200) {
           context.idToken[nameSpace + "pt"] = body.auth_token;
           context.idToken[nameSpace + "aid"] = body.application_id;
