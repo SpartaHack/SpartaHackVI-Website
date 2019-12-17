@@ -1,5 +1,7 @@
 import './../../scss/sheets/application.scss'
 
+;(require('../login').default)()
+
 const Application = require('./formHelpers/director').default
 let app = new Application()
 
