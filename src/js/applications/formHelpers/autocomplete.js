@@ -17,7 +17,7 @@ let filter = (element, src) => {
 }
 
 // Creates our auto suggest unordered list/wrap
-let autoDOM = (element, options) => {
+let autoDOM = (element, options, director) => {
     let wrap = element.parentNode
     if (wrap.lastChild.id == "autocomplete-wrap")
         wrap.removeChild(wrap.lastChild)
@@ -36,7 +36,7 @@ let autoDOM = (element, options) => {
         optElem.dataset.val = opt
 
         optElem.addEventListener('click', 
-            () => autoDone(element, optElem.dataset.val))
+            () => autoDone(element, optElem.dataset.val, director))
         suggestArea.appendChild(optElem)
     })
 
@@ -102,6 +102,6 @@ module.exports.default = (element, director) => {
         else if (e.keyCode == 13) 
             autoDone(element, false, director)       
         else
-            autoDOM(element, filter(element, autoSrc))
+            autoDOM(element, filter(element, autoSrc), director)
     })
 }

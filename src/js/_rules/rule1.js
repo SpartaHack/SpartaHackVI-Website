@@ -1,14 +1,17 @@
 function test(user, context, callback) {
     let nameSpace = "http://localhost:9000/";
     // ---
-    let count = 0;
+    // let count = 0;
     let CB = (err, response, body, cb) => {
-        console.log(++count, "\n----->>>>\n", err, body, "\n----->>>>\n");
+        // console.log(++count, "\n----->>>>\n", err, body, "\n----->>>>\n");
         if (response && response.statusCode === 200) {
-          context.idToken[nameSpace + "pt"] = body.auth_id;
+          context.idToken[nameSpace + "pt"] = body.auth_token;
+          context.idToken[nameSpace + "aid"] = body.application_id;
+          context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
+          
           callback(null, user, context);
         }
-      else if (response.finished && !err) cb();
+        else if (response && response.statusCode >= 400) cb();
     };    
     // ---
     let loginReq = {
@@ -30,8 +33,8 @@ function test(user, context, callback) {
       url: "http://api.elephant.spartahack.com/users",
       body: {
         "email": user.email,
-        "first_name": user.given_name,
-        "last_name": user.family_name,
+        "first_name": user.given_name ? user.given_name : "null",
+        "last_name": user.family_name ? user.family_name : "null",
         "auth_id": user.user_id,
         "ID_Token": context.clientID
       },
@@ -46,6 +49,6 @@ function test(user, context, callback) {
     // ---
     // console.log(user);
     // console.log("\n>>>>\n", user,"\n##^^^^##\n", context,"\n>>>>\n");
-    console.log("\n>>>>\n", loginReq,"\n##^^^^##\n", createReq,"\n>>>>\n");
+    // console.log("\n>>>>\n", loginReq,"\n##^^^^##\n", createReq,"\n>>>>\n");
     request.post(createReq, createCb);
   }

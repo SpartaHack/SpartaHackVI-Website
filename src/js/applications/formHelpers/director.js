@@ -1,9 +1,22 @@
 const validators = require('./validators')
 const autocomplete = require('./autocomplete').default
+const sendApp = require('../../appTransactions').sendApp
 
 class Application {
     constructor() {
         this.fields = {
+            'name': {
+                'validator': validators.name,
+                'needed': true,
+                'dom': undefined,
+                'error': '(First & Last) Name'
+            },
+            'phone': {
+                'validator': validators.phone,
+                'needed': true,
+                'dom': undefined,
+                'error': 'Phone Number'
+            },
             'travel-origin': {
                 'validator': validators.fromDict,
                 'autocomplete': true,
@@ -96,11 +109,11 @@ class Application {
         this.optional = new Set(['devpost','github','linkedin','other-site'])
         this.out = localStorage.getItem('application') ? 
             JSON.parse(localStorage.getItem('application')) : {}
-
+        this.application = {}
 
         Object.keys(this.fields).forEach(f => {
             let fieldItems = this.import(document.getElementById(f))
-
+            console.log(this.out)
             if (fieldItems && this.out[f]) {
                 let savedTarget = this.fields[f].dom
                 // drop down completion
@@ -124,23 +137,17 @@ class Application {
     }
 
     submit() {
-        let stillNeeded = this.export()
-        let neededReport = this.report(stillNeeded)
+        let stillNeeded = this.export()        
+        document.body.appendChild(this.report(stillNeeded))
         
-        if (neededReport) {
-            //UI form incompletion notification
-            console.log('form not done')
-            document.body.appendChild(neededReport)
-        }
-        else {
-            // post request
-            console.log('form done')
-        }
-       console.log(this.out)
+        if (stillNeeded.length) return 
+
+        console.log('!!!!!')
+        console.log(this.application)
     }
 
     import(src) {
-        if (!src instanceof HTMLInputElement || !src instanceof HTMLSelectElement) return
+        if (!src || !src instanceof HTMLInputElement || !src instanceof HTMLSelectElement) return
 
         let fieldItems = this.fields[src.id]
         if (!fieldItems) return
@@ -164,6 +171,12 @@ class Application {
 
             if ((opt && updated == -1) || (!opt && !updated)) 
                 stillNeeded.push(fn)
+            else if (updated) {
+                if (fn == "name") {
+
+                }
+                else this.application[fn] = this.out[fn]
+            }
         })
 
         return stillNeeded
@@ -249,7 +262,7 @@ class Application {
         reportWrap.lastChild.id = 'report-title'
         
         let checks
-        if (!1){//needed && needed.length) {
+        if (needed && needed.length) {
             reportWrap.appendChild(document.createElement('p'))
             reportWrap.lastChild.id = 'report-summary'
             
@@ -302,22 +315,26 @@ class Application {
         completeButton.innerHTML = "Complete"
         completeButton.id="complete-button"
 
+        
         if (Array.isArray(checks)) {
             checks.forEach(c => c.addEventListener('change', () => {
                 let total = checks.length
                 let checked = 0
-
+                
                 checks.forEach(c => {if (c.checked) ++checked}) 
                 
                 if (total == checked) 
-                    reportWrap.lastChild.appendChild(completeButton)
+                reportWrap.lastChild.appendChild(completeButton)
                 else if (reportWrap.lastChild.lastChild == completeButton)
-                    reportWrap.lastChild.removeChild(completeButton)
+                reportWrap.lastChild.removeChild(completeButton)
             }) )
         }
         
         let removeModal = () => document.body.removeChild(exitWrap)
         exitButton.addEventListener('click', removeModal)
+        
+        completeButton.addEventListener('click', () => sendApp(
+            this.application, JSON.parse(localStorage.getItem('stutoken')) ) )
 
         exitWrap.appendChild(reportWrap)
         return exitWrap  

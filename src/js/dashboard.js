@@ -1,11 +1,17 @@
 import './../scss/sheets/dashboard.scss'
-
+let getApp = require('./appTransactions').getApp
 let login = require('./login').default
 
 let appState = () => {
     let current = window.localStorage.getItem('application')
+    let info = JSON.parse(window.localStorage.getItem('stutoken'))
 
-    if (!current) return 0
+    if (info.rsvp) return 5
+
+    else if (!current && !info.aid) return 0
+
+    else if (info.aid) 
+        return getApp(info, current)
 
     return 1
 }
@@ -46,6 +52,7 @@ let fillBanner = async auth0 => {
         default: temp = "Something went wrong..."
     }
     message.innerHTML = temp
+    return
 }
 // -
 let fillInfo = async auth0 => {
@@ -66,6 +73,7 @@ let fillInfo = async auth0 => {
     // -
     let email = document.getElementById('user-email')
     email.innerHTML = info.email
+    return
 }
 // -
 let fillButton = async auth0 => {
@@ -83,11 +91,10 @@ let fillButton = async auth0 => {
     }
     button.appendChild(btnIco)
     button.addEventListener('click', () => window.location = "/application.html")
+    return
 }
 // -
-let getApp = async () => {
-    return {}
-}
+
 let updateStatus = (statDom, state) => {
     statDom = statDom.lastElementChild
 
@@ -101,6 +108,7 @@ let updateStatus = (statDom, state) => {
         indicator.className = "fas fa-times"
     }
     statDom.firstElementChild.appendChild(indicator)
+    return
 }
 let status = async () => {
     Array.from(document.getElementsByClassName('status'))

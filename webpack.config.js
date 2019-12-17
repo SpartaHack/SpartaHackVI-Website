@@ -17,7 +17,7 @@ module.exports = {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[chunkhash].js'
     },
-
+    node: {fs: "empty"},
     module: {
       rules: [
           {
@@ -89,7 +89,15 @@ module.exports = {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
       port: 9000,
-      host: '0.0.0.0'
+      host: '0.0.0.0',
+
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+
+        
+      }
     },
     watchOptions: {
       aggregateTimeout: 600

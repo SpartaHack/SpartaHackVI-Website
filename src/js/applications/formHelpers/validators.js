@@ -113,13 +113,60 @@ module.exports.statement = (input, out) => {
     return true
 }
 
+module.exports.name = (input, out) => {
+    let nameForm = input.value.search(
+        /^[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}\s[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/ )
+    
+    if (nameForm == -1)
+        return false
+     
+    out[input.id] = input.value
+    return true
+}
+
+module.exports.phone = (input, out) => {
+    let ph = input.value
+
+    if (ph.search(/[0-9]{10,13}/) != -1) {
+        out[input.id] = ph.length > 10 ? 
+            ph : '01' + ph
+        return true
+    }
+    
+    let country = ph.match(/^\+[0-9]{1,3}[^0-9]/)
+    country = country ? 
+        country[0].substr(0, country[0].length - 2) : '01'
+
+    let findSections = str => str.match(/(?:^|[^\+])(\d{3})/gi)
+    let findLastSection = str => str.match(/[0-9]{4}$/)
+    let otherParts = findSections(ph)
+    let finalPart = findLastSection(ph)
+
+    if (!finalPart || otherParts.length != 3) 
+        return false
+    
+    out[input.id] = country + 
+        (otherParts[0].length == 3 ? otherParts[0] : otherParts[0].substr(1)) + 
+        otherParts[1].substr(1) + finalPart[0]
+
+    let parsedString = new String(Number.parseInt(out[input.id])),
+        origLength = out[input.id].length    
+
+    if (Number.parseInt(parsedString) == Number.parseInt(out[input.id]) &&
+        origLength < 14 && origLength > 11)
+        return true
+
+    delete out[input.id]
+    return false
+}
+
 // ---
 
 module.exports.mlh = (input, out) => {
     if (!input.value || input.value.length > 200)
         return false
 
-        out[input.id] = input.value
+    out[input.id] = input.value
 
     return true
 }
