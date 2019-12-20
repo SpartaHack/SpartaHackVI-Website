@@ -23,7 +23,7 @@ let login = async auth0 => {
     window.location.hash = ""
 
     if (args.search(/access\_token/) == -1) return oldCreds(auth0)
-    
+    console.log('this is')
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
@@ -31,7 +31,7 @@ let login = async auth0 => {
         info.idTokenPayload['pt'] = info[namespace + 'pt']
         info.idTokenPayload['aid'] = info[namespace + 'aid']
         info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
-
+        console.log('where')
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
 
