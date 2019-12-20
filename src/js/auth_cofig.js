@@ -5,8 +5,10 @@ async function auth_func(cb) {
     let auth = new auth0.WebAuth(env.auth)
     
     if (Array.isArray(cb)) {
-        for (var func in cb)
-            await func(auth)
+        // for (var func in cb)
+        //     await func(auth)
+
+        cb.forEach(async func => await func(auth))
     }
     else await cb(auth)
     // console.log(auth)
