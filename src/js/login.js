@@ -26,8 +26,8 @@ let login = async auth0 => {
     
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
-
-        namespace = 'localhost:9000/'
+        // ENVIRONMENT VARIABLE
+        namespace = 'http://website.elephant.spartahack.com/'
         info.idTokenPayload['pt'] = info[namespace + 'pt']
         info.idTokenPayload['aid'] = info[namespace + 'aid']
         info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
@@ -54,9 +54,9 @@ let login = async auth0 => {
 }
 
 module.exports.default = after => {
-    if (after instanceof Function)
-        auth([login, after])
-    else if (after instanceof Array)
-        auth([login, ...after])
-        
+    let loginFuncs = after instanceof Function ? auth([login, after]) :
+        after instanceof Array ? auth([login, ...after]) :
+        [login]
+
+    auth(loginFuncs)
 }

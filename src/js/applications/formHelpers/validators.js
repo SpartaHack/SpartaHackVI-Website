@@ -75,7 +75,7 @@ module.exports.select = (input, out) => {
             delete out[input.id]
             return "selectSwap"
         }
-        else out[input.id] = val
+        else out[input.id] = input.selectedIndex
     }
     else return undefined
     
@@ -128,8 +128,7 @@ module.exports.phone = (input, out) => {
     let ph = input.value
 
     if (ph.search(/[0-9]{10,13}/) != -1) {
-        out[input.id] = ph.length > 10 ? 
-            ph : '01' + ph
+        out[input.id] = ph.length > 10 ? ph : '01' + ph
         return true
     }
     

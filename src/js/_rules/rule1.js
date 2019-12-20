@@ -1,5 +1,6 @@
 function test(user, context, callback) {
-    let nameSpace = "http://localhost:9000/";
+    let nameSpace = "website.elephant.spartahack.com";
+  
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
