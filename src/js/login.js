@@ -28,9 +28,9 @@ let login = async auth0 => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
         namespace = 'http://website.elephant.spartahack.com/'
-        // info.idTokenPayload['pt'] = info[namespace + 'pt']
-        // info.idTokenPayload['aid'] = info[namespace + 'aid']
-        // info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
+        info.idTokenPayload['pt'] = info[namespace + 'pt']
+        info.idTokenPayload['aid'] = info[namespace + 'aid']
+        info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
         // ['pt']
         console.log('where')
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
@@ -51,7 +51,9 @@ let login = async auth0 => {
         
         if (out.name) 
             window.localStorage.setItem('application', JSON.stringify(out))
-    })   
+    })  
+    window.location.hash = ""
+    return true
 }
 
 // let signout = async 
@@ -61,5 +63,5 @@ module.exports.default = after => {
         after instanceof Array ? auth([login, ...after]) :
         [login]
 
-    auth(loginFuncs)
+    return auth(loginFuncs)
 }

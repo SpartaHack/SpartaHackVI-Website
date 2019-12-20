@@ -4,13 +4,10 @@ const env = require('./../../env.json')
 async function auth_func(cb) {
     let auth = new auth0.WebAuth(env.auth)
     
-    if (Array.isArray(cb)) {
-        // for (var func in cb)
-        //     await func(auth)
-
+    if (Array.isArray(cb))
         cb.forEach(async func => await func(auth))
-    }
-    else await cb(auth)
+    
+    else cb(auth)
     // console.log(auth)
     // let bttn = document.getElementById('nav-logout')
     // if (!bttn) return
