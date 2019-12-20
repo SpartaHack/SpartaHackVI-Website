@@ -1,23 +1,24 @@
 const request = require('request') 
 
 module.exports.getApp = (info, current) => {
-    let importRq = {
-        headers: {
-          "Content-Type":"application/json",
-        //   "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/",
-          "X-WWW-USER-TOKEN": info.sub
-        },
-        url: "http://api.elephant.spartahack.com/sessions/" + appId,
-        json: true
-    }
+    // let importRq = {
+    //     headers: {
+    //       "Content-Type":"application/json",
+    //     //   "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/",
+    //       "X-WWW-USER-TOKEN": info.sub
+    //     },
+    //     url: "http://api.elephant.spartahack.com/sessions/" + appId,
+    //     json: true
+    // }
 
-    let importApp = (err, response, body) => {
-        if (response && response.statusCode === 200) {
-            console.log(body)
-        }
-    }
+    // let importApp = (err, response, body) => {
+    //     if (response && response.statusCode === 200) {
+    //         console.log(body)
+    //     }
+    // }
 
-    request.post(importRq, importApp)
+    // request.post(importRq, importApp)
+    console.log("tried to get application")
 }
 
 module.exports.sendApp = (app, info) => {

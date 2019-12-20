@@ -3,14 +3,17 @@ let getApp = require('./appTransactions').getApp
 let login = require('./login').default
 
 let appState = () => {
-    let current = window.localStorage.getItem('application')
-    let info = JSON.parse(window.localStorage.getItem('stutoken'))
+    let current = window.localStorage.hasOwnProperty('application') ? 
+        window.localStorage.getItem('application') : undefined
 
-    if (info.rsvp) return 5
+    let info = window.localStorage.hasOwnProperty('stutoken') ? 
+        JSON.parse(window.localStorage.getItem('stutoken')) : undefined
 
-    else if (!current && !info.aid) return 0
+    if (info && info.rsvp) return 5
 
-    else if (info.aid) 
+    else if (!current && (!info || !info.aid)) return 0
+
+    else if (info && info.aid) 
         return getApp(info, current)
 
     return 1
@@ -19,6 +22,7 @@ const thisState = appState()
 // *
 let fillBanner = async auth0 => {
     let temp
+    console.log('living baby')
     // *
     let now = new Date(); now = now.getHours()
     let tod = document.getElementById('time-of-day')
@@ -115,4 +119,5 @@ let status = async () => {
         .forEach(s => updateStatus(s, false))
 }
 // *
+console.log('present')
 login([fillBanner, fillInfo, fillButton, status])
