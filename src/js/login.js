@@ -10,7 +10,7 @@ let newCreds = async auth0 => {
 let oldCreds = async auth0 => {
     let creds = JSON.parse(window.localStorage.getItem('stutoken'))
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
-    console.log('fucked up', auth0)
+
     if (!creds || !info) return newCreds(auth0)
 
     let now = new Date(); now = now.getTime()/1000
@@ -23,7 +23,8 @@ let login = async auth0 => {
     // window.location.hash = ""
 
     console.log('this is')
-    if (args.search(/access\_token/) == -1) return oldCreds(auth0)
+    if (window.localStorage.hasOwnProperty('stutoken') && 
+        window.localStorage.hasOwnProperty('stuinfo')) return oldCreds(auth0)
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
@@ -39,7 +40,8 @@ let login = async auth0 => {
         if ( (!info.idTokenPayload.name || info.idTokenPayload.name.search(/\@/) !== -1) 
             && !info.idTokenPayload.family_name ) return
 
-        let out = JSON.parse(window.localStorage.getItem('out'))
+        let out = window.localStorage.hasOwnProperty('out') ? 
+            JSON.parse(window.localStorage.getItem('out')) : {}
         if (!out) out = {}
         
         out['name'] = out['name'] ? out['name'] 
@@ -50,7 +52,6 @@ let login = async auth0 => {
         
         if (out.name) 
             window.localStorage.setItem('application', JSON.stringify(out))
-
     })   
 }
 
