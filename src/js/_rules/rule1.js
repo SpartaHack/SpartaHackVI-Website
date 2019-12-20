@@ -4,22 +4,19 @@ function test(user, context, callback) {
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
-        // console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
-        if (response && response.statusCode === 200) {
-          context.idToken[nameSpace + "pt"] = body.auth_token;
-          if (body.application_id)
-            context.idToken[nameSpace + "aid"] = body.application_id;
-          if (body.rsvp_id)
-            context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
-          // console.log(body)
-          
-          // callbac
-        }
-        else if (response && response.statusCode >= 400) {
-          console.log('okay??');
-          callback(null, user, context);
-        
-        }
+      console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
+      if (response && response.statusCode === 200) {
+        context.idToken[nameSpace + "pt"] = body.auth_token;
+        if (body.application_id)
+          context.idToken[nameSpace + "aid"] = body.application_id;
+        if (body.rsvp_id)
+          context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
+        cb();            
+      }
+      else if (response && response.statusCode >= 400) {
+        console.log('god damn')
+        cb();   }
+
     };    
     // ---
     let loginReq = {
@@ -50,7 +47,7 @@ function test(user, context, callback) {
     };
     // ---
     let loginCb = (err, response, body) => CB(err, response, body, 
-        () => callback(new Error('Invalid User'))); 
+        () => callback(null, user, context)); 
     
     let createCb = (err, response, body) => 
         CB(err, response, body, () => request.post(loginReq, loginCb));
@@ -59,4 +56,4 @@ function test(user, context, callback) {
     // console.log("\n>>>>\n", user,"\n##^^^^##\n", context,"\n>>>>\n");
     // console.log("\n>>>>\n", loginReq,"\n##^^^^##\n", createReq,"\n>>>>\n");
     request.post(createReq, createCb);
-  }
+    } 
