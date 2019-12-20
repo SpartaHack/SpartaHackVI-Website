@@ -28,9 +28,10 @@ let login = async auth0 => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
         namespace = 'http://website.elephant.spartahack.com/'
-        info.idTokenPayload['pt'] = info[namespace + 'pt']
-        info.idTokenPayload['aid'] = info[namespace + 'aid']
-        info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
+        // info.idTokenPayload['pt'] = info[namespace + 'pt']
+        // info.idTokenPayload['aid'] = info[namespace + 'aid']
+        // info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
+        // ['pt']
         console.log('where')
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))

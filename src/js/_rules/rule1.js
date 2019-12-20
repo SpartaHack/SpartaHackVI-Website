@@ -12,10 +12,14 @@ function test(user, context, callback) {
           if (body.rsvp_id)
             context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
           // console.log(body)
-          callback(null, user, context);
+          
           // callbac
         }
-        else if (response && response.statusCode >= 400) cb();
+        else if (response && response.statusCode >= 400) {
+          console.log('okay??');
+          callback(null, user, context);
+        
+        }
     };    
     // ---
     let loginReq = {
