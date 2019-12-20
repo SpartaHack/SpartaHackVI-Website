@@ -4,7 +4,7 @@ let newCreds = async auth0 => {
     if (!auth0 || !auth0.authorize) return
 
     await auth0.authorize()
-
+    console.log(auth0)
     return true
 }
 let oldCreds = async auth0 => {
@@ -52,6 +52,8 @@ let login = async auth0 => {
 
     })   
 }
+
+// let signout = async 
 
 module.exports.default = after => {
     let loginFuncs = after instanceof Function ? auth([login, after]) :

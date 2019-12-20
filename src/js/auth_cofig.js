@@ -8,7 +8,11 @@ async function auth_func(cb) {
         cb.forEach(async func => await func(auth))
     else await cb(auth)
 
-    return
+    let bttn = document.getElementById('nav-logout')
+    if (!bttn) return
+    bttn.addEventListener('click', 
+        e => auth0.logout({returnTo: "/"}))
+    return true
 }
 
 export default auth_func

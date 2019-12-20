@@ -35,9 +35,6 @@ module.exports.sendApp = (app, info) => {
 
     let submitApp = (err, response, body) => {
         console.log(err, response, body)
-        // if (response && response.statusCode === 200) {
-        //     console.log(body)
-        // }
     }
 
     request.post(submitRq, submitApp)

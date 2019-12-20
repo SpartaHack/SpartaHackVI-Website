@@ -1,16 +1,19 @@
 function test(user, context, callback) {
-    let nameSpace = "website.elephant.spartahack.com";
-  
+    let nameSpace = "http://website.elephant.spartahack.com/";
+
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
-        console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
+        // console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
         if (response && response.statusCode === 200) {
           context.idToken[nameSpace + "pt"] = body.auth_token;
-          context.idToken[nameSpace + "aid"] = body.application_id;
-          context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
-          
+          if (body.application_id)
+            context.idToken[nameSpace + "aid"] = body.application_id;
+          if (body.rsvp_id)
+            context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
+          // console.log(body)
           callback(null, user, context);
+          // callbac
         }
         else if (response && response.statusCode >= 400) cb();
     };    
