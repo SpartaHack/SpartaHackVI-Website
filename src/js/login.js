@@ -14,7 +14,6 @@ let oldCreds = async auth0 => {
     if (!creds || !info) return newCreds(auth0)
 
     let now = new Date(); now = now.getTime()/1000
-
     return (now < info.exp) ? true : await newCreds(auth0)
 }
 
