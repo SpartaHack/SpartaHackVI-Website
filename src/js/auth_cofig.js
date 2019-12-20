@@ -8,12 +8,12 @@ async function auth_func(cb) {
         cb.forEach(func => 
             {if (typeof func == "function") func(auth) } )
     
-    else cb(auth)
+    else if (typeof cb == "function") cb(auth)
     // console.log(auth)
-    // let bttn = document.getElementById('nav-logout')
-    // if (!bttn) return
-    // bttn.addEventListener('click', 
-    //     e => auth0.logout({returnTo: "/"}))
+    let bttn = document.getElementById('nav-logout')
+    if (!bttn) return
+    bttn.addEventListener('click', 
+        e => auth0.logout({returnTo: "/"}))
     return true
 }
 
