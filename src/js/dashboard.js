@@ -69,7 +69,8 @@ let fillInfo = async auth0 => {
     img.id = "profile-photo"
     img.src = info.picture
 
-    imgArea.appendChild(img)
+    img.addEventListener('load', e=> imgArea.appendChild(img))
+    
     // -
     let name = document.getElementById('user-name')
     if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
