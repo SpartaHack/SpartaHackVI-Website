@@ -10,7 +10,7 @@ let newCreds = async auth0 => {
 let oldCreds = async auth0 => {
     let creds = JSON.parse(window.localStorage.getItem('stutoken'))
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
-
+    console.log('fucked up', auth0)
     if (!creds || !info) return newCreds(auth0)
 
     let now = new Date(); now = now.getTime()/1000
@@ -20,10 +20,10 @@ let oldCreds = async auth0 => {
 
 let login = async auth0 => {
     let args = window.location.hash
-    window.location.hash = ""
+    // window.location.hash = ""
 
-    if (args.search(/access\_token/) == -1) return oldCreds(auth0)
     console.log('this is')
+    if (args.search(/access\_token/) == -1) return oldCreds(auth0)
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
