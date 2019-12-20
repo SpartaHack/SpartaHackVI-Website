@@ -5,15 +5,15 @@ async function auth_func(cb) {
     let auth = new auth0.WebAuth(env.auth)
     
     if (Array.isArray(cb)) {
-        for (var f in cb)
+        for (var func in cb)
             await func(auth)
     }
     else await cb(auth)
     // console.log(auth)
-    let bttn = document.getElementById('nav-logout')
-    if (!bttn) return
-    bttn.addEventListener('click', 
-        e => auth0.logout({returnTo: "/"}))
+    // let bttn = document.getElementById('nav-logout')
+    // if (!bttn) return
+    // bttn.addEventListener('click', 
+    //     e => auth0.logout({returnTo: "/"}))
     return true
 }
 
