@@ -18,11 +18,10 @@ let oldCreds = async auth0 => {
 
 let login = async auth0 => {
     let args = window.location.hash
-    // window.location.hash = ""
-
-    console.log('this is')
+    
     if (window.localStorage.hasOwnProperty('stutoken') && 
         window.localStorage.hasOwnProperty('stuinfo')) return oldCreds(auth0)
+
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
         // ENVIRONMENT VARIABLE
@@ -30,8 +29,7 @@ let login = async auth0 => {
         info.idTokenPayload['pt'] = info[namespace + 'pt']
         info.idTokenPayload['aid'] = info[namespace + 'aid']
         info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
-        // ['pt']
-        console.log('where')
+
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
 
@@ -50,7 +48,8 @@ let login = async auth0 => {
         
         if (out.name) 
             window.localStorage.setItem('application', JSON.stringify(out))
-    })  
+    })
+
     window.location.hash = ""
     return true
 }

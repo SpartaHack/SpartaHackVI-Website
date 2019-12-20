@@ -69,7 +69,9 @@ let fillInfo = async auth0 => {
     img.id = "profile-photo"
     img.src = info.picture
 
-    img.addEventListener('load', e=> imgArea.appendChild(img))
+    img.addEventListener('load', 
+        e=> imgArea.appendChild(img), 
+        e => console.log("Couldn't load profile photo") )
     
     // -
     let name = document.getElementById('user-name')
