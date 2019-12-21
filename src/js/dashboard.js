@@ -126,9 +126,11 @@ let updateStatus = (statDom, state) => {
     statDom.firstElementChild.appendChild(indicator)
     return
 }
-let status = async () =>
+let status = async auth0 =>{
     Array.from(document.getElementsByClassName('status'))
         .forEach(s => updateStatus(s, false))
+    return
+}
 // *
 // console.log('present')
 login([fillBanner, fillInfo, fillButton, status])
