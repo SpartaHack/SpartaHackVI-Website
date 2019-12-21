@@ -147,7 +147,8 @@ class Application {
         document.body.appendChild(this.report(stillNeeded))
         
         if (stillNeeded.length) return 
-
+        
+        sendApp(this.application)
         console.log('!!!!!')
         console.log(this.application)
     }

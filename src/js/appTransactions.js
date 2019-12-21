@@ -35,7 +35,7 @@ module.exports.sendApp = (app, info) => {
     }
 
     let submitApp = (err, response, body) => {
-        console.log(err, response, body)
+        console.log(err, body)
     }
 
     request.post(submitRq, submitApp)
