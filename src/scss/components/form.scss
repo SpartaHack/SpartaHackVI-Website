@@ -38,8 +38,12 @@
     select {
         padding-right: .25rem;
         option {
-            background-color: rgba($black, .75);
+            background-color: rgba($white, .75);
+            color: $black;
+        }
+        option:hover, option:active, option:focus {
             color: $red;
+            cursor: pointer;
         }
     }
     .auto-span {
