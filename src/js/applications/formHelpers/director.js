@@ -265,7 +265,7 @@ class Application {
     }    
 
     report(needed) {
-        if (needed && !Array.isArray(needed)) return
+        // if (needed && !Array.isArray(needed)) return
 
         let exitWrap = document.createElement('div')
         exitWrap.id = 'report-incomplete-bg'
@@ -332,10 +332,10 @@ class Application {
 
         
         if (Array.isArray(checks)) {
-            checks.forEach(c => c.parentNode.addEventListener('change', () => {
+            checks.forEach(c => c.addEventListener('change', () => {
                 let total = checks.length
                 let checked = 0
-                c.checked = !(c.checked)
+
                 checks.forEach(c => {if (c.checked) ++checked}) 
                 
                 if (total == checked) 
