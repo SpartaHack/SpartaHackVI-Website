@@ -22,12 +22,13 @@ module.exports.getApp = (info, current) => {
 }
 
 module.exports.sendApp = (app, info) => {
+    console.log(info)
     let submitRq = {
         headers: {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
             "Access-Control-Request-Method": "POST",
-            "X-WWW-USER-TOKEN": info["http://" + window.location.host + "/pt"]
+            "X-WWW-USER-TOKEN": info.idTokenPayload["http://" + window.location.host + "/pt"]
         },
         body: { "application": app },
         url: "http://api.elephant.spartahack.com/applications",
