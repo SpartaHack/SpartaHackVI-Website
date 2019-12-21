@@ -69,7 +69,7 @@ let fillInfo = async auth0 => {
     imgArea.appendChild(img)
     img.src = info.picture
 
-    img.onload(e => imgArea.replaceChild(img))
+    img.onload(e => imgArea.replaceChild(img, img))
     
     // -
     let name = document.getElementById('user-name')
