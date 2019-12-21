@@ -21,7 +21,7 @@ module.exports.getApp = (info, current) => {
     console.log("tried to get application")
 }
 
-module.exports.sendApp = (app, info) => {
+module.exports.sendApp = app => {
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
     if (!info) { 
         console.error("Please log out, log back in, then try again")
@@ -32,7 +32,7 @@ module.exports.sendApp = (app, info) => {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
             "Access-Control-Request-Method": "POST",
-            "X-WWW-USER-TOKEN": info["http://" + window.location.host + "/pt"]
+            "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
         },
         body: { "application": app },
         url: "http://api.elephant.spartahack.com/applications",
