@@ -127,6 +127,7 @@ let updateStatus = (statDom, state) => {
     return
 }
 let status = async auth0 =>{
+    console.log('testing what the fuck')
     Array.from(document.getElementsByClassName('status'))
         .forEach(s => updateStatus(s, false))
     return
