@@ -80,6 +80,12 @@ class Application {
                 'dom': undefined,
                 'error': 'Graduation Year'
             },
+            'education-level': {
+                'validator': validators.select,
+                'needed': true,
+                'dom': undefined,
+                'error': 'Education Level'
+            },            
             'mlh-experience': {
                 'validator': validators.mlh,
                 'needed': true,
@@ -324,7 +330,7 @@ class Application {
 
         
         if (Array.isArray(checks)) {
-            checks.forEach(c => c.addEventListener('change', () => {
+            checks.forEach(c => c.parentNode.addEventListener('change', () => {
                 let total = checks.length
                 let checked = 0
                 
