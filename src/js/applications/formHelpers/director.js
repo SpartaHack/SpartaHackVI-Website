@@ -180,7 +180,7 @@ class Application {
                 stillNeeded.push(fn)
             else if (updated) {
                 let outName = fn.replace("-", "_")
-                if (this.fields[fn].validator = validators.select && typeof this.out[fn] === "number") {
+                if (this.fields[fn].validator === validators.select && typeof this.out[fn] === "number") {
                     let val = this.fields[fn].dom
                     val = val.childNodes[(2 * val.selectedIndex) + 1].value
                     this.application[outName] = val
@@ -208,6 +208,11 @@ class Application {
             !(Boolean(worked)) : this.fields[src.id].needed
 
         if (worked === true) {
+            if (localStorage.hasOwnProperty('application')) {
+                let current = Object.assign(JSON.parse(
+                    localStorage.getItem('application') ), this.out)
+                this.out = current
+            }
             localStorage.setItem('application', JSON.stringify(this.out))
             this.domError(src, true)
         }
@@ -265,7 +270,8 @@ class Application {
     }    
 
     report(needed) {
-        // if (needed && !Array.isArray(needed)) return
+        console.log(needed, "testing")
+        if (needed && !Array.isArray(needed)) return
 
         let exitWrap = document.createElement('div')
         exitWrap.id = 'report-incomplete-bg'
