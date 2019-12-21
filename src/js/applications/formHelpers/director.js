@@ -178,17 +178,18 @@ class Application {
             if ((opt && updated == -1) || (!opt && !updated)) 
                 stillNeeded.push(fn)
             else if (updated) {
+                let outName = fn.repace("-", "_")
                 if (this.fields[fn].validator = validators.select && typeof this.out[fn] === "number") {
                     let val = this.fields[fn].dom
                     val = val.childNodes[(2 * val.selectedIndex) + 1].value
-                    this.application[fn] = val
+                    this.application[outName] = val
                 }
                 else if (fn === "name") {
                     let names = this.fields[fn].dom.value.match(/[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/gi)
                     this.application['first_name'] = names[0]
                     this.application['last_name'] = names[1]
                 }
-                else this.application[fn] = this.out[fn]
+                else this.application[outName] = this.out[fn]
             }
         })
         console.log(this.application)

@@ -40,6 +40,11 @@
         option {
             background-color: rgba($white, .75);
             color: $black;
+            cursor: pointer;
+            :hover {
+                background-color: rgba($black, .5);
+                color: $red;
+            }
         }
         option:hover, option:active, option:focus {
             color: $red;
