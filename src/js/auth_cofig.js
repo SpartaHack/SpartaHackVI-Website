@@ -3,10 +3,15 @@ const env = require('./../../env.json')
 
 async function auth_func(cb) {
     let auth = new auth0.WebAuth(env.auth)
-    
-    if (Array.isArray(cb))
-        cb.forEach(async func => 
-            {if (typeof func == "function") await func(auth) } )
+
+    if (Array.isArray(cb)) {        
+        let doNext = at => {
+            if (at > cb.length - 2) return
+            cb[at](auth)
+            doNext(++at)
+        }
+        doNext(0)
+    }
     
     else if (typeof cb == "function") cb(auth)
 

@@ -62,30 +62,38 @@ let fillBanner = async auth0 => {
 // -
 let fillInfo = async auth0 => {
     console.log('dif')
-    let info = JSON.parse(window.localStorage.getItem('stuinfo'))
-    // *
-    let name = document.getElementById('user-name')
-    if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
-    else name.innerHTML = info.name
-    // -
-    let email = document.getElementById('user-email')
-    email.innerHTML = info.email
-    // -
-    if (info.picture) {
-        let imgArea = document.getElementById('image-area')
+    let info
+    let updateInfo = () => info = JSON.parse(window.localStorage.getItem('stuinfo'))
 
+    let tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
+        tryNum = typeof tryNum == "number" ? tryNum : 0
+        if (test()) after()
+        else if (tryNum < 10) 
+            tryLoaded(test, after, ++tryNum)
+    }, 500)
+
+    tryLoaded(() => {
+        updateInfo()
+        return info.name && info.email && info.picture
+    }, () => {
+        // *
+        let name = document.getElementById('user-name')
+        if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
+        else name.innerHTML = info.name
+        // -
+        let email = document.getElementById('user-email')
+        email.innerHTML = info.email
+        // -
+        
+        let imgArea = document.getElementById('image-area')
+    
         let img = document.createElement('img')
         img.id = "profile-photo"
         img.src = info.picture
     
-        // img.onload(e => console.log('what'))//imgArea.replaceChild(img, img))
-        let tryLoaded = () => window.setTimeout(() => {
-            if (img.complete) imgArea.appendChild(img)
-            else tryLoaded()
-        }, 500)
-    
-        tryLoaded()
-    }
+        tryLoaded(() => img.complete, () => imgArea.appendChild(img))
+    })
+
     return
 }
 // -
