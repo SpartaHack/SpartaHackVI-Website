@@ -72,10 +72,10 @@ let fillInfo = async auth0 => {
             tryLoaded(test, after, ++tryNum)
     }, 500)
 
-    tryLoaded(() => {
+    // tryLoaded(() => {
         updateInfo()
-        return info.name && info.email && info.picture
-    }, () => {
+        // return info.name && info.email && info.picture
+    // }, () => {
         // *
         let name = document.getElementById('user-name')
         if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
@@ -92,7 +92,7 @@ let fillInfo = async auth0 => {
         img.src = info.picture
     
         tryLoaded(() => img.complete, () => imgArea.appendChild(img))
-    })
+    // })
 
     return
 }
@@ -118,7 +118,7 @@ let fillButton = async auth0 => {
 
 let updateStatus = (statDom, state) => {
     statDom = statDom.lastElementChild
-
+    console.log(statDom)
     let indicator = document.createElement('i')
     if (state) {
         statDom.firstElementChild.classList.add('on-indicator')
