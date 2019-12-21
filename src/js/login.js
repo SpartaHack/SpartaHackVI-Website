@@ -20,8 +20,7 @@ let oldCreds = async auth0 => {
 let login = async auth0 => {
     let args = window.location.hash
     
-    if (window.localStorage.hasOwnProperty('stutoken') && 
-        window.localStorage.hasOwnProperty('stuinfo')) return oldCreds(auth0)
+    if (!args.search(/access\_token/)) return oldCreds(auth0)
 
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
