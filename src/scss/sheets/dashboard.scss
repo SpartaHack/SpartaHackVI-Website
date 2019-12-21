@@ -48,6 +48,7 @@ main {
             font-size: 1.5rem;
             font-weight: 400;
             text-align: start;
+            user-select: none;;
         }
     }
 
@@ -101,6 +102,7 @@ main {
 
     h3 {
         text-align: center;
+        user-select: none;
     }
     div {
         display: flex;

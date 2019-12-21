@@ -18,7 +18,9 @@
 
         font-weight: 500;
         font-size: 1.25rem;
+        user-select: none;
         padding-right: 1rem;
+
     }
 
     input, select, textarea {
@@ -33,7 +35,13 @@
         ::placeholder { color: rgba($white, .85); }
     }
 
-    select { padding-right: .25rem}
+    select {
+        padding-right: .25rem;
+        option {
+            background-color: rgba($black, .75);
+            color: $red;
+        }
+    }
     .auto-span {
         position: relative;
 
