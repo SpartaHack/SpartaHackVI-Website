@@ -27,7 +27,7 @@ module.exports.sendApp = (app, info) => {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
             "Access-Control-Request-Method": "POST",
-            "X-WWW-USER-TOKEN": window.location.host + "/pt"
+            "X-WWW-USER-TOKEN": info[window.location.host + "/pt"]
         },
         body: { "application": app },
         url: "http://api.elephant.spartahack.com/applications",
