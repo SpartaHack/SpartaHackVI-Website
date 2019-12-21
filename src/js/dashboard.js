@@ -21,6 +21,7 @@ let appState = () => {
 const thisState = appState()
 // *
 let fillBanner = async auth0 => {
+    // await auth0.checkToken()
     let temp
     // *
     let now = new Date(); now = now.getHours()
@@ -55,12 +56,12 @@ let fillBanner = async auth0 => {
         default: temp = "Something went wrong..."
     }
     message.innerHTML = temp
+
     return
 }
 // -
 let fillInfo = async auth0 => {
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
-    // if (!info) login()
     // *
     let imgArea = document.getElementById('image-area')
 
@@ -69,7 +70,7 @@ let fillInfo = async auth0 => {
     imgArea.appendChild(img)
     img.src = info.picture
 
-    img.onload(e => imgArea.replaceChild(img, img))
+    img.onload(e => console.log('what'))//imgArea.replaceChild(img, img))
     
     // -
     let name = document.getElementById('user-name')
@@ -120,5 +121,5 @@ let status = async () => {
         .forEach(s => updateStatus(s, false))
 }
 // *
-console.log('present')
+// console.log('present')
 login([fillBanner, fillInfo, fillButton, status])
