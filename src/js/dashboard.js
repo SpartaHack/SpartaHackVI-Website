@@ -113,7 +113,7 @@ let fillButton = async auth0 => {
 
 let updateStatus = (statDom, state) => {
     statDom = statDom.lastElementChild
-    console.log(statDom)
+    console.log(statDom, 'testing')
     let indicator = document.createElement('i')
     if (state) {
         statDom.firstElementChild.classList.add('on-indicator')
