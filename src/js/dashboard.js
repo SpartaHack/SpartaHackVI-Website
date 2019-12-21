@@ -61,7 +61,6 @@ let fillBanner = async auth0 => {
 }
 // -
 let fillInfo = async auth0 => {
-    console.log('dif')
     let info
     let updateInfo = () => info = JSON.parse(window.localStorage.getItem('stuinfo'))
 
@@ -72,27 +71,23 @@ let fillInfo = async auth0 => {
             tryLoaded(test, after, ++tryNum)
     }, 500)
 
-    // tryLoaded(() => {
-        updateInfo()
-        // return info.name && info.email && info.picture
-    // }, () => {
-        // *
-        let name = document.getElementById('user-name')
-        if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
-        else name.innerHTML = info.name
-        // -
-        let email = document.getElementById('user-email')
-        email.innerHTML = info.email
-        // -
-        
-        let imgArea = document.getElementById('image-area')
-    
-        let img = document.createElement('img')
-        img.id = "profile-photo"
-        img.src = info.picture
-    
-        tryLoaded(() => img.complete, () => imgArea.appendChild(img))
-    // })
+    updateInfo()
+
+    // *
+    let name = document.getElementById('user-name')
+    if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
+    else name.innerHTML = info.name
+    // -
+    let email = document.getElementById('user-email')
+    email.innerHTML = info.email
+    // -
+    let imgArea = document.getElementById('image-area')
+    let img = document.createElement('img')
+    img.id = "profile-photo"
+
+    img.src = info.picture
+    tryLoaded(() => img.complete, () => imgArea.appendChild(img))
+
 
     return
 }
@@ -131,10 +126,9 @@ let updateStatus = (statDom, state) => {
     statDom.firstElementChild.appendChild(indicator)
     return
 }
-let status = async () => {
+let status = async () =>
     Array.from(document.getElementsByClassName('status'))
         .forEach(s => updateStatus(s, false))
-}
 // *
 // console.log('present')
 login([fillBanner, fillInfo, fillButton, status])
