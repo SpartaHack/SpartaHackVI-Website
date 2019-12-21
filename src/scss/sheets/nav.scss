@@ -98,13 +98,21 @@ body, html {
         }
     }
     @media only screen and (max-width: $break-d1) {
-        #nav-about {
-            display: none;
+        
+        #nav-options * {
+            // margin: auto .05rem;
+            font-size: .65rem;
+            line-height: .9rem;
         }
     }
 
     @media only screen and (max-width: $break-d2) {
-        
+        #nav-options * {
+            margin: auto .05rem;
+        }
+        #nav-about {
+            display: none;
+        }
     }
 }
 
