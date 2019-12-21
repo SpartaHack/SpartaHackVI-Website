@@ -6,6 +6,16 @@ let newCreds = async auth0 => {
     await auth0.authorize()
     return true
 }
+let loggedIn = () => {
+    window.location.hash = ""
+    
+    let bttn = document.getElementById('nav-logout')
+    if (!bttn) return
+    bttn.addEventListener('click', 
+        e => auth.logout({returnTo: "http://website.elephant.spartahack.com/"}))
+
+    return true
+}
 let oldCreds = async auth0 => {
     let creds = JSON.parse(window.localStorage.getItem('stutoken'))
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
@@ -13,7 +23,7 @@ let oldCreds = async auth0 => {
     if (!creds || !info) return newCreds(auth0)
 
     let now = new Date(); now = now.getTime()/1000
-    return (now < info.exp) ? true : await newCreds(auth0)
+    return (now < info.exp) ? loggedIn() : await newCreds(auth0)
 }
 
 let login = async auth0 => {
@@ -50,10 +60,18 @@ let login = async auth0 => {
             window.localStorage.setItem('application', JSON.stringify(out))
     })
 
-    window.location.hash = ""
-    return true
+    
+    return loggedIn
 }
+let logout = auth0 => {
+    if (window.localStorage.hasOwnProperty('stutoken'))
+        window.localStorage.removeItem('stutoken')
+    if (window.localStorage.hasOwnProperty('stuinfo'))
+        window.localStorage.removeItem('stuinfo')
 
+    auth0.logout()
+
+}
 // let signout = async 
 
 module.exports.default = after => {
