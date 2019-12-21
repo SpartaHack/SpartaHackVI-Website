@@ -79,10 +79,10 @@ main {
     #app-button-wrap {
         width: 40%;
         margin: 1rem 0 0 0;        
+        display: inline-block;
 
         #app-button * { 
             margin: 0 .25rem;
-            display: inline-block;
             color: $black; 
         }
     }
