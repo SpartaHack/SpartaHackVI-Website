@@ -7,8 +7,8 @@ async function auth_func(cb) {
     if (Array.isArray(cb)) {        
         let doNext = at => {
             if (at > cb.length - 1) return
-            cb[at](auth)
-            doNext(++at)
+            
+            doNext(++at, cb[at](auth))
         }
         doNext(0)
     }
