@@ -13,7 +13,7 @@ async function auth_func(cb) {
     let bttn = document.getElementById('nav-logout')
     if (!bttn) return
     bttn.addEventListener('click', 
-        e => auth.logout({returnTo: "/"}))
+        e => auth.logout({returnTo: "http://website.elephant.spartahack.com/"}))
 
     return true
 }
