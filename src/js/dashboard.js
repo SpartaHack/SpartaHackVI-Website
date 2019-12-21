@@ -61,6 +61,7 @@ let fillBanner = async auth0 => {
 }
 // -
 let fillInfo = async auth0 => {
+    console.log('dif')
     let info = JSON.parse(window.localStorage.getItem('stuinfo'))
     // *
     let name = document.getElementById('user-name')
