@@ -4,7 +4,7 @@ function test(user, context, callback) {
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
-      console.log(++count, "\n----->>>>\n", response, "\n----->>>>\n");
+      console.log(++count, "\n----->>>>\n", body, "\n----->>>>\n");
       if (response && response.statusCode === 200) {
         context.idToken[nameSpace + "pt"] = body.auth_token;
         if (body.application_id)

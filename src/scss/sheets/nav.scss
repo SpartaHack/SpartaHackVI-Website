@@ -75,26 +75,20 @@ body, html {
         }
     }
 
-    @media only screen and (max-width: $break-c1) {
-        #home-button {
-            h2 {
-                width: 5rem;
-                font-size: 1.25rem;
-            }
+    @media only screen and (max-width: $break-b3) {
+        #home-button h2 {
+            width: 3rem;
+            font-size: .85rem;
         }
 
         #nav-options {
             justify-content: flex-end;
         }
+        
     }
 
     @media only screen and (max-width: $break-c1) {
-        #home-button {
-            h2 {
-                width: 3rem;
-                font-size: .85rem;
-            }
-        }
+        #home-button h2 { display: none; }
 
         #nav-options {
             * { 
@@ -103,19 +97,14 @@ body, html {
             }
         }
     }
-    @media only screen and (max-width: $break-c3) {
-        #home-button {
-            h2 {
-                display: none;
-            }
+    @media only screen and (max-width: $break-d1) {
+        #nav-about {
+            display: none;
         }
+    }
 
-        #nav-options {
-            // * { 
-            //     // font-size: .5rem;
-            //     margin: auto .25rem;
-            // }
-        }
+    @media only screen and (max-width: $break-d2) {
+        
     }
 }
 

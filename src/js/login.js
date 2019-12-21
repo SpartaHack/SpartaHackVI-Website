@@ -2,7 +2,6 @@ const auth = require('./auth_cofig').default
 
 let newCreds = async auth0 => {
     if (!auth0 || !auth0.authorize) return
-
     await auth0.authorize()
     return true
 }
@@ -19,17 +18,18 @@ let oldCreds = async auth0 => {
 
 let login = async auth0 => {
     let args = window.location.hash
-    
     if (!args.search(/access\_token/)) return oldCreds(auth0)
 
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
-        // ENVIRONMENT VARIABLE
-        namespace = 'http://website.elephant.spartahack.com/'
-        info.idTokenPayload['pt'] = info[namespace + 'pt']
-        info.idTokenPayload['aid'] = info[namespace + 'aid']
-        info.idTokenPayload['rsvp'] = info[namespace + 'rsvp']
 
+        let getUserItem = name => info.hasOwnProperty(window.location.origin+"/"+name) ? 
+            info[window.location.origin+"/"+name] : false
+
+        let userItems = ['pt', 'aid', 'rsvp']
+        userItems.forEach(
+            i => info.idTokenPayload[i] = getUserItem(i) )
+            
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
 
@@ -59,7 +59,7 @@ let logout = auth0 => {
     if (window.localStorage.hasOwnProperty('stuinfo'))
         window.localStorage.removeItem('stuinfo')
 
-    auth0.logout({returnTo: "http://website.elephant.spartahack.com/"})
+    auth0.logout({returnTo: window.location.origin})
 
 }
 let loggedIn = auth0 => {
@@ -72,7 +72,6 @@ let loggedIn = auth0 => {
 
     return true
 }
-// let signout = async 
 
 module.exports.default = after => {
     let loginFuncs = after instanceof Function ? auth([login, after]) :

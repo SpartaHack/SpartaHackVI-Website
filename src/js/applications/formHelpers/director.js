@@ -1,9 +1,13 @@
-const validators = require('./validators')
+const validatorIndex = require('./validators')
 const autocomplete = require('./autocomplete').default
 const sendApp = require('../../appTransactions').sendApp
 
 class Application {
     constructor() {
+        this.new = true
+        
+        // hopefully this cuts down on JS size
+        let validators = validatorIndex
         this.fields = {
             'name': {
                 'validator': validators.name,
@@ -68,13 +72,13 @@ class Application {
                 'dom': undefined,
                 'error': 'Birthday'
             },
-            'grad-season-opts': {
+            'grad-season': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
                 'error': 'Graduation Season'
             },
-            'grad-year-opts': {
+            'grad-year': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
@@ -92,13 +96,13 @@ class Application {
                 'dom': undefined,
                 'error': 'Number of Hackathons'
             },
-            'gender-opts': {
+            'gender': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
                 'error': 'Gender'
             },
-            'race-opts': {
+            'race': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
@@ -174,13 +178,13 @@ class Application {
 
         Object.keys(this.fields).forEach(fn => {
             let updated = this.update(this.fields[fn].dom)
+            let outName = fn.replace("-", "_")
             let opt = this.optional.has(fn)
 
             if ((opt && updated == -1) || (!opt && !updated)) 
                 stillNeeded.push(fn)
             else if (updated) {
-                let outName = fn.replace("-", "_")
-                if (this.fields[fn].validator === validators.select && typeof this.out[fn] === "number") {
+                if (this.fields[fn].validator === validatorIndex.select && typeof this.out[fn] === "number") {
                     let val = this.fields[fn].dom
                     val = val.childNodes[(2 * val.selectedIndex) + 1].value
                     this.application[outName] = val
@@ -190,6 +194,12 @@ class Application {
                     this.application['first_name'] = names[0]
                     this.application['last_name'] = names[1]
                 }
+                else if (fn === "birthday")
+                    ['birth_day', 'birth_month', 'birth_year'].forEach(section => {
+                        this.application[section] = this.out[section]
+                    })
+                else if (fn === "major" || fn === "race")
+                    this.application[outName] = [this.out[fn]]
                 else this.application[outName] = this.out[fn]
             }
         })
@@ -208,10 +218,14 @@ class Application {
             !(Boolean(worked)) : this.fields[src.id].needed
 
         if (worked === true) {
-            if (localStorage.hasOwnProperty('application')) {
-                let current = Object.assign(JSON.parse(
-                    localStorage.getItem('application') ), this.out)
-                this.out = current
+            if (this.new && localStorage.hasOwnProperty('application')) {
+                let oldApp = JSON.parse(localStorage.getItem('application'))
+
+                if (this.out['name'] == oldApp['name']){
+                    let current = Object.assign(oldApp, this.out)
+                    this.out = current
+                    this.new = false
+                }
             }
             localStorage.setItem('application', JSON.stringify(this.out))
             this.domError(src, true)

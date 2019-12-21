@@ -44,6 +44,8 @@ let autoDOM = (element, options, director) => {
     suggestWrap.id = "autocomplete-wrap"
     suggestWrap.appendChild(suggestArea)
     
+    element.addEventListener('blur', 
+        e => wrap.removeChild(suggestWrap))
     wrap.appendChild(suggestWrap)
 }
 

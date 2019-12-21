@@ -93,13 +93,12 @@ module.exports.birthday = (input, out) => {
         Math.floor((new Date()-new Date(input.value))/1000/year)
     
     if (yearsOld > 12 && yearsOld < 120) {
-        out['birth_year']= input.value.substr(0,4)
-        out['birth_month']= input.value.substr(5,2)
-        out['birth_day']= input.value.substr(8,2)
+        out['birth_year'] = input.value.substr(0,4)
+        out['birth_month'] = input.value.substr(5,2)
+        out['birth_day'] = input.value.substr(8,2)
+        return true
     }
-    
     else return false
-    return true
 }
 
 // ---
