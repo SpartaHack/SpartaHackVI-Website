@@ -178,7 +178,7 @@ class Application {
             if ((opt && updated == -1) || (!opt && !updated)) 
                 stillNeeded.push(fn)
             else if (updated) {
-                let outName = fn.repace("-", "_")
+                let outName = fn.replace("-", "_")
                 if (this.fields[fn].validator = validators.select && typeof this.out[fn] === "number") {
                     let val = this.fields[fn].dom
                     val = val.childNodes[(2 * val.selectedIndex) + 1].value
@@ -334,7 +334,7 @@ class Application {
             checks.forEach(c => c.parentNode.addEventListener('change', () => {
                 let total = checks.length
                 let checked = 0
-                
+                c.checked = !(c.checked)
                 checks.forEach(c => {if (c.checked) ++checked}) 
                 
                 if (total == checked) 
