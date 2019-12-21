@@ -67,11 +67,15 @@ let fillInfo = async auth0 => {
 
     let img = document.createElement('img')
     img.id = "profile-photo"
-    imgArea.appendChild(img)
     img.src = info.picture
 
-    img.onload(e => console.log('what'))//imgArea.replaceChild(img, img))
-    
+    // img.onload(e => console.log('what'))//imgArea.replaceChild(img, img))
+    let tryLoaded = () => window.setTimeout(() => {
+        if (img.complete) imgArea.appendChild(img)
+        else tryLoaded()
+    }, 500)
+
+    tryLoaded()
     // -
     let name = document.getElementById('user-name')
     if (info.name ===info.email) document.getElementById('user-attrs').removeChild(name)
