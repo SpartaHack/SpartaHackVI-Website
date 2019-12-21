@@ -22,7 +22,6 @@ const thisState = appState()
 // *
 let fillBanner = async auth0 => {
     let temp
-    console.log('living baby')
     // *
     let now = new Date(); now = now.getHours()
     let tod = document.getElementById('time-of-day')
@@ -67,11 +66,10 @@ let fillInfo = async auth0 => {
 
     let img = document.createElement('img')
     img.id = "profile-photo"
+    imgArea.appendChild(img)
     img.src = info.picture
 
-    img.addEventListener('load', 
-        e=> imgArea.appendChild(img), 
-        e => console.log("Couldn't load profile photo") )
+    img.onload(e => imgArea.replaceChild(img))
     
     // -
     let name = document.getElementById('user-name')

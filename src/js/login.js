@@ -18,6 +18,7 @@ let oldCreds = async auth0 => {
 }
 
 let login = async auth0 => {
+    console.log(auth0)
     let args = window.location.hash
     
     if (window.localStorage.hasOwnProperty('stutoken') && 
