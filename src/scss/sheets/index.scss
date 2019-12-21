@@ -14,7 +14,6 @@ body, html {
 
 .screen {
     margin: auto;
-    // height: 100vh;
     width: 100%;
     max-width: 1260px;
 
@@ -24,27 +23,20 @@ body, html {
 }
 
 #mlh-trust-badge {
-    // display:block;
-    // max-width:100px;
-    // width: 100px;
-    // min-width:75px;
-    height: auto;
     position:absolute;
     bottom: 0;
     right: 2.5vw;
-    transform: translateY(100%);
-    
-    
-    // width:10%;
+    height: auto;
     z-index:10000;
+    transform: translateY(100%);
 
     img {
         right: 2.5vw;
         height: 100px;
         width: auto;
-        @media screen and (min-width: $break-c2) {
-         height: 15vh;   
-        }
+
+        @media screen and (min-width: $break-c2) 
+            { height: 15vh; }
     }
 
 }

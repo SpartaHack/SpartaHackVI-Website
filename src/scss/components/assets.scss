@@ -2,13 +2,13 @@
 
 //font
 
-// @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-.type { font-family: 'Arial', sans-serif; }
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.type { font-family: 'Roboto', sans-serif; }
 .paragraph {
     font-size: 1.2rem;
 }
 
-//colors & misc.
+//colors, breakpoints, & misc.
 
 $black: #181818;
 $red: #C90E19;
@@ -27,10 +27,11 @@ $break-b3: 800px;
 $break-c1: 700px;
 $break-c2: 600px;
 $break-c3: 530px;
-//elements
 $break-d1: 460px;
 $break-d2: 375px;
 $break-d3: 320px;
+
+//elements
 
 .vrt-barrier {
     display: inline-block;
