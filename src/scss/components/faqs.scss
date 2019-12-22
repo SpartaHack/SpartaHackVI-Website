@@ -1,5 +1,6 @@
 @import '../components/assets.scss';
 
+
 #faqs-wrap {
     display: flex;
     flex-direction: column;
@@ -12,7 +13,7 @@
     padding: 0;
     overflow: auto;
 
-    background-color: $red;
+    background-color: #18453b;
     * {max-width: $break-b2;}
     
     h3 {
@@ -27,14 +28,13 @@
         width: 100%;
         
 
-        display: flex;
+        // display: flex;
         &, * { box-sizing: border-box;}
 
  
 
-        margin: 0 auto;
-    
-    
+        // margin: 0 auto;
+            
     }
 }    
 
@@ -43,7 +43,7 @@
     align-content: center;
     justify-content: flex-start;
     
-    overflow: hidden;
+    // overflow: hidden;
     margin: 2rem .5rem 0;
 
     height: 350px;
@@ -80,7 +80,8 @@
 
             font-size: 1rem;
             text-align: left;
-            
+            border: .25rem solid rgba($black, .5);
+
             h4 {
                 max-width: 85%;
                 padding: .5rem;
@@ -101,3 +102,32 @@
     margin: 0;
     padding: 0;
 }
+
+.panel {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    width: 25%;
+    margin-left: 20%;
+    background-color: #18453b;
+}
+
+.listing {
+    padding: 10px;
+    margin-left: 20%;
+    margin-top: 0.5%;
+    border: solid;
+    border-color: black;
+    background-color: rgb(6, 109, 6);
+    outline: none;
+    transition: 0.2s;
+
+}
+
+.active {
+    background-color: green;
+}
+
+.listing:hover {
+    background-color: green;
+  }
