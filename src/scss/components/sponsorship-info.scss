@@ -1,9 +1,10 @@
 #sponsorship-info {
     justify-content: space-around;
-    height: 65vh;
+    min-height: 65vh;
 
     img {
         width: 40%;
+        max-height: 65vh;
     }
 
     section {
@@ -33,6 +34,18 @@
     
         section {
             width: 65%;
+        }
+    }
+
+    @media only screen and (max-width: $break-d1) {
+        justify-content: center;
+        img { 
+            display: none;
+        }
+        section {
+            width: 85%;
+            // max-width: 90vw;
+            margin: 0 auto;
         }
     }
 }

@@ -1,6 +1,6 @@
 const validatorIndex = require('./validators')
 const autocomplete = require('./autocomplete').default
-const sendApp = require('../../appTransactions').sendApp
+const sendApp = require('../appTransactions').sendApp
 
 class Application {
     constructor() {

@@ -1,5 +1,5 @@
 import './../scss/sheets/dashboard.scss'
-let getApp = require('./appTransactions').getApp
+let getApp = require('./applications/appTransactions').getApp
 let login = require('./login').default
 
 let appState = () => {
@@ -84,10 +84,7 @@ let fillInfo = async auth0 => {
     let imgArea = document.getElementById('image-area')
     let img = document.createElement('img')
     img.id = "profile-photo"
-
-    img.src = info.picture
-    tryLoaded(() => img.complete, () => imgArea.appendChild(img))
-
+    img.onload = () => imgArea.appendChild(img)
 
     return
 }

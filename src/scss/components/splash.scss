@@ -3,7 +3,6 @@
     flex-wrap: wrap;
 
     max-width: 1260px;
-
     margin: auto;
 
     #splash-info {        
@@ -11,7 +10,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        margin: 5rem .5rem 0;
+        margin: 5rem 1.5rem 0;
         * {
             margin: .35rem 0;
             padding: 0;
@@ -56,7 +55,7 @@
 
     @media only screen and (max-width: $break-b2) {
         #splash-info {    
-            margin-left: .5rem;
+            // margin-left: .5rem;
 
             h1 { font-size: 3rem; }
             h2 { font-size: 1.75rem; }

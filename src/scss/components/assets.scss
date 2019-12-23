@@ -62,13 +62,28 @@ $break-d3: 320px;
     }
 }
 
+@media only screen and (max-width: $break-b2) {
+    section {
+        width: 50%;
+    }
+}
+@media only screen and (max-width: $break-c1) {
+    img {
+        width: 30%;
+    }
+
+    section {
+        width: 65%;
+    }
+}
+
 button {
     cursor: pointer;
     color: $black;
 
     border: none;
     border-radius: .5rem;
-    padding: .5rem !important;
+    padding: .75rem !important;
     
     font-weight: 350;
     font-size: 1.5rem;

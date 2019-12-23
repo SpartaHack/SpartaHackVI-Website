@@ -3,7 +3,6 @@ import './../scss/sheets/index.scss'
 import './../scss/sheets/footer.scss'
 
 const auth = require('./auth_cofig').default
-// const faqs = require('./faq').default
 
 auth(authObj => {
     document.getElementById('nav-apply')
@@ -13,8 +12,8 @@ auth(authObj => {
     .addEventListener('click', () => authObj.authorize())
 })
 
+let faqs = new (require('./faq')).default(require('./data/faqs.json'))
+;(require('./sponsors').default())
 // countdown.innerHTML = Math.ceil(
 //         (new Date('12/1/19')-new Date())/(1000*3600*24)
 //     ).toString() + countdown.innerHTML
-
-// let faqs = new (require('./faq')).default(require('./data/faqs.json'))
