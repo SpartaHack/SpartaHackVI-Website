@@ -193,7 +193,7 @@ class FAQ {
 
         let importApp = (err, response, body) => {
             if (response && response.statusCode === 200) {
-                console.log(body)
+                console.log(err, body)
             }
         }
 

@@ -6,19 +6,19 @@ let get = cb => {
         headers: {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
-            "Access-Control-Request-Method": "POST",
+            // "Access-Control-Request-Method": "POST",
             // "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
         },
         // body: { "application": app },
         url: "http://api.elephant.spartahack.com/sponsors",
-        // json: true
+        json: true
     }
     let submitApp = (err, response, body) => {
         console.log(err, body)
         cb(body)
     }
 
-    request.post(submitRq, submitApp)
+    request.get(submitRq, submitApp)
 }
 
 let make = info => {
