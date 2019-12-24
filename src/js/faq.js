@@ -1,5 +1,7 @@
 require('./../scss/components/faqs.scss')
 
+const request = require('request')
+
 class FAQ {
     constructor(src, container, tabOffset) {
         this.items = []
