@@ -197,7 +197,7 @@ class FAQ {
             }
         }
 
-        request.post(importRq, importApp)
+        request.get(importRq, importApp)
     
     }
 }
