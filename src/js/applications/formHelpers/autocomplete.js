@@ -1,6 +1,6 @@
 let filterIndex = {
     'major': require('./../../data/majors-set.json'),
-    'travel-origin': require('./../../data/cities-set.json'),
+    'travel_origin': require('./../../data/cities-set.json'),
     'university': require('./../../data/unis-set.json')
 }
 

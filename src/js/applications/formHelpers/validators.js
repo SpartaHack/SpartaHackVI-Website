@@ -1,6 +1,6 @@
 const dicts = {
     'major': require('./../../data/majors-dict.json'),
-    'travel-origin': require('./../../data/cities-dict.json'),
+    'travel_origin': require('./../../data/cities-dict.json'),
     'university': require('./../../data/unis-dict.json')
 }
 module.exports.fromDict = (input, out) => {

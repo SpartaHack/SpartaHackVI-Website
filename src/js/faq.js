@@ -36,8 +36,8 @@ class FAQ {
 
             this.items.push(faqItem)
         })
-
-        console.log(this)
+        this._getFaq()
+        // console.log(this)
     }
 
     enterQuestion(faqItem) {
@@ -177,6 +177,26 @@ class FAQ {
         if (append) document.body.appendChild(container)
         return wrap.lastElementChild
 
+    }
+
+    _getFaq() {
+        let importRq = {
+            headers: {
+                "Content-Type":"application/json",
+                "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/",
+            },
+            url: "http://api.elephant.spartahack.com/faqs",
+            json: true
+        }
+
+        let importApp = (err, response, body) => {
+            if (response && response.statusCode === 200) {
+                console.log(body)
+            }
+        }
+
+        request.post(importRq, importApp)
+    
     }
 }
 

@@ -21,7 +21,7 @@ class Application {
                 'dom': undefined,
                 'error': 'Phone Number'
             },
-            'travel-origin': {
+            'travel_origin': {
                 'validator': validators.fromDict,
                 'autocomplete': true,
                 'needed': true,
@@ -39,7 +39,7 @@ class Application {
                 'validator': validators.fromDict,
                 'autocomplete': true,
                 'needed': true,
-                'dom': undefined,
+                'dbackground-color: #000om': undefined,
                 'error': 'Major'
             },
             'devpost': {
@@ -60,7 +60,7 @@ class Application {
                 'dom': undefined,
                 'error': 'Devpost profile address'
             },
-            'other-site': {
+            'other_link': {
                 'validator': validators.otherSite,
                 'needed': false,
                 'dom': undefined,
@@ -72,7 +72,7 @@ class Application {
                 'dom': undefined,
                 'error': 'Birthday'
             },
-            'grad-season': {
+            'graduation_year': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
@@ -116,7 +116,7 @@ class Application {
             }
         }
 
-        this.optional = new Set(['devpost','github','linkedin','other-site'])
+        this.optional = new Set(['devpost','github','linkedin','other_link'])
         this.out = localStorage.getItem('application') ? 
             JSON.parse(localStorage.getItem('application')) : {}
         this.application = {}
