@@ -5,7 +5,7 @@ let get = cb => {
     let submitRq = {
         headers: {
             "Content-Type":"application/json",
-            "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
+            // "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/sponsors",
         },
         url: "http://api.elephant.spartahack.com/sponsors",
         json: true
@@ -13,13 +13,15 @@ let get = cb => {
     let submitApp = (err, response, body) => {
         console.log(err, body)
 
-        if (body) cb(body)
+        cb(body)
     }
 
-    request.get(submitRq, submitApp)
+    request.get(submitRq, submitApp, submitApp)
 }
 
 let make = info => {
+    if (!info) return
+
     let makeInd = sponsor => {
         let wrap = document.createElement('li')
         wrap.appendChild(document.createElement('a'))
