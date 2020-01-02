@@ -185,7 +185,7 @@ class FAQ {
         let importRq = {
             headers: {
                 "Content-Type":"application/json",
-                "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/",
+                "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/"
             },
             url: "http://api.elephant.spartahack.com/faqs",
             json: true

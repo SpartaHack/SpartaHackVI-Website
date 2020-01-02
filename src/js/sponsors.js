@@ -6,16 +6,14 @@ let get = cb => {
         headers: {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
-            // "Access-Control-Request-Method": "POST",
-            // "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
         },
-        // body: { "application": app },
         url: "http://api.elephant.spartahack.com/sponsors",
         json: true
     }
     let submitApp = (err, response, body) => {
         console.log(err, body)
-        cb(body)
+
+        if (body) cb(body)
     }
 
     request.get(submitRq, submitApp)
@@ -24,7 +22,7 @@ let get = cb => {
 let make = info => {
     let makeInd = sponsor => {
         let wrap = document.createElement('li')
-        wrap.appendChild(docment.createElement('a'))
+        wrap.appendChild(document.createElement('a'))
         wrap.firstElementChild.href = sponsor.link //!!
         wrap.firstElementChild.target = '_blank'
 
@@ -41,13 +39,11 @@ let make = info => {
 }
 
 module.exports.default = container => {
-    let noContainer = container === undefined ?
-        document.createElement('section') : undefined
+    container = container instanceof HTMLLIElement ?
+        container : document.createElement('section')
     
     get(make)
 
-    if (noContainer) {
-        noContainer.id = "sponsor-container"
-        docment.body.appendChild('container')
-    }
+    container.id = container.id ? container.id : "sponsor-container"
+    document.body.appendChild(container)
 }
