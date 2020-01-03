@@ -121,9 +121,23 @@
           </div>
 
           <div class="field-container">
-            <label for="grad-year">Graduation Year</label>
+            <label for="education_level">Current Education</label>
 
-            <select id="grad-year" class="field-in select" data-out="graduation-year">
+            <select id="education_level" class="field-in select" data-out="education-level">
+              <option value="" disabled selected>Through</option>
+              <option value="college0">Some undergrad</option>
+              <option value="college1">Completed undergrad</option>
+              <option value="university0">Some postgrad</option>
+              <option value="university0">Completed postgrad</option>
+              <option value="secondary1">Completed secondary</option>
+              <option value="secondary0">Some secondary</option>
+            </select>
+          </div>
+
+          <div class="field-container">
+            <label for="graduation_year">Graduation Year</label>
+
+            <select id="graduation_year" class="field-in select" data-out="graduation-year">
               <option value="" disabled selected>20XX</option>
               <option value="n/a">N/A</option>
               <option value=2020>2020</option>
@@ -133,25 +147,11 @@
               <option value=2024>2024</option>
             </select>
           </div>
-
-          <div class="field-container">
-            <label for="education">Current Education</label>
-
-            <select id="education" class="field-in select" data-out="education-level">
-              <option value="" disabled selected>20XX</option>
-              <option value="college0">Some undergrad</option>
-              <option value="college1">Completed undergrad</option>
-              <option value="university0">Some postgrad</option>
-              <option value="university0">Completed postgrad</option>
-              <option value="secondary1">Completed secondary</option>
-              <option value="secondary0">Some secondary</option>
-            </select>
-          </div>            
           
           <div class="field-container">
-            <label for="graduation_year">Graduation Season</label>
+            <label for="graduation_season">Graduation Season</label>
 
-            <select id="graduation_year" class="field-in select" data-out="graduation-season">
+            <select id="graduation_season" class="field-in select" data-out="graduation-season">
               <option value="" disabled selected>Graduation Season</option>
               <option value="spring">Spring</option>
               <option value="fall">Fall</option>
@@ -197,7 +197,7 @@
           <div class="field-container" id="statement-wrap">
             <label for="statement">Why do you want to participate?</label>
 
-            <textarea id="statement" data-out="statement" class="field-in"></textarea>
+            <textarea id="statement" data-out="statement" class="field-in" placeholder="25 Word Minimum"></textarea>
           </div>
         </section>
       </main>

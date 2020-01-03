@@ -5,7 +5,7 @@ const dicts = {
 }
 module.exports.fromDict = (input, out) => {
     if (!input.value) return undefined
-    
+
     if (input.value in dicts[input.id]) 
         out[input.id] = input.value
 
@@ -19,7 +19,16 @@ module.exports.fromDict = (input, out) => {
 let site = (input, out, comparison) => {
     if (!input.value) return undefined
 
-    let validPortion = input.value.match(/[a-zA-Z\-\_]{3,99}/)
+    // let val = input.value
+
+    let lastHalf = input.value.match(/.+\/.+/)
+    if (lastHalf) {
+        input.value = (input.value.match(/\/.+/))[0].substr(1)
+        console.log(input)
+        input.parentNode.replaceChild(input, input)
+    }
+
+    let validPortion = input.value.match(/[a-zA-Z0-9\-\_]{3,99}/)
     if (
         input.value.length > 3 && input.value.length < 100 
         && validPortion && validPortion[0] == input.value
@@ -29,10 +38,10 @@ let site = (input, out, comparison) => {
     return true  
 }
 
-let githubDevpost = (input, out) => site(input, out, /[a-zA-Z\-\_]{3,99}/)
+let githubDevpost = (input, out) => site(input, out)
 module.exports.github = githubDevpost
 module.exports.devpost = githubDevpost
-module.exports.linkedin = (input, out) => site(input, out, /[a-zA-Z\-\_]{3,99}/)
+module.exports.linkedin = (input, out) => site(input, out)
 
 // ---
 
@@ -104,11 +113,10 @@ module.exports.birthday = (input, out) => {
 // ---
 
 module.exports.statement = (input, out) => {
-    if (!input.value || input.value.length < 25 || input.value.search(/[\<\>\`]/) != -1)
+    if (!input.value || input.value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) !== 0)
         return false
 
     out[input.id] = input.value
-
     return true
 }
 
@@ -161,7 +169,7 @@ module.exports.phone = (input, out) => {
 // ---
 
 module.exports.mlh = (input, out) => {
-    if (!input.value || input.value.length > 200)
+    if (!input.value || input.value < 0)
         return false
 
     out[input.id] = input.value

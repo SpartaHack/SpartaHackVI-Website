@@ -72,24 +72,24 @@ class Application {
                 'dom': undefined,
                 'error': 'Birthday'
             },
-            'graduation_year': {
+            'education_level': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
-                'error': 'Graduation Season'
-            },
-            'grad-year': {
+                'error': 'Current Education'
+            },           
+            'graduation_year': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
                 'error': 'Graduation Year'
             },
-            'education-level': {
+            'graduation_season': {
                 'validator': validators.select,
                 'needed': true,
                 'dom': undefined,
-                'error': 'Education Level'
-            },            
+                'error': 'Graduation Season'
+            },
             'mlh-experience': {
                 'validator': validators.mlh,
                 'needed': true,
