@@ -58,21 +58,25 @@ class FAQ {
                 break
             }
         }
-
+        
         if (insertBefore)
             this.wrap.insertBefore(this.answerSpace, this.items[insertBefore].listing)
         else 
-            this.wrap.appendChild(this.answerSpace)        
+            this.wrap.appendChild(this.answerSpace) 
+            
+        window.addEventListener('resize', () => this.close())
     }
 
     close () { 
         // if (this.wrap.contains(this.answerSpace))
         if (!this.active) return
         console.log(this.active)
+
         let wasActive = this.active
         this.active = undefined
         wasActive.classList.remove('active-listing')
         this.wrap.removeChild(this.answerSpace)
+
         return wasActive
     }
 
@@ -121,7 +125,7 @@ class FAQ {
                 ++found
 
                 if (!first) {
-                    i.listing.scrollIntoView()
+                    i.listing.focus()
                     first = i
                 }
             }
@@ -170,6 +174,8 @@ class FAQ {
 
         wrap.firstElementChild.appendChild(this.filterWrap)
         this.startFilter()
+
+        
 
 
         wrap.appendChild(document.createElement('article'))

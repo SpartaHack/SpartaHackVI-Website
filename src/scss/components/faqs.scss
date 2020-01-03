@@ -114,6 +114,15 @@ $activeBorderRadius: .5rem;
             
             width: 33%;
             box-sizing: border-box;
+
+
+            @media screen and (max-width: $break-b2) {
+                width: 49.25%;
+            }
+
+            @media screen and (max-width: $break-c1) {
+                width: 100%;
+            }
     
             font-size: 1rem;
             text-align: center;
