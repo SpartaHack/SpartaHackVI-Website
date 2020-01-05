@@ -5,6 +5,7 @@ let get = cb => {
     let submitRq = {
         headers: {
             "Content-Type":"application/json",
+            "X-IMAGE-FORMAT": "SVG+XML"
             // "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com/sponsors",
         },
         url: "http://api.elephant.spartahack.com/sponsors",

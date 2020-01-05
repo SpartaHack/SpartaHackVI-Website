@@ -19,25 +19,25 @@ class FAQ {
         this.answerSpace.appendChild(document.createElement('p'))
 
         this.faqCount = 0
-        src.forEach(srcItem => {
-            let faqItem = {
-                'question': srcItem.question,
-                'answer': srcItem.answer,
-                'listing': document.createElement('div'),
-                'pos': ++this.faqCount
-            }
+        // src.forEach(srcItem => {
+        //     let faqItem = {
+        //         'question': srcItem.question,
+        //         'answer': srcItem.answer,
+        //         'listing': document.createElement('div'),
+        //         'pos': ++this.faqCount
+        //     }
 
-            faqItem.listing.appendChild(document.createElement('h4'))
-            faqItem.listing.firstElementChild.innerHTML = faqItem.question
-            faqItem.listing.class="question-wrap"
+        //     faqItem.listing.appendChild(document.createElement('h4'))
+        //     faqItem.listing.firstElementChild.innerHTML = faqItem.question
+        //     faqItem.listing.class="question-wrap"
 
-            faqItem.listing.tabIndex = this.tabOffset + this.faqCount
-            faqItem.listing.addEventListener('click', 
-                () => this.enterQuestion(faqItem))
-            this.wrap.appendChild(faqItem.listing)
+        //     faqItem.listing.tabIndex = this.tabOffset + this.faqCount
+        //     faqItem.listing.addEventListener('click', 
+        //         () => this.enterQuestion(faqItem))
+        //     this.wrap.appendChild(faqItem.listing)
 
-            this.items.push(faqItem)
-        })
+        //     this.items.push(faqItem)
+        // })
         this._getFaq()
         // console.log(this)
     }
@@ -200,6 +200,26 @@ class FAQ {
         let importApp = (err, response, body) => {
             if (response && response.statusCode === 200) {
                 console.log(err, body)
+
+                body.forEach(srcItem => {
+                    let faqItem = {
+                        'question': srcItem.question,
+                        'answer': srcItem.answer,
+                        'listing': document.createElement('div'),
+                        'pos': ++this.faqCount
+                    }
+        
+                    faqItem.listing.appendChild(document.createElement('h4'))
+                    faqItem.listing.firstElementChild.innerHTML = faqItem.question
+                    faqItem.listing.class="question-wrap"
+        
+                    faqItem.listing.tabIndex = this.tabOffset + this.faqCount
+                    faqItem.listing.addEventListener('click', 
+                        () => this.enterQuestion(faqItem))
+                    this.wrap.appendChild(faqItem.listing)
+        
+                    this.items.push(faqItem)
+                })
             }
         }
 
