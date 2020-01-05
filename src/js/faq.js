@@ -15,31 +15,10 @@ class FAQ {
 
         this.answerSpace = document.createElement('aside')
         this.answerSpace.id = 'answer-space'
-        // this.answerSpace.appendChild(document.createElement('h3'))
         this.answerSpace.appendChild(document.createElement('p'))
 
         this.faqCount = 0
-        // src.forEach(srcItem => {
-        //     let faqItem = {
-        //         'question': srcItem.question,
-        //         'answer': srcItem.answer,
-        //         'listing': document.createElement('div'),
-        //         'pos': ++this.faqCount
-        //     }
-
-        //     faqItem.listing.appendChild(document.createElement('h4'))
-        //     faqItem.listing.firstElementChild.innerHTML = faqItem.question
-        //     faqItem.listing.class="question-wrap"
-
-        //     faqItem.listing.tabIndex = this.tabOffset + this.faqCount
-        //     faqItem.listing.addEventListener('click', 
-        //         () => this.enterQuestion(faqItem))
-        //     this.wrap.appendChild(faqItem.listing)
-
-        //     this.items.push(faqItem)
-        // })
         this._getFaq()
-        // console.log(this)
     }
 
     enterQuestion(faqItem) {
@@ -68,9 +47,7 @@ class FAQ {
     }
 
     close () { 
-        // if (this.wrap.contains(this.answerSpace))
         if (!this.active) return
-        console.log(this.active)
 
         let wasActive = this.active
         this.active = undefined
@@ -175,14 +152,11 @@ class FAQ {
         wrap.firstElementChild.appendChild(this.filterWrap)
         this.startFilter()
 
-        
-
-
         wrap.appendChild(document.createElement('article'))
-        // wrap.firstElementChild.tabIndex = -1
         container.appendChild(wrap)
 
-        if (append) document.body.appendChild(container)
+        if (append)
+            document.body.appendChild(container)
         return wrap.lastElementChild
 
     }
@@ -198,9 +172,7 @@ class FAQ {
         }
 
         let importApp = (err, response, body) => {
-            if (response && response.statusCode === 200) {
-                console.log(err, body)
-
+            if (response && response.statusCode === 200)
                 body.forEach(srcItem => {
                     let faqItem = {
                         'question': srcItem.question,
@@ -220,11 +192,9 @@ class FAQ {
         
                     this.items.push(faqItem)
                 })
-            }
         }
 
         request.get(importRq, importApp)
-    
     }
 }
 
