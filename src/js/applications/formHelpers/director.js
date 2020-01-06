@@ -39,6 +39,7 @@ class Application {
                 'validator': validators.fromDict,
                 'autocomplete': true,
                 'needed': true,
+                'list': true,
                 'dbackground-color: #000om': undefined,
                 'error': 'Major'
             },
@@ -105,6 +106,7 @@ class Application {
             'race': {
                 'validator': validators.select,
                 'needed': true,
+                'list': true,
                 'dom': undefined,
                 'error': 'Race'
             },
@@ -373,6 +375,10 @@ class Application {
 
         exitWrap.appendChild(reportWrap)
         return exitWrap  
+    }
+
+    getFrom(srcItems) {
+        
     }
 }
 

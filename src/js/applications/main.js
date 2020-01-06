@@ -22,6 +22,8 @@ let showCurrent = () => {
         'other-section' : ''
     buttons.n.className = current == sections.length - 1 ?
         'other-section' : ''
+    buttons.d.className = current == sections.length - 1 ?
+        '' : 'other-section'
 
     for (var i = 0; i < sections.length; i++)
         sections[i].className = i == current ? 'app-section' : 'other-section'

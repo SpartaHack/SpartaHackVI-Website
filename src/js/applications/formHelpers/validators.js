@@ -19,8 +19,6 @@ module.exports.fromDict = (input, out) => {
 let site = (input, out, comparison) => {
     if (!input.value) return undefined
 
-    // let val = input.value
-
     let lastHalf = input.value.match(/.+\/.+/)
     if (lastHalf) {
         input.value = (input.value.match(/\/.+/))[0].substr(1)

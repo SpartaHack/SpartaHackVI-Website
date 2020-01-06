@@ -28,18 +28,18 @@ $activeBorderRadius: .5rem;
     align-content: row;
     justify-content: flex-start;
 
-    padding: 2rem 0;
-    // margin: 1rem 0;
-    min-height: 350px;
-    height: 40vh;
     max-width: 85%;
+    height: 40vh;
+    min-height: 350px;
     max-height: 600px;
-    overflow: hidden;
 
+    padding: 2rem 0;
     &, * {
         box-sizing: border-box;
         user-select: none;
     }
+    overflow: hidden;
+    
 
     #faqs-header {
         width: 100%;
@@ -95,7 +95,6 @@ $activeBorderRadius: .5rem;
         margin: 0;
         overflow: auto;
         border: .25rem solid $thisBlack;
-        // border-right: none;
         
         display: flex;
         list-style: none;
