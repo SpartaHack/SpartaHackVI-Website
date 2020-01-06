@@ -177,6 +177,7 @@ class FAQ {
                     let faqItem = {
                         'question': srcItem.question,
                         'answer': srcItem.answer,
+                        'priority': srcItem.priority,
                         'listing': document.createElement('div'),
                         'pos': ++this.faqCount
                     }
@@ -192,6 +193,10 @@ class FAQ {
         
                     this.items.push(faqItem)
                 })
+
+                this.items.sort((e1, e2) => 
+                    e1.priority > e2.priority ? 1 :
+                    (e1.priority < e2.priority ? -1 : 0) )
         }
 
         request.get(importRq, importApp)
