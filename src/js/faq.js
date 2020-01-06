@@ -174,24 +174,26 @@ class FAQ {
         let importApp = (err, response, body) => {
             if (response && response.statusCode === 200)
                 body.forEach(srcItem => {
-                    let faqItem = {
-                        'question': srcItem.question,
-                        'answer': srcItem.answer,
-                        'priority': srcItem.priority,
-                        'listing': document.createElement('div'),
-                        'pos': ++this.faqCount
+                    if (srcItem.placement == "home") {
+                        let faqItem = {
+                            'question': srcItem.question,
+                            'answer': srcItem.answer,
+                            'priority': srcItem.priority,
+                            'listing': document.createElement('div'),
+                            'pos': ++this.faqCount
+                        }
+            
+                        faqItem.listing.appendChild(document.createElement('h4'))
+                        faqItem.listing.firstElementChild.innerHTML = faqItem.question
+                        faqItem.listing.class="question-wrap"
+            
+                        faqItem.listing.tabIndex = this.tabOffset + this.faqCount
+                        faqItem.listing.addEventListener('click', 
+                            () => this.enterQuestion(faqItem))
+                        this.wrap.appendChild(faqItem.listing)
+            
+                        this.items.push(faqItem)
                     }
-        
-                    faqItem.listing.appendChild(document.createElement('h4'))
-                    faqItem.listing.firstElementChild.innerHTML = faqItem.question
-                    faqItem.listing.class="question-wrap"
-        
-                    faqItem.listing.tabIndex = this.tabOffset + this.faqCount
-                    faqItem.listing.addEventListener('click', 
-                        () => this.enterQuestion(faqItem))
-                    this.wrap.appendChild(faqItem.listing)
-        
-                    this.items.push(faqItem)
                 })
 
                 this.items.sort((e1, e2) => 

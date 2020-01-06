@@ -13,7 +13,10 @@ module.exports.fromDict = (input, out) => {
     else return false
     return true
 }
-
+// ---
+module.exports.list = (input, out) => {
+    
+}
 // ---
 
 let site = (input, out, comparison) => {
