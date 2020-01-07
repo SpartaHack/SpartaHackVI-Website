@@ -1,0 +1,33 @@
+{
+    "name": {
+        "out": ["first_name", "last_name"],
+        "input": "text",
+        "label": "Name",
+        "error": "Name (First & Last)",
+        "placeholder": "First Last"
+    },
+
+    "phone": {
+        "input": "text",
+        "label": "phone",
+        "error": "Phone",
+        "placeholder": "555-556-2020"
+    },
+
+    "birthday": {
+        "out": ["birth_day", "birth_month", "birth_year"],
+        "input": "date",
+        "label": "Birthday",
+        "error": "Birthday (Above 13)"
+    },
+
+    "race": {
+        "input": "list-other-select",
+        "label": "Race"
+    },
+
+    "gender": {
+        "input": "other-select",
+        "label": "Gender"
+    }
+}

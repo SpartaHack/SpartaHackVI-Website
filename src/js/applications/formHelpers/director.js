@@ -4,148 +4,38 @@ const sendApp = require('../appTransactions').sendApp
 
 class Application {
     constructor() {
-        this.new = true
         
-        // hopefully this cuts down on JS size
-        let validators = validatorIndex
-        this.fields = {
-            'name': {
-                'validator': validators.name,
-                'needed': true,
-                'dom': undefined,
-                'error': '(First & Last) Name'
-            },
-            'phone': {
-                'validator': validators.phone,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Phone Number'
-            },
-            'travel_origin': {
-                'validator': validators.fromDict,
-                'autocomplete': true,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Travel Origin'
-            },
-            'university': {
-                'validator': validators.fromDict,
-                'autocomplete': true,
-                'needed': true,
-                'dom': undefined,
-                'error': 'University'
-            },
-            'major': {
-                'validator': validators.fromDict,
-                'autocomplete': true,
-                'needed': true,
-                'list': true,
-                'dbackground-color: #000om': undefined,
-                'error': 'Major'
-            },
-            'devpost': {
-                'validator': validators.devpost,
-                'needed': false,
-                'dom': undefined,
-                'error': 'Devpost profile address'
-            },
-            'github': {
-                'validator': validators.github,
-                'needed': false,
-                'dom': undefined,
-                'error': 'Devpost profile address'
-            },
-            'linkedin': {
-                'validator': validators.linkedin,
-                'needed': false,
-                'dom': undefined,
-                'error': 'Devpost profile address'
-            },
-            'other_link': {
-                'validator': validators.otherSite,
-                'needed': false,
-                'dom': undefined,
-                'error': 'Other website'
-            },
-            'birthday': {
-                'validator': validators.birthday,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Birthday'
-            },
-            'education_level': {
-                'validator': validators.select,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Current Education'
-            },           
-            'graduation_year': {
-                'validator': validators.select,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Graduation Year'
-            },
-            'graduation_season': {
-                'validator': validators.select,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Graduation Season'
-            },
-            'mlh-experience': {
-                'validator': validators.mlh,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Number of Hackathons'
-            },
-            'gender': {
-                'validator': validators.select,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Gender'
-            },
-            'race': {
-                'validator': validators.select,
-                'needed': true,
-                'list': true,
-                'dom': undefined,
-                'error': 'Race'
-            },
-            'statement': {
-                'validator': validators.statement,
-                'needed': true,
-                'dom': undefined,
-                'error': 'Personal Statement'
-            }
-        }
+        this.validators = validatorIndex
 
-        this.optional = new Set(['devpost','github','linkedin','other_link'])
-        this.out = localStorage.getItem('application') ? 
+        this.src = localStorage.getItem('application') ? 
             JSON.parse(localStorage.getItem('application')) : {}
         this.application = {}
+        
+        this.new = Boolean(Object.keys(this.src)[0])
+        
+        // Object.keys(this.fields).forEach(f => {
+        //     let fieldItems = this.import(document.getElementById(f))
+        //     console.log(this.out)
+        //     if (fieldItems && this.out[f]) {
+        //         let savedTarget = this.fields[f].dom
+        //         // drop down completion
+        //         if (savedTarget instanceof HTMLSelectElement) {
+        //             // "other"
+        //             if (typeof this.out[f] === "string") {
+        //                 this.selectSwap(this.fields[f])
+        //                 savedTarget = this.fields[f].dom
+        //                 savedTarget.value = this.out[f]
+        //             }
+        //             // drop down option
+        //             else savedTarget.selectedIndex = this.out[f]
+        //         }
+        //         // text field completion
+        //         else savedTarget.value = this.out[f]
 
-        Object.keys(this.fields).forEach(f => {
-            let fieldItems = this.import(document.getElementById(f))
-            console.log(this.out)
-            if (fieldItems && this.out[f]) {
-                let savedTarget = this.fields[f].dom
-                // drop down completion
-                if (savedTarget instanceof HTMLSelectElement) {
-                    // "other"
-                    if (typeof this.out[f] === "string") {
-                        this.selectSwap(this.fields[f])
-                        savedTarget = this.fields[f].dom
-                        savedTarget.value = this.out[f]
-                    }
-                    // drop down option
-                    else savedTarget.selectedIndex = this.out[f]
-                }
-                // text field completion
-                else savedTarget.value = this.out[f]
-
-                // update field for user
-                this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
-            }
-        })       
+        //         // update field for user
+        //         this.fields[f].dom.parentNode.replaceChild(this.fields[f].dom, savedTarget)
+        //     }
+        // })       
     }
 
     submit() {
