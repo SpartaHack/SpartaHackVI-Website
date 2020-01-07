@@ -1,3 +1,5 @@
+
+
 const dicts = {
     'major': require('./../../data/majors-dict.json'),
     'travel_origin': require('./../../data/cities-dict.json'),
@@ -15,7 +17,7 @@ module.exports.fromDict = (input, out) => {
 }
 // ---
 module.exports.list = (input, out) => {
-    
+
 }
 // ---
 
