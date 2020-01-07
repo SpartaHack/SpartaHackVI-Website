@@ -1,36 +1,37 @@
-{
-    "github": {
+[
+    {
+        "name": "github",
         "input": "text",
         "label": "Github",
         "labelVis": "inline",
         "placeholder": "profile || paste",
         "optional": true
     },
-
-    "linkedin": {
+    {
+        "name": "linkedin",
         "input": "inlineLabel-text",
         "label": "LinkedIn",
         "placeholder": "profile || paste",
         "optional": true
     },
-
-    "devpost": {
+    {
+        "name": "devpost",
         "input": "text",
         "label": "LinkedIn",
         "labelVis": "inline",
         "placeholder": "profile || paste",
         "optional": true
     },
-
-    "website": {
+    {
+        "name": "website",
         "out": ["website", "other_link"],
         "input": "text",
         "label": "LinkedIn",
         "placeholder": "your-site.com",
         "optional": true
     },
-
-    "mlhExperience": {
+    {
+        "name": "mlhExperience",
         "out": "hackathons",
         "input": "number",
         "inputOpts": { "min": 0 },
@@ -39,11 +40,11 @@
         "error": "MLH Experience",
         "validator": false
     },
-
-    "personalStatement": {  
+    {  
+        "name": "personalStatement",
         "out": "statement",
         "input": "paragraph-text",
         "label": "Personal Statement",
         "placeholder": "> 24 Words"
-    }   
-}
+    }
+]

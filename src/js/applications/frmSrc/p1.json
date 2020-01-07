@@ -1,33 +1,43 @@
-{
-    "name": {
+[
+    {"order": "1/3"},
+
+    {
+        "name": "name",
         "out": ["first_name", "last_name"],
         "input": "text",
         "label": "Name",
         "error": "Name (First & Last)",
         "placeholder": "First Last"
     },
-
-    "phone": {
+    {
+        "name": "phone",
         "input": "text",
         "label": "phone",
         "error": "Phone",
         "placeholder": "555-556-2020"
     },
-
-    "birthday": {
+    {
+        "name": "birthday",
         "out": ["birth_day", "birth_month", "birth_year"],
         "input": "date",
         "label": "Birthday",
         "error": "Birthday (Above 13)"
     },
-
-    "race": {
+    {
+        "name": "race",
         "input": "list-other-select",
         "label": "Race"
     },
-
-    "gender": {
+    {
+        "name": "gender",
         "input": "other-select",
         "label": "Gender"
+    },
+    {
+        "name": "city",
+        "out": "travel_origin",
+        "input": "autocomplete-text",
+        "label": "City",
+        "placeholder": "East Lansing"
     }
-}
+]

@@ -2,7 +2,7 @@ import './../../scss/sheets/application.scss'
 
 ;(require('../login').default)()
 
-const Application = require('./formHelpers/director').default
+const Application = require('./director').default
 let app = new Application()
 
 // --- navigation
@@ -33,6 +33,7 @@ let change = forward => {
     localStorage.setItem('pos', current)
     
     showCurrent(current, sections)
+    app.newPage()
 }
 
 showCurrent()

@@ -1,25 +1,19 @@
-{
-    "city": {
-        "out": "travel_origin",
-        "input": "autocomplete-text",
-        "label": "City",
-        "placeholder": "East Lansing"
-    },
-    
-    "university": {
+[
+    {
+        "name": "university",
         "input": "opt-autocomplete-text",
         "label": "University",
         "placeholder": "Michigan State University"
     },
-    
-    "major": {
+    {
+        "name": "major",
         "input": "list-autocomplete-text",
         "label": "Major",
         "Error": "Major (From Autocomplete)",
         "placeholder": "Your Major"
     },
-    
-    "gradYear": {
+    {
+        "name": "gradYear",
         "out": "graduation_year",
         "input": "number",
         "inputOpts": {
@@ -29,10 +23,11 @@
         "label": "Graduation Year",
         "validator": false
     },
-    "gradSeason": {
+    {
+        "name": "gradSeason",
         "out": "graduation_seson",
         "input": "select",
         "label": "Graduation Season",
         "validator": false
     }
-}
+]

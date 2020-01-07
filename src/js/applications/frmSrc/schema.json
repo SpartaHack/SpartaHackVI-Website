@@ -1,0 +1,128 @@
+[
+    [
+        {"order": "1/3"},
+
+        {
+            "name": "name",
+            "out": ["first_name", "last_name"],
+            "input": "text",
+            "label": "Name",
+            "error": "Name (First & Last)",
+            "placeholder": "First Last"
+        },
+        {
+            "name": "phone",
+            "input": "text",
+            "label": "phone",
+            "error": "Phone",
+            "placeholder": "555-556-2020"
+        },
+        {
+            "name": "birthday",
+            "out": ["birth_day", "birth_month", "birth_year"],
+            "input": "date",
+            "label": "Birthday",
+            "error": "Birthday (Above 13)"
+        },
+        {
+            "name": "race",
+            "input": "list-other-select",
+            "label": "Race"
+        },
+        {
+            "name": "gender",
+            "input": "other-select",
+            "label": "Gender"
+        },
+        {
+            "name": "city",
+            "out": "travel_origin",
+            "input": "autocomplete-text",
+            "label": "City",
+            "placeholder": "East Lansing"
+        }
+    ],
+    [
+        {
+            "name": "university",
+            "input": "opt-autocomplete-text",
+            "label": "University",
+            "placeholder": "Michigan State University"
+        },
+        {
+            "name": "major",
+            "input": "list-autocomplete-text",
+            "label": "Major",
+            "Error": "Major (From Autocomplete)",
+            "placeholder": "Your Major"
+        },
+        {
+            "name": "gradYear",
+            "out": "graduation_year",
+            "input": "number",
+            "inputOpts": {
+                "min": 2020,
+                "max": 2025
+            },
+            "label": "Graduation Year",
+            "validator": false
+        },
+        {
+            "name": "gradSeason",
+            "out": "graduation_seson",
+            "input": "select",
+            "label": "Graduation Season",
+            "validator": false
+        }
+    ],
+    [
+        {
+            "name": "github",
+            "input": "text",
+            "label": "Github",
+            "labelVis": "inline",
+            "placeholder": "profile || paste",
+            "optional": true
+        },
+        {
+            "name": "linkedin",
+            "input": "inlineLabel-text",
+            "label": "LinkedIn",
+            "placeholder": "profile || paste",
+            "optional": true
+        },
+        {
+            "name": "devpost",
+            "input": "text",
+            "label": "LinkedIn",
+            "labelVis": "inline",
+            "placeholder": "profile || paste",
+            "optional": true
+        },
+        {
+            "name": "website",
+            "out": ["website", "other_link"],
+            "input": "text",
+            "label": "LinkedIn",
+            "placeholder": "your-site.com",
+            "optional": true
+        },
+        {
+            "name": "mlhExperience",
+            "out": "hackathons",
+            "input": "number",
+            "inputOpts": { "min": 0 },
+            "label": "hidden",
+            "labelVis": "hidden",
+            "error": "MLH Experience",
+            "validator": false
+        },
+        {  
+            "name": "personalStatement",
+            "out": "statement",
+            "input": "paragraph-text",
+            "label": "Personal Statement",
+            "placeholder": "> 24 Words"
+        }
+    ]
+]
