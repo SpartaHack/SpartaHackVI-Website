@@ -1,4 +1,3 @@
-require.context('./../../assets')
 import './../scss/sheets/index.scss'
 import './../scss/sheets/footer.scss'
 
