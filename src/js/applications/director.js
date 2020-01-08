@@ -1,4 +1,5 @@
 const specials = require('./helpers/special')
+const request = require('request')
 
 class AppDirector {
     constructor(AppHandler, pageURLs, existing) {
@@ -10,18 +11,10 @@ class AppDirector {
             && typeof existing[0] == "object"
             ? existing : undefined
         // this.items = {}
-        this.pages = pagesURLs
-    
-
-        let cont = true
-        for (let i = 0; i < this.pages.length; i++) {
-            if (cont !== 1)
-                cont = await this.getPageSrc(i)
-            //^ popuates ungotten SRC slots with undefined if cont becomes not exactly "true"
-            //^ populates our handler
-            this.makePage(i)
-            if (cont === false) break
-        }
+        this.pageURLs = pagesURLs
+        this.pages = []
+        this.pageURLs.forEach(
+            p => this.pages.push(undefined) )
 
         this.buttons = {
             "back": "previous-page-button",
@@ -31,8 +24,7 @@ class AppDirector {
         this.importButtons()
 
         this.currentPage = 0
-        await this.setPage()
-        //^ -1 for back, 1 for front, == false for redraw
+        this.setPage()
     }
 
     // population
@@ -45,11 +37,14 @@ class AppDirector {
             this.buttons[dir] = document.getElementById(IDs[dir]) )
     }
 
-    async getPageSrc(index) {
-
+    getPageSrc(pageNum, cb) {
+        pageNum = Number.isInteger(pageNum) ? pageNum : this.currentPage
+        
     }
 
-    makePage(index) {
+    makePage(index, set) {
+
+        
 
     }
 
@@ -59,20 +54,32 @@ class AppDirector {
 
     // interaction
 
-    nextPage() {}
+    nextPage() {
+        if (typeof this.pages != "array" || 
+            this.currentPage === this.pages.length) return
 
-    prevPage() {}
+        ++this.currentPage
+        this.setPage()
+    }
 
-    done() {}
+    prevPage() {
+        if (typeof this.pages != "array" || 
+            this.currentPage === 0) return
 
-    async setPage() {
-        if (this.pages[this.currentPage] === undefined) {
-            this.getPageSrc(this.currentPage)
+        --this.currentPage
+        this.setPage()
+    }
 
-        }
+    setPage() {
+        if (this.pages[this.currentPage] === undefined)
+            this.getPageSrc(this.currentPage, () => this.setPage)
+
         return
     }
 
+    done() {
+        
+    }
 
     selectOther(id) {
         let alt = document.createElement('input')
