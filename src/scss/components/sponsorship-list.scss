@@ -1,0 +1,50 @@
+@import '../components/assets.scss';
+
+#sponsor-container {
+    width: 100%;
+    &, * {display: flex;}
+    flex-direction: row;
+    justify-content: center;
+    
+
+    #sponsor-list {
+        width: 100%;
+        max-width: 1260px;
+        height: 100%;
+
+        margin: auto;
+        padding: 1rem 0;
+
+        flex-direction: row;
+        justify-content: center;
+        align-content: space-around;
+        flex-wrap: wrap;
+
+        li {
+            width: 33%;
+            margin: 1rem auto;
+
+            flex-direction: row;
+            justify-content: center;
+            align-content: center;
+
+            * { margin: auto; max-width: 100; }
+            @media screen and (max-width: $break-b2) 
+                    { width: 49.25%; }
+    
+            @media screen and (max-width: $break-c1) 
+                { width: 100%; }
+
+            a img {
+                transition: transform, .5s;
+                transform: scale(.9);
+                transform: translate(.05, .05);
+
+                &:hover {
+                    transform: scale(1.1);
+                    transform: translate(-.05, -.05);
+                }
+            }
+        }
+    }
+}

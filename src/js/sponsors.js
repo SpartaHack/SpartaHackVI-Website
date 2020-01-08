@@ -6,18 +6,25 @@ require('../scss/components/sponsorship-list.scss')
 let make = (info, container) => {
     if (!info) return
 
+    let imageURL = sponsor => undefined
+
     let makeInd = sponsor => {
         let wrap = document.createElement('li')
         wrap.appendChild(document.createElement('a'))
-        wrap.firstElementChild.href = sponsor.link //!!
+        wrap.firstElementChild.href = sponsor.url //!!
         wrap.firstElementChild.target = '_blank'
+        wrap.firstChild.alt = 
+            sponsor.name + " Sponsorship Listing"
 
-        // let logo = document.createElement('img')
-        // logo.onload = () => wrap.firstElementChild.appendChild(img)
+        let logo = document.createElement('img')
+        logo.src = imageURL(sponsor)
+        wrap.firstElementChild.appendChild(logo)
+
         return wrap
     }
 
     let wrap = document.createElement('ul')
+    wrap.id = "sponsor-list"
     info.forEach(
         i => wrap.appendChild(makeInd(i)))
     
