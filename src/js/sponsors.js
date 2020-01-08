@@ -1,50 +1,51 @@
 const request = require('request')
 require('../scss/components/sponsorship-list.scss')
 
-let get = cb => {
-    let submitRq = {
+
+
+let make = (info, container) => {
+    if (!info) return
+
+    let makeInd = sponsor => {
+        let wrap = document.createElement('li')
+        wrap.appendChild(document.createElement('a'))
+        wrap.firstElementChild.href = sponsor.link //!!
+        wrap.firstElementChild.target = '_blank'
+
+        // let logo = document.createElement('img')
+        // logo.onload = () => wrap.firstElementChild.appendChild(img)
+        return wrap
+    }
+
+    let wrap = document.createElement('ul')
+    info.forEach(
+        i => wrap.appendChild(makeInd(i)))
+    
+    container.appendChild(wrap)
+}
+
+let get = target => {
+    let sponsorsRq = {
         headers: {
             "Content-Type":"application/json",
             // "X-IMAGE-FORMAT": "SVG+XML"
         },
-        url: "/data/sponsors.json",//"http://api.elephant.spartahack.com/sponsors",
+        url: window.location + "/data/sponsors.json",//"http://api.elephant.spartahack.com/sponsors",
         json: true
     }
-    let submitApp = (err, response, body) => {
+    let getSponsors = (err, response, body) => {
         console.log(err, body)
-
-        cb(body)
+        // cb(body)
+        make(body, target)
     }
-
-    request.get(submitRq, submitApp, submitApp)
+    request.get(sponsorsRq, getSponsors)
 }
 
-// let make = info => {
-//     if (!info) return
-
-//     let makeInd = sponsor => {
-//         let wrap = document.createElement('li')
-//         wrap.appendChild(document.createElement('a'))
-//         wrap.firstElementChild.href = sponsor.link //!!
-//         wrap.firstElementChild.target = '_blank'
-
-//         let logo = document.createElement('img')
-//         logo.onload = () => wrap.firstElementChild.appendChild(img)
-//         return wrap
-//     }
-
-//     let wrap = document.createElement('ul')
-//     info.forEach(
-//         i => wrap.appendChild(makeInd(i)))
-
-//     return wrap
-// }
-
 module.exports.default = container => {
-    container = container instanceof HTMLLIElement ?
+    container = container instanceof HTMLElement ?
         container : document.createElement('section')
     
-    get(make)
+    get(container)
 
     container.id = container.id ? container.id : "sponsor-container"
     document.body.appendChild(container)

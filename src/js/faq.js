@@ -29,10 +29,9 @@ class FAQ {
 
         this.answerSpace.lastElementChild.innerHTML = faqItem.answer
         this.answerSpace.lastElementChild.dataset.question = faqItem.question
-        console.log(faqItem)
+
         let insertBefore
         for (var i = faqItem.pos + 1; i < this.faqCount; i++) {
-            console.log(i, this.items[i])
             if (this.items[i].listing.offsetTop != faqItem.listing.offsetTop) {
                 insertBefore = i
                 break
