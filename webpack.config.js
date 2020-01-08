@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const nodeExternals = require("webpack-node-externals"); // bug fix
 const WebpackMd5Hash = require("webpack-md5-hash");
@@ -65,6 +66,9 @@ module.exports = {
         filename: '[name].[hash].css'
         // chunkFilename: '[id].css'
       }),
+      new CopyPlugin(
+        [{ from: './src/js/data/out', to: 'data' }]
+      ),
       new HtmlWebpackPlugin({
         inject: false,
         hash: true,
@@ -89,15 +93,7 @@ module.exports = {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
       port: 9000,
-      host: '0.0.0.0',
-
-      // headers: {
-      //   "Access-Control-Allow-Origin": "api.elephant.spartahack",
-      //   "Access-Control-Allow-Methods": "POST",
-      //   "Access-Control-Allow-Headers": "access-control-allow-origin"
-
-        
-      // }
+      host: '0.0.0.0'
     },
     watchOptions: {
       aggregateTimeout: 600

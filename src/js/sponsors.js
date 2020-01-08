@@ -5,9 +5,9 @@ let get = cb => {
     let submitRq = {
         headers: {
             "Content-Type":"application/json",
-            "X-IMAGE-FORMAT": "SVG+XML"
+            // "X-IMAGE-FORMAT": "SVG+XML"
         },
-        url: "http://api.elephant.spartahack.com/sponsors",
+        url: "/data/sponsors.json",//"http://api.elephant.spartahack.com/sponsors",
         json: true
     }
     let submitApp = (err, response, body) => {
@@ -19,26 +19,26 @@ let get = cb => {
     request.get(submitRq, submitApp, submitApp)
 }
 
-let make = info => {
-    if (!info) return
+// let make = info => {
+//     if (!info) return
 
-    let makeInd = sponsor => {
-        let wrap = document.createElement('li')
-        wrap.appendChild(document.createElement('a'))
-        wrap.firstElementChild.href = sponsor.link //!!
-        wrap.firstElementChild.target = '_blank'
+//     let makeInd = sponsor => {
+//         let wrap = document.createElement('li')
+//         wrap.appendChild(document.createElement('a'))
+//         wrap.firstElementChild.href = sponsor.link //!!
+//         wrap.firstElementChild.target = '_blank'
 
-        let logo = document.createElement('img')
-        logo.onload = () => wrap.firstElementChild.appendChild(img)
-        return wrap
-    }
+//         let logo = document.createElement('img')
+//         logo.onload = () => wrap.firstElementChild.appendChild(img)
+//         return wrap
+//     }
 
-    let wrap = document.createElement('ul')
-    info.forEach(
-        i => wrap.appendChild(makeInd(i)))
+//     let wrap = document.createElement('ul')
+//     info.forEach(
+//         i => wrap.appendChild(makeInd(i)))
 
-    return wrap
-}
+//     return wrap
+// }
 
 module.exports.default = container => {
     container = container instanceof HTMLLIElement ?

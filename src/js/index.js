@@ -13,10 +13,8 @@ auth(authObj => {
 })
 
 let faqs = new (require('./faq')).default(
-    require('./data/faqs.json'), 
-    document.getElementById('faqs-wrap')
-)
-;(require('./sponsors').default())
+    document.getElementById('faqs-wrap') )
+// ;(require('./sponsors').default())
 // countdown.innerHTML = Math.ceil(
 //         (new Date('12/1/19')-new Date())/(1000*3600*24)
 //     ).toString() + countdown.innerHTML
