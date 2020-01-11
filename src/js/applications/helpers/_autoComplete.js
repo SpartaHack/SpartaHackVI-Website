@@ -1,20 +1,8 @@
-let filterIndex = {
-    'major': require('./../../data/majors-set.json'),
-    'travel_origin': require('./../../data/cities-set.json'),
-    'university': require('./../../data/unis-set.json')
-}
-
-let filter = (element, src) => {
-    let val = element.value.toLowerCase()
-    let matching = new Set()
-
-    src.forEach(cmpVal => {        
-        if (cmpVal.toLowerCase().indexOf(val) != -1) 
-            matching.add(cmpVal)
-    })
-
-    return Array.from(matching).sort()
-}
+// let filterIndex = {
+//     'major': require('./../../data/majors-set.json'),
+//     'travel_origin': require('./../../data/cities-set.json'),
+//     'university': require('./../../data/unis-set.json')
+// }
 
 // Creates our auto suggest unordered list/wrap
 let autoDOM = (element, options, director) => {

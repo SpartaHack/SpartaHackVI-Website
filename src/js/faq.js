@@ -2,7 +2,7 @@ require('./../scss/components/faqs.scss')
 const request = require('request')
 
 class FAQ {
-    constructor(src, container, tabOffset) {
+    constructor(container, tabOffset) {
         this.items = []
         this.active
         this.tabOffset = tabOffset ? tabOffset : 3

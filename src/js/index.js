@@ -1,9 +1,7 @@
 import './../scss/sheets/index.scss'
 import './../scss/sheets/footer.scss'
 
-const auth = require('./auth_cofig').default
-
-auth(authObj => {
+;(require('./auth_cofig').default)(authObj => {
     document.getElementById('nav-apply')
     .addEventListener('click', () => authObj.authorize())
 
@@ -12,10 +10,6 @@ auth(authObj => {
 })
 
 let faqs = new (require('./faq')).default(
-    require('./data/faqs.json'), 
-    document.getElementById('faqs-wrap')
-)
+    document.getElementById('faqs-wrap') )
+
 ;(require('./sponsors').default())
-// countdown.innerHTML = Math.ceil(
-//         (new Date('12/1/19')-new Date())/(1000*3600*24)
-//     ).toString() + countdown.innerHTML

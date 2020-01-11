@@ -1,4 +1,4 @@
-const request = require('request') 
+const request = require('request')
 
 module.exports.getApp = (info, current) => {
     // let importRq = {

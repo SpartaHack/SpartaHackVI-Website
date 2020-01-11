@@ -74,9 +74,8 @@ let loggedIn = auth0 => {
 }
 
 module.exports.default = after => {
-    let loginFuncs = after instanceof Function ? auth([login, after]) :
-        after instanceof Array ? auth([login, ...after]) :
-        [login]
+    let loginFuncs = after instanceof Function ? [login, after] :
+        after instanceof Array ? [login, ...after] : [login]
 
     return auth(loginFuncs)
 }

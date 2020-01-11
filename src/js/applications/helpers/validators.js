@@ -1,27 +1,4 @@
-
-
-const dicts = {
-    'major': require('./../../data/majors-dict.json'),
-    'travel_origin': require('./../../data/cities-dict.json'),
-    'university': require('./../../data/unis-dict.json')
-}
-module.exports.fromDict = (input, out) => {
-    if (!input.value) return undefined
-
-    if (input.value in dicts[input.id]) 
-        out[input.id] = input.value
-
-        
-    else return false
-    return true
-}
-// ---
-module.exports.list = (input, out) => {
-
-}
-// ---
-
-let site = (input, out, comparison) => {
+let site = (value, id, director, handler) => {
     if (!input.value) return undefined
 
     let lastHalf = input.value.match(/.+\/.+/)
@@ -41,14 +18,9 @@ let site = (input, out, comparison) => {
     return true  
 }
 
-let githubDevpost = (input, out) => site(input, out)
-module.exports.github = githubDevpost
-module.exports.devpost = githubDevpost
-module.exports.linkedin = (input, out) => site(input, out)
-
 // ---
 
-module.exports.otherSite = (input, out) => {
+const otherSite = (input, out) => {
     if (!input.value) return undefined
 
     let p0 = str => str.search(/^http?s\:\/\//)
@@ -78,7 +50,7 @@ module.exports.otherSite = (input, out) => {
 
 // ---
 
-module.exports.select = (input, out) => {
+const select = (input, out) => {
     if (input && input.type == "text" && input.value.length < 200) 
         out[input.id] = input.value
     else if (input.selectedIndex && input.selectedIndex > 0) {
@@ -96,7 +68,7 @@ module.exports.select = (input, out) => {
 
 // ---
 
-module.exports.birthday = (input, out) => {
+const birthday = (input, out) => {
     if (!input.value) return false
 
     let year = 3600 * 24 * 365
@@ -115,7 +87,7 @@ module.exports.birthday = (input, out) => {
 
 // ---
 
-module.exports.statement = (input, out) => {
+const statement = (input, out) => {
     if (!input.value || input.value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) !== 0)
         return false
 
@@ -123,7 +95,7 @@ module.exports.statement = (input, out) => {
     return true
 }
 
-module.exports.name = (input, out) => {
+const name = (input, out) => {
     let nameForm = input.value.search(
         /^[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}\s[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/ )
     
@@ -134,7 +106,7 @@ module.exports.name = (input, out) => {
     return true
 }
 
-module.exports.phone = (input, out) => {
+const phone = (input, out) => {
     let ph = input.value
 
     if (ph.search(/[0-9]{10,13}/) != -1) {
@@ -171,7 +143,7 @@ module.exports.phone = (input, out) => {
 
 // ---
 
-module.exports.mlh = (input, out) => {
+const mlh = (input, out) => {
     if (!input.value || input.value < 0)
         return false
 
@@ -179,3 +151,19 @@ module.exports.mlh = (input, out) => {
 
     return true
 }
+
+
+module.exports.index = ({
+    "otherSite": undefined,
+    "github": undefined,
+    "devpost": undefined,
+    "linkedin": undefined,
+    "statement": undefined,
+    "birthday": undefined,
+    "statement": undefined,
+    "name": undefined,
+    "phone": undefined,
+    "mlh": undefined,
+    "race": undefined,
+    "gender": undefined
+})

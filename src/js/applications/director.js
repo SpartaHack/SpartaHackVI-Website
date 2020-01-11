@@ -1,55 +1,70 @@
-const specials = require('./helpers/special')
+const specials = require('./helpers/_autoComplete')
+const domFuncs = require('./dom')
 const request = require('request')
 
 class AppDirector {
-    constructor(AppHandler, pageURLs, existing) {
-        this.handler = AppHandler
+    constructor(args, handler) {
+        this.handler = handler
+        this.domItems = {}
 
-        let numPages = pageURLs.length
-        this.existing = typeof existing == "array" 
-            && existing.length == numPages
-            && typeof existing[0] == "object"
-            ? existing : undefined
-        // this.items = {}
-        this.pageURLs = pagesURLs
+        this.pageURLs = args.urls
         this.pages = []
         this.pageURLs.forEach(
             p => this.pages.push(undefined) )
-
-        this.buttons = {
-            "back": "previous-page-button",
-            "next": "next-page-button",
-            "done": "done-button"
+        
+        this.container = document.getElementById(args.container)
+        this.buttons = args.buttons ? args.buttons : {
+            'prev': document.getElementById("previous-page-button"),
+            'next': document.getElementById("next-page-button"),
+            'done': document.getElementById("done-button")
         }
-        this.importButtons()
-
+        this.buttons.prev.addEventListener('click', 
+            e => this.prevPage() )
+        this.buttons.next.addEventListener('click', 
+            e => this.nextPage() )
+        this.buttons.done.addEventListener('click', 
+            e => this.done() )
+        
         this.currentPage = 0
-        this.setPage()
+        // this.setPage()
     }
+
+    get current() { return this.pages[this.currentPage] }
 
     // population
-
-    importButtons(IDs) {
-        IDs = typeof IDs == "object" 
-            ? IDS : this.buttons
-
-        Object.keys(IDs).forEach(dir => 
-            this.buttons[dir] = document.getElementById(IDs[dir]) )
-    }
-
     getPageSrc(pageNum, cb) {
-        pageNum = Number.isInteger(pageNum) ? pageNum : this.currentPage
-        
+        let pageRq = {
+            headers: { 
+                "Content-Type": "application/json" 
+            },
+            url: window.location.origin + "/data/p" +
+                (this.currentPage + 1)  + ".json",
+            json: true
+        }
+        let pageCb = (err, response, body) => {
+            if (body.forEach) {
+                console.log(response, body)
+                this.pages[pageNum] = body
+
+                if (cb) cb()
+            }
+        }
+
+        this.pages[pageNum] = false
+        request.get(pageRq, pageCb)
     }
 
-    makePage(index, set) {
+    makePage(pageNum, cb) {
+        // console.log('wow this works')
+        this.pages[pageNum] = domFuncs.page(
+            this.pages[pageNum].pop().name, this.pages[pageNum], this.handler )
 
-        
-
+        console.log(this.pages[pageNum])
+        cb()
     }
 
-    makeItem(id, existing) {
-
+    makeItem(id, val) {
+        
     }
 
     // interaction
@@ -71,9 +86,14 @@ class AppDirector {
     }
 
     setPage() {
-        if (this.pages[this.currentPage] === undefined)
-            this.getPageSrc(this.currentPage, () => this.setPage)
-
+        console.log(this.current)
+        if (this.current === undefined)
+            this.getPageSrc(this.currentPage, () => this.setPage())
+        else if (Array.isArray(this.current))
+            this.makePage(this.currentPage, () => this.setPage())
+        else {
+            console.log('cool')
+        }
         return
     }
 
@@ -81,46 +101,27 @@ class AppDirector {
         
     }
 
-    selectOther(id) {
-        let alt = document.createElement('input')
-        alt.type = "text"
-        alt.id = fieldItems.dom.id
-        alt.placeholder = "List: Backspace"
-
-        fieldItems.dom.parentNode.replaceChild(alt, fieldItems.dom)
-        fieldItems['old'] = fieldItems.dom
-        fieldItems.dom = alt
-
-        fieldItems.dom.addEventListener('change', () => this.update(fieldItems.dom))
-        fieldItems.dom.addEventListener('keyup', e => {
-            if (e.keyCode === 8 && fieldItems.dom.value.length == 0) this.swapBack(fieldItems) } )
-    }
-
-    selectList(id) {
-        if (!fieldItems.old) return
-        delete this.out[fieldItems.dom.id]
-        
-        console.log(fieldItems)
-        fieldItems.old.selectedIndex = 0
-        fieldItems.dom.parentNode.replaceChild(fieldItems.old, fieldItems.dom)
-        fieldItems.dom = fieldItems.old
-    }
+    
 
     error(id) {
-        let target = errored.placeholder == 'profile-url' ? errored.parentNode : errored
+        let target = errored.placeholder == 'profile-url' 
+            ? errored.parentNode : errored
         if (off) target.classList.remove('errored')
         else target.classList.add('errored')
     }
 
     // io
+    updateItem(id) {
+        switch (itemType) {
+
+        }
+    }
 
     changeItem(id, specs) {
 
     }
 
-    updateItem(id) {
 
-    }
 
     report() {
 
@@ -253,4 +254,4 @@ class AppDirector {
     dummy() {}
 }
 
-module.exports.default = Application
+module.exports.default = AppDirector

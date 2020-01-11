@@ -1,4 +1,3 @@
-
 /*
 "name": {
     "input": 
@@ -7,6 +6,7 @@
         --# "other-"
         ----*# list
         ------* "-paragraph--" || ""
+        ------* ""
 
     ,inputOpts: {
         *: 
@@ -20,54 +20,69 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-
-const makers = {
-    "route": command => {
-        
-    },
-    "text": () => {
-
-    },
-    "select": () => {
-
-    },
-    "date": () => {
-
-    },
-    "number": () => {
-
-    }
+const makers = require('./helpers/_makers')
+const special = {
+    'autoComplete': require('./helpers/_autoComplete').default,
+    'inlinelabel': () => {},
+    'other': require('./helpers/_other').default,
+    'list': require('./helpers/_listInput').default
 }
 
-const make = (director, opts) => {
+const makerWrapping = (director, item, args) => {
+    let components = {
+        'input': item,
+        'wrap': document.createElement('div'),
+        'label': document.createElement('label'),
+        'itemWwrap': document.createElement('li')
+    }
+
+    let isSpecial = false
+    args.forEach(arg => {
+        if (special[arg]) {
+            special[arg](director, components, args)
+            isSpecial = true
+        }
+    })
+
+    if (!isSpecial) {
+        components.wrap.appendChild(components.input)
+        components.itemWwrap.appendChild(document.createElement('span'))
+        components.itemWwrap.firstChild.appendChild(components.label)
+        components.itemWwrap.appendChild(components.wrap)
+    }
+
+    return components
+}
+let makersRouting = (director, opts) => {
     if (typeof opts != "object" || !opts.input 
-        || typeof make.input == "string") return
+        || typeof opts.input == "string") return
     
     let args = opts.split("-")
-    console.log(args)
-    return args[-1] && makers[args[-1]] ? makers[args[-1]](args)
-        : ( makers[args[0]] ? makers[args[0]](args) : undefined )
+    return makerWrapping(director, (
+            args[-1] && makers[args[-1]] ? makers[args[-1]](args)
+            : ( makers[args[0]] ? makers[args[0]](args) : undefined )
+        ), args)
 }
-const getPage = async (director, link) => {
-    if (typeof director !== "Application") return
-    
-    return
-}
-const getAll = async (director, application, links, all) => {
-    // "FP" || [FPs] || ['./$dir', 'c1', 'c2']
-    targets = []
-    if (typeof links == "array" ) {
-        if (links[-1] && links[0].substr(0,1) === ".")
-            for (let i = 1; i < links.length; i++)
-                targets.push(links[0]+links[i])
-    }
-    else typeof links == "string" 
-        ? links : ['./applications', 'p1', 'p2', 'p3']
-    targets = targets[-1] === undefined 
-        ? (typeof links == array ? links : [links]) 
-        : targets
+module.exports.item = makersRouting
 
-    if (all)
-        targets.foreach(t => await getSrcItem(director, t))
+let getPage = (pageName, src, handler) => {
+    let page = document.createElement('section')
+    page.id = pageName
+    page.className = "form-section"
+
+    let pageContent = document.createElement('ul')
+    pageContent.id = "application-items"
+    page.appendChild(pageContent)
     
+    let postMeta = false
+    src.forEach(si => {
+        if (postMeta) {
+            let inParts = makersRouting(handler, si)
+            pageContent.appendChild(inParts.itemWwrap)
+            handler.import(inParts)
+        }
+        else postMeta = true
+    })
+    return page
 }
+module.exports.page = getPage
