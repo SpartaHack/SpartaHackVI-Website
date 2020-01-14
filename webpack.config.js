@@ -10,8 +10,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
     entry: { 
       main: './src/js/index.js', 
-      apps: './src/js/applications/main.js', 
-      dashboard: './src/js/dashboard.js',
+      // apps: './src/js/applications/main.js', 
+      // dashboard: './src/js/dashboard.js',
       navFooter: './src/js/navFooter.js'
     },
     output: {
@@ -75,18 +75,18 @@ module.exports = {
         template: './src/index.html',
         filename: 'index.html'
       }),
-      new HtmlWebpackPlugin({
-        inject: false,
-        hash: true,
-        template: './src/application.html',
-        filename: 'application.html'
-      }),
-      new HtmlWebpackPlugin({
-        inject: false,
-        hash: true,
-        template: './src/dashboard.html',
-        filename: 'dashboard.html'
-      }),
+      // new HtmlWebpackPlugin({
+      //   inject: false,
+      //   hash: true,
+      //   template: './src/application.html',
+      //   filename: 'application.html'
+      // }),
+      // new HtmlWebpackPlugin({
+      //   inject: false,
+      //   hash: true,
+      //   template: './src/dashboard.html',
+      //   filename: 'dashboard.html'
+      // }),
       new WebpackMd5Hash()
     ],
     devServer: {
