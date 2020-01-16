@@ -2,7 +2,7 @@
     height: auto;
     width: 100%;
     padding: 0;
-    margin: 1rem 0;
+    margin: .75rem 0;
     
     display: flex;
     flex-direction: row;
@@ -28,9 +28,13 @@
         border: .1rem solid $white;
         font-size: 1rem;
         border-radius: .5rem;
+
+        width: 100%;
         
         ::placeholder { color: rgba($white, .85); }
     }
+
+    input[type=number] { max-width: 4rem;}
 
     select {
         padding-right: .25rem;
@@ -92,52 +96,16 @@
     border-color: rgba($red, .75) !important;
 }
 
-#statement-wrap {
-    flex-wrap: wrap;
-    justify-content: flex-start;
 
-    label { margin: 0 0 .5rem 0; }
-    textarea { 
-        width: 100%;
 
-        height: 15rem;
-    }
-}
-
-#num-hack-wrap {
-    label{ display: none; }
-    margin: 1.5rem 0;
-}
-
-#link-fields-wrap {
-    label { display: none; }
-
-    #user-links {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        flex: 1;
-        max-width: 100%;
-        overflow-x: hidden;
-
-        li {
-            flex: 1;
-            max-width: 40%;
-            margin: 1rem 0;
-        }
-    }
-
-    .link-field-wrap {
+.inline-label {
+    div {
         display: flex;
         flex-direction: row;
         align-content: center;
         padding: 0 .5rem;
+        width: 100%;
+
         &, input {
             margin: 0;
             height: auto;
@@ -149,31 +117,53 @@
             margin: 0;
             padding: .5rem 0;
         }
+        label {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
         input { 
-            padding: 0;
+            padding: .5rem 0;// .5rem .25rem;
             border: none;
             border-radius: 0;
         }
         border-radius: .5rem;
         border: .1rem solid $white;
     }
-
-    #custom-site input { width: 100%; }
+}
+.hidden-label {
+    label {display: none;}
+    div { width: 100%; }
 }
 
-@media screen and (max-width: 1050px) {
-    #link-fields-wrap #user-links li 
-        { max-width: 45%; }
-}
+// ---
 
-@media screen and (max-width: 875px) {
-    #link-fields-wrap #user-links li 
-        { max-width: 48%; }
-}
+.user-links {
+    width: 40%;
 
-@media screen and (max-width: 560px) {
-    #link-fields-wrap #user-links li {
+    @media screen and (max-width: 1050px) {
+        width: 45%;
+    }
+    
+    @media screen and (max-width: 875px) {
+        width: 49%;
+    }
+    
+    @media screen and (max-width: 560px) {
         min-width: 80vw;
         max-width: 100%;
     }
 }
+
+.personal-statement {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    label { margin: 0 0 .5rem 0; }
+    textarea { 
+        width: 100%;
+
+        height: 15rem;
+    }
+}
+

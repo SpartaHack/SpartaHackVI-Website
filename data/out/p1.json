@@ -14,6 +14,13 @@
         "placeholder": "555-556-2020"
     },
     {
+        "name": "city",
+        "out": "travel_origin",
+        "input": "autocomplete-text",
+        "label": "Traveling from",
+        "placeholder": "East Lansing"
+    },
+    {
         "name": "birthday",
         "out": ["birth_day", "birth_month", "birth_year"],
         "input": "date",
@@ -21,11 +28,16 @@
         "error": "Birthday (Above 13)"
     },
     {
-        "name": "city",
-        "out": "travel_origin",
-        "input": "autocomplete-text",
-        "label": "Traveling from",
-        "placeholder": "East Lansing"
+        "name": "gender",
+        "input": "other-select",
+        "label": "Gender",
+        "placeholder": "Your Gender",
+        "options": [
+            "Male",
+            "Female",
+            "Other",
+            "Prefer not to Answer"
+        ]
     },
     {
         "name": "race",
@@ -42,18 +54,7 @@
             "Prefer not to Answer"
         ]
     },
-    {
-        "name": "gender",
-        "input": "other-select",
-        "label": "Gender",
-        "placeholder": "Your Gender",
-        "options": [
-            "Male",
-            "Female",
-            "Other",
-            "Prefer not to Answer"
-        ]
-    },
+
 
     {"pageName": "Personal Information"}
 

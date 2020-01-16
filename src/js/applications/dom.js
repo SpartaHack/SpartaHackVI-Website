@@ -41,10 +41,11 @@ const makerWrapping = (director, item, args) => {
     components.wrap.id = args.name + "Wrap"
     components.label.for = args.name
     components.label.innerHTML = args.label
-    components.itemWrap.className = "field-container"
+    components.itemWrap.className = 
+        "field-container " + (args.class ? args.class : '')
     if (item.type == "text" && args.placeholder)
         item.placeholder = args.placeholder
-    
+
     let exclusive
     args.input.forEach(arg => {
         if (special[arg]) exlusive = 
@@ -53,10 +54,18 @@ const makerWrapping = (director, item, args) => {
     })
 
     if (!exclusive) {
+        if (args.labelVis && args.labelVis === "inline"){
+            components.itemWrap.classList.add('inline-label')
+            components.wrap.appendChild(components.label)
+        }
+        else components.itemWrap.appendChild(components.label)
+        
         components.wrap.appendChild(components.input)
-        components.itemWrap.appendChild(components.label)
         components.itemWrap.appendChild(components.wrap)
     }
+
+    if (args.labelVis && args.labelVis === "hidden")
+        components.itemWrap.classList.add('hidden-label')
     
     return components
 }

@@ -1,47 +1,45 @@
 [    
     {
         "name": "github",
+        "class": "user-links",
         "input": "text",
-        "label": "Github",
+        "label": "Github.com/",
         "labelVis": "inline",
         "placeholder": "profile || paste",
         "optional": true
     },
     {
         "name": "linkedin",
-        "input": "inlineLabel-text",
-        "label": "LinkedIn",
+        "class": "user-links",
+        "input": "text",
+        "label": "LinkedIn.com/",
+        "labelVis": "inline",
         "placeholder": "profile || paste",
         "optional": true
     },
     {
         "name": "devpost",
+        "class": "user-links",
         "input": "text",
-        "label": "LinkedIn",
+        "label": "Devpost.com/",
         "labelVis": "inline",
         "placeholder": "profile || paste",
         "optional": true
     },
     {
         "name": "website",
+        "class": "user-links",
         "out": ["website", "other_link"],
         "input": "text",
-        "label": "LinkedIn",
+        "label": "Your Site",
+        "labelVis": "hidden",
         "placeholder": "your-site.com",
         "optional": true
     },
-    {
-        "name": "mlhExperience",
-        "out": "hackathons",
-        "input": "number",
-        "inputOpts": { "min": 0 },
-        "label": "hidden",
-        "labelVis": "hidden",
-        "error": "MLH Experience",
-        "validator": false
-    },
+    
     {  
         "name": "personalStatement",
+        "class": "personal-statement",
         "out": "statement",
         "input": "paragraph-text",
         "label": "Personal Statement",

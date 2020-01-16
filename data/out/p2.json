@@ -13,13 +13,25 @@
         "placeholder": "Your Major"
     },
     {
+        "name": "mlhExperience",
+        "out": "hackathons",
+        "input": "number",
+        "label": "Hackathons Attended",
+        "min": 0,
+        "default": 0,
+        "validator": false
+    },
+    {
         "name": "gradYear",
         "out": "graduation_year",
-        "input": "number",
-        "inputOpts": {
-            "min": 2020,
-            "max": 2025
-        },
+        "input": "select",
+        "options": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
         "label": "Graduation Year",
         "validator": false
     },

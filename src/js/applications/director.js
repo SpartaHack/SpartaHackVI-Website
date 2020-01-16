@@ -86,28 +86,29 @@ class AppDirector {
     }
 
     setPage() {
-        if (this.currentPage === 0) {
-            this.buttons.prev.classList.add('softHide')
-            this.buttons.done.classList.add('softHide')
-        }
-        else {
-            this.buttons.prev.classList.remove('softHide')
-
-            if (this.currentPage === this.pages.length - 1) {
-                this.buttons.next.classList.add('softHide')
-                this.buttons.done.classList.remove('softHide')
-            }
-            else {
-                this.buttons.done.classList.add('softHide')
-                this.buttons.next.classList.remove('softHide')
-            }
-        }
-
         if (this.current === undefined)
             this.getPageSrc(this.currentPage, () => this.setPage())
         else if (Array.isArray(this.current))
             this.makePage(this.currentPage, () => this.setPage())
         else {
+            // show only the appropriate buttons
+            if (this.currentPage === 0) {
+                this.buttons.prev.classList.add('softHide')
+                this.buttons.done.classList.add('softHide')
+            }
+            else {
+                this.buttons.prev.classList.remove('softHide')
+
+                if (this.currentPage === this.pages.length - 1) {
+                    this.buttons.next.classList.add('softHide')
+                    this.buttons.done.classList.remove('softHide')
+                }
+                else {
+                    this.buttons.done.classList.add('softHide')
+                    this.buttons.next.classList.remove('softHide')
+                }
+            }
+
             this.container.innerHTML = ''
             this.container.appendChild(this.current)
         }
