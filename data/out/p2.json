@@ -1,6 +1,4 @@
 [
-    { "pageName": "Educational Information" },
-    
     {
         "name": "university",
         "input": "opt-autocomplete-text",
@@ -30,6 +28,13 @@
         "out": "graduation_seson",
         "input": "select",
         "label": "Graduation Season",
-        "validator": false
-    }
+        "validator": false,
+        "options": [
+            "Fall",
+            "Spring",
+            "Summer"
+        ]
+    },
+
+    { "pageName": "Educational Information" }
 ]

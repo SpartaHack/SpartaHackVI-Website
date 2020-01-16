@@ -20,7 +20,7 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-const makers = require('./helpers/_makers')
+const makers = require('./helpers/_makers').default
 const special = {
     'autoComplete': require('./helpers/_autoComplete').default,
     'inlinelabel': () => {},
@@ -29,59 +29,66 @@ const special = {
 }
 
 const makerWrapping = (director, item, args) => {
+    if (!item) return
+
     let components = {
         'input': item,
         'wrap': document.createElement('div'),
         'label': document.createElement('label'),
-        'itemWwrap': document.createElement('li')
+        'itemWrap': document.createElement('li')
     }
-
-    let isSpecial = false
-    args.forEach(arg => {
-        if (special[arg]) {
-            special[arg](director, components, args)
-            isSpecial = true
-        }
+    components.input.id = args.name
+    components.wrap.id = args.name + "Wrap"
+    components.label.for = args.name
+    components.label.innerHTML = args.label
+    components.itemWrap.className = "field-container"
+    if (item.type == "text" && args.placeholder)
+        item.placeholder = args.placeholder
+    
+    let exclusive
+    args.input.forEach(arg => {
+        if (special[arg]) exlusive = 
+            special[arg](director, components, args) === true 
+                ? true : false
     })
 
-    if (!isSpecial) {
+    if (!exclusive) {
         components.wrap.appendChild(components.input)
-        components.itemWwrap.appendChild(document.createElement('span'))
-        components.itemWwrap.firstChild.appendChild(components.label)
-        components.itemWwrap.appendChild(components.wrap)
+        components.itemWrap.appendChild(components.label)
+        components.itemWrap.appendChild(components.wrap)
     }
-
+    
     return components
 }
 let makersRouting = (director, opts) => {
-    if (typeof opts != "object" || !opts.input 
-        || typeof opts.input == "string") return
-    
-    let args = opts.split("-")
-    return makerWrapping(director, (
-            args[-1] && makers[args[-1]] ? makers[args[-1]](args)
-            : ( makers[args[0]] ? makers[args[0]](args) : undefined )
-        ), args)
+    if (!opts || !opts.input) return
+    opts.input = opts.input.split("-")
+
+    let inputType = opts.input.pop()
+    console.log(inputType)
+    opts.input.push(inputType)
+    return makerWrapping(director, makers[inputType](opts), opts)
 }
 module.exports.item = makersRouting
 
 let getPage = (pageName, src, handler) => {
     let page = document.createElement('section')
     page.id = pageName
-    page.className = "form-section"
+    page.className = "app-section"
 
     let pageContent = document.createElement('ul')
     pageContent.id = "application-items"
     page.appendChild(pageContent)
     
-    let postMeta = false
     src.forEach(si => {
-        if (postMeta) {
-            let inParts = makersRouting(handler, si)
-            pageContent.appendChild(inParts.itemWwrap)
+        let inParts = makersRouting(handler, si)
+
+        if (inParts) {
+            pageContent.appendChild(inParts.itemWrap)
             handler.import(inParts)
+
         }
-        else postMeta = true
+        console.log(si, inParts)
     })
     return page
 }

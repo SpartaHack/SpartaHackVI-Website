@@ -18,6 +18,7 @@ class AppDirector {
             'next': document.getElementById("next-page-button"),
             'done': document.getElementById("done-button")
         }
+        
         this.buttons.prev.addEventListener('click', 
             e => this.prevPage() )
         this.buttons.next.addEventListener('click', 
@@ -42,24 +43,23 @@ class AppDirector {
             json: true
         }
         let pageCb = (err, response, body) => {
-            if (body.forEach) {
+            if (body && body.forEach) {
                 console.log(response, body)
                 this.pages[pageNum] = body
 
                 if (cb) cb()
             }
         }
-
+        console.log(pageRq.url)
         this.pages[pageNum] = false
         request.get(pageRq, pageCb)
     }
 
     makePage(pageNum, cb) {
-        // console.log('wow this works')
         this.pages[pageNum] = domFuncs.page(
-            this.pages[pageNum].pop().name, this.pages[pageNum], this.handler )
+            this.pages[pageNum].pop().pageName,
+            this.pages[pageNum], this.handler )
 
-        console.log(this.pages[pageNum])
         cb()
     }
 
@@ -70,29 +70,46 @@ class AppDirector {
     // interaction
 
     nextPage() {
-        if (typeof this.pages != "array" || 
-            this.currentPage === this.pages.length) return
+        if (this.currentPage === this.pages.length) return
+        console.log('here')
 
         ++this.currentPage
         this.setPage()
     }
 
     prevPage() {
-        if (typeof this.pages != "array" || 
-            this.currentPage === 0) return
+        if (this.currentPage === 0) return
+        console.log('here')
 
         --this.currentPage
         this.setPage()
     }
 
     setPage() {
-        console.log(this.current)
+        if (this.currentPage === 0) {
+            this.buttons.prev.classList.add('softHide')
+            this.buttons.done.classList.add('softHide')
+        }
+        else {
+            this.buttons.prev.classList.remove('softHide')
+
+            if (this.currentPage === this.pages.length - 1) {
+                this.buttons.next.classList.add('softHide')
+                this.buttons.done.classList.remove('softHide')
+            }
+            else {
+                this.buttons.done.classList.add('softHide')
+                this.buttons.next.classList.remove('softHide')
+            }
+        }
+
         if (this.current === undefined)
             this.getPageSrc(this.currentPage, () => this.setPage())
         else if (Array.isArray(this.current))
             this.makePage(this.currentPage, () => this.setPage())
         else {
-            console.log('cool')
+            this.container.innerHTML = ''
+            this.container.appendChild(this.current)
         }
         return
     }

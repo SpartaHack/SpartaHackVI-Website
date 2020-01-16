@@ -1,6 +1,4 @@
-[
-    { "pageName": "MLH Information"},
-    
+[    
     {
         "name": "github",
         "input": "text",
@@ -48,5 +46,7 @@
         "input": "paragraph-text",
         "label": "Personal Statement",
         "placeholder": "> 24 Words"
-    }
+    },
+
+    { "pageName": "MLH Information"}
 ]

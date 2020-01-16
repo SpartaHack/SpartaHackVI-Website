@@ -27,7 +27,7 @@ class AppHandler {
             json: true
         }
         let dictCb = (err, response, body) => {
-            if (response.code === 200) {
+            if (response && response.code === 200) {
                 this.valDicts[id] = body
                 if (cb) cb()
             }

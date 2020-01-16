@@ -1,7 +1,6 @@
-const text = args =>{
+const text = args => {
     let displayType
-
-    args.forEach(arg => {
+    args.input.forEach(arg => {
         switch (arg) {
             case "list": 
             break;
@@ -24,6 +23,28 @@ const text = args =>{
 
 const select = args => {
     let input = document.createElement('select')
+    let opt = (val, txt) => {
+        let opt = document.createElement('option')
+        opt.value = val
+        opt.text = txt
+        return opt
+    }
+
+    if (args.placeholder) {
+        let placeholder = opt("", args.placeholder)
+        placeholder.disabled = true
+        placeholder.selected = true
+    }
+
+    if (Array.isArray(args.options))
+        args.options.forEach(o => input.appendChild(opt(o, o)))
+    
+    else if (args && args.options)
+        Object.keys(args.options).forEach(optVal => 
+            input.appendChild(opt(optVal, args.options[optVal])) )
+
+    else return false
+    
     return input
 }
 

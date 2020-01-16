@@ -1,5 +1,4 @@
 import './../../scss/sheets/application.scss'
-
 ;(require('../login').default)()
 
 const Director = require('./director').default
