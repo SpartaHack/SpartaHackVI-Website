@@ -1,95 +1,135 @@
-// let filterIndex = {
-//     'major': require('./../../data/majors-set.json'),
-//     'travel_origin': require('./../../data/cities-set.json'),
-//     'university': require('./../../data/unis-set.json')
-// }
+let request = require('request')
+let filterIndex = {
+    'major': "/data/majors-set.json",
+    'city': "/data/cities-set.json",
+    'university': "/data/unis-set.json"
+}
+let filterKeyIndex = {
+    'majors': 2,
+    'cities': 'name',
+    'unis': 'name'
+}
+
+let getDict = (which, cb) => {
+    console.log(which, 'cool')
+    let dictRq = {
+        headers: 
+            { "Content-Type":"application/json" },
+        url: window.location.origin + filterIndex[which],
+        json: true
+    }
+
+    let dictCb = (err, response, body) => {
+        let autoCompleteHandler
+        if (response && response.statusCode === 200 
+            && Array.isArray(body) ) 
+            autoCompleteHandler = cb(body)
+    }
+
+    request.get(dictRq, dictCb)
+}
 
 // Creates our auto suggest unordered list/wrap
-let autoDOM = (element, options, director) => {
-    let wrap = element.parentNode
-    if (wrap.lastChild.id == "autocomplete-wrap")
-        wrap.removeChild(wrap.lastChild)
+let filter = (filterSrc, cmpFnc, components) => {
+    if (!Array.isArray(filterSrc)) return
+    else if (!cmpFnc || !components 
+        || components.input.value.length < 3) return false
 
-    if (element.value.length < 3) return 
+    let listWrap = document.createElement('span')
+    listWrap.className = 'autocomplete-list'
 
-    let suggestArea = document.createElement('ul')
-    suggestArea.class = "autoCompleteArea"
-    suggestArea.id = element.id+"-"+suggestArea.className
+    let list = document.createElement('ul')
+    listWrap.appendChild(list)
     
-    options.forEach(opt => {
-        let optElem = document.createElement('li')
-        optElem.className = 'autoOpt'
+    filterSrc.forEach(target => {
+        let result = cmpFnc(target) 
+        if (result) { // update list
+            let thisOpt = document.createElement('li')
+            thisOpt.addEventListener('click', 
+                e => selectItem(thisOpt, components))
+            thisOpt.innerHTML = "<p>" + result + "</p>"
+            list.appendChild(thisOpt)
 
-        optElem.innerHTML = opt
-        optElem.dataset.val = opt
-
-        optElem.addEventListener('click', 
-            () => autoDone(element, optElem.dataset.val, director))
-        suggestArea.appendChild(optElem)
+        }
     })
+        
+    return startDom(listWrap, components)
+}   
 
-    let suggestWrap = document.createElement('div')
-    suggestWrap.id = "autocomplete-wrap"
-    suggestWrap.appendChild(suggestArea)
+class autoCompeteInput {
+    constructor(filterSrc, components) {
+        this.components = components
+        this.filterSrc = fiterSrc
 
-    wrap.appendChild(suggestWrap)
-}
+        this.curInd
+        this.itemWrap = document.createElement('span')
+        this.itemWrap.className = 'autocomplete-area'
+        this.currentItems = document.createElement('ul')
 
+        this.components.input.addEventListener('keyup', 
+            e => this.route(e.keyCode) )
 
-// Handles keyboard navigation within our unordered list/wrap
-let autoData = (element, keycode) => {
-    let options = element.parentNode.lastChild
-    if (options.id != 'autocomplete-wrap') return false
-    options = options.firstChild
+        let hide = () => this.hide()
+        let show = () => this.show()
+        this.components.wrap.addEventListener('blur', hide)
+        this.components.wrap.addEventListener('mouseleave', hide)
+        this.components.wrap.addEventListener('mouseenter', show)
+        this.components.input.addEventListener('focus', show)
+    }
 
-    let selected = options.querySelector('.active-auto')
-    let active
+    hide() {
+        if (this.components.wrap.lastChild === this.itemWrap)
+            this.components.wrap.removeChild(this.itemWrap)
+    }
 
-    if (!selected) active = keycode == 38 ?
-        options.lastChild : options.firstChild
-    else {
-        selected.classList.remove('active-auto')
+    show() {
+        if (!this.currentItems.childElementCount) 
+            this.hide()
 
-        if (keycode == 40) { // down key
-            if (selected == options.lastChild) active = options.firstChild
-            else active = selected.nextSibling
-        }   
-        else if (keycode == 38 ) { // up key
-            if (active == options.firstChild) active = options.lastChild
-            else active = selected.previousSibling
+        else if (this.components.wrap.lastChild.className === 'autocomplete-area')
+            this.components.wrap.replaceChild(this.itemWrap, this.components.wrap.lastChild)
+
+        else this.components.wrap.appendChild(this.itemWrap)
+    }
+
+    get current() {
+        this.currentItems.childElementCount > this.currentItems 
+            ? this.currentItems.childNodes[this.currentIndex] : undefined
+    }
+
+    set currentIndex(val) {
+        val = val > this.currentItems.childElementCount ? 0 :
+            (val < 0 ? this.currentItems.childElementCount - 1 : val)
+        
+        this.currentItems.childNodes[this.curInd] = ''
+        this.curInd = val
+        this.currentItems.childNodes[val].className = 'active'
+    }
+
+    route(keycode) {
+        switch (keycode) {
+            case 40: this.currentIndex = this.curInd + 1
+            break
+            case 38: this.currentIndex = this.curInd - 1
+            break
+            case 13: this.select(this.current)
         }
     }
-    active.classList.add('active-auto')
-    active.scrollIntoView()
 
-    return true
+    filter() {
+
+    }
 }
 
-let autoDone = (element, val, director) => {
-    val = val ? val :
-        element.parentNode.lastChild.querySelector('.active-auto').dataset.val
-    if (!val) return
-    
-    element.value = val
-    let autocompleted = element
-    
-    element.parentNode.replaceChild(element, autocompleted)
-    element.parentNode.dataset.value = val
-    element.parentNode.removeChild(element.parentNode.lastChild)
+let ready = (appHandler, components, args) => {
+    let wrapper = options => new autoCompeteInput(options, components)
 
-    element.blur()
-    director.update(autocompleted)
+    let dictInit = e => {
+        getDict(args.name, wrapper )
+        components.input.removeEventListener('focus', dictInit)
+    }
+    components.input.addEventListener('focus', dictInit)
 }
 
-module.exports.default = (element, director) => {
-    let autoSrc = filterIndex[element.id]
 
-    if (autoSrc) element.addEventListener('keyup', e => {
-        if (e.keyCode == 38 || e.keyCode == 40)
-            autoData(element, e.keyCode)
-        else if (e.keyCode == 13) 
-            autoDone(element, false, director)       
-        else
-            autoDOM(element, filter(element, autoSrc), director)
-    })
-}
+module.exports.default = ready

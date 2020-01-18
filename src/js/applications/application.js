@@ -68,16 +68,14 @@ class AppHandler {
                 ? item.out : [item.out] ) : item.name
         }
 
-        if (item.autoComplete)
         this.items[itemInfo.name] = itemInfo
         return true
-
     }
 
     //validation
 
-    validate(id) {
-
+    validate(id, srcInput) {
+        console.log(this.items[id], srcInput)
     }
 
     error(errored, type) {

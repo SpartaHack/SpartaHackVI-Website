@@ -1,21 +1,34 @@
-// selectOther(id) {
-//     let alt = document.createElement('input')
-//     alt.type = "text"
-//     alt.id = fieldItems.dom.id
-//     alt.placeholder = "List: Backspace"
+let fromList = components => {
+    components.wrap.replaceChild(components.input, components.input2)
+}
 
-//     fieldItems.dom.parentNode.replaceChild(alt, fieldItems.dom)
-//     fieldItems['old'] = fieldItems.dom
-//     fieldItems.dom = alt
+let typeOther = (appHandler, id, components) => {
+    let other = document.createElement('input')
+    other.type = "text"
+    other.id = components.input.id
+    other.placeholder = "List: Backspace"
 
-//     fieldItems.dom.addEventListener('change', () => this.update(fieldItems.dom))
-//     fieldItems.dom.addEventListener('keyup', e => {
-//         if (e.keyCode === 8 && fieldItems.dom.value.length == 0) 
-//             this.swapBack(fieldItems) } )
-// }
+    other.addEventListener('keyup', e => {
+        if (other.value.length === 0 && e.keyCode === 8)
+            fromList(components)
+    })
 
-let ready = () => {
+    other.addEventListener('change', 
+        e => appHandler.validate(id, other) )
 
+    components.input2 = other
+    components.wrap.replaceChild(components.input2, components.input)
+}
+
+let ready = (appHandler, components, args) => {
+    components.input.addEventListener('change', () => {
+        let selected = components.input
+                      .childNodes[components.input.selectedIndex]
+
+        if (selected.value === "other" || selected.value === "Other")
+            typeOther(appHandler, args.name, components)
+    })
 
 }
+
 module.exports.default = ready

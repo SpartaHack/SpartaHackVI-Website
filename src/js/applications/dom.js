@@ -22,13 +22,13 @@
 */
 const makers = require('./helpers/_makers').default
 const special = {
-    'autoComplete': require('./helpers/_autoComplete').default,
+    'autocomplete': require('./helpers/_autoComplete').default,
     'inlinelabel': () => {},
     'other': require('./helpers/_other').default,
     'list': require('./helpers/_listInput').default
 }
 
-const makerWrapping = (director, item, args) => {
+const makerWrapping = (handler, item, args) => {
     if (!item) return
 
     let components = {
@@ -38,7 +38,9 @@ const makerWrapping = (director, item, args) => {
         'itemWrap': document.createElement('li')
     }
     components.input.id = args.name
+    components.input.autocomplete = "off"
     components.wrap.id = args.name + "Wrap"
+    components.wrap.tabIndex = -1
     components.label.for = args.name
     components.label.innerHTML = args.label
     components.itemWrap.className = 
@@ -48,8 +50,9 @@ const makerWrapping = (director, item, args) => {
 
     let exclusive
     args.input.forEach(arg => {
+        console.log(arg)
         if (special[arg]) exlusive = 
-            special[arg](director, components, args) === true 
+            special[arg](handler, components, args) === true 
                 ? true : false
     })
 
@@ -63,20 +66,20 @@ const makerWrapping = (director, item, args) => {
         components.wrap.appendChild(components.input)
         components.itemWrap.appendChild(components.wrap)
     }
-
+    // components.input.addEventListener('change', e => director)
     if (args.labelVis && args.labelVis === "hidden")
         components.itemWrap.classList.add('hidden-label')
     
     return components
 }
-let makersRouting = (director, opts) => {
+let makersRouting = (handler, opts) => {
     if (!opts || !opts.input) return
     opts.input = opts.input.split("-")
 
     let inputType = opts.input.pop()
-    console.log(inputType)
-    opts.input.push(inputType)
-    return makerWrapping(director, makers[inputType](opts), opts)
+    // console.log(inputType)
+    // opts.input.push(inputType)
+    return makerWrapping(handler, makers[inputType](opts), opts)
 }
 module.exports.item = makersRouting
 
@@ -97,7 +100,7 @@ let getPage = (pageName, src, handler) => {
             handler.import(inParts)
 
         }
-        console.log(si, inParts)
+        // console.log(si, inParts)
     })
     return page
 }

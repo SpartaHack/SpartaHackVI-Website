@@ -6,7 +6,6 @@ async function auth_func(cb) {
 
     if (Array.isArray(cb)) {        
         let doNext = at => {
-            console.log(cb)
             if (at >= cb.length - 1) return
             
             doNext(++at, cb[at](auth))

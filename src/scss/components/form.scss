@@ -33,7 +33,19 @@
         
         ::placeholder { color: rgba($white, .85); }
     }
+    div {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+    }
 
+    span {
+        position: absolute;
+        z-index: 10;
+        bottom: 0;
+        right: 0;
+    }
     input[type=number] { max-width: 4rem;}
 
     select {
@@ -52,50 +64,60 @@
             cursor: pointer;
         }
     }
-    .auto-span {
-        position: relative;
-
-        #autocomplete-wrap {
-            position: absolute;
-            left: 0;
-            bottom: .5rem;
-            min-width: 100%;
-            transform: translateY(100%);
-    
-            
-            border-radius:  0 0 .5rem .5rem;
-            background-color: $white;//$black;
-            box-sizing: border-box;
-            padding: .25rem .5rem;
-
-            max-height: 5rem;
-            overflow-y: auto;
-            z-index: 50;
-
-            ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-
-                display: block;
-                
-                li {
-                    color: $black;
-                    padding: .25rem 0;
-                    border-bottom: .1rem $black solid;
-                    
-                    cursor: pointer;
-                    &.active-auto, &:hover { color: $red; }
-                    &:last-child { border: none;}
-                }
-            }
-        }
-    }
 }
 .errored {
     border-color: rgba($red, .75) !important;
 }
 
+// ---
+
+.autocomplete-list {
+    position: absolute;
+    left: 0;
+    bottom: .35rem !important;
+    min-width: 100%;
+    transform: translateY(100%);
+
+    
+    border-radius:  0 0 .5rem .5rem;
+    background-color: $white;//$black;
+    box-sizing: border-box;
+    padding: .25rem .5rem;
+
+    max-height: 5rem;
+    overflow-y: auto;
+    z-index: 50;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        display: block;
+        
+        li {
+            width: 100%;
+            
+            padding: .25rem 0;
+            border-bottom: .1rem $black solid;
+
+            p {
+                margin: 0;
+                color: $black;
+            }
+            
+            cursor: pointer;
+            &.active-auto, &:hover { color: $red; }
+            &:last-child { border: none;}
+        }
+    }
+}
+
+// .active { color: $red !important; }
+
+.active-auto {
+    color: $red !important;
+}
 
 
 .inline-label {
@@ -166,4 +188,3 @@
         height: 15rem;
     }
 }
-

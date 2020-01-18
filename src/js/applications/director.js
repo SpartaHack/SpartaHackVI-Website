@@ -44,13 +44,13 @@ class AppDirector {
         }
         let pageCb = (err, response, body) => {
             if (body && body.forEach) {
-                console.log(response, body)
+                // console.log(response, body)
                 this.pages[pageNum] = body
 
                 if (cb) cb()
             }
         }
-        console.log(pageRq.url)
+        // console.log(pageRq.url)
         this.pages[pageNum] = false
         request.get(pageRq, pageCb)
     }
@@ -63,7 +63,7 @@ class AppDirector {
         cb()
     }
 
-    makeItem(id, val) {
+    importItem(args) {
         
     }
 
@@ -71,7 +71,6 @@ class AppDirector {
 
     nextPage() {
         if (this.currentPage === this.pages.length) return
-        console.log('here')
 
         ++this.currentPage
         this.setPage()
@@ -79,7 +78,6 @@ class AppDirector {
 
     prevPage() {
         if (this.currentPage === 0) return
-        console.log('here')
 
         --this.currentPage
         this.setPage()
@@ -127,19 +125,6 @@ class AppDirector {
         if (off) target.classList.remove('errored')
         else target.classList.add('errored')
     }
-
-    // io
-    updateItem(id) {
-        switch (itemType) {
-
-        }
-    }
-
-    changeItem(id, specs) {
-
-    }
-
-
 
     report() {
 
