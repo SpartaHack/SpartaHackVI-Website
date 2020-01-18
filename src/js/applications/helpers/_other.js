@@ -1,8 +1,9 @@
 let fromList = components => {
     components.wrap.replaceChild(components.input, components.input2)
+    delete components.input2
 }
 
-let typeOther = (appHandler, id, components) => {
+let typeOther = (director, id, components) => {
     let other = document.createElement('input')
     other.type = "text"
     other.id = components.input.id
@@ -14,19 +15,19 @@ let typeOther = (appHandler, id, components) => {
     })
 
     other.addEventListener('change', 
-        e => appHandler.validate(id, other) )
+        e => director.update(id, other) )
 
     components.input2 = other
     components.wrap.replaceChild(components.input2, components.input)
 }
 
-let ready = (appHandler, components, args) => {
+let ready = (director, components, args) => {
     components.input.addEventListener('change', () => {
         let selected = components.input
                       .childNodes[components.input.selectedIndex]
 
         if (selected.value === "other" || selected.value === "Other")
-            typeOther(appHandler, args.name, components)
+            typeOther(director, args.name, components)
     })
 
 }

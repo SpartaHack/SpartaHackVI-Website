@@ -6,6 +6,7 @@ class AppDirector {
     constructor(args, handler) {
         this.handler = handler
         this.domItems = {}
+        this.inputVals = {}
 
         this.pageURLs = args.urls
         this.pages = []
@@ -27,12 +28,30 @@ class AppDirector {
             e => this.done() )
         
         this.currentPage = 0
-        // this.setPage()
+        this.getOld(true)
     }
 
     get current() { return this.pages[this.currentPage] }
 
-    // population
+    // ---
+
+    getOld(startup) {
+        let returnPage = window.localStorage.getItem('returnPage')
+        if (Number.isInteger(returnPage)) 
+            this.currentPage = returnPage
+
+        let oldVals = window.localStorage.getItem('returnVals')
+        if (oldVals) 
+            this.oldVals = JSON.parse(oldVals)
+
+        if (startup) this.setPage()
+    }
+
+    getOldVal(id) {
+        return this.oldVals instanceof Object 
+            ? this.oldVals[id] : undefined
+    }
+
     getPageSrc(pageNum, cb) {
         let pageRq = {
             headers: { 
@@ -58,16 +77,20 @@ class AppDirector {
     makePage(pageNum, cb) {
         this.pages[pageNum] = domFuncs.page(
             this.pages[pageNum].pop().pageName,
-            this.pages[pageNum], this.handler )
+            this.pages[pageNum], this)
 
         cb()
     }
 
-    importItem(args) {
-        
+    import(components, args) {
+        this.domItems[args.name] = components
+        this.handler.import(args)
+
+        components.input.addEventListener('change', 
+            () => this.update(args.name))
     }
 
-    // interaction
+    // ---
 
     nextPage() {
         if (this.currentPage === this.pages.length) return
@@ -113,148 +136,45 @@ class AppDirector {
         return
     }
 
-    done() {
+    // ---
+
+    save() {
+        window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
+    }
+    update(id, input, noSave) {
+        input = input ? input : this.domItems[id].input
+        let val = input.nodeName === 'SELECT' ? 
+            input.childNodes[input.selectedIndex].value
+            : input.value
         
-    }
-
-    
-
-    error(id) {
-        let target = errored.placeholder == 'profile-url' 
-            ? errored.parentNode : errored
-        if (off) target.classList.remove('errored')
-        else target.classList.add('errored')
-    }
-
-    report() {
-
-    }
- 
-    /*
-    report(needed) {
-        console.log(needed, "testing")
-        if (needed && !Array.isArray(needed)) return
-
-        let exitWrap = document.createElement('div')
-        exitWrap.id = 'report-incomplete-bg'
-
-        let reportWrap = document.createElement('aside')
-        reportWrap.id = 'report-incomplete'
-
-        reportWrap.appendChild(document.createElement('h3'))
-        reportWrap.lastChild.id = 'report-title'
-        
-        let checks
-        if (needed && needed.length) {
-            reportWrap.appendChild(document.createElement('p'))
-            reportWrap.lastChild.id = 'report-summary'
-            
-            reportWrap.firstChild.innerHTML = 'Application Incomplete'
-            reportWrap.lastChild.innerHTML = 'The following fields need to be changed or completed'
-    
-            reportWrap.appendChild(document.createElement('ul'))
-            reportWrap.lastChild.id = 'needed-fields'
-    
-            needed.forEach(nf => {
-                reportWrap.lastChild.appendChild(document.createElement('li'))
-                reportWrap.lastChild.lastChild.innerHTML = this.fields[nf].error
-            })
+        let valid = this.handler.validate(id, val)
+        if (!valid){
+            this.domItems[id].itemWrap.classList.add('errored-item')
+            return
         }
         else {
-            reportWrap.firstChild.innerHTML = 'Before we continue'
-            checks = []
+            this.domItems[id].itemWrap.classList.remove('errored-item')
+            this.inputVals[id] = val
 
-            let getCheck = (body, sId) => {
-                let wrap = document.createElement('p')
-                wrap.className = "consentor"
-                wrap.id = sId + 'Wrap'
-
-                wrap.appendChild(document.createElement('input'))
-                wrap.lastChild.type = "checkbox"
-                wrap.lastChild.id = sId
-                checks.push(wrap.lastChild)
-
-                wrap.appendChild(document.createElement('span'))
-                wrap.lastChild.innerHTML = body
-
-                return wrap
-            }
-            
-            let b1 = 'I authorize you to share certain application/registration information for event administration, ranking, MLH administration, pre and post-event informational e-mails, and occasional messages about hackathons in-line with the MLH Privacy Policy. I further I agree to the terms of both the MLH Contest Terms and Conditions and the MLH Privacy Policy.'
-            let b2 = 'I have read and agree to the MLH Code of Conduct.'
-            
-            reportWrap.appendChild(getCheck(b1, 'privacy'))
-            reportWrap.appendChild(getCheck(b2, 'conduct'))
+            if (!noSave) this.save()
+            return true
         }
-
-        reportWrap.appendChild(document.createElement('div'))
-        
-        let exitButton = document.createElement('button')
-        exitButton.id="exit-button"
-        exitButton.innerHTML = "Exit"
-        reportWrap.lastChild.appendChild(exitButton)    
-
-        let completeButton = document.createElement('button')
-        completeButton.innerHTML = "Complete"
-        completeButton.id="complete-button"
-
-        
-        if (Array.isArray(checks)) {
-            checks.forEach(c => c.addEventListener('change', () => {
-                let total = checks.length
-                let checked = 0
-
-                checks.forEach(c => {if (c.checked) ++checked}) 
-                
-                if (total == checked) 
-                reportWrap.lastChild.appendChild(completeButton)
-                else if (reportWrap.lastChild.lastChild == completeButton)
-                reportWrap.lastChild.removeChild(completeButton)
-            }) )
-        }
-        
-        let removeModal = () => document.body.removeChild(exitWrap)
-        exitButton.addEventListener('click', removeModal)
-        
-        completeButton.addEventListener('click', () => sendApp(
-            this.application, JSON.parse(localStorage.getItem('stutoken')) ) )
-
-        exitWrap.appendChild(reportWrap)
-        return exitWrap  
     }
+    done() {
+        let id
+        Object.keys(this.domItems).forEach(ik => {
+            id = this.domItems[ik].input.id
 
-    update(src) {
-        let fieldItems = this.import(src)
-        if (!fieldItems) return undefined;
-        console.log(fieldItems)
-        let func = fieldItems['validator']
-        let worked = func(src, this.out)
+            this.update(id,
+                components.input2 ? components.input2 : components.input, 'saveAfter')
+        })
 
-        this.fields[src.id].needed = this.fields[src.id].needed ? 
-            !(Boolean(worked)) : this.fields[src.id].needed
+        this.save()
+        let needed = this.handler.needed
+        let report = needed[0] 
+            ? reports.default(this, needed) : reports.success(this, needed)
 
-        if (worked === true) {
-            if (this.new && localStorage.hasOwnProperty('application')) {
-                let oldApp = JSON.parse(localStorage.getItem('application'))
-
-                if (this.out['name'] == oldApp['name']){
-                    let current = Object.assign(oldApp, this.out)
-                    this.out = current
-                    this.new = false
-                }
-            }
-            localStorage.setItem('application', JSON.stringify(this.out))
-            this.domError(src, true)
-        }
-        else if (worked === "selectSwap") this.selectSwap(fieldItems)
-        
-        else this.error(src, worked)
-        
-        console.log(this.out)
-        return worked
+        document.body.appendChild(report)
     }
-    */
-    dummy() {}
 }
-
 module.exports.default = AppDirector

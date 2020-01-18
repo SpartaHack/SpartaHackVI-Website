@@ -28,7 +28,7 @@ const special = {
     'list': require('./helpers/_listInput').default
 }
 
-const makerWrapping = (handler, item, args) => {
+const makerWrapping = (director, item, args) => {
     if (!item) return
 
     let components = {
@@ -52,7 +52,7 @@ const makerWrapping = (handler, item, args) => {
     args.input.forEach(arg => {
         console.log(arg)
         if (special[arg]) exlusive = 
-            special[arg](handler, components, args) === true 
+            special[arg](director, components, args) === true 
                 ? true : false
     })
 
@@ -72,18 +72,19 @@ const makerWrapping = (handler, item, args) => {
     
     return components
 }
-let makersRouting = (handler, opts) => {
+let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
+    
     opts.input = opts.input.split("-")
+    console.log(director)
+    // opts.oldVal = director.getOldVal(opts.name)
 
     let inputType = opts.input.pop()
-    // console.log(inputType)
-    // opts.input.push(inputType)
-    return makerWrapping(handler, makers[inputType](opts), opts)
+    return makerWrapping(director, makers[inputType](opts), opts)
 }
 module.exports.item = makersRouting
 
-let getPage = (pageName, src, handler) => {
+let getPage = (pageName, src, director) => {
     let page = document.createElement('section')
     page.id = pageName
     page.className = "app-section"
@@ -93,14 +94,12 @@ let getPage = (pageName, src, handler) => {
     page.appendChild(pageContent)
     
     src.forEach(si => {
-        let inParts = makersRouting(handler, si)
+        let inParts = makersRouting(director, si)
 
         if (inParts) {
             pageContent.appendChild(inParts.itemWrap)
-            handler.import(inParts)
-
+            director.import(inParts, si)
         }
-        // console.log(si, inParts)
     })
     return page
 }

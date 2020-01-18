@@ -25,4 +25,3 @@ let directorArgs = {
     ]
 }
 let director = new Director(directorArgs, handler)
-director.setPage()

@@ -5,57 +5,14 @@ const request = require('request')
 
 class AppHandler {
     constructor(valDicts, existing) {
-        this.valDicts = valDicts
-        Object.keys(valDicts).forEach(
-            dk => this.getDict(dk, valDicts[dk]) )
+        this.items = {}
         this.validators = validators
 
-        this.items = {}
-        this.existing
-        this.saveIsCurrent
-        this.import(existing)
+        this._needed = new Set()
+        this.out = {}
     }
 
-    getDict(id, src, cb) {
-        this.valDicts[id] = false
-
-        let dictRq = {
-            headers: { 
-                "Content-Type": "application/json" 
-            },
-            url: window.location.origin + "/data/" + src,
-            json: true
-        }
-        let dictCb = (err, response, body) => {
-            if (response && response.code === 200) {
-                this.valDicts[id] = body
-                if (cb) cb()
-            }
-        }
-
-        request.get(dictRq, dictCb)
-    }
-
-    fromDict(query, dictId, againstField, strict) {
-        if (!this.valDicts[dictId]) return
-        if (typeof this.valDicts[dictId] === "string")
-            this.getDict(dictId, this.valDicts[dictId], 
-                () => this.startAutoComplete(query, dictId) )
-        else {
-            query = query.toLowerCase()
-            againstField = typeof againstField == "string"
-                ? againstField : "name"
-
-            let compare = strict ? (query, against) => against.search(query) === 0
-                : (query, against) => against.search(query) !== -1
-                
-            let found = this.valDicts[dictId].filter(
-                item => compare(item[againstField].toLowerCase(), query) )
-
-            return found[0] ? found : false
-        }
-        return
-    }
+    get needed() { return Array.from(this._needed) }
 
     import(item) {
         if (!item || !item.name || !item.validator) return
@@ -69,58 +26,35 @@ class AppHandler {
         }
 
         this.items[itemInfo.name] = itemInfo
+        this._needed.add(itemInfo.name)
         return true
     }
 
-    //validation
-
-    validate(id, srcInput) {
-        console.log(this.items[id], srcInput)
-    }
-
-    error(errored, type) {
-        let fieldItems = this.import(errored)
-        if (!fieldItems) return undefined;
-        
-        localStorage.removeItem(errored.id)
-        delete this.out[errored.id]
-
-        let optional = this.optional.has(errored.id)
-        if ((optional && type === -1) || !optional)
-            this.domError(errored)
-
-        return true
-    }
-
-    formCompletion() {
-        return
-    }
-
-    // io
-
-    save() {
-
-    }
-    
-    updateSave() {
-        if (this.saveIsCurrent === undefined) {
-
-        }
-        else if (this.saveIsCurrent === false) {
-
-        }
-        else {
+    validate(id, value) {
+        let valid = this.validators[id](value)
+        if (!id || !value)
             return
-        }
+        else if (valid) {
+            this._needed.delete(id)
 
-        this.saveIsCurrent = true
-        return true
+            let out = this.items[id].out
+                ? this.items[id].out : this.items[id].name
+            out = Array.isArray(out) ? out : [out]
+            
+            let importValues = valid === true ? value : valid
+            importValues = (Array.isArray(importValues) 
+                ? importValues : [importValues])
+
+            for (let i = 0; i < importValues.length; i++)
+                this.out[out[i]] = importValues[i]
+            return true
+        }
+        else return false
     }
     
-    export(final) {
+    submit(overlayDom) {
         return
     }
    
 }
-
 module.exports.default = AppHandler

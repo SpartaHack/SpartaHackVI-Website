@@ -140,7 +140,7 @@ let filterKeyIndex = {
     'unis': 'name'
 }
 
-let ready = (appHandler, components, args) => {
+let ready = (director, components, args) => {
     let dictRq = {
         headers: 
             { "Content-Type":"application/json" },
