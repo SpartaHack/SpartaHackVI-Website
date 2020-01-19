@@ -8,10 +8,7 @@ let typeOther = (director, id) => {
 
     console.log(director, id, components)
 
-    let other = document.createElement('input')
-    other.type = "text"
-    other.id = id
-    other.placeholder = "List: Backspace"
+
 
     other.addEventListener('keyup', e => {
         if (other.value.length === 0 && e.keyCode === 8)
@@ -36,6 +33,33 @@ let ready = (director, components, args) => {
             typeOther(director, args.name, components)
     })
 
+}
+
+const specialInput = require('./__specialInput').default
+
+class otherThanListed extends specialInput{
+    constructor(director, id) {
+        this.super(director, id)
+
+        let other = document.createElement('input')
+        other.type = "text"
+        other.id = id
+        other.placeholder = "List: Backspace"
+    }
+
+    showOther() {
+
+    }
+
+    showListed() {
+
+    }
+
+    itemChanged() {
+        if (director.getVal(this.id) == "!!OTHER!") {
+            this.showListed
+        }
+    }
 }
 
 module.exports.default = ready

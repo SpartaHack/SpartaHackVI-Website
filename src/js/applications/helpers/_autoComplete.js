@@ -1,7 +1,10 @@
 let request = require('request')
+const specialInput = require('./__specialInput').default
 
-class autoCompeteInput {
+class autoCompeteInput extends specialInput {
     constructor(filterSrc, components, director) {
+
+        this.super(director, )
         this.director = director
         this.components = components
         this.filterSrc = filterSrc

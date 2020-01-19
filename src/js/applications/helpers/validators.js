@@ -1,4 +1,4 @@
-const listValidator = require('./_listInput').validate
+const listValidator = require('./_stackInput').validate
 
 let profile = value => {
     let lastHalf = value.match(/.+\/.+/)

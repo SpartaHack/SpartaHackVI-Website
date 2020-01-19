@@ -38,7 +38,8 @@ class AppDirector {
 
     // ---
 
-    getComponents(id) { return this.domItems[id]}
+    getComponents(id) { return this.domItems[id] }
+    setComponents(newComps) { this.domItems[id] = newComps }
 
     getOld(startup) {
         let returnPage = window.localStorage.getItem('returnPage')
@@ -65,7 +66,7 @@ class AppDirector {
     getVal(from) {
         from = typeof from == "string" 
             ? this.getComponents(from).input : from
-        
+
         return !from ? undefined : (
             from.dataset.hasOwnProperty('trueVal') ? JSON.parse(from.dataset.trueVal) : (
                 from.nodeName === 'SELECT' ? 
@@ -74,8 +75,6 @@ class AppDirector {
             )
         )
     }
-
-    
 
     // ---
 
@@ -117,9 +116,13 @@ class AppDirector {
     }
 
     import(components, args) {
-        this.domItems[args.name] = components
-        this.insert(args.name, undefined, true)
+        this.setComponents(args.name, components)
         this.handler.import(args)
+        
+        let eventHandling = () => {
+            this.getComponents(args.name).input.addEventListener('change', e => console.log(e))
+        }
+        eventHandling()
     }
 
     // ---

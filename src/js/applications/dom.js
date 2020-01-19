@@ -44,37 +44,35 @@ const makerWrapping = (director, item, args) => {
     components.inputWrap.id = args.name + "Wrap"
     components.inputWrap.className = "input-wrap"
     components.inputWrap.tabIndex = -1
+    components.inputWrap.appendChild(components.input)
 
     components.controlWrap.className = "input-controls"
     components.label.for = args.name
     components.label.innerHTML = args.label
     components.itemWrap.className = 
         "field-container " + (args.class ? args.class : '')
-    if (item.type == "text" && args.placeholder)
-        item.placeholder = args.placeholder
 
-    let exclusive
+    if (item.type == "text" && args.placeholder)
+        { item.placeholder = args.placeholder }
+
+    if (args.labelVis && args.labelVis === "inline"){
+        components.itemWrap.classList.add('inline-label')
+        components.inputWrap.appendChild(components.label)
+    }
+    else components.itemWrap.appendChild(components.label)
+
+    if (args.labelVis && args.labelVis === "hidden")
+        { components.itemWrap.classList.add('hidden-label') }
+    
+    
+    components.itemWrap.appendChild(components.inputWrap)
+    components.itemWrap.appendChild(components.controlWrap)
+
     args.input.forEach(arg => {
-        if (special[arg]) exlusive = 
-            special[arg](director, components, args) === true 
-                ? true : false
+        if (special[arg])
+            components = special[arg](director, components, args)
     })
 
-    if (!exclusive) {
-        if (args.labelVis && args.labelVis === "inline"){
-            components.itemWrap.classList.add('inline-label')
-            components.inputWrap.appendChild(components.label)
-        }
-        else components.itemWrap.appendChild(components.label)
-        
-        components.inputWrap.appendChild(components.input)
-        components.itemWrap.appendChild(components.inputWrap)
-        components.itemWrap.appendChild(components.controlWrap)
-    }
-    // components.input.addEventListener('change', e => director)
-    if (args.labelVis && args.labelVis === "hidden")
-        components.itemWrap.classList.add('hidden-label')
-    
     return components
 }
 let makersRouting = (director, opts) => {
