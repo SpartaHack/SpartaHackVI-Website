@@ -19,7 +19,7 @@
         "label": "Hackathons Attended",
         "min": 0,
         "default": 0,
-        "validator": false
+        "validate": false
     },
     {
         "name": "gradYear",
@@ -33,14 +33,14 @@
             2024
         ],
         "label": "Graduation Year",
-        "validator": false
+        "validate": false
     },
     {
         "name": "gradSeason",
         "out": "graduation_seson",
         "input": "select",
         "label": "Graduation Season",
-        "validator": false,
+        "validate": false,
         "options": [
             "Fall",
             "Spring",

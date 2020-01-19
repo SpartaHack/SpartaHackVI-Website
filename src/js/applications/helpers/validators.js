@@ -1,169 +1,112 @@
-let site = (value, id, director, handler) => {
-    if (!input.value) return undefined
-
-    let lastHalf = input.value.match(/.+\/.+/)
+let profile = value => {
+    let lastHalf = value.match(/.+\/.+/)
     if (lastHalf) {
-        input.value = (input.value.match(/\/.+/))[0].substr(1)
+        value = (value.match(/\/.+/))[0].substr(1)
         console.log(input)
         input.parentNode.replaceChild(input, input)
     }
 
-    let validPortion = input.value.match(/[a-zA-Z0-9\-\_]{3,99}/)
-    if (
-        input.value.length > 3 && input.value.length < 100 
-        && validPortion && validPortion[0] == input.value
-    ) out[input.id] = input.value
-    
-    else return -1
-    return true  
+    let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}/)
+    return (value.length > 3 && value.length < 100 
+        && validPortion && validPortion[0] == value )
+        ? value : false
 }
 
 // ---
 
-const otherSite = (input, out) => {
-    if (!input.value) return undefined
-
+const site = value => {
     let p0 = str => str.search(/^http?s\:\/\//)
     let p1 = str => str.search(/www\./)
     let p2 = str => str.search(/([\w|\d|\-|\_]{3,}\.){1,5}\w{1,3}\/?(.+)$/)
     // definitely could have better regex for url contents
 
-    let val = input.value
-    let domainStart = p2(val)
-    let urlStart = p1(val)
+    let domainStart = p2(value)
+    let urlStart = p1(value)
     domainStart += !domainStart && domainStart == urlStart ? 4 : 0
 
     if (domainStart == 0 && urlStart) 
-        val = 'https://' + val
-    else if (p2 < 3) return -1
+        value = 'https://' + value
+    else if (p2 < 3) return
     else if (
         (urlStart == 0 && domainStart != 4) ||
-        (p0(val) == 0 && 
+        (p0(value) == 0 && 
         (urlStart != 7 && urlStart != 8))
-    ) 
-    return -1
-    else val = 'https://' + val.substr(domainStart)
+    ) return
+    else value = 'https://' + value.substr(domainStart)
 
-    out[input.id] = val
-    return true
+    return value
 }
 
 // ---
 
-const select = (input, out) => {
-    if (input && input.type == "text" && input.value.length < 200) 
-        out[input.id] = input.value
-    else if (input.selectedIndex && input.selectedIndex > 0) {
-        let val = input.childNodes[(2 * input.selectedIndex) + 1].value
-        if (val == "!OTHER") {
-            delete out[input.id]
-            return "selectSwap"
-        }
-        else out[input.id] = input.selectedIndex
-    }
-    else return undefined
-    
-    return true
-}
-
-// ---
-
-const birthday = (input, out) => {
-    if (!input.value) return false
-
+const birthday = value => {
     let year = 3600 * 24 * 365
     year -= (year/365)/4 // for leap years
     let yearsOld = // epoch subtraction /1000 bc JS is weird
-        Math.floor((new Date()-new Date(input.value))/1000/year)
+        Math.floor((new Date()-new Date(value))/1000/year)
     
-    if (yearsOld > 12 && yearsOld < 120) {
-        out['birth_year'] = input.value.substr(0,4)
-        out['birth_month'] = input.value.substr(5,2)
-        out['birth_day'] = input.value.substr(8,2)
-        return true
-    }
-    else return false
+    return (yearsOld > 12 && yearsOld < 120) ? ({
+        'birth_year': value.substr(0,4),
+        'birth_month': value.substr(5,2),
+        'birth_day': value.substr(8,2),
+    }) : false
 }
 
 // ---
 
-const statement = (input, out) => {
-    if (!input.value || input.value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) !== 0)
-        return false
+const statement = value =>
+    (value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
+    ? value : false
 
-    out[input.id] = input.value
-    return true
-}
+const name = value => 
+    (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}\s[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/ ) === 0)
+    ? value : false
 
-const name = (input, out) => {
-    let nameForm = input.value.search(
-        /^[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}\s[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/ )
+const regWords = value => 
+    (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ) === 0)
+    ? value : false
+
+// ---
+
+const phone = value => {
+    if (value.search(/[0-9]{10,13}/) != -1)
+        return value.length > 10 ? value : '01' + value
     
-    if (nameForm == -1)
-        return false
-     
-    out[input.id] = input.value
-    return true
-}
-
-const phone = (input, out) => {
-    let ph = input.value
-
-    if (ph.search(/[0-9]{10,13}/) != -1) {
-        out[input.id] = ph.length > 10 ? ph : '01' + ph
-        return true
-    }
-    
-    let country = ph.match(/^\+[0-9]{1,3}[^0-9]/)
+    let country = value.match(/^\+[0-9]{1,3}[^0-9]/)
     country = country ? 
         country[0].substr(0, country[0].length - 2) : '01'
 
     let findSections = str => str.match(/(?:^|[^\+])(\d{3})/gi)
     let findLastSection = str => str.match(/[0-9]{4}$/)
-    let otherParts = findSections(ph)
-    let finalPart = findLastSection(ph)
+    let otherParts = findSections(value)
+    let finalPart = findLastSection(value)
 
     if (!finalPart || otherParts.length != 3) 
         return false
     
-    out[input.id] = country + 
+    let phoneNumber = country + 
         (otherParts[0].length == 3 ? otherParts[0] : otherParts[0].substr(1)) + 
         otherParts[1].substr(1) + finalPart[0]
 
-    let parsedString = new String(Number.parseInt(out[input.id])),
+    let parsedString = new String(Number.parseInt(phoneNumber)),
         origLength = out[input.id].length    
 
-    if (Number.parseInt(parsedString) == Number.parseInt(out[input.id]) &&
+    return (Number.parseInt(parsedString) == Number.parseInt(phoneNumber) &&
         origLength < 14 && origLength > 11)
-        return true
-
-    delete out[input.id]
-    return false
+        ? phoneNumber : false
 }
 
 // ---
 
-const mlh = (input, out) => {
-    if (!input.value || input.value < 0)
-        return false
-
-    out[input.id] = input.value
-
-    return true
-}
-
-
 module.exports.index = ({
-    "otherSite": undefined,
-    "github": undefined,
-    "devpost": undefined,
-    "linkedin": undefined,
-    "statement": undefined,
-    "birthday": undefined,
-    "statement": undefined,
-    "name": undefined,
-    "phone": undefined,
-    "mlh": undefined,
-    "race": undefined,
-    "gender": undefined
+    "github": profile,
+    "devpost": profile,
+    "linkedin": profile,
+    "otherSite": site,
+    "statement": statement,
+    "name": name,
+    "race": regWords,
+    "gender": regWords,
+    "birthday": birthday,
+    "phone": phone
 })

@@ -15,6 +15,7 @@ class AppHandler {
     get needed() { return Array.from(this._needed) }
 
     import(item) {
+        console.log("import", item)
         if (!item || !item.name || !item.validator) return
         let itemInfo = {
             "name": item.name,
@@ -26,15 +27,22 @@ class AppHandler {
         }
 
         this.items[itemInfo.name] = itemInfo
-        this._needed.add(itemInfo.name)
+        if (!itemInfo.optional)
+            this._needed.add(itemInfo.name)
         return true
     }
 
     validate(id, value) {
-        let valid = this.validators[id](value)
-        if (!id || !value)
-            return
-        else if (valid) {
+        console.log("validate", id, value)
+        let item = this.items[id]
+        let valid = item.validate === false 
+            ? true : ( item.validate 
+            ? this.validators[item.validate](value) 
+                : this.validators[id](value) )
+
+        console.log('cool -- ', valid)
+
+        if (valid) {
             this._needed.delete(id)
 
             let out = this.items[id].out
@@ -47,9 +55,11 @@ class AppHandler {
 
             for (let i = 0; i < importValues.length; i++)
                 this.out[out[i]] = importValues[i]
+
             return true
         }
-        else return false
+        this._needed.add(id)
+        return
     }
     
     submit(overlayDom) {
