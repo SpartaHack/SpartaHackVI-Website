@@ -1,5 +1,6 @@
 const specials = require('./helpers/_autoComplete')
 const domFuncs = require('./dom')
+const reports = require('./report')
 const request = require('request')
 
 class AppDirector {
@@ -30,7 +31,10 @@ class AppDirector {
         this.currentPage = 0
         this.getOld(true)
     }
-
+    set current(val) {
+        this.currentPage = val
+        this.showCurrent()
+    }
     get current() { return this.pages[this.currentPage] }
 
     // ---
@@ -43,10 +47,13 @@ class AppDirector {
         let oldVals = window.localStorage.getItem('oldApp')
         if (oldVals) {
             this.oldVals = JSON.parse(oldVals)
-            console.log(this.oldVals)
+            if (this.oldVals.PAGE) {
+                this.current = this.oldVals.PAGE
+                return
+            }
         }
 
-        if (startup) this.setPage()
+        if (startup) this.showCurrent()
     }
 
     getOldVal(id) {
@@ -77,6 +84,13 @@ class AppDirector {
     }
 
     makePage(pageNum, cb) {
+        
+        let pageCount = this.pages.length
+        let targetPage = pageNum
+        while (pageCount < ++targetPage) {
+            this.pages.push(undefined)
+        }
+        console.log(pageNum, this.pages)
         this.pages[pageNum] = domFuncs.page(
             this.pages[pageNum].pop().pageName,
             this.pages[pageNum], this)
@@ -96,23 +110,24 @@ class AppDirector {
 
     nextPage() {
         if (this.currentPage === this.pages.length) return
-
         ++this.currentPage
-        this.setPage()
+        this.showCurrent()
+        this.save()
     }
 
     prevPage() {
         if (this.currentPage === 0) return
-
         --this.currentPage
-        this.setPage()
+        this.showCurrent()
+        this.save()
     }
 
-    setPage() {
+    showCurrent() {
+        console.log()
         if (this.current === undefined)
-            this.getPageSrc(this.currentPage, () => this.setPage())
+            this.getPageSrc(this.currentPage, () => this.showCurrent())
         else if (Array.isArray(this.current))
-            this.makePage(this.currentPage, () => this.setPage())
+            this.makePage(this.currentPage, () => this.showCurrent())
         else {
             // show only the appropriate buttons
             if (this.currentPage === 0) {
@@ -141,6 +156,7 @@ class AppDirector {
     // ---
 
     save() {
+        this.inputVals['PAGE'] = this.currentPage
         window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
     }
     update(id, input, noSave) {
@@ -163,10 +179,12 @@ class AppDirector {
         }
     }
     done() {
-        let id
-        Object.keys(this.domItems).forEach(ik => {
-            id = this.domItems[ik].input.id
+        let id, components
 
+        Object.keys(this.domItems).forEach(ik => {
+            components = this.domItems[ik]
+            id = components.input.id
+            console.log(id, components)
             this.update(id,
                 components.input2 ? components.input2 : components.input, 'saveAfter')
         })

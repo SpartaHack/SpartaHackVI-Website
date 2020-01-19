@@ -75,7 +75,8 @@ let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
-    // opts.oldVal = director.getOldVal(opts.name)
+    opts.oldVal = director.getOldVal(opts.name)
+    if (opts.oldVal) console.log(opts.oldVal)
 
     let inputType = opts.input.pop()
     return makerWrapping(director, makers[inputType](opts), opts)

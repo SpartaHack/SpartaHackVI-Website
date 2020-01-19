@@ -25,7 +25,7 @@ class AppHandler {
         if (!item || !item.name) return
         let itemInfo = {
             "name": item.name,
-            "validate": item.validator !== undefined ? item.validator : item.name,
+            "validate": (item.validate || item.validate === false) ? item.validator : item.name,
             "optional": item.optional ? item.optional : false,
             "out": item.out 
                 ? ( Array.isArray(item.out) 
@@ -43,11 +43,11 @@ class AppHandler {
         let out = this.items[id].out
             ? this.items[id].out : this.items[id].name
         out = Array.isArray(out) ? out : [out]
-
-        let valid = item.validate === false 
+        // console.log(id, this.items, item)
+        let valid = !item.validate
             ? true : this.validators[item.validate](value, this)
 
-        console.log(valid, id, value)
+        // console.log(valid, id, value)
         if (valid) {
             this._needed.delete(id)
 
@@ -59,7 +59,7 @@ class AppHandler {
 
             for (let i = 0; i < importValues.length; i++)
                 this.out[out[i]] = importValues[i]
-                
+
             console.log(this.out, this._needed)
             return true
         }

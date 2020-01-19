@@ -18,7 +18,7 @@ const text = args => {
         input.type = 'text'
     }
 
-    return input
+    return exp(args, input)
 }
 
 const select = args => {
@@ -45,18 +45,28 @@ const select = args => {
 
     else return false
     
-    return input
+    return exp(args, input)
 }
 
 const date = args => {
     let input = document.createElement('input')
     input.type = "date"
-    return input
+
+    return exp(args, input)
 }
 
 const number = args => {
     let input = document.createElement('input')
     input.type = "number"
+    input.min = args.min
+
+    return exp(args, input)
+}
+
+const exp = (args, input) => {
+    if (args.oldVal) input.value = args.oldVal
+    else if (args.defaultVal) 
+        input.value = args.defaultVal
 
     return input
 }
