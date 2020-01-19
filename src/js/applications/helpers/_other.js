@@ -3,10 +3,14 @@ let fromList = components => {
     delete components.input2
 }
 
-let typeOther = (director, id, components) => {
+let typeOther = (director, id) => {
+    let components = director.getComponents(id)
+
+    console.log(director, id, components)
+
     let other = document.createElement('input')
     other.type = "text"
-    other.id = components.input.id
+    other.id = id
     other.placeholder = "List: Backspace"
 
     other.addEventListener('keyup', e => {
@@ -14,11 +18,13 @@ let typeOther = (director, id, components) => {
             fromList(components)
     })
 
-    other.addEventListener('change', 
-        e => director.update(id, other) )
+    
 
     components.input2 = other
-    components.wrap.replaceChild(components.input2, components.input)
+    components.inputWrap.replaceChild(components.input2, components.input)
+
+    other.addEventListener('input', 
+        e => director.update(id, other) )
 }
 
 let ready = (director, components, args) => {

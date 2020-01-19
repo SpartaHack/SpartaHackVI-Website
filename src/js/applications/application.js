@@ -1,4 +1,5 @@
 const validators = require('./helpers/validators').default
+
 const request = require('request')
 
 // const sendApp = require('./helpers/appTransactions').sendApp
@@ -68,7 +69,10 @@ class AppHandler {
             importValues = (Array.isArray(importValues) 
                 ? importValues : [importValues])
 
-            for (let i = 0; i < importValues.length; i++)
+            for (let i = 0; i < importValues.length; i++) {
+                let out = this.out[out[i]]
+                if (Array.isArray(out)) out.push()
+            }
                 this.out[out[i]] = importValues[i]
 
             console.log(this.out, this._needed)

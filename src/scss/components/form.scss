@@ -8,7 +8,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     
     label {
         display: flex;
@@ -21,25 +21,29 @@
         padding-right: 1rem;
     }
     .input-wrap {
+        margin: 0 0 0 auto;
+
         position: relative;
         display: flex;
         flex-direction: row;
         align-content: center;
         
-            input, select, textarea {
-                background: none;
-                color: $white;
-                padding: .5rem !important;
-                margin: .5rem 0 !important;
-                
-                border: .1rem solid $white;
-                font-size: 1rem;
-                border-radius: .5rem;
+        input, select, textarea {
+            background: none;
+            color: $white;
+            padding: .5rem !important;
+            margin: .5rem 0 !important;
+            
+            border: .1rem solid $white;
+            font-size: 1rem;
+            border-radius: .5rem;
+
+            width: 100%;
+            
+            ::placeholder { color: rgba($white, .85); }
+        }
+
         
-                width: 100%;
-                
-                ::placeholder { color: rgba($white, .85); }
-            }
 
         // span {
         //     position: absolute;
@@ -49,7 +53,10 @@
         // }
     }
     .input-controls {
-        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        align-content: center;
     }
     input[type=number] { max-width: 4rem;}
 
@@ -93,7 +100,10 @@
     max-height: 5rem;
     overflow-y: auto;
     z-index: 50;
-
+    color: $black;
+    background-color: $white;
+    border-radius: 100%;
+    box-shadow: 0 0  0 .2rem rgba($red, .75);
     ul {
         list-style: none;
         margin: 0;
@@ -194,7 +204,33 @@
 
 // ---
 
-.list-input {
+.list-input-control {
+    $base-size: 1.5rem;
+    $l-margin: calc(#{$base-size}/3);
+    
+    margin: auto 0;
+    display: flex;
+    flex-direction: row;
+    p {
+        cursor: pointer;
+        margin: auto 0 auto calc(#{$l-margin}*2);
+
+        $side: calc(#{$base-size} + .5rem);
+        width: $side;
+        height: $side;
+        
+        border-radius: 100%;
+        box-shadow: 0 0  0 .2rem rgba($red, .75);
+        background-color: $white;
+        color: $black;
+
+        font-size: $base-size;
+        text-align: center;
+        font-weight: 500;
+
+        $hover-transition-time: 2.5s;
+        transition: transform $hover-transition-time;
+    }
 
 }
 

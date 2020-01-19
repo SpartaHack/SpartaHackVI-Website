@@ -38,6 +38,8 @@ class AppDirector {
 
     // ---
 
+    getComponents(id) { return this.domItems[id]}
+
     getOld(startup) {
         let returnPage = window.localStorage.getItem('returnPage')
         if (Number.isInteger(returnPage)) 
@@ -62,14 +64,18 @@ class AppDirector {
 
     getVal(from) {
         from = typeof from == "string" 
-            ? this.domItems[from].input : from
-
+            ? this.getComponents(from).input : from
+        
         return !from ? undefined : (
-            from.nodeName === 'SELECT' ? 
-                from.childNodes[input.selectedIndex].value
-                : from.value
+            from.dataset.hasOwnProperty('trueVal') ? JSON.parse(from.dataset.trueVal) : (
+                from.nodeName === 'SELECT' ? 
+                    from.childNodes[from.selectedIndex].value
+                    : from.value
+            )
         )
     }
+
+    
 
     // ---
 
@@ -164,7 +170,7 @@ class AppDirector {
     // ---
 
     insert(id, value, noUpdate) {
-        let items = this.domItems[id]
+        let items = this.getComponents(id)
 
         if (value || typeof value == "string") {
             let i = 0
@@ -186,17 +192,17 @@ class AppDirector {
 
         items.inputWrap.replaceChild(items.input, items.input)
 
-        items.input.addEventListener('change', 
-            () => this.update(args.name))
+        items.input.addEventListener('input', 
+            () => this.update(id))
 
-        if (!noUpdate) this.update(id, value)
+        if (!noUpdate) this.update(id)
     }
 
     error(id, extra) {
-        this.domItems[id].itemWrap.classList.add('errored-item')
+        this.getComponents(id).itemWrap.classList.add('errored-item')
     }
     approve(id) {
-        this.domItems[id].itemWrap.classList.remove('errored-item')
+        this.getComponents(id).itemWrap.classList.remove('errored-item')
     }
 
     // ---
@@ -208,6 +214,7 @@ class AppDirector {
     update(id, input, noSave) {
         let val = this.getVal(input ? input : id),
             valid = this.handler.validate(id, val, noSave)
+        console.log(id, val, noSave) 
 
         this.approve(id)
         if (!valid && val.length > 0){
@@ -225,7 +232,7 @@ class AppDirector {
         let id, components
 
         Object.keys(this.domItems).forEach(ik => {
-            components = this.domItems[ik]
+            components = this.getComponents(ik)
             id = components.input.id
             console.log(id, components)
             this.update(id,

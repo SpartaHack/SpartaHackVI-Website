@@ -1,3 +1,5 @@
+const listValidator = require('./_listInput').validate
+
 let profile = value => {
     let lastHalf = value.match(/.+\/.+/)
     if (lastHalf) {
@@ -12,7 +14,7 @@ let profile = value => {
 }
 
 // ---
-
+// put into _autoComplete ?
 let filterCheck = (value, filterSrc) => {
     let query = value.toLowerCase()
     let potRes
@@ -27,12 +29,12 @@ let filterCheck = (value, filterSrc) => {
         }
     return found ? potRes : false
 }
+// ^^
 const major = (value, handler) => 
-    filterCheck(value, handler.getFilter('major'))
+    listValidator(value, 
+        val => filterCheck(val, handler.getFilter('major')) )
 const university = (value, handler) => 
     filterCheck(value, handler.getFilter('university'))
-
-
 const city = (value, handler) => 
     filterCheck(value, handler.getFilter('city'))
 
@@ -90,6 +92,8 @@ const regWords = value =>
     (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ) === 0)
     ? value : false
 
+const race = value => 
+    listValidator(value, val => regWords(val))
 // ---
 
 const phone = value => {
@@ -129,7 +133,7 @@ module.exports.default = ({
     "website": site,
     "personalStatement": statement,
     "name": name,
-    "race": regWords,
+    "race": race,
     "gender": regWords,
     "birthday": birthday,
     "phone": phone,

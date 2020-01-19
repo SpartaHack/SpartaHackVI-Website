@@ -27,21 +27,24 @@ class stackInput {
 
     getDom() {
         let items = {
+            "m": document.createElement('p'),
+            "p": document.createElement('p'),
             "wrap": document.createElement('span'),
-            "p": document.createElement('i'),
-            "m": document.createElement('i')
         }
     
-        items.p.className = 'fas fa-plus-circle'
-        items.m.className = 'fas fa-minus-circle'
-        items.wrap.appendChild(items.p)
+        items.m.innerHTML = '-'
+        items.p.innerHTML = '+'
         items.wrap.appendChild(items.m)
+        items.wrap.appendChild(items.p)
+        items.wrap.className = 'list-input-control'
     
         return items
     }
 
     save() {
-        this.components.input.dataset['trueVal'] = JSON.stringify(this.entries)
+        if (this.director.handler.validate(this.id, this.entries))
+            this.components.input.dataset['trueVal'] = JSON.stringify(this.entries)
+        else while(this.removeEntry()) {}
     }
 
     removeEntry() {
@@ -50,6 +53,8 @@ class stackInput {
         this.director.insert(this.id, last)
 
         this.save()
+
+        return last === "" ? undefined : true
     }
     addEntry() {
         if (!this.director.update(this.id, this.components.input)) {
@@ -66,9 +71,21 @@ class stackInput {
 
 }
 
-let ready = (director, components, args) => {
-    new stackInput(director, components)
+let validate = (value, compFunc) => {
+    if (!Array.isArray(value)) return
+
+    let origLen = value.length,
+        out = [], thisVal, i
+
+    for (let i = 0; i < origLen; i++) {
+        thisVal = compFunc(value[i])
+        if (!thisVal) break
+        out.push(thisVal)
+    }
+
+    return i === origLen ? out : undefined
 }
+module.exports.validate = validate
 
-
-module.exports.default = ready
+module.exports.default = (director, components, args) =>
+    new stackInput(director, components)
