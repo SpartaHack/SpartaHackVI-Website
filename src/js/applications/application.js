@@ -1,4 +1,4 @@
-const validators = require('./helpers/validators')
+const validators = require('./helpers/validators').default
 const request = require('request')
 
 // const sendApp = require('./helpers/appTransactions').sendApp
@@ -6,24 +6,30 @@ const request = require('request')
 class AppHandler {
     constructor(valDicts, existing) {
         this.items = {}
+        this.filters = {}
         this.validators = validators
 
         this._needed = new Set()
         this.out = {}
     }
 
+    importFilter(id, filterSrc) { 
+        if (Array.isArray(filterSrc)) this.filters[id] = filterSrc
+    }
+    getFilter(id) { return this.filters[id] }
+
     get needed() { return Array.from(this._needed) }
 
     import(item) {
-        console.log("import", item)
-        if (!item || !item.name || !item.validator) return
+        // console.log("import", item)
+        if (!item || !item.name) return
         let itemInfo = {
             "name": item.name,
-            "validator": item.validator,
-            "optional": item.optional 
-                ? item.optional : false,
-            "out": item.out ? ( Array.isArray(item.out) 
-                ? item.out : [item.out] ) : item.name
+            "validate": item.validator !== undefined ? item.validator : item.name,
+            "optional": item.optional ? item.optional : false,
+            "out": item.out 
+                ? ( Array.isArray(item.out) 
+                    ? item.out : [item.out] ) : item.name
         }
 
         this.items[itemInfo.name] = itemInfo
@@ -33,21 +39,19 @@ class AppHandler {
     }
 
     validate(id, value) {
-        console.log("validate", id, value)
         let item = this.items[id]
+        let out = this.items[id].out
+            ? this.items[id].out : this.items[id].name
+        out = Array.isArray(out) ? out : [out]
+
         let valid = item.validate === false 
-            ? true : ( item.validate 
-            ? this.validators[item.validate](value) 
-                : this.validators[id](value) )
+            ? true : this.validators[item.validate](value, this)
 
-        console.log('cool -- ', valid)
-
+        console.log(valid, id, value)
         if (valid) {
             this._needed.delete(id)
 
-            let out = this.items[id].out
-                ? this.items[id].out : this.items[id].name
-            out = Array.isArray(out) ? out : [out]
+
             
             let importValues = valid === true ? value : valid
             importValues = (Array.isArray(importValues) 
@@ -55,9 +59,12 @@ class AppHandler {
 
             for (let i = 0; i < importValues.length; i++)
                 this.out[out[i]] = importValues[i]
-
+                
+            console.log(this.out, this._needed)
             return true
         }
+        
+        out.forEach(field => delete this.out[field])
         this._needed.add(id)
         return
     }

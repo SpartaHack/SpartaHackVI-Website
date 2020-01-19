@@ -50,7 +50,6 @@ const makerWrapping = (director, item, args) => {
 
     let exclusive
     args.input.forEach(arg => {
-        console.log(arg)
         if (special[arg]) exlusive = 
             special[arg](director, components, args) === true 
                 ? true : false
@@ -76,7 +75,6 @@ let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
-    console.log(director)
     // opts.oldVal = director.getOldVal(opts.name)
 
     let inputType = opts.input.pop()

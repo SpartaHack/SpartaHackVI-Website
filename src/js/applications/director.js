@@ -40,9 +40,11 @@ class AppDirector {
         if (Number.isInteger(returnPage)) 
             this.currentPage = returnPage
 
-        let oldVals = window.localStorage.getItem('returnVals')
-        if (oldVals) 
+        let oldVals = window.localStorage.getItem('oldApp')
+        if (oldVals) {
             this.oldVals = JSON.parse(oldVals)
+            console.log(this.oldVals)
+        }
 
         if (startup) this.setPage()
     }

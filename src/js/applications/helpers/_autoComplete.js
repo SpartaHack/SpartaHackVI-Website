@@ -1,7 +1,8 @@
 let request = require('request')
 
 class autoCompeteInput {
-    constructor(filterSrc, components) {
+    constructor(filterSrc, components, director) {
+        this.director = director
         this.components = components
         this.filterSrc = filterSrc
         this.curInd = 0
@@ -117,12 +118,14 @@ class autoCompeteInput {
 
     select(item) {
         if (!item) return
-
-        let updated = this.components.input
-        updated.value = item.firstChild.innerHTML
+        
+        let value = item.firstChild.innerHTML,
+            updated = this.components.input
+        updated.value = value
 
         this.components.wrap.replaceChild(updated, this.components.input)
         this.components.input = updated
+        this.director.handler.validate(this.components.input.id, value)
 
         if (this.components.wrap.lastChild === this.itemWrap)
             this.components.wrap.removeChild(this.itemWrap)
@@ -147,12 +150,13 @@ let ready = (director, components, args) => {
         url: window.location.origin + filterIndex[args.name],
         json: true
     }
-
+    console.log(director)
     let dictCb = (err, response, body) => {
         let autoCompleteHandler
-        if (response && response.statusCode === 200 
-            && Array.isArray(body) ) 
-            autoCompleteHandler = new autoCompeteInput(body, components)
+        if (response && response.statusCode === 200 && Array.isArray(body) ) {
+            autoCompleteHandler = new autoCompeteInput(body, components, director)
+            director.handler.importFilter(args.name, body)
+        }
     }
 
     let dictInit = e => {

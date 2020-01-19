@@ -2,7 +2,6 @@ let profile = value => {
     let lastHalf = value.match(/.+\/.+/)
     if (lastHalf) {
         value = (value.match(/\/.+/))[0].substr(1)
-        console.log(input)
         input.parentNode.replaceChild(input, input)
     }
 
@@ -11,6 +10,30 @@ let profile = value => {
         && validPortion && validPortion[0] == value )
         ? value : false
 }
+
+// ---
+
+let filterCheck = (value, filterSrc) => {
+    let query = value.toLowerCase()
+    let potRes
+    let found
+
+    if (Array.isArray(filterSrc) && filterSrc[0])
+        for (let i = 0; i < filterSrc.length; i++) {
+            potRes = filterSrc[i]
+
+            if (potRes.toLowerCase() == query) {found = true; break}
+            
+        }
+    return found ? potRes : false
+}
+
+const university = (value, handler) => 
+    filterCheck(value, handler.getFilter('university'))
+
+
+const city = (value, handler) => 
+    filterCheck(value, handler.getFilter('city'))
 
 // ---
 
@@ -98,7 +121,7 @@ const phone = value => {
 
 // ---
 
-module.exports.index = ({
+module.exports.default = ({
     "github": profile,
     "devpost": profile,
     "linkedin": profile,
@@ -108,5 +131,7 @@ module.exports.index = ({
     "race": regWords,
     "gender": regWords,
     "birthday": birthday,
-    "phone": phone
+    "phone": phone,
+    "city": city,
+    "university": university
 })
