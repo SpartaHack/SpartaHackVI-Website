@@ -60,6 +60,19 @@ class AppDirector {
             ? this.oldVals[id] : undefined
     }
 
+    getVal(from) {
+        from = typeof from == "string" 
+            ? this.domItems[from].input : from
+
+        return !from ? undefined : (
+            from.nodeName === 'SELECT' ? 
+                from.childNodes[input.selectedIndex].value
+                : from.value
+        )
+    }
+
+    // ---
+
     getPageSrc(pageNum, cb) {
         let pageRq = {
             headers: { 
@@ -99,10 +112,8 @@ class AppDirector {
 
     import(components, args) {
         this.domItems[args.name] = components
+        this.insert(args.name, undefined, true)
         this.handler.import(args)
-
-        components.input.addEventListener('change', 
-            () => this.update(args.name))
     }
 
     // ---
@@ -113,14 +124,12 @@ class AppDirector {
         this.showCurrent()
         this.save()
     }
-
     prevPage() {
         if (this.currentPage === 0) return
         --this.currentPage
         this.showCurrent()
         this.save()
     }
-
     showCurrent() {
         console.log()
         if (this.current === undefined)
@@ -154,22 +163,55 @@ class AppDirector {
 
     // ---
 
+    insert(id, value, noUpdate) {
+        let items = this.domItems[id]
+
+        if (value || typeof value == "string") {
+            let i = 0
+            if (items.input.nodeName == "SELECT") {
+                if (typeof value == "string") {
+                    let cc = items.input.childElementCount
+                    while (i < cc) {
+                        if (items.input.childElementCount[i].value == value) {
+                            value = i
+                            break
+                        }
+                        ++i
+                    }
+                }
+                items.input.selectedIndex = insertIndex
+            }
+            else items.iput.value = value
+        }
+
+        items.inputWrap.replaceChild(items.input, items.input)
+
+        items.input.addEventListener('change', 
+            () => this.update(args.name))
+
+        if (!noUpdate) this.update(id, value)
+    }
+
+    error(id, extra) {
+        this.domItems[id].itemWrap.classList.add('errored-item')
+    }
+    approve(id) {
+        this.domItems[id].itemWrap.classList.remove('errored-item')
+    }
+
+    // ---
+
     save() {
         this.inputVals['PAGE'] = this.currentPage
         window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
     }
     update(id, input, noSave) {
-        this.domItems[id].itemWrap.classList.remove('errored-item')
+        let val = this.getVal(input ? input : id),
+            valid = this.handler.validate(id, val, noSave)
 
-        input = input ? input : this.domItems[id].input
-        let val = input.nodeName === 'SELECT' ? 
-            input.childNodes[input.selectedIndex].value
-            : input.value
-        
-        let valid = this.handler.validate(id, val)
-
+        this.approve(id)
         if (!valid && val.length > 0){
-            this.domItems[id].itemWrap.classList.add('errored-item')
+            this.error(id)
             return
         }
         else {

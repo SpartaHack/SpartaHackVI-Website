@@ -48,7 +48,9 @@ class AppHandler {
     }
 
     validate(id, value) {
+        // console.log(id)
         let item = this.items[id]
+        if (!item) return
         let out = this.items[id].out
             ? this.items[id].out : this.items[id].name
         out = Array.isArray(out) ? out : [out]
