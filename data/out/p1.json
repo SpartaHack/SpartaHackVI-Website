@@ -31,19 +31,18 @@
         "name": "gender",
         "input": "other-select",
         "label": "Gender",
-        "placeholder": "Your Gender",
         "options": [
             "Male",
             "Female",
             "Other",
             "Prefer not to Answer"
-        ]
+        ], 
+        "placeholder": "Your Gender"
     },
     {
         "name": "race",
         "input": "list-other-select",
         "label": "Race",
-        "placeholder": "Your Race",
         "options": [
             "American Indian / Alaskan Native",
             "Asian / Pacific Islander",
@@ -52,7 +51,8 @@
             "White / Caucasian",
             "Other",
             "Prefer not to Answer"
-        ]
+        ], 
+        "placeholder": "Your Race"
     },
 
 

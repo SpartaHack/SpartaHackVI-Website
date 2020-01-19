@@ -16,38 +16,38 @@ class autoCompeteInput {
     }
 
     hide() {
-        if (this.components.wrap.lastChild === this.itemWrap)
-            this.components.wrap.removeChild(this.itemWrap)
+        if (this.components.inputWrap.lastChild === this.itemWrap)
+            this.components.inputWrap.removeChild(this.itemWrap)
 
         let show = () => {
             this.show()
 
-            this.components.wrap.removeEventListener('focus', show)
-            this.components.wrap.removeEventListener('mouseenter', show)
+            this.components.inputWrap.removeEventListener('focus', show)
+            this.components.inputWrap.removeEventListener('mouseenter', show)
         }
 
         this.components.input.addEventListener('focus', show)
-        this.components.wrap.addEventListener('mouseenter', show)
+        this.components.inputWrap.addEventListener('mouseenter', show)
     }
 
     show() {
         if (!this.currentItems.childElementCount) 
             this.hide()
 
-        else if (this.components.wrap.lastChild.className === 'autocomplete-list')
-            this.components.wrap.replaceChild(this.itemWrap, this.components.wrap.lastChild)
+        else if (this.components.inputWrap.lastChild.className === 'autocomplete-list')
+            this.components.inputWrap.replaceChild(this.itemWrap, this.components.inputWrap.lastChild)
 
-        else this.components.wrap.appendChild(this.itemWrap)
+        else this.components.inputWrap.appendChild(this.itemWrap)
 
         let hide = () => {
             this.hide()
 
-            this.components.wrap.removeEventListener('blur', hide)
-            this.components.wrap.removeEventListener('mouseleave', hide)
+            this.components.inputWrap.removeEventListener('blur', hide)
+            this.components.inputWrap.removeEventListener('mouseleave', hide)
         }
 
-        this.components.wrap.addEventListener('blur', hide)
-        this.components.wrap.addEventListener('mouseleave', hide)
+        this.components.inputWrap.addEventListener('blur', hide)
+        this.components.inputWrap.addEventListener('mouseleave', hide)
     }
 
     set currentIndex(val) {
@@ -123,12 +123,12 @@ class autoCompeteInput {
             updated = this.components.input
         updated.value = value
 
-        this.components.wrap.replaceChild(updated, this.components.input)
+        this.components.inputWrap.replaceChild(updated, this.components.input)
         this.components.input = updated
         this.director.handler.validate(this.components.input.id, value)
 
-        if (this.components.wrap.lastChild === this.itemWrap)
-            this.components.wrap.removeChild(this.itemWrap)
+        if (this.components.inputWrap.lastChild === this.itemWrap)
+            this.components.inputWrap.removeChild(this.itemWrap)
     }   
 }
 

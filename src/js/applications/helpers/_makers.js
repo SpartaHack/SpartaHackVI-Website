@@ -30,10 +30,14 @@ const select = args => {
         return opt
     }
 
-    if (args.placeholder) {
-        let placeholder = opt("", args.placeholder)
+    if (args.placeholder !== undefined) {
+        let placeholder = opt("none", args.placeholder)
         placeholder.disabled = true
         placeholder.selected = true
+        placeholder.hidden = true
+
+        console.log(placeholder)
+        input.appendChild(placeholder)
     }
 
     if (Array.isArray(args.options))
@@ -65,7 +69,7 @@ const number = args => {
 
 const exp = (args, input) => {
     if (args.oldVal) input.value = args.oldVal
-    else if (args.defaultVal) 
+    else if (args.defaultVal !== undefined) 
         input.value = args.defaultVal
 
     return input

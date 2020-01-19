@@ -15,7 +15,7 @@ let overlay = name => {
     let reportContent = document.createElement('div')
     reportWrap.appendChild(reportContent)
 
-    exitWrap.appendChild(reportWrap)
+    underlay.appendChild(reportWrap)
 
     let buttons = document.createElement('div')
     buttons.id = "report-responses"
@@ -54,8 +54,8 @@ let fail = (director, needed) => {
     neededItems.id = 'needed-items'
 
     needed.forEach(nf => {
-        reportWrap.lastChild.appendChild(document.createElement('li'))
-        reportWrap.lastChild.lastChild.innerHTML = this.fields[nf].error
+        domBase.report.lastChild.appendChild(document.createElement('li'))
+        domBase.report.lastChild.lastChild.innerHTML = director.handler.getError(nf)
     })
 
     return exp(domBase) 

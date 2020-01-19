@@ -27,7 +27,8 @@ let filterCheck = (value, filterSrc) => {
         }
     return found ? potRes : false
 }
-
+const major = (value, handler) => 
+    filterCheck(value, handler.getFilter('major'))
 const university = (value, handler) => 
     filterCheck(value, handler.getFilter('university'))
 
@@ -133,5 +134,6 @@ module.exports.default = ({
     "birthday": birthday,
     "phone": phone,
     "city": city,
+    "major": major,
     "university": university
 })

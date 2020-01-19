@@ -1,6 +1,5 @@
-const specials = require('./helpers/_autoComplete')
 const domFuncs = require('./dom')
-const reports = require('./report')
+const reports = require('./helpers/reports')
 const request = require('request')
 
 class AppDirector {
@@ -160,18 +159,20 @@ class AppDirector {
         window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
     }
     update(id, input, noSave) {
+        this.domItems[id].itemWrap.classList.remove('errored-item')
+
         input = input ? input : this.domItems[id].input
         let val = input.nodeName === 'SELECT' ? 
             input.childNodes[input.selectedIndex].value
             : input.value
         
         let valid = this.handler.validate(id, val)
-        if (!valid){
+
+        if (!valid && val.length > 0){
             this.domItems[id].itemWrap.classList.add('errored-item')
             return
         }
         else {
-            this.domItems[id].itemWrap.classList.remove('errored-item')
             this.inputVals[id] = val
 
             if (!noSave) this.save()
@@ -191,10 +192,10 @@ class AppDirector {
 
         this.save()
         let needed = this.handler.needed
-        let report = needed[0] 
+        this.report = needed[0] 
             ? reports.default(this, needed) : reports.success(this, needed)
 
-        document.body.appendChild(report)
+        document.body.appendChild(this.report.underlay)
     }
 }
 module.exports.default = AppDirector

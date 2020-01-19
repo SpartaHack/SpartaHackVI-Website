@@ -33,14 +33,19 @@ const makerWrapping = (director, item, args) => {
 
     let components = {
         'input': item,
-        'wrap': document.createElement('div'),
         'label': document.createElement('label'),
-        'itemWrap': document.createElement('li')
+        'itemWrap': document.createElement('li'),
+        'inputWrap': document.createElement('div'),
+        'controlWrap': document.createElement('span'),
     }
+
     components.input.id = args.name
     components.input.autocomplete = "off"
-    components.wrap.id = args.name + "Wrap"
-    components.wrap.tabIndex = -1
+    components.inputWrap.id = args.name + "Wrap"
+    components.inputWrap.className = "input-wrap"
+    components.inputWrap.tabIndex = -1
+
+    components.controlWrap.className = "input-controls"
     components.label.for = args.name
     components.label.innerHTML = args.label
     components.itemWrap.className = 
@@ -58,12 +63,13 @@ const makerWrapping = (director, item, args) => {
     if (!exclusive) {
         if (args.labelVis && args.labelVis === "inline"){
             components.itemWrap.classList.add('inline-label')
-            components.wrap.appendChild(components.label)
+            components.inputWrap.appendChild(components.label)
         }
         else components.itemWrap.appendChild(components.label)
         
-        components.wrap.appendChild(components.input)
-        components.itemWrap.appendChild(components.wrap)
+        components.inputWrap.appendChild(components.input)
+        components.itemWrap.appendChild(components.inputWrap)
+        components.itemWrap.appendChild(components.controlWrap)
     }
     // components.input.addEventListener('change', e => director)
     if (args.labelVis && args.labelVis === "hidden")
@@ -76,7 +82,6 @@ let makersRouting = (director, opts) => {
     
     opts.input = opts.input.split("-")
     opts.oldVal = director.getOldVal(opts.name)
-    if (opts.oldVal) console.log(opts.oldVal)
 
     let inputType = opts.input.pop()
     return makerWrapping(director, makers[inputType](opts), opts)

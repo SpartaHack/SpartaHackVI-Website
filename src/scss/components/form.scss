@@ -2,12 +2,13 @@
     height: auto;
     width: 100%;
     padding: 0;
-    margin: .75rem 0;
+    margin: .25rem 0;
     
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
+    flex-wrap: wrap;
     
     label {
         display: flex;
@@ -19,32 +20,36 @@
         user-select: none;
         padding-right: 1rem;
     }
-
-    input, select, textarea {
-        background: none;
-        color: $white;
-        padding: .5rem;
-        
-        border: .1rem solid $white;
-        font-size: 1rem;
-        border-radius: .5rem;
-
-        width: 100%;
-        
-        ::placeholder { color: rgba($white, .85); }
-    }
-    div {
+    .input-wrap {
         position: relative;
         display: flex;
         flex-direction: row;
         align-content: center;
-    }
+        
+            input, select, textarea {
+                background: none;
+                color: $white;
+                padding: .5rem !important;
+                margin: .5rem 0 !important;
+                
+                border: .1rem solid $white;
+                font-size: 1rem;
+                border-radius: .5rem;
+        
+                width: 100%;
+                
+                ::placeholder { color: rgba($white, .85); }
+            }
 
-    span {
-        position: absolute;
-        z-index: 10;
-        bottom: 0;
-        right: 0;
+        // span {
+        //     position: absolute;
+        //     z-index: 10;
+        //     bottom: 0;
+        //     right: 0;
+        // }
+    }
+    .input-controls {
+        width: 100%;
     }
     input[type=number] { max-width: 4rem;}
 
@@ -62,8 +67,12 @@
         }
     }
 }
-.errored {
-    border-color: rgba($red, .75) !important;
+.errored-item {
+    
+    &.inine-label .input-wrap, .input-wrap input {
+        border-color: rgba($red, .75) !important;
+    }
+    
 }
 
 // ---
@@ -93,42 +102,38 @@
         display: block;
         
         li {
-            width: 100%;
-            
-            padding: .25rem 0;
-            border-bottom: .1rem $black solid;
-
+            cursor: pointer;
             p {
                 margin: 0;
                 color: $black;
             }
             
-            cursor: pointer;
-            &.active-auto, &:hover { p {color: $red !important;} }
+            width: 100%;
+            padding: .25rem 0;
+            border-bottom: .1rem $black solid;
+            &.active-auto, &:hover 
+                { p {color: $red !important;} }
             &:last-child { border: none;}
         }
     }
 }
 
-// .active { color: $red !important; }
-
-.active-auto p {
-    color: $red !important;
-}
-
+.active-auto p { color: $red !important; }
 
 .inline-label {
-    div {
+    .input-wrap {
         display: flex;
         flex-direction: row;
         align-content: center;
+        
         padding: 0 .5rem;
-        width: 100%;
+        margin: .5rem 0 !important;
 
-        &, input {
-            margin: 0;
-            height: auto;
-        }
+        width: 100%;
+        max-width: 100%;
+        &, input { height: auto; }
+        overflow: hidden;
+
         p {
             display: flex;
             flex-direction: column;
@@ -144,6 +149,7 @@
             padding: .5rem 0;// .5rem .25rem;
             border: none;
             border-radius: 0;
+            margin: 0 !important;
         }
         border-radius: .5rem;
         border: .1rem solid $white;
