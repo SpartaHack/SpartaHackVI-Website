@@ -7,6 +7,7 @@ class autoCompeteInput {
         this.filterSrc = filterSrc
         this.curInd = 0
 
+        this.id = components.input.id
         this.itemWrap = document.createElement('span')
         this.itemWrap.className = 'autocomplete-list'
         this.currentItems = document.createElement('ul')
@@ -118,14 +119,8 @@ class autoCompeteInput {
 
     select(item) {
         if (!item) return
-        
-        let value = item.firstChild.innerHTML,
-            updated = this.components.input
-        updated.value = value
 
-        this.components.inputWrap.replaceChild(updated, this.components.input)
-        this.components.input = updated
-        this.director.handler.validate(this.components.input.id, value)
+        this.director.insert(this.id, item.firstChild.innerHTML)
 
         if (this.components.inputWrap.lastChild === this.itemWrap)
             this.components.inputWrap.removeChild(this.itemWrap)
