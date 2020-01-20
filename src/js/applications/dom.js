@@ -44,7 +44,7 @@ const makerWrapping = (director, item, args) => {
     components.inputWrap.className = "input-wrap"
     components.inputWrap.tabIndex = -1
     components.inputWrap.appendChild(components.input)
-
+    
     components.controlWrap.className = "input-controls"
     components.label.for = args.name
     components.label.innerHTML = args.label

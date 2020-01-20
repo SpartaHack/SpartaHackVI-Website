@@ -33,6 +33,7 @@ $break-d3: 320px;
 
 //elements
 
+
 .vrt-barrier {
     display: inline-block;
 
@@ -119,4 +120,5 @@ a {
 h1, h2, button
     { text-transform: uppercase; }
 
-.softHide { display: none;}
+.hidden { display: none;}
+// .visible { display: block;}

@@ -41,7 +41,7 @@
     },
     {
         "name": "race",
-        "input": "list-other-select",
+        "input": "other-list-select",
         "label": "Race",
         "options": [
             "American Indian / Alaskan Native",

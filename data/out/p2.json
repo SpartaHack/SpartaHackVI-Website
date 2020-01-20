@@ -7,7 +7,7 @@
     },
     {
         "name": "major",
-        "input": "list-autocomplete-text",
+        "input": "autocomplete-list-text",
         "label": "Major",
         "Error": "Major (From Autocomplete)",
         "placeholder": "Your Major"

@@ -5,7 +5,7 @@ class specialIput {
         this.director = director
     }
 
-    get curVal() { this.director.getInputVal(this.id) }
+    get curVal() { return this.director.getInputVal(this.id) }
     get components() { return this.director.getComponents(this.id) }
 
     // ---

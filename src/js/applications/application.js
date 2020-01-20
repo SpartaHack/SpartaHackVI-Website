@@ -51,10 +51,9 @@ class AppHandler {
     validate(id, value) {
         let item = this.items[id]
         if (!item) return
-        value = item.trueVal ? item.trueVal : value
 
+        value = item.trueVal ? item.trueVal : value
         let out = item.out ? item.out : item.name
-        out = Array.isArray(out) ? out : [out]
 
         let valid = !item.validate ? true 
             : this.validators[item.validate](value, this)
@@ -67,14 +66,15 @@ class AppHandler {
             for (let i = 0; i < importValues.length; i++)
                 this.out[out[i]] = importValues[i]
 
-            console.log(this.out, this._needed)
             this._needed.delete(id)
             return true
         }
         
-        out.forEach(field => delete this.out[field])
+        if (Array.isArray(out)) 
+            out.forEach(field => delete this.out[field])
+        else delete this.out[out]
+
         this._needed.add(id)
-        console.log(this.out)
         return
     }
     

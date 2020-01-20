@@ -4,7 +4,8 @@ class stackInput  extends specialInput{
     constructor(director, components) {
         super(director, components)
         this.entries = []
-        this.currentInStack = false
+        this.isFirst = true
+        this.last
 
         components['stackControls'] = this.getDom()
         components.controlWrap.appendChild(components.stackControls.wrap)
@@ -18,48 +19,58 @@ class stackInput  extends specialInput{
             "wrap": document.createElement('span'),
         }
         items.wrap.className = 'list-input-control'
-    
-        items.p.innerHTML = '+'
-        items.p.addEventListener('click', e => this.newEntry())
-        items.wrap.appendChild(items.p)
 
         items.m.innerHTML = '-'
+        items.m.className = 'hidden'
         items.m.addEventListener('click', e => this.removeEntry())
+        items.wrap.appendChild(items.m)
+
+        items.p.innerHTML = '+'
+        items.p.addEventListener('click', e => this.newEntry(true))
+        // ^^ causes newEntry()
+        items.wrap.appendChild(items.p)
     
         return items
+    }
+
+    set lastRecent(val) {
+        if (this.last === undefined || val !== this.last) {
+            this.last = val
+            this.entries.push(val)
+        }
+        if (this.last !== undefined) this.isFirst = false
     }
 
     eventHook(components) {
         components['trueVal'] = this.entries
 
         let current = this.curVal
+        // console.log(current)
         if (current !== "" && current !== undefined)
-            components.trueVal.push(current)
-
+            this.lastRecent = current
+        // console.log("--", current)
         return components
     }
 
     removeEntry() {
-        let last = this.entries[0] ? this.entries.pop() : ''
-        
-        this.director.insert(this.id, last)
-
-        return Boolean(this.entries[0])
-        // indicate if there are values left in the stack
+        if (!this.entries[0])
+            this.components.stackControls.m.className = 'hidden'
+    
+        this.director.insert(this.id, this.entries.pop())
     }
 
-    newEntry() {
+    newEntry(alreadySaved) {
         let current = this.curVal
-        console.log(current)
-        
-        if (current === "" || current === undefined) {
-            // error code?
-            return
-        }
 
-        this.entries.push(current)
-        this.director.insert(this.id, "")
+        if (current === "" || current === undefined)
+            return
+        this.components.stackControls.m.className = ''
+
+        this.lastRecent = current
+        this.director.insert(this.id, "", true)
     }
+
+    
 }
 module.exports.default = (director, components, args) =>
     new stackInput(director, components)
@@ -72,12 +83,13 @@ let validate = (value, compFunc) => {
     let origLen = value.length,
         out = [], thisVal, i
 
-    for (let i = 0; i < origLen; i++) {
+    for (i = 0; i < origLen; i++) {
         thisVal = compFunc(value[i])
+        // console.log(thisVal)
         if (!thisVal) break
         out.push(thisVal)
     }
-
+    // console.log(i, origLen)
     return i === origLen ? out : undefined
 }
 module.exports.validate = validate

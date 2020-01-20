@@ -43,14 +43,7 @@ class AppDirector {
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
-        
-        if (!srcItems) return
 
-        console.log(!srcItems ? undefined : (
-            srcItems.input instanceof HTMLSelectElement
-            ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
-                : srcItems.input.value
-        ) )
         return !srcItems ? undefined : (
             srcItems.input instanceof HTMLSelectElement
             ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
@@ -139,19 +132,19 @@ class AppDirector {
         else {
             // show only the appropriate buttons
             if (this.currentPage === 0) {
-                this.buttons.prev.classList.add('softHide')
-                this.buttons.done.classList.add('softHide')
+                this.buttons.prev.classList.add('hidden')
+                this.buttons.done.classList.add('hidden')
             }
             else {
-                this.buttons.prev.classList.remove('softHide')
+                this.buttons.prev.classList.remove('hidden')
 
                 if (this.currentPage === this.pages.length - 1) {
-                    this.buttons.next.classList.add('softHide')
-                    this.buttons.done.classList.remove('softHide')
+                    this.buttons.next.classList.add('hidden')
+                    this.buttons.done.classList.remove('hidden')
                 }
                 else {
-                    this.buttons.done.classList.add('softHide')
-                    this.buttons.next.classList.remove('softHide')
+                    this.buttons.done.classList.add('hidden')
+                    this.buttons.next.classList.remove('hidden')
                 }
             }
 
@@ -172,27 +165,26 @@ class AppDirector {
     }
 
     insert(id, value, noUpdate) {
+        value = value !== undefined ? value : ""            
         let items = this.getComponents(id)
 
-        if (value || typeof value == "string") {
-            if (items.input.nodeName == "SELECT") {
-                if (value && typeof value == "string") {
-                    let cc = items.input.childElementCount,
-                        i = 0
-                    while (i < cc) {
-                        if (items.input.childElementCount[i].value == value) {
-                            value = i
-                            break
-                        }
-                        ++i
+        if (items.input.nodeName == "SELECT") {
+            if (value && typeof value == "string") {
+                let cc = items.input.childElementCount,
+                    i = 0
+                while (i < cc) {
+                    if (items.input.childElementCount[i].value == value) {
+                        value = i
+                        break
                     }
+                    ++i
                 }
-                value = Number.isInteger(value) ? value : 0
-                items.input.selectedIndex = value
             }
-            else items.input.value = value
+            value = Number.isInteger(value) ? value : 0
+            items.input.selectedIndex = value
         }
-
+        else items.input.value = value
+        
         items.inputWrap.replaceChild(items.input, items.input)
         if (!noUpdate) this.update(id)
     }
