@@ -2,7 +2,7 @@ const validators = require('./helpers/validators').default
 
 const request = require('request')
 
-// const sendApp = require('./helpers/appTransactions').sendApp
+// const sendApp = require('.//appTransactions').sendApp
 
 class AppHandler {
     constructor(valDicts, existing) {
@@ -34,7 +34,7 @@ class AppHandler {
         if (!item || !item.name) return
         let itemInfo = {
             "name": item.name,
-            "validate": (item.validate || item.validate === false) ? item.validator : item.name,
+            "validate": (item.validate || item.validate === false) ? item.validate : item.name,
             "optional": item.optional ? item.optional : false,
             "error": item.error,
             "out": item.out 
@@ -49,33 +49,26 @@ class AppHandler {
     }
 
     validate(id, value) {
-        // console.log(id)
         let item = this.items[id]
         if (!item) return
-        let out = this.items[id].out
-            ? this.items[id].out : this.items[id].name
+        value = item.trueVal ? item.trueVal : value
+
+        let out = item.out ? item.out : item.name
         out = Array.isArray(out) ? out : [out]
-        // console.log(id, this.items, item)
-        let valid = !item.validate
-            ? true : this.validators[item.validate](value, this)
 
-        // console.log(valid, id, value)
+        let valid = !item.validate ? true 
+            : this.validators[item.validate](value, this)
+
         if (valid) {
-            this._needed.delete(id)
-
-
-            
             let importValues = valid === true ? value : valid
             importValues = (Array.isArray(importValues) 
                 ? importValues : [importValues])
 
-            for (let i = 0; i < importValues.length; i++) {
-                let out = this.out[out[i]]
-                if (Array.isArray(out)) out.push()
-            }
+            for (let i = 0; i < importValues.length; i++)
                 this.out[out[i]] = importValues[i]
 
             console.log(this.out, this._needed)
+            this._needed.delete(id)
             return true
         }
         

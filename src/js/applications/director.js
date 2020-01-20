@@ -38,8 +38,21 @@ class AppDirector {
 
     // ---
 
-    getComponents(id) { return this.domItems[id] }
-    setComponents(newComps) { this.domItems[id] = newComps }
+    getComponents(id) { return id  ? this.domItems[id] : undefined}
+    setComponents(id, newComps) { this.domItems[id] = newComps }
+
+    getInputVal(id) {
+        let srcItems = this.getComponents(id)
+        if (!srcItems) return
+
+        return !srcItems ? undefined : (
+            srcItems.input.nodeName == 'SELECT' 
+            ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
+                : srcItems.input.value
+        ) 
+    }
+
+    // ---
 
     getOld(startup) {
         let returnPage = window.localStorage.getItem('returnPage')
@@ -62,21 +75,6 @@ class AppDirector {
         return this.oldVals instanceof Object 
             ? this.oldVals[id] : undefined
     }
-
-    getVal(from) {
-        from = typeof from == "string" 
-            ? this.getComponents(from).input : from
-
-        return !from ? undefined : (
-            from.dataset.hasOwnProperty('trueVal') ? JSON.parse(from.dataset.trueVal) : (
-                from.nodeName === 'SELECT' ? 
-                    from.childNodes[from.selectedIndex].value
-                    : from.value
-            )
-        )
-    }
-
-    // ---
 
     getPageSrc(pageNum, cb) {
         let pageRq = {
@@ -101,28 +99,16 @@ class AppDirector {
     }
 
     makePage(pageNum, cb) {
-        
         let pageCount = this.pages.length
         let targetPage = pageNum
-        while (pageCount < ++targetPage) {
-            this.pages.push(undefined)
-        }
-        console.log(pageNum, this.pages)
+        
+        while (pageCount < ++targetPage) 
+            { this.pages.push(undefined) }
+
         this.pages[pageNum] = domFuncs.page(
             this.pages[pageNum].pop().pageName,
             this.pages[pageNum], this)
-
         cb()
-    }
-
-    import(components, args) {
-        this.setComponents(args.name, components)
-        this.handler.import(args)
-        
-        let eventHandling = () => {
-            this.getComponents(args.name).input.addEventListener('change', e => console.log(e))
-        }
-        eventHandling()
     }
 
     // ---
@@ -140,7 +126,6 @@ class AppDirector {
         this.save()
     }
     showCurrent() {
-        console.log()
         if (this.current === undefined)
             this.getPageSrc(this.currentPage, () => this.showCurrent())
         else if (Array.isArray(this.current))
@@ -172,6 +157,14 @@ class AppDirector {
 
     // ---
 
+    import(components, args) {
+        this.setComponents(args.name, components)
+        this.handler.import(args)
+        
+        this.getComponents(args.name).inputWrap.addEventListener(
+            'change', e => this.update(args.name) )
+    }
+
     insert(id, value, noUpdate) {
         let items = this.getComponents(id)
 
@@ -190,22 +183,18 @@ class AppDirector {
                 }
                 items.input.selectedIndex = insertIndex
             }
-            else items.iput.value = value
+            else items.input.value = value
         }
 
         items.inputWrap.replaceChild(items.input, items.input)
-
-        items.input.addEventListener('input', 
-            () => this.update(id))
-
         if (!noUpdate) this.update(id)
     }
 
-    error(id, extra) {
-        this.getComponents(id).itemWrap.classList.add('errored-item')
-    }
     approve(id) {
         this.getComponents(id).itemWrap.classList.remove('errored-item')
+    }
+    error(id, extra) {
+        this.getComponents(id).itemWrap.classList.add('errored-item')
     }
 
     // ---
@@ -214,22 +203,28 @@ class AppDirector {
         this.inputVals['PAGE'] = this.currentPage
         window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
     }
-    update(id, input, noSave) {
-        let val = this.getVal(input ? input : id),
+    update(id, noSave) {
+        let components  = this.getComponents(id)
+        console.log(components)
+        if (components.specialHandlers) {
+            Object.keys(components.specialHandlers).forEach(h =>
+                components = components.specialHandlers[h].eventHook(components) )
+            console.log("director -- ", components)
+        }
+    
+        let val = this.getInputVal(id),
             valid = this.handler.validate(id, val, noSave)
-        console.log(id, val, noSave) 
 
         this.approve(id)
-        if (!valid && val.length > 0){
+        if (!valid && val.length > 0)
             this.error(id)
-            return
-        }
         else {
             this.inputVals[id] = val
 
             if (!noSave) this.save()
-            return true
         }
+
+        return Boolean(valid)
     }
     done() {
         let id, components
@@ -237,9 +232,8 @@ class AppDirector {
         Object.keys(this.domItems).forEach(ik => {
             components = this.getComponents(ik)
             id = components.input.id
-            console.log(id, components)
-            this.update(id,
-                components.input2 ? components.input2 : components.input, 'saveAfter')
+
+            this.update(id, 'saveAfter')
         })
 
         this.save()

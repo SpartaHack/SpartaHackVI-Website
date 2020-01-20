@@ -22,10 +22,9 @@
 */
 const makers = require('./helpers/_makers').default
 const special = {
-    'autocomplete': require('./helpers/_autoComplete').default,
-    'inlinelabel': () => {},
     'other': require('./helpers/_other').default,
-    'list': require('./helpers/_listInput').default
+    'list': require('./helpers/_stackInput').default,
+    'autocomplete': require('./helpers/_autoComplete').default,
 }
 
 const makerWrapping = (director, item, args) => {
@@ -68,11 +67,14 @@ const makerWrapping = (director, item, args) => {
     components.itemWrap.appendChild(components.inputWrap)
     components.itemWrap.appendChild(components.controlWrap)
 
+    let specialHandlers = {}
     args.input.forEach(arg => {
         if (special[arg])
-            components = special[arg](director, components, args)
+            specialHandlers[arg] = special[arg](director, components, args)
     })
-
+    // console.log("dom", specialHandlers)
+    if (Object.keys(specialHandlers)[0]) 
+        components['specialHandlers'] = specialHandlers
     return components
 }
 let makersRouting = (director, opts) => {
@@ -99,6 +101,7 @@ let getPage = (pageName, src, director) => {
         let inParts = makersRouting(director, si)
 
         if (inParts) {
+            // console.log(inParts)
             pageContent.appendChild(inParts.itemWrap)
             director.import(inParts, si)
         }

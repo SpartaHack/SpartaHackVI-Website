@@ -1,19 +1,13 @@
 const specialInput = require('./__specialInput').default
-const utfAlpha = 41
 
 class stackInput  extends specialInput{
-    constructor(director, id) {
-        this.super(director, id)
-        components['stackControls'] = this.getDom()
-        components.controlWrap.appendChild(components.stackControls.wrap)
-
-        this.id = components.input.id
-        this.director = director
-        this.components = components
-
+    constructor(director, components) {
+        super(director, components)
         this.entries = []
 
-
+        components['stackControls'] = this.getDom()
+        components.controlWrap.appendChild(components.stackControls.wrap)
+        this.director.setComponents(this.id, components)
     }
 
     getDom() {
@@ -32,6 +26,11 @@ class stackInput  extends specialInput{
         return items
     }
 
+
+    eventHook(components) {
+        components['trueVal'] = this.entries
+        return components
+    }
     save() {
         if (this.director.handler.validate(this.id, this.entries))
             this.components.input.dataset['trueVal'] = JSON.stringify(this.entries)
@@ -48,19 +47,14 @@ class stackInput  extends specialInput{
         return last === "" ? undefined : true
     }
     addEntry() {
-        if (!this.director.update(this.id, this.components.input)) {
-            console.log(this.director.update(this.id, this.components.input))
-            return
-        }
-
-        this.entries.push(this.director.getVal(this.id))
+        this.entries.push(this.director.getInputVal(this.id))
         this.director.insert(this.id, "")
 
         this.save()
     }
-
-
 }
+module.exports.default = (director, components, args) =>
+    new stackInput(director, components)
 
 let validate = (value, compFunc) => {
     if (!Array.isArray(value)) return
@@ -77,6 +71,3 @@ let validate = (value, compFunc) => {
     return i === origLen ? out : undefined
 }
 module.exports.validate = validate
-
-module.exports.default = (director, components, args) =>
-    new stackInput(director, components)

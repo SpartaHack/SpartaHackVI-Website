@@ -2,56 +2,76 @@ let request = require('request')
 const specialInput = require('./__specialInput').default
 
 class autoCompeteInput extends specialInput {
-    constructor(filterSrc, components, director) {
-
-        this.super(director, )
-        this.director = director
-        this.components = components
-        this.filterSrc = filterSrc
+    constructor(director, components, filterUrl) {
+        super(director, components)
         this.curInd = 0
+        this.filterSrc
+        this.import(filterUrl)
 
-        this.id = components.input.id
         this.itemWrap = document.createElement('span')
         this.itemWrap.className = 'autocomplete-list'
         this.currentItems = document.createElement('ul')
         this.itemWrap.append(this.currentItems)
+    }
+
+    import(src) {
+        let importRq = {
+            headers: 
+                { "Content-Type":"application/json" },
+            url: window.location.origin + src,
+            json: true
+        }
         
-        this.components.input.addEventListener('keyup', e => this.route(e.keyCode))
+        let importCb = (err, response, body) => {
+            if (response && response.statusCode === 200 && Array.isArray(body) ) {
+                this.filterSrc = body
+                this.components.inputWrap.addEventListener('keyup', 
+                    e => this.route(e.keyCode) )
+            }
+        }
+    
+        request.get(importRq, importCb)
     }
 
     hide() {
-        if (this.components.inputWrap.lastChild === this.itemWrap)
+        let components = this.components
+        if (components.inputWrap.lastChild === this.itemWrap)
             this.components.inputWrap.removeChild(this.itemWrap)
 
         let show = () => {
             this.show()
 
-            this.components.inputWrap.removeEventListener('focus', show)
-            this.components.inputWrap.removeEventListener('mouseenter', show)
+            components.inputWrap.removeEventListener('focus', show)
+            components.inputWrap.removeEventListener('mouseenter', show)
         }
 
-        this.components.input.addEventListener('focus', show)
-        this.components.inputWrap.addEventListener('mouseenter', show)
+        components.input.addEventListener('focus', show)
+        components.inputWrap.addEventListener('mouseenter', show)
+
+        this.director.setComponents(this.id, components)
     }
 
     show() {
+        let components = this.components
         if (!this.currentItems.childElementCount) 
             this.hide()
 
-        else if (this.components.inputWrap.lastChild.className === 'autocomplete-list')
-            this.components.inputWrap.replaceChild(this.itemWrap, this.components.inputWrap.lastChild)
+        else if (components.inputWrap.lastChild.className === 'autocomplete-list')
+            components.inputWrap.replaceChild(this.itemWrap, components.inputWrap.lastChild)
 
-        else this.components.inputWrap.appendChild(this.itemWrap)
+        else components.inputWrap.appendChild(this.itemWrap)
 
         let hide = () => {
             this.hide()
 
-            this.components.inputWrap.removeEventListener('blur', hide)
-            this.components.inputWrap.removeEventListener('mouseleave', hide)
+            components.inputWrap.removeEventListener('blur', hide)
+            components.inputWrap.removeEventListener('mouseleave', hide)
         }
 
         this.components.inputWrap.addEventListener('blur', hide)
         this.components.inputWrap.addEventListener('mouseleave', hide)
+
+        this.director.setComponents(this.id, components)
     }
 
     set currentIndex(val) {
@@ -123,7 +143,7 @@ class autoCompeteInput extends specialInput {
     select(item) {
         if (!item) return
 
-        this.director.insert(this.id, item.firstChild.innerHTML)
+        this.director.insert(this.id, item.firstChild.innerHTML, true)
 
         if (this.components.inputWrap.lastChild === this.itemWrap)
             this.components.inputWrap.removeChild(this.itemWrap)
@@ -140,29 +160,6 @@ let filterKeyIndex = {
     'cities': 'name',
     'unis': 'name'
 }
-
-let ready = (director, components, args) => {
-    let dictRq = {
-        headers: 
-            { "Content-Type":"application/json" },
-        url: window.location.origin + filterIndex[args.name],
-        json: true
-    }
-    console.log(director)
-    let dictCb = (err, response, body) => {
-        let autoCompleteHandler
-        if (response && response.statusCode === 200 && Array.isArray(body) ) {
-            autoCompleteHandler = new autoCompeteInput(body, components, director)
-            director.handler.importFilter(args.name, body)
-        }
-    }
-
-    let dictInit = e => {
-        request.get(dictRq, dictCb)
-        components.input.removeEventListener('focus', dictInit)
-    }
-    components.input.addEventListener('focus', dictInit)
-}
-
-
-module.exports.default = ready
+ // ^^ this -> can probably be done more cohesively lol
+module.exports.default = (director, components, args) => 
+    new autoCompeteInput(director, components, filterIndex[args.name])

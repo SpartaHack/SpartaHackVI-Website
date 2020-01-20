@@ -1,65 +1,57 @@
-let fromList = components => {
-    components.wrap.replaceChild(components.input, components.input2)
-    delete components.input2
-}
-
-let typeOther = (director, id) => {
-    let components = director.getComponents(id)
-
-    console.log(director, id, components)
-
-
-
-    other.addEventListener('keyup', e => {
-        if (other.value.length === 0 && e.keyCode === 8)
-            fromList(components)
-    })
-
-    
-
-    components.input2 = other
-    components.inputWrap.replaceChild(components.input2, components.input)
-
-    other.addEventListener('input', 
-        e => director.update(id, other) )
-}
-
-let ready = (director, components, args) => {
-    components.input.addEventListener('change', () => {
-        let selected = components.input
-                      .childNodes[components.input.selectedIndex]
-
-        if (selected.value === "other" || selected.value === "Other")
-            typeOther(director, args.name, components)
-    })
-
-}
-
 const specialInput = require('./__specialInput').default
 
 class otherThanListed extends specialInput{
-    constructor(director, id) {
-        this.super(director, id)
+    constructor(director, components) {
+        super(director, components)
 
-        let other = document.createElement('input')
-        other.type = "text"
-        other.id = id
-        other.placeholder = "List: Backspace"
+        components['altInput'] = this.other
+        this.director.setComponents(this.id, components)
     }
 
-    showOther() {
+    get other() {
+        let input = document.createElement('input')
+        input.type = "text"
+        input.id = this.id
+        input.placeholder = "List: Backspace"
 
+        input.addEventListener('keyup', e => {
+            let wasEmpty = input.dataset.hasOwnProperty('wasEmpty')
+            if (!input.value.length) {
+                if (!wasEmpty) input.dataset['wasEmpty'] = 1
+                else if (e.keyCode == 8) this.swapInput()
+            }
+            else if (wasEmpty) delete input.dataset.wasEmpty
+        })
+
+        return input
     }
 
-    showListed() {
+    swapInput(components) {
+        components = components ? components : this.components
+        if (!components.input || !components.altInput) 
+            return components
 
+        components.inputWrap.removeChild(components.input)
+
+        let temp = components.input
+        components.input = components.altInput
+        components.altInput = temp
+
+        components.inputWrap.appendChild(components.input)
+
+        return components
     }
 
-    itemChanged() {
-        if (director.getVal(this.id) == "!!OTHER!") {
-            this.showListed
-        }
+    eventHook(components) {
+        let val = this.director.getInputVal(this.id)
+
+        if (components.input != this.other && val == "Other")
+            components = this.swapInput(components)
+        
+        return components
+
     }
 }
 
-module.exports.default = ready
+module.exports.default = 
+    (director, components, args) => new otherThanListed(director, components)
