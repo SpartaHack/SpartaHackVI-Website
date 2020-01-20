@@ -1,45 +1,27 @@
 import './../../scss/sheets/application.scss'
-
 ;(require('../login').default)()
 
-const Application = require('./formHelpers/director').default
-let app = new Application()
+const Director = require('./director').default
+const Handler = require('./application').default
 
-// --- navigation
-
-var current = Number(localStorage.getItem('pos'))
-current = current === NaN ? 0 : current
-
-const sections = document.querySelectorAll('#app-wrap main section')
-const buttons = {
-    'p': document.querySelector('aside ul button:first-child'),
-    'n': document.querySelector('aside ul button:nth-child(2)'),
-    'd': document.querySelector('aside ul button:last-child')
+let validatorDictionaries = {
+    'city': 'cities.json',
+    'major': 'majors.json',
+    'universities': 'unis.json'
 }
+let handler = new Handler(validatorDictionaries)
 
-let showCurrent = () => {
-    buttons.p.className = current == 0 ?
-        'other-section' : ''
-    buttons.n.className = current == sections.length - 1 ?
-        'other-section' : ''
-    buttons.d.className = current == sections.length - 1 ?
-        '' : 'other-section'
-
-    for (var i = 0; i < sections.length; i++)
-        sections[i].className = i == current ? 'app-section' : 'other-section'
+let directorArgs = {
+    'container': 'application-area',
+    'buttons': {
+        'prev': document.querySelector('aside ul button:first-child'),
+        'next': document.querySelector('aside ul button:nth-child(2)'),
+        'done': document.querySelector('aside ul button:last-child')
+    },
+    'urls': [
+        window.location.origin + "/data/p1", 
+        window.location.origin + "/data/p2", 
+        window.location.origin + "/data/p3"
+    ]
 }
-let change = forward => {
-    current += forward ? 1 : -1
-    localStorage.setItem('pos', current)
-    
-    showCurrent(current, sections)
-}
-
-showCurrent()
-buttons.n.addEventListener('click', () => change(true))
-buttons.p.addEventListener('click', () => change(false))
-
-buttons.d.addEventListener('click', () => app.submit())
-
-
-// -- 
+let director = new Director(directorArgs, handler)

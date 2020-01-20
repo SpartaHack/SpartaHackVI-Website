@@ -1,5 +1,5 @@
 import './../scss/sheets/dashboard.scss'
-let getApp = require('./applications/appTransactions').getApp
+let getApp = require('./applications/transactions').getApp
 let login = require('./login').default
 
 let appState = () => {

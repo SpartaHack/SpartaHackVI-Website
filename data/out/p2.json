@@ -1,0 +1,52 @@
+[
+    {
+        "name": "university",
+        "input": "opt-autocomplete-text",
+        "label": "University",
+        "placeholder": "Michigan State University"
+    },
+    {
+        "name": "major",
+        "input": "autocomplete-list-text",
+        "label": "Major",
+        "Error": "Major (From Autocomplete)",
+        "placeholder": "Your Major"
+    },
+    {
+        "name": "mlhExperience",
+        "out": "hackathons",
+        "input": "number",
+        "label": "Hackathons Attended",
+        "min": 0,
+        "defaultVal": 0,
+        "validate": false
+    },
+    {
+        "name": "gradYear",
+        "out": "graduation_year",
+        "input": "select",
+        "options": [
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+        ],
+        "label": "Graduation Year",
+        "validate": false
+    },
+    {
+        "name": "gradSeason",
+        "out": "graduation_seson",
+        "input": "select",
+        "label": "Graduation Season",
+        "validate": false,
+        "options": [
+            "Fall",
+            "Spring",
+            "Summer"
+        ]
+    },
+
+    { "pageName": "Educational Information" }
+]

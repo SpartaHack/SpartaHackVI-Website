@@ -1,0 +1,61 @@
+[
+    {
+        "name": "name",
+        "out": ["first_name", "last_name"],
+        "input": "text",
+        "label": "Name",
+        "error": "Name (First & Last)",
+        "placeholder": "First Last"
+    },
+    {
+        "name": "phone",
+        "input": "text",
+        "label": "Phone",
+        "placeholder": "555-556-2020"
+    },
+    {
+        "name": "city",
+        "out": "travel_origin",
+        "input": "autocomplete-text",
+        "label": "Traveling from",
+        "placeholder": "East Lansing"
+    },
+    {
+        "name": "birthday",
+        "out": ["birth_day", "birth_month", "birth_year"],
+        "input": "date",
+        "label": "Birthday",
+        "error": "Birthday (Above 13)"
+    },
+    {
+        "name": "gender",
+        "input": "other-select",
+        "label": "Gender",
+        "options": [
+            "Male",
+            "Female",
+            "Other",
+            "Prefer not to Answer"
+        ], 
+        "placeholder": "Your Gender"
+    },
+    {
+        "name": "race",
+        "input": "other-list-select",
+        "label": "Race",
+        "options": [
+            "American Indian / Alaskan Native",
+            "Asian / Pacific Islander",
+            "Black / African American",
+            "Hispanic",
+            "White / Caucasian",
+            "Other",
+            "Prefer not to Answer"
+        ], 
+        "placeholder": "Your Race"
+    },
+
+
+    {"pageName": "Personal Information"}
+
+]

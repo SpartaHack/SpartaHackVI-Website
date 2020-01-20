@@ -1,12 +1,12 @@
-const auth0 = require('auth0-js').default
+const auth0 = require('auth0-js').default.WebAuth
 const env = require('./../../env.json')
 
 async function auth_func(cb) {
-    let auth = new auth0.WebAuth(env.auth)
+    let auth = new auth0(env.auth)
 
     if (Array.isArray(cb)) {        
         let doNext = at => {
-            if (at > cb.length - 1) return
+            if (at >= cb.length - 1) return
             
             doNext(++at, cb[at](auth))
         }
