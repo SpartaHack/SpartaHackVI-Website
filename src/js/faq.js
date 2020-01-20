@@ -30,7 +30,7 @@ class FAQ {
         this.answerSpace.lastElementChild.dataset.question = faqItem.question
 
         let insertBefore
-        for (var i = faqItem.pos - 1; i < this.faqCount; ++i) {
+        for (var i = faqItem.pos + 1; i < this.faqCount; i++) {
             if (this.items[i].listing.offsetTop != faqItem.listing.offsetTop) {
                 insertBefore = i
                 break
@@ -173,31 +173,36 @@ class FAQ {
         let importApp = (err, response, body) => {
             if (response && response.statusCode === 200)
                 body.forEach(srcItem => {
-                    if (srcItem.placement == "home") {
-                        let faqItem = {
+                    if (srcItem.placement == "home") 
+                        this.items.push({
                             'question': srcItem.question,
                             'answer': srcItem.answer,
                             'priority': srcItem.priority,
-                            'listing': document.createElement('div'),
-                            'pos': ++this.faqCount
-                        }
-            
-                        faqItem.listing.appendChild(document.createElement('h4'))
-                        faqItem.listing.firstElementChild.innerHTML = faqItem.question
-                        faqItem.listing.class="question-wrap"
-            
-                        faqItem.listing.tabIndex = this.tabOffset + this.faqCount
-                        faqItem.listing.addEventListener('click', 
-                            () => this.enterQuestion(faqItem))
-                        this.wrap.appendChild(faqItem.listing)
-            
-                        this.items.push(faqItem)
-                    }
+                            'listing': document.createElement('div')
+                        })
                 })
 
                 this.items.sort((e1, e2) => 
                     e1.priority > e2.priority ? 1 :
                     (e1.priority < e2.priority ? -1 : 0) )
+                
+                let count = 0
+                this.items.forEach(i => {
+                    i.listing.appendChild(document.createElement('h4'))
+                    i.listing.firstElementChild.innerHTML = i.question
+                    i.listing.class="question-wrap"
+        
+                    i.listing.tabIndex = this.tabOffset + count
+                    this.wrap.appendChild(i.listing)
+
+                    i.pos = count++
+                    i.listing.addEventListener('click', 
+                        () => this.enterQuestion(i))
+                })
+                this.faqCount = count
+                console.log(this.items)
+
+
         }
 
         request.get(importRq, importApp)

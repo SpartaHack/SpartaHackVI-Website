@@ -12,4 +12,4 @@ import './../scss/sheets/footer.scss'
 let faqs = new (require('./faq')).default(
     document.getElementById('faqs-wrap') )
 
-;(require('./sponsors').default())
+//;(require('./sponsors').default())

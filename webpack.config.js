@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const nodeExternals = require("webpack-node-externals"); // bug fix
 const WebpackMd5Hash = require("webpack-md5-hash");
@@ -68,11 +69,13 @@ module.exports = {
         outputPath: "css/"
         // chunkFilename: '[id].css'
       }),
+
       new CopyWebpackPlugin([{
         from:'./data/out',
         to: 'data',
         flatten:true
       }]),
+
       new HtmlWebpackPlugin({
         inject: false,
         hash: true,
@@ -97,6 +100,7 @@ module.exports = {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
       port: 9000,
+
       host: '0.0.0.0',
     },
     watchOptions: {
