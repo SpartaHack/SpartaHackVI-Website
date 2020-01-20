@@ -74,6 +74,7 @@ class AppHandler {
         
         out.forEach(field => delete this.out[field])
         this._needed.add(id)
+        console.log(this.out)
         return
     }
     

@@ -12,15 +12,6 @@ class specialIput {
     
     eventHook() { console.log('implement me!') }
 
-    listen(cb, event) {
-        // cb should probably refer to "this" for consistent validation
-        event = event ? event : 'keyup'
-        this.components.inputWrap.addEventListener(
-            event, e => cb() )
-    }
-
-    // ---
-
     doValidate() { this.validate = true }
 
     noValidate() { this.validate = false }

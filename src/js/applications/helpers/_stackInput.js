@@ -4,6 +4,7 @@ class stackInput  extends specialInput{
     constructor(director, components) {
         super(director, components)
         this.entries = []
+        this.currentInStack = false
 
         components['stackControls'] = this.getDom()
         components.controlWrap.appendChild(components.stackControls.wrap)
@@ -16,45 +17,54 @@ class stackInput  extends specialInput{
             "p": document.createElement('p'),
             "wrap": document.createElement('span'),
         }
-    
-        items.m.innerHTML = '-'
-        items.p.innerHTML = '+'
-        items.wrap.appendChild(items.m)
-        items.wrap.appendChild(items.p)
         items.wrap.className = 'list-input-control'
+    
+        items.p.innerHTML = '+'
+        items.p.addEventListener('click', e => this.newEntry())
+        items.wrap.appendChild(items.p)
+
+        items.m.innerHTML = '-'
+        items.m.addEventListener('click', e => this.removeEntry())
     
         return items
     }
 
-
     eventHook(components) {
         components['trueVal'] = this.entries
+
+        let current = this.curVal
+        if (current !== "" && current !== undefined)
+            components.trueVal.push(current)
+
         return components
-    }
-    save() {
-        if (this.director.handler.validate(this.id, this.entries))
-            this.components.input.dataset['trueVal'] = JSON.stringify(this.entries)
-        else while(this.removeEntry()) {}
     }
 
     removeEntry() {
-        let last = this.entries.pop()
-        last = last ? last : ""
+        let last = this.entries[0] ? this.entries.pop() : ''
+        
         this.director.insert(this.id, last)
 
-        this.save()
-
-        return last === "" ? undefined : true
+        return Boolean(this.entries[0])
+        // indicate if there are values left in the stack
     }
-    addEntry() {
-        this.entries.push(this.director.getInputVal(this.id))
-        this.director.insert(this.id, "")
 
-        this.save()
+    newEntry() {
+        let current = this.curVal
+        console.log(current)
+        
+        if (current === "" || current === undefined) {
+            // error code?
+            return
+        }
+
+        this.entries.push(current)
+        this.director.insert(this.id, "")
     }
 }
 module.exports.default = (director, components, args) =>
     new stackInput(director, components)
+
+// ---
 
 let validate = (value, compFunc) => {
     if (!Array.isArray(value)) return

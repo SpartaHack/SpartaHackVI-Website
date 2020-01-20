@@ -43,10 +43,16 @@ class AppDirector {
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
+        
         if (!srcItems) return
 
+        console.log(!srcItems ? undefined : (
+            srcItems.input instanceof HTMLSelectElement
+            ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
+                : srcItems.input.value
+        ) )
         return !srcItems ? undefined : (
-            srcItems.input.nodeName == 'SELECT' 
+            srcItems.input instanceof HTMLSelectElement
             ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
                 : srcItems.input.value
         ) 
@@ -169,10 +175,10 @@ class AppDirector {
         let items = this.getComponents(id)
 
         if (value || typeof value == "string") {
-            let i = 0
             if (items.input.nodeName == "SELECT") {
-                if (typeof value == "string") {
-                    let cc = items.input.childElementCount
+                if (value && typeof value == "string") {
+                    let cc = items.input.childElementCount,
+                        i = 0
                     while (i < cc) {
                         if (items.input.childElementCount[i].value == value) {
                             value = i
@@ -181,7 +187,8 @@ class AppDirector {
                         ++i
                     }
                 }
-                items.input.selectedIndex = insertIndex
+                value = Number.isInteger(value) ? value : 0
+                items.input.selectedIndex = value
             }
             else items.input.value = value
         }
@@ -209,21 +216,19 @@ class AppDirector {
         if (components.specialHandlers) {
             Object.keys(components.specialHandlers).forEach(h =>
                 components = components.specialHandlers[h].eventHook(components) )
-            console.log("director -- ", components)
         }
-    
-        let val = this.getInputVal(id),
+        let val = components.trueVal ? components.trueVal : this.getInputVal(id),
             valid = this.handler.validate(id, val, noSave)
-
+        console.log(val)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)
+
         else {
             this.inputVals[id] = val
 
             if (!noSave) this.save()
         }
-
         return Boolean(valid)
     }
     done() {
