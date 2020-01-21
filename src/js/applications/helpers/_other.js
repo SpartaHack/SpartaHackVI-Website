@@ -15,12 +15,8 @@ class otherThanListed extends specialInput{
         input.placeholder = "List: Backspace"
 
         input.addEventListener('keyup', e => {
-            let wasEmpty = input.dataset.hasOwnProperty('wasEmpty')
-            if (!input.value.length) {
-                if (!wasEmpty) input.dataset['wasEmpty'] = 1
-                else if (e.keyCode == 8) this.swapInput()
-            }
-            else if (wasEmpty) delete input.dataset.wasEmpty
+            if (!input.value.length && e.keyCode == 8) 
+                this.swapInput()
         })
 
         return input
