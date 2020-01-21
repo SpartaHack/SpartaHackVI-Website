@@ -8,6 +8,7 @@ class specialIput {
     get curVal() { return this.director.getInputVal(this.id) }
     get components() { return this.director.getComponents(this.id) }
 
+
     // ---
     
     eventHook() { console.log('implement me!') }

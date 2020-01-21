@@ -26,17 +26,17 @@ const select = args => {
     let opt = (val, txt) => {
         let opt = document.createElement('option')
         opt.value = val
-        opt.text = txt
+        opt.innerText = txt
         return opt
     }
-
+    console.log(args)
     if (args.placeholder !== undefined) {
-        let placeholder = opt("none", args.placeholder)
+        let placeholder = opt("", args.placeholder)
         placeholder.disabled = true
         placeholder.selected = true
         placeholder.hidden = true
 
-        console.log(placeholder)
+    
         input.appendChild(placeholder)
     }
 

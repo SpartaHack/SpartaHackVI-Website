@@ -27,7 +27,7 @@
         display: flex;
         flex-direction: row;
         align-content: center;
-        
+
         input, select, textarea {
             background: none;
             color: $white;
@@ -54,7 +54,7 @@
     }
     .input-controls {
         display: flex;
-        flex-direction: row-reverse;
+        // flex-direction: row-reverse;
         justify-content: flex-start;
         align-content: center;
     }
@@ -189,10 +189,15 @@
     }
 }
 
+#personalStatementWrap{
+    margin: 0;
+}
 .personal-statement {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+
+    // margin: 0
 
     label { margin: 0 0 .5rem 0; }
     textarea { 
@@ -220,7 +225,7 @@
         height: $side;
         
         border-radius: 100%;
-        box-shadow: 0 0  0 .2rem rgba($red, .75);
+        box-shadow: 0 0  0 .1rem rgba($red, .75);
         background-color: $white;
         color: $black;
 
@@ -232,10 +237,17 @@
         transition: transform $hover-transition-time;
     }
 
+    transition: all .25s;
 }
 
-// -
+.noPreviousListed {
+   
 
-.toggle-notListed {
-    
+   .add-new-entry {
+        box-shadow: 0 0  0 .225rem rgba($red, .75);
+   }
+
+   .remove-last-entry {
+       display: none;
+   }
 }

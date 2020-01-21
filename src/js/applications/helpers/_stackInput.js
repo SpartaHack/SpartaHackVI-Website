@@ -18,16 +18,17 @@ class stackInput  extends specialInput{
             "p": document.createElement('p'),
             "wrap": document.createElement('span'),
         }
-        items.wrap.className = 'list-input-control'
+        items.wrap.className = 'list-input-control noPreviousListed'
 
         items.m.innerHTML = '-'
-        items.m.className = 'hidden'
+        items.m.className = 'remove-last-entry'
         items.m.addEventListener('click', e => this.removeEntry())
         items.wrap.appendChild(items.m)
 
         items.p.innerHTML = '+'
+        items.p.className = 'add-new-entry'
         items.p.addEventListener('click', e => this.newEntry(true))
-        // ^^ causes newEntry()
+
         items.wrap.appendChild(items.p)
     
         return items
@@ -54,7 +55,7 @@ class stackInput  extends specialInput{
 
     removeEntry() {
         if (!this.entries[0])
-            this.components.stackControls.m.className = 'hidden'
+            this.components.stackControls.wrap.classList.add('noPreviousListed')
     
         this.director.insert(this.id, this.entries.pop())
     }
@@ -64,7 +65,7 @@ class stackInput  extends specialInput{
 
         if (current === "" || current === undefined)
             return
-        this.components.stackControls.m.className = ''
+        this.components.stackControls.wrap.classList.remove('noPreviousListed')
 
         this.lastRecent = current
         this.director.insert(this.id, "", true)

@@ -12,6 +12,8 @@ class autoCompeteInput extends specialInput {
         this.itemWrap.className = 'autocomplete-list'
         this.currentItems = document.createElement('ul')
         this.itemWrap.append(this.currentItems)
+
+        this.noHook = true
     }
 
     import(src) {

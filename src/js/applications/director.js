@@ -167,13 +167,14 @@ class AppDirector {
     insert(id, value, noUpdate) {
         value = value !== undefined ? value : ""            
         let items = this.getComponents(id)
-
+        console.log(value)
         if (items.input.nodeName == "SELECT") {
             if (value && typeof value == "string") {
                 let cc = items.input.childElementCount,
+                    potVals = items.input.childNodes,
                     i = 0
-                while (i < cc) {
-                    if (items.input.childElementCount[i].value == value) {
+                    
+                while (i < cc) { if (potVals[i].value == value) {
                         value = i
                         break
                     }
@@ -206,8 +207,10 @@ class AppDirector {
         let components  = this.getComponents(id)
         console.log(components)
         if (components.specialHandlers) {
-            Object.keys(components.specialHandlers).forEach(h =>
-                components = components.specialHandlers[h].eventHook(components) )
+            Object.keys(components.specialHandlers).forEach(h => {
+                let handler = components.specialHandlers[h]
+                if (!handler.noHook) components = handler.eventHook(components)
+            })
         }
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
             valid = this.handler.validate(id, val, noSave)

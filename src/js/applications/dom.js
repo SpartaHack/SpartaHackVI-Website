@@ -56,7 +56,7 @@ const makerWrapping = (director, item, args) => {
 
     if (args.labelVis && args.labelVis === "inline"){
         components.itemWrap.classList.add('inline-label')
-        components.inputWrap.appendChild(components.label)
+        components.inputWrap.prepend(components.label)
     }
     else components.itemWrap.appendChild(components.label)
 
