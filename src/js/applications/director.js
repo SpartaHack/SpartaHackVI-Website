@@ -237,14 +237,13 @@ class AppDirector {
         })
         let needed = this.handler.needed
 
-        if (needed[0]) {
+        if (needed[0])
             this.report = reports.default(this, needed)
-
-            console.log("almost would submit--", needed)
-            return
+        else {
+            this.report = reports.success(this, needed)
+            this.handler.submit()
         }
-        this.report = reports.success(this, needed)
-        this.handler.submit()
+        document.body.appendChild(this.report.underlay)
     }
 }
 module.exports.default = AppDirector

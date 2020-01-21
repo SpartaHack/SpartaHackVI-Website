@@ -1,17 +1,5 @@
 [
-    {
-        "name": "university",
-        "input": "opt-autocomplete-text",
-        "label": "University",
-        "placeholder": "Michigan State University"
-    },
-    {
-        "name": "major",
-        "input": "autocomplete-list-text",
-        "label": "Major",
-        "Error": "Major (From Autocomplete)",
-        "placeholder": "Your Major"
-    },
+
     {
         "name": "mlhExperience",
         "out": "hackathons",
@@ -46,6 +34,20 @@
             "Spring",
             "Summer"
         ]
+    },
+
+    {
+        "name": "university",
+        "input": "opt-autocomplete-text",
+        "label": "University",
+        "placeholder": "Michigan State University"
+    },
+    {
+        "name": "major",
+        "input": "autocomplete-list-text",
+        "label": "Major",
+        "Error": "Major (From Autocomplete)",
+        "placeholder": "Your Major"
     },
 
     { "pageName": "Educational Information" }

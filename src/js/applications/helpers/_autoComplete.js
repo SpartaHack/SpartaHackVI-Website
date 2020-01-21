@@ -19,7 +19,7 @@ class autoCompeteInput extends specialInput {
     eventHook(items) {
         items.input.value = this.curVal
         // console.log(items)
-        this.director.handler.setComponents(items)
+        this.director.setComponents(items)
     }
 
     import(src) {
