@@ -13,7 +13,13 @@ class autoCompeteInput extends specialInput {
         this.currentItems = document.createElement('ul')
         this.itemWrap.append(this.currentItems)
 
-        this.noHook = true
+        
+    }
+
+    eventHook(items) {
+        items.input.value = this.curVal
+        // console.log(items)
+        this.director.handler.setComponents(items)
     }
 
     import(src) {
@@ -27,6 +33,7 @@ class autoCompeteInput extends specialInput {
         let importCb = (err, response, body) => {
             if (response && response.statusCode === 200 && Array.isArray(body) ) {
                 this.filterSrc = body
+                this.director.handler.importFilter(this.id, body)
                 this.components.inputWrap.addEventListener('keyup', 
                     e => this.route(e.keyCode) )
             }
@@ -144,7 +151,7 @@ class autoCompeteInput extends specialInput {
 
     select(item) {
         if (!item) return
-
+        console.log(item)
         this.director.insert(this.id, item.firstChild.innerHTML, true)
 
         if (this.components.inputWrap.lastChild === this.itemWrap)

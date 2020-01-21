@@ -79,6 +79,7 @@ class AppHandler {
     }
     
     submit(overlayDom) {
+        console.log("WOULD SUBMIT!!", this.out)
         return
     }
    

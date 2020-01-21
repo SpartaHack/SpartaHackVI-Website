@@ -5,7 +5,7 @@
         "input": "text",
         "label": "Github.com/",
         "labelVis": "inline",
-        "placeholder": "profile || paste",
+        "placeholder": "suffix || URL",
         "optional": true
     },
     {
@@ -14,7 +14,7 @@
         "input": "text",
         "label": "LinkedIn.com/",
         "labelVis": "inline",
-        "placeholder": "profile || paste",
+        "placeholder": "suffix || URL",
         "optional": true
     },
     {
@@ -23,7 +23,7 @@
         "input": "text",
         "label": "Devpost.com/",
         "labelVis": "inline",
-        "placeholder": "profile || paste",
+        "placeholder": "suffix || URL",
         "optional": true
     },
     {

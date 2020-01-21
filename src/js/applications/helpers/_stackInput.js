@@ -50,14 +50,15 @@ class stackInput  extends specialInput{
         if (current !== "" && current !== undefined)
             this.lastRecent = current
         // console.log("--", current)
-        return components
+        this.director.setComponents(components)
     }
 
     removeEntry() {
         if (!this.entries[0])
             this.components.stackControls.wrap.classList.add('noPreviousListed')
-    
+        
         this.director.insert(this.id, this.entries.pop())
+        
     }
 
     newEntry(alreadySaved) {

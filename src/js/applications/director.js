@@ -209,7 +209,7 @@ class AppDirector {
         if (components.specialHandlers) {
             Object.keys(components.specialHandlers).forEach(h => {
                 let handler = components.specialHandlers[h]
-                if (!handler.noHook) components = handler.eventHook(components)
+                if (!handler.noHook) handler.eventHook(components)
             })
         }
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
@@ -235,13 +235,16 @@ class AppDirector {
 
             this.update(id, 'saveAfter')
         })
-
-        this.save()
         let needed = this.handler.needed
-        this.report = needed[0] 
-            ? reports.default(this, needed) : reports.success(this, needed)
 
-        document.body.appendChild(this.report.underlay)
+        if (needed[0]) {
+            this.report = reports.default(this, needed)
+
+            console.log("almost would submit--", needed)
+            return
+        }
+        this.report = reports.success(this, needed)
+        this.handler.submit()
     }
 }
 module.exports.default = AppDirector
