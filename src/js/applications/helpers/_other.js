@@ -44,7 +44,7 @@ class otherThanListed extends specialInput{
         if (components.input != this.other && val == "Other")
             components = this.swapInput(components)
         
-        this.director.setComponents(components)
+        return components
 
     }
 }

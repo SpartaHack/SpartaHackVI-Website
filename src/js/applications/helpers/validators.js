@@ -16,27 +16,33 @@ let profile = value => {
 // ---
 // put into _autoComplete ?
 let filterCheck = (value, filterSrc) => {
-    let query = value.toLowerCase()
-    let potRes
-    let found
+    if (!Array.isArray(filterSrc)) return
+    let query = value.toLowerCase(),
+    i = 0, potRes, found
 
-    if (Array.isArray(filterSrc) && filterSrc[0])
-        for (let i = 0; i < filterSrc.length; i++) {
-            potRes = filterSrc[i]
-
-            if (potRes.toLowerCase() == query) {found = true; break}
-            
+    for (i; i < filterSrc.length; i++){
+        potRes = filterSrc[i].toLowerCase()
+        if (potRes == query) {
+            found = value
+            break
         }
-    return found ? potRes : false
+    }
+    return found ? true : false
 }
 // ^^
-const major = (value, handler) => 
-    listValidator(value, 
-        val => filterCheck(val, handler.getFilter('major')) )
-const university = (value, handler) => 
-    filterCheck(value, handler.getFilter('university'))
-const city = (value, handler) => 
-    filterCheck(value, handler.getFilter('city'))
+const major = (value, handler) => {
+    let filter = handler.getFilter('major')
+    return listValidator(value, 
+        val => filterCheck(val, filter) )
+    }
+const university = (value, handler) => {
+    let filter = handler.getFilter('university')
+    return filterCheck(value, filter)
+}
+const city = (value, handler) => {
+    let filter = handler.getFilter('city')
+    return filterCheck(value, filter)
+}
 
 // ---
 

@@ -50,7 +50,7 @@ class stackInput  extends specialInput{
         if (current !== "" && current !== undefined)
             this.lastRecent = current
         // console.log("--", current)
-        this.director.setComponents(components)
+        return components
     }
 
     removeEntry() {
@@ -91,7 +91,7 @@ let validate = (value, compFunc) => {
         if (!thisVal) break
         out.push(thisVal)
     }
-    // console.log(i, origLen)
+    
     return i === origLen ? out : undefined
 }
 module.exports.validate = validate

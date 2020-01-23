@@ -17,9 +17,8 @@ class autoCompeteInput extends specialInput {
     }
 
     eventHook(items) {
-        items.input.value = this.curVal
-        // console.log(items)
-        this.director.setComponents(items)
+        
+        return items
     }
 
     import(src) {
@@ -140,7 +139,10 @@ class autoCompeteInput extends specialInput {
         if (!first) this.show()
     }
 
-    clear() { this.currentItems.innerHTML = '' }
+    clear() { 
+        this.itemWrap.classList.remove('hidden')
+        this.currentItems.innerHTML = '' 
+    }
 
     showActive() {
         this.currentItems.childNodes[this.curInd].className = "active-auto"
@@ -151,11 +153,9 @@ class autoCompeteInput extends specialInput {
 
     select(item) {
         if (!item) return
-        console.log(item)
-        this.director.insert(this.id, item.firstChild.innerHTML, true)
 
-        if (this.components.inputWrap.lastChild === this.itemWrap)
-            this.components.inputWrap.removeChild(this.itemWrap)
+        this.director.insert(this.id, item.firstChild.innerHTML)
+        this.itemWrap.classList.add('hidden')
     }   
 }
 

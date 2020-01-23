@@ -39,7 +39,10 @@ class AppDirector {
     // ---
 
     getComponents(id) { return id  ? this.domItems[id] : undefined}
-    setComponents(id, newComps) { this.domItems[id] = newComps }
+    setComponents(id, newComps) { 
+        console.log("@set", id, newComps)
+        this.domItems[id] = newComps 
+    }
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
@@ -81,7 +84,7 @@ class AppDirector {
                 "Content-Type": "application/json" 
             },
             url: window.location.origin + "/data/p" +
-                (this.currentPage + 1)  + ".json",
+                (pageNum + 1)  + ".json",
             json: true
         }
         let pageCb = (err, response, body) => {
@@ -98,6 +101,7 @@ class AppDirector {
     }
 
     makePage(pageNum, cb) {
+        console.log("makePage")
         let pageCount = this.pages.length
         let targetPage = pageNum
         
@@ -107,6 +111,8 @@ class AppDirector {
         this.pages[pageNum] = domFuncs.page(
             this.pages[pageNum].pop().pageName,
             this.pages[pageNum], this)
+
+        console.log(this.domItems)
         cb()
     }
 
@@ -150,6 +156,7 @@ class AppDirector {
 
             this.container.innerHTML = ''
             this.container.appendChild(this.current)
+            return true
         }
         return
     }
@@ -157,19 +164,26 @@ class AppDirector {
     // ---
 
     import(components, args) {
+        console.log("@import", args, components)
         this.setComponents(args.name, components)
         this.handler.import(args)
-        
+
         this.getComponents(args.name).inputWrap.addEventListener(
             'change', e => this.update(args.name) )
+        
+        // let curVal = this.getInputVal(args.name)
+        // if (curVal && !this.handler.validate(args.name, curVal))
+        //     this.error(args.name)
     }
 
     insert(id, value, noUpdate) {
         value = value !== undefined ? value : ""            
         let items = this.getComponents(id)
+        // console.log(value)
         console.log(value)
         if (items.input.nodeName == "SELECT") {
             if (value && typeof value == "string") {
+                console.log(value)
                 let cc = items.input.childElementCount,
                     potVals = items.input.childNodes,
                     i = 0
@@ -194,6 +208,7 @@ class AppDirector {
         this.getComponents(id).itemWrap.classList.remove('errored-item')
     }
     error(id, extra) {
+        // console.log(thisdone.getComponents)
         this.getComponents(id).itemWrap.classList.add('errored-item')
     }
 
@@ -205,32 +220,47 @@ class AppDirector {
     }
     update(id, noSave) {
         let components  = this.getComponents(id)
-        console.log(components)
-        if (components.specialHandlers) {
+        // console.log("before", components)
+        if (components.specialHandlers) 
             Object.keys(components.specialHandlers).forEach(h => {
                 let handler = components.specialHandlers[h]
-                if (!handler.noHook) handler.eventHook(components)
+                if (!handler.noHook) 
+                    components = handler.eventHook(components)
             })
-        }
+        this.setComponents(id, components)
+        
+        // console.log("after", components)
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
-            valid = this.handler.validate(id, val, noSave)
-        console.log(val)
+            valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
+        // console.log(val)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)
 
         else {
             this.inputVals[id] = val
-
+            // console.log(components, id)
             if (!noSave) this.save()
         }
         return Boolean(valid)
     }
-    done() {
+    done(startCheckAt) {
+        console.log("orig pages", this.pages)
         let id, components
+
+        for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
+            i < this.pages.length; i++) {
+            console.log(i)
+            if (!this.pages[i]) {
+                this.getPageSrc(i, () => this.makePage(i, () => this.done(++i)))
+                return
+            }
+        }
+        // console.log(this.domItems)
 
         Object.keys(this.domItems).forEach(ik => {
             components = this.getComponents(ik)
+            // console.log(id, components)
             id = components.input.id
 
             this.update(id, 'saveAfter')

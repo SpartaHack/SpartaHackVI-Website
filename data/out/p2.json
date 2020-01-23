@@ -38,7 +38,7 @@
 
     {
         "name": "university",
-        "input": "opt-autocomplete-text",
+        "input": "autocomplete-opt-text",
         "label": "University",
         "placeholder": "Michigan State University"
     },

@@ -20,11 +20,12 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-const makers = require('./helpers/_makers').default
+const makers = require('./helpers/makers').default
 const special = {
     'other': require('./helpers/_other').default,
     'list': require('./helpers/_stackInput').default,
     'autocomplete': require('./helpers/_autoComplete').default,
+    'opt': require('./helpers/_noValidation').default
 }
 
 const makerWrapping = (director, item, args) => {
@@ -100,8 +101,8 @@ let getPage = (pageName, src, director) => {
     src.forEach(si => {
         let inParts = makersRouting(director, si)
 
+        console.log("@dom", src, si, inParts)
         if (inParts) {
-            // console.log(inParts)
             pageContent.appendChild(inParts.itemWrap)
             director.import(inParts, si)
         }
