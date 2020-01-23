@@ -42,6 +42,14 @@ class stackInput  extends specialInput{
         if (this.last !== undefined) this.isFirst = false
     }
 
+    importHook(components, value) {
+        if (Array.isArray(value) && value.length > 1) {
+            this.entries = value
+            this.components.stackControls.wrap.classList.remove('noPreviousListed')
+        }
+        return components
+    }
+
     eventHook(components) {
         components['trueVal'] = this.entries
 
@@ -54,18 +62,19 @@ class stackInput  extends specialInput{
     }
 
     removeEntry() {
-        if (!this.entries[0])
+        console.log(this.entries)
+        this.director.insert(this.id, this.entries.pop())        
+        console.log(this.entries)
+        
+        if (!this.entries[0]) 
             this.components.stackControls.wrap.classList.add('noPreviousListed')
-        
-        this.director.insert(this.id, this.entries.pop())
-        
     }
 
     newEntry(alreadySaved) {
         let current = this.curVal
-
         if (current === "" || current === undefined)
             return
+        
         this.components.stackControls.wrap.classList.remove('noPreviousListed')
 
         this.lastRecent = current

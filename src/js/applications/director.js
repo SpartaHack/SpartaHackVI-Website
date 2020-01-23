@@ -40,7 +40,7 @@ class AppDirector {
 
     getComponents(id) { return id  ? this.domItems[id] : undefined}
     setComponents(id, newComps) { 
-        console.log("@set", id, newComps)
+        // console.log("@set", id, newComps)
         this.domItems[id] = newComps 
     }
 
@@ -69,6 +69,8 @@ class AppDirector {
                 return
             }
         }
+
+        console.log(this.oldVals)
 
         if (startup) this.showCurrent()
     }
@@ -101,7 +103,7 @@ class AppDirector {
     }
 
     makePage(pageNum, cb) {
-        console.log("makePage")
+        // console.log("makePage")
         let pageCount = this.pages.length
         let targetPage = pageNum
         
@@ -112,7 +114,7 @@ class AppDirector {
             this.pages[pageNum].pop().pageName,
             this.pages[pageNum], this)
 
-        console.log(this.domItems)
+        // console.log(this.domItems)
         cb()
     }
 
@@ -164,44 +166,58 @@ class AppDirector {
     // ---
 
     import(components, args) {
-        console.log("@import", args, components)
         this.setComponents(args.name, components)
         this.handler.import(args)
 
-        this.getComponents(args.name).inputWrap.addEventListener(
-            'change', e => this.update(args.name) )
-        
-        // let curVal = this.getInputVal(args.name)
-        // if (curVal && !this.handler.validate(args.name, curVal))
-        //     this.error(args.name)
+        let oldVal = this.getOldVal(args.name),
+        insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
+        if (insertVal && !Array.isArray(insertVal)) {
+            console.log(components)
+
+
+            if (components.specialHandlers) {
+                Object.keys(components.specialHandlers).forEach(sh =>
+                    components = components.specialHandlers[sh].importHook(components, oldVal) 
+                )
+            }
+            components = this.insert(components, insertVal, true)
+        }
+
+        components.inputWrap.addEventListener(
+            'change', e => this.update(args.name) )      
+        this.setComponents(args.name, components)
+        this.update(args.name)  
     }
 
-    insert(id, value, noUpdate) {
-        value = value !== undefined ? value : ""            
-        let items = this.getComponents(id)
-        // console.log(value)
-        console.log(value)
+    insert(id, val, noUpdate) {
+        val = val !== undefined ? val : ""            
+        let items = typeof id == "string" ? this.getComponents(id) : id
+        
         if (items.input.nodeName == "SELECT") {
-            if (value && typeof value == "string") {
-                console.log(value)
+            console.log(items, val)
+            if (typeof val == "string") {
+                // console.log(value)
                 let cc = items.input.childElementCount,
                     potVals = items.input.childNodes,
                     i = 0
-                    
-                while (i < cc) { if (potVals[i].value == value) {
-                        value = i
+                while (i < cc) { 
+                    if (potVals[i].value == "other") {
+                        otherIndex = i
+                    }
+                    if (potVals[i].value == val) {
+                        val = i
                         break
                     }
                     ++i
                 }
             }
-            value = Number.isInteger(value) ? value : 0
-            items.input.selectedIndex = value
+            items.input.selectedIndex = Number.isInteger(val) ? val : 0
         }
-        else items.input.value = value
+        else items.input.value = val
         
         items.inputWrap.replaceChild(items.input, items.input)
-        if (!noUpdate) this.update(id)
+        if (!noUpdate && typeof id != "string") this.update(id)
+        return items
     }
 
     approve(id) {
@@ -245,12 +261,12 @@ class AppDirector {
         return Boolean(valid)
     }
     done(startCheckAt) {
-        console.log("orig pages", this.pages)
+        // console.log("orig pages", this.pages)
         let id, components
 
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
-            console.log(i)
+            // console.log(i)
             if (!this.pages[i]) {
                 this.getPageSrc(i, () => this.makePage(i, () => this.done(++i)))
                 return

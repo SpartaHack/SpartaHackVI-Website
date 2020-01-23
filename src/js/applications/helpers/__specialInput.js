@@ -11,7 +11,9 @@ class specialIput {
 
     // ---
     
-    eventHook() { console.log('implement me!') }
+    eventHook(components) { return components }
+
+    importHook(components, value) { return components }
 
     doValidate() { this.validate = true }
 

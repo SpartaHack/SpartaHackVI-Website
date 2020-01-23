@@ -15,11 +15,11 @@ class AppHandler {
     }
 
     importFilter(id, filterSrc) {
-        console.log("in", id, filterSrc)
+        // console.log("in", id, filterSrc)
         if (Array.isArray(filterSrc)) this.filters[id] = filterSrc
     }
     getFilter(id) { 
-        console.log("in", id, this.filters)
+        // console.log("in", id, this.filters)
         return this.filters[id] 
     }
 
@@ -34,7 +34,7 @@ class AppHandler {
     get needed() { return Array.from(this._needed) }
 
     import(item) {
-        console.log("import", item)
+        // console.log("import", item)
         if (!item || !item.name) return
         let itemInfo = {
             "name": item.name,

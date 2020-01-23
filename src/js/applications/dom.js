@@ -101,7 +101,7 @@ let getPage = (pageName, src, director) => {
     src.forEach(si => {
         let inParts = makersRouting(director, si)
 
-        console.log("@dom", src, si, inParts)
+        // console.log("@dom", src, si, inParts)
         if (inParts) {
             pageContent.appendChild(inParts.itemWrap)
             director.import(inParts, si)

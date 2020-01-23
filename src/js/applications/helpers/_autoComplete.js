@@ -16,11 +16,6 @@ class autoCompeteInput extends specialInput {
         
     }
 
-    eventHook(items) {
-        
-        return items
-    }
-
     import(src) {
         let importRq = {
             headers: 
@@ -35,6 +30,7 @@ class autoCompeteInput extends specialInput {
                 this.director.handler.importFilter(this.id, body)
                 this.components.inputWrap.addEventListener('keyup', 
                     e => this.route(e.keyCode) )
+                this.director.update(this.id)
             }
         }
     

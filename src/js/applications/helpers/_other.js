@@ -27,15 +27,34 @@ class otherThanListed extends specialInput{
         if (!components.input || !components.altInput) 
             return components
 
-        components.inputWrap.removeChild(components.input)
-
         let temp = components.input
         components.input = components.altInput
         components.altInput = temp
 
-        components.inputWrap.appendChild(components.input)
+        components.inputWrap.replaceChild(components.input, components.altInput)
 
         return components
+    }
+
+    importHook(components, value) {
+        let val, found, opts = components.input.childNodes
+
+        if (Array.isArray(value)) {
+            if (value[0])
+                val = value[value.length - 1]
+            else return
+        }
+        else val = value
+        
+        for (let i = 0; i < opts.length; i++) {
+            if (opts[i].value == val) {
+                found = true;
+                console.log('found!!')
+                break
+            }
+        }
+        return found 
+            ? components : this.swapInput(components)
     }
 
     eventHook(components) {
