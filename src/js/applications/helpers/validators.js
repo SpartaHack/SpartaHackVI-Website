@@ -34,6 +34,7 @@ const major = (value, handler) => {
     let filter = handler.getFilter('major')
     return listValidator(value, 
         val => filterCheck(val, filter) )
+        ? value : false
     }
 const university = (value, handler) => {
     let filter = handler.getFilter('university')
