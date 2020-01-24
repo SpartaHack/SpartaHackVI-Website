@@ -249,5 +249,7 @@
     @extend .type;
     display: flex;
     flex-direction: row;
-    margin: 0 0 0 .25rem;
+    align-content: center;
+    
+    * { margin: auto 0 auto .25rem; }
 }
