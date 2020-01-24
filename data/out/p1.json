@@ -1,7 +1,7 @@
 [
     {
         "name": "name",
-        "out": ["first_name", "last_name"],
+        "out": [],
         "input": "text",
         "label": "Name",
         "error": "Name (First & Last)",
@@ -22,6 +22,7 @@
     },
     {
         "name": "birthday",
+        "out": [],
         "input": "date",
         "label": "Birthday",
         "error": "Birthday (Above 13)"

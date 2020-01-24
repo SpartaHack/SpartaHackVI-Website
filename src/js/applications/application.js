@@ -37,9 +37,7 @@ class AppHandler {
             "validate": (item.validate || item.validate === false) ? item.validate : item.name,
             "optional": item.optional ? item.optional : false,
             "error": item.error,
-            "out": item.out 
-                ? ( Array.isArray(item.out) 
-                    ? item.out : [item.out] ) : item.name
+            "out": item.out ? item.out : item.name
         }
 
         this.items[itemInfo.name] = itemInfo
@@ -61,6 +59,8 @@ class AppHandler {
             valid = !item.validate ? true 
                 : this.validators[item.validate](value, this)
 
+        value = valid && valid !== true ? valid : value
+        console.log(value, valid)
         if (valid) {
             if (value instanceof Object && !Array.isArray(value))
                 Object.keys(value).forEach(

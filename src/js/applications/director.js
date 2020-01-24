@@ -254,12 +254,7 @@ class AppDirector {
             }
         }
 
-        Object.keys(this.domItems).forEach(ik => {
-            components = this.getComponents(ik)
-            id = components.input.id
-
-            this.update(id, 'saveAfter')
-        })
+        Object.keys(this.domItems).forEach(ik => this.update(ik))
         let needed = this.handler.needed
 
         if (needed[0])

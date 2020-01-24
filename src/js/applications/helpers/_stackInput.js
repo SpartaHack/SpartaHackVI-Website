@@ -72,12 +72,13 @@ class stackInput  extends specialInput{
         let current = this.curVal
         if (current === "" || current === undefined)
             return
-        let currentEnd = this.entries.pop()
-        if (current != currentEnd) {
-            if (currentEnd !== undefined)
-                this.entries.push(currentEnd)
+
+        let curLen = this.entries.length
+        let curEnd = curLen ? this.entries[curLen - 1] : false
+        console.log(curEnd, current)
+        if (current != curEnd)
             this.entries.push(current)
-        }
+
         if (refresh)
             this.director.insert(this.id, "", true)
 

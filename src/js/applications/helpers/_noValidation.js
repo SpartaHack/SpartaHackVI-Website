@@ -34,7 +34,7 @@ class notFound extends specialInput{
         else if (!valid && !onScreen)
             components.controlWrap.appendChild(this.items.wrap)
 
-        if (onScreen && this.items.check.checked == true)
+        if (onScreen && this.items.check.checked == true) 
             components['noValidate'] = true
         
         return components

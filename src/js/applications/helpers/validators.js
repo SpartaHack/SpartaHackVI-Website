@@ -90,9 +90,18 @@ const statement = value =>
     (value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
     ? value : false
 
-const name = value => 
-    (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}\s[A-Za-zÀ-ÖØ-öø-ÿ]{1,50}/ ) === 0)
-    ? value : false
+const name = value => {
+    if (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ]+\s[A-Za-zÀ-ÖØ-öø-ÿ]+/ ) != 0)
+        return
+
+    let nameParts = value.split(' ')
+    let nameNames = ['first_name', 'last_name']
+
+    let out = {}
+    for (let i = 0; i < 2; i++)
+        out[nameNames[i]] = nameParts[i]
+    return out
+}
 
 const regWords = value => {
     // console.log(value, value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ))
