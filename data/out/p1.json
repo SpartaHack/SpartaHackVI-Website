@@ -22,7 +22,6 @@
     },
     {
         "name": "birthday",
-        "out": ["birth_day", "birth_month", "birth_year"],
         "input": "date",
         "label": "Birthday",
         "error": "Birthday (Above 13)"

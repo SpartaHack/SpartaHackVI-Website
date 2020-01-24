@@ -54,7 +54,6 @@ class AppHandler {
         let item = this.items[id]
         if (!item) return
 
-        value = item.trueVal ? item.trueVal : value
         if (!value && this._notNeeded.has(id))
             return true
         
@@ -63,22 +62,21 @@ class AppHandler {
                 : this.validators[item.validate](value, this)
 
         if (valid) {
-            let importValues = valid === true ? value : valid
-            importValues = (Array.isArray(importValues) 
-                ? importValues : [importValues])
+            if (value instanceof Object && !Array.isArray(value))
+                Object.keys(value).forEach(
+                    v => this.out[v] = value[v] )
 
-            for (let i = 0; i < importValues.length; i++)
-                this.out[out[i]] = importValues[i]
+            else this.out[out] = value
 
             this._needed.delete(id)
             return true
         }
-        
-        if (Array.isArray(out)) 
-            out.forEach(field => delete this.out[field])
-        else delete this.out[out]
 
-        this._needed.add(id)
+        if (value instanceof Object)
+            Object.keys(value).forEach(
+                v => delete this.out[v] )
+
+        else delete this.out[out]
         return
     }
     

@@ -213,7 +213,7 @@ class AppDirector {
         this.getComponents(id).itemWrap.classList.add('errored-item')
     }
 
-    // ---
+    // ---'underlay': underlay,
 
     save() {
         this.inputVals['PAGE'] = this.currentPage
@@ -231,6 +231,8 @@ class AppDirector {
         
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
             valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
+
+        console.log(val, components)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)
@@ -266,6 +268,7 @@ class AppDirector {
             this.report = reports.success(this, needed)
             this.handler.submit()
         }
+        document.body.appendChild(this.report.container)
         document.body.appendChild(this.report.underlay)
     }
 }

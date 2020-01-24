@@ -50,6 +50,7 @@ class stackInput  extends specialInput{
 
     eventHook(components) {
         components['trueVal'] = this.entries
+        console.log("@stack", components)
         this.newEntry()
 
         return components

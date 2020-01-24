@@ -7,7 +7,8 @@ let overlay = name => {
     reportWrap.id = name
     reportWrap.className = 'report-content'
 
-    underlay.appendChild(reportWrap)
+    let reportContainer = document.createElement('div')
+    reportContainer.className = 'report-container'
 
     let reportTitle = document.createElement('h2')
     reportWrap.appendChild(reportTitle)
@@ -15,7 +16,7 @@ let overlay = name => {
     let reportContent = document.createElement('div')
     reportWrap.appendChild(reportContent)
 
-    underlay.appendChild(reportWrap)
+    reportContainer.appendChild(reportWrap)
 
     let buttons = document.createElement('div')
     buttons.id = "report-responses"
@@ -25,13 +26,18 @@ let overlay = name => {
     exitButton.id="exit-button"
     exitButton.innerHTML = "Exit"
 
-    let removeModal = () => document.body.removeChild(underlay)
+    let removeModal = () => {
+        document.body.removeChild(reportContainer)
+        document.body.removeChild(underlay)
+    }
     exitButton.addEventListener('click', removeModal)
+    underlay.addEventListener('click', removeModal)
 
     return {
-        'underlay': underlay, 'report': reportWrap,
+        'container': reportContainer, 'report': reportWrap,
         'title': reportTitle, 'content':reportContent,
-        'buttons': buttons, 'exitButton': exitButton
+        'buttons': buttons, 'exitButton': exitButton,
+        'underlay': underlay
     }
 }
 
@@ -54,9 +60,11 @@ let fail = (director, needed) => {
     neededItems.id = 'needed-items'
 
     needed.forEach(nf => {
-        domBase.report.lastChild.appendChild(document.createElement('li'))
-        domBase.report.lastChild.lastChild.innerHTML = director.handler.getError(nf)
+        neededItems.appendChild(document.createElement('li'))
+        neededItems.lastChild.innerHTML = director.handler.getError(nf)
     })
+
+    domBase.content.appendChild(neededItems)
 
     return exp(domBase) 
 }

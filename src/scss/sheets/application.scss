@@ -114,23 +114,20 @@ body {
     }
 }
 
-.report-underlay {
-    cursor: pointer;
-    &, * { box-sizing: border-box; }
-    z-index: 100;
-    position: absolute;
+.report-underlay, .report-container {
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100vh;
-    background-color: rgba($white, .6);
     
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-
+    position: absolute;
+}    
+.report-underlay {
+    cursor: pointer;
+    z-index: 10;
+    background-color: rgba($white, .6);
+}
+.report-container {
     &, .report-content {
         display: flex;
         flex-direction: column;
@@ -140,6 +137,7 @@ body {
 
     .report-content {
         cursor: default;
+        z-index: 15;
 
         max-width: 95vw;
         min-width: 560px;
@@ -150,41 +148,37 @@ body {
         border-radius: .5rem;
         background-color: #000;
 
-        z-index: 100;
-
-        #report-title {
-            font-size: 1.5rem;
-            margin: 0 0 .75rem 0;
-        }
-
-        #report-summary {
-            font-size: 1rem;
-            margin: 0 0 1.25rem 0;
-        }
+        h2, div { margin: .5rem 0 0 0; }
+        #report-title { font-size: 1.5rem; }
+        #report-summary { font-size: 1rem; }
     }
-    #incomplete-app-report {
-        #needed-fields {
-            margin: 0 0 1.25rem 0;
-            font-size: 1rem;
-            list-style: none;
-            li {
-                margin: 0 0 .5rem 0;
-            }
-        }
-    }
-    #complete-app-report {
-        .consentor {
-            @extend .type;
-            cursor: pointer;
-            user-select: none;
-            font-size: 1rem;
-            line-height: 1.25rem;
-            margin: 0 0 1rem 0;
+}
 
-            input {
-                font-size: 2rem;
-                margin: 0 .5rem;
-            }
+#incomplete-app-report {
+    #needed-items {
+        // margin: 0 0 1.25rem 0;
+        // font-size: 1rem;
+        list-style: none;
+        li {
+            margin: .25rem 0;
+            &:first-child { margin-top: 0; }
+            &:last-child { margin-bottom: 0; }
         }
     }
 }
+#complete-app-report {
+    .consentor {
+        @extend .type;
+        cursor: pointer;
+        user-select: none;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        margin: 0 0 1rem 0;
+
+        input {
+            font-size: 2rem;
+            margin: 0 .5rem;
+        }
+    }
+}
+
