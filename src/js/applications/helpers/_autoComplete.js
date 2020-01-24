@@ -16,7 +16,6 @@ class autoCompeteInput extends specialInput {
         
     }
 
-
     eventHook(components) {
         if (this.currentItems.childElementCount && !this.curInd)
             this.currentIndex = 0
@@ -56,7 +55,6 @@ class autoCompeteInput extends specialInput {
             components.inputWrap.removeEventListener('focus', show)
             components.inputWrap.removeEventListener('mouseenter', show)
         }
-
         components.input.addEventListener('focus', show)
         components.inputWrap.addEventListener('mouseenter', show)
 
@@ -79,7 +77,6 @@ class autoCompeteInput extends specialInput {
             components.inputWrap.removeEventListener('blur', hide)
             components.inputWrap.removeEventListener('mouseleave', hide)
         }
-
         this.components.inputWrap.addEventListener('blur', hide)
         this.components.inputWrap.addEventListener('mouseleave', hide)
 
@@ -165,7 +162,7 @@ class autoCompeteInput extends specialInput {
 
     select(item) {
         if (!item) return
-        
+
         this.director.insert(this.id, item.firstChild.innerHTML, true)
         this.itemWrap.classList.add('hidden')
 

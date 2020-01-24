@@ -92,19 +92,17 @@ module.exports.default = (director, components, args) =>
 // ---
 
 let validate = (value, compFunc) => {
-    console.log(value)
     if (!Array.isArray(value)) return
-    console.log("--",value)
     let origLen = value.length,
-        out = [], thisVal, i
+        out = [], i = 0, thisVal
 
     for (i = 0; i < origLen; i++) {
         thisVal = compFunc(value[i])
-        // console.log(thisVal)
+
         if (!thisVal) break
+
         out.push(thisVal)
     }
-    
-    return i === origLen ? out : undefined
+    return i > 0 && i === origLen ? out : undefined
 }
 module.exports.validate = validate

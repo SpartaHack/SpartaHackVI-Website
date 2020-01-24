@@ -11,6 +11,7 @@ class AppHandler {
         this.validators = validators
 
         this._needed = new Set()
+        this._notNeeded = new Set()
         this.out = {}
     }
 
@@ -42,8 +43,10 @@ class AppHandler {
         }
 
         this.items[itemInfo.name] = itemInfo
-        if (!itemInfo.optional)
-            this._needed.add(itemInfo.name)
+        if (itemInfo.optional)
+            this._notNeeded.add(itemInfo.name)
+        else this._needed.add(itemInfo.name)
+        
         return true
     }
 
@@ -52,12 +55,12 @@ class AppHandler {
         if (!item) return
 
         value = item.trueVal ? item.trueVal : value
-        let out = item.out ? item.out : item.name
-
-        console.log("@appvalidate", id, value)
-
-        let valid = !item.validate ? true 
-            : this.validators[item.validate](value, this)
+        if (!value && this._notNeeded.has(id))
+            return true
+        
+        let out = item.out ? item.out : item.name,
+            valid = !item.validate ? true 
+                : this.validators[item.validate](value, this)
 
         if (valid) {
             let importValues = valid === true ? value : valid

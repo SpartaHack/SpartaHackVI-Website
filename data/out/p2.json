@@ -6,7 +6,7 @@
         "input": "number",
         "label": "Hackathons Attended",
         "min": 0,
-        "defaultVal": 0,
+        "default": 0,
         "validate": false
     },
     {
