@@ -73,7 +73,6 @@ const makerWrapping = (director, item, args) => {
         if (special[arg])
             specialHandlers[arg] = special[arg](director, components, args)
     })
-    // console.log("dom", specialHandlers)
     if (Object.keys(specialHandlers)[0]) 
         components['specialHandlers'] = specialHandlers
     return components
@@ -101,7 +100,6 @@ let getPage = (pageName, src, director) => {
     src.forEach(si => {
         let inParts = makersRouting(director, si)
 
-        // console.log("@dom", src, si, inParts)
         if (inParts) {
             pageContent.appendChild(inParts.itemWrap)
             director.import(inParts, si)

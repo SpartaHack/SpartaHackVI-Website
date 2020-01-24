@@ -39,10 +39,7 @@ class AppDirector {
     // ---
 
     getComponents(id) { return id  ? this.domItems[id] : undefined}
-    setComponents(id, newComps) { 
-        // console.log("@set", id, newComps)
-        this.domItems[id] = newComps 
-    }
+    setComponents(id, newComps) { this.domItems[id] = newComps }
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
@@ -70,8 +67,6 @@ class AppDirector {
             }
         }
 
-        console.log(this.oldVals)
-
         if (startup) this.showCurrent()
     }
 
@@ -91,19 +86,16 @@ class AppDirector {
         }
         let pageCb = (err, response, body) => {
             if (body && body.forEach) {
-                // console.log(response, body)
                 this.pages[pageNum] = body
 
                 if (cb) cb()
             }
         }
-        // console.log(pageRq.url)
         this.pages[pageNum] = false
         request.get(pageRq, pageCb)
     }
 
     makePage(pageNum, cb) {
-        // console.log("makePage")
         let pageCount = this.pages.length
         let targetPage = pageNum
         
@@ -114,7 +106,6 @@ class AppDirector {
             this.pages[pageNum].pop().pageName,
             this.pages[pageNum], this)
 
-        // console.log(this.domItems)
         cb()
     }
 
@@ -172,9 +163,6 @@ class AppDirector {
         let oldVal = this.getOldVal(args.name),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
         if (insertVal && !Array.isArray(insertVal)) {
-            console.log(components)
-
-
             if (components.specialHandlers) {
                 Object.keys(components.specialHandlers).forEach(sh =>
                     components = components.specialHandlers[sh].importHook(components, oldVal) 
@@ -194,9 +182,7 @@ class AppDirector {
         let items = typeof id == "string" ? this.getComponents(id) : id
         
         if (items.input.nodeName == "SELECT") {
-            console.log(items, val)
             if (typeof val == "string") {
-                // console.log(value)
                 let cc = items.input.childElementCount,
                     potVals = items.input.childNodes,
                     i = 0
@@ -224,7 +210,6 @@ class AppDirector {
         this.getComponents(id).itemWrap.classList.remove('errored-item')
     }
     error(id, extra) {
-        // console.log(thisdone.getComponents)
         this.getComponents(id).itemWrap.classList.add('errored-item')
     }
 
@@ -236,7 +221,6 @@ class AppDirector {
     }
     update(id, noSave) {
         let components  = this.getComponents(id)
-        // console.log("before", components)
         if (components.specialHandlers) 
             Object.keys(components.specialHandlers).forEach(h => {
                 let handler = components.specialHandlers[h]
@@ -245,38 +229,31 @@ class AppDirector {
             })
         this.setComponents(id, components)
         
-        // console.log("after", components)
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
             valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-        // console.log(val)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)
 
         else {
             this.inputVals[id] = val
-            // console.log(components, id)
             if (!noSave) this.save()
         }
         return Boolean(valid)
     }
     done(startCheckAt) {
-        // console.log("orig pages", this.pages)
         let id, components
 
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
-            // console.log(i)
             if (!this.pages[i]) {
                 this.getPageSrc(i, () => this.makePage(i, () => this.done(++i)))
                 return
             }
         }
-        // console.log(this.domItems)
 
         Object.keys(this.domItems).forEach(ik => {
             components = this.getComponents(ik)
-            // console.log(id, components)
             id = components.input.id
 
             this.update(id, 'saveAfter')

@@ -4,7 +4,6 @@ class stackInput  extends specialInput{
     constructor(director, components) {
         super(director, components)
         this.entries = []
-        this.isFirst = true
         this.last
 
         components['stackControls'] = this.getDom()
@@ -39,7 +38,6 @@ class stackInput  extends specialInput{
             this.last = val
             this.entries.push(val)
         }
-        if (this.last !== undefined) this.isFirst = false
     }
 
     importHook(components, value) {
@@ -52,33 +50,38 @@ class stackInput  extends specialInput{
 
     eventHook(components) {
         components['trueVal'] = this.entries
+        this.newEntry()
 
-        let current = this.curVal
-        // console.log(current)
-        if (current !== "" && current !== undefined)
-            this.lastRecent = current
-        // console.log("--", current)
         return components
     }
 
     removeEntry() {
-        console.log(this.entries)
-        this.director.insert(this.id, this.entries.pop())        
-        console.log(this.entries)
+        let last = this.entries.pop()
+
+        if (last == this.curVal)
+            last = this.entries.pop()
+
+        this.director.insert(this.id, last)        
         
         if (!this.entries[0]) 
             this.components.stackControls.wrap.classList.add('noPreviousListed')
     }
 
-    newEntry(alreadySaved) {
+    newEntry(refresh) {
         let current = this.curVal
         if (current === "" || current === undefined)
             return
-        
+        let currentEnd = this.entries.pop()
+        if (current != currentEnd) {
+            if (currentEnd !== undefined)
+                this.entries.push(currentEnd)
+            this.entries.push(current)
+        }
+        if (refresh)
+            this.director.insert(this.id, "", true)
+
         this.components.stackControls.wrap.classList.remove('noPreviousListed')
 
-        this.lastRecent = current
-        this.director.insert(this.id, "", true)
     }
 
     
@@ -89,8 +92,9 @@ module.exports.default = (director, components, args) =>
 // ---
 
 let validate = (value, compFunc) => {
+    console.log(value)
     if (!Array.isArray(value)) return
-
+    console.log("--",value)
     let origLen = value.length,
         out = [], thisVal, i
 

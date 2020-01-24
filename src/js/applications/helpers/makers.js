@@ -29,7 +29,7 @@ const select = args => {
         opt.innerText = txt
         return opt
     }
-    // console.log(args)
+    
     if (args.placeholder !== undefined) {
         let placeholder = opt("", args.placeholder)
         placeholder.disabled = true

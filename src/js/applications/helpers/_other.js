@@ -49,11 +49,9 @@ class otherThanListed extends specialInput{
         for (let i = 0; i < opts.length; i++) {
             if (opts[i].value == val) {
                 found = true;
-                console.log('found!!')
                 break
             }
-        }
-        return found 
+        } return found 
             ? components : this.swapInput(components)
     }
 

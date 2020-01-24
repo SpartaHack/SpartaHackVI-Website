@@ -37,7 +37,6 @@ class notFound extends specialInput{
         if (onScreen && this.items.check.checked == true)
             components['noValidate'] = true
         
-        // console.log("before", components)
         return components
     }
 }

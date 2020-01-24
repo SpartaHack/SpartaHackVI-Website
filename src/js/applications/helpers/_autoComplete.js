@@ -16,6 +16,13 @@ class autoCompeteInput extends specialInput {
         
     }
 
+
+    eventHook(components) {
+        if (this.currentItems.childElementCount && !this.curInd)
+            this.currentIndex = 0
+        return components
+    }
+
     import(src) {
         let importRq = {
             headers: 
@@ -26,6 +33,7 @@ class autoCompeteInput extends specialInput {
         
         let importCb = (err, response, body) => {
             if (response && response.statusCode === 200 && Array.isArray(body) ) {
+                console.log(body)
                 this.filterSrc = body
                 this.director.handler.importFilter(this.id, body)
                 this.components.inputWrap.addEventListener('keyup', 
@@ -40,7 +48,7 @@ class autoCompeteInput extends specialInput {
     hide() {
         let components = this.components
         if (components.inputWrap.lastChild === this.itemWrap)
-            this.components.inputWrap.removeChild(this.itemWrap)
+            this.itemWrap.classList.add('hide')
 
         let show = () => {
             this.show()
@@ -61,7 +69,7 @@ class autoCompeteInput extends specialInput {
             this.hide()
 
         else if (components.inputWrap.lastChild.className === 'autocomplete-list')
-            components.inputWrap.replaceChild(this.itemWrap, components.inputWrap.lastChild)
+            this.itemWrap.classList.remove('hide')
 
         else components.inputWrap.appendChild(this.itemWrap)
 
@@ -85,9 +93,13 @@ class autoCompeteInput extends specialInput {
         let curCount = this.currentItems.childElementCount    
         val = (!Number.isInteger(val) || val >= curCount) ? 0 :
             (val < 0 ? curCount - 1 : val)
-    
-        this.currentItems.childNodes[val].className = 'active-auto'
+        
+        let item = this.currentItems.childNodes[val]
+        item.className = 'active-auto'
+        this.director.insert(this.id,  item.firstChild.innerHTML)
+
         this.curInd = val
+        item.focus()
     }
 
     route(keycode) {
@@ -98,7 +110,9 @@ class autoCompeteInput extends specialInput {
             case 38: 
             this.currentIndex = this.curInd - 1
             break
-            case 13: 
+            case 13:
+            if (!this.curInd)
+                this.currentIndex = 0
             this.select(this.currentItems.childNodes[this.curInd])
             break
             default: 
@@ -117,6 +131,7 @@ class autoCompeteInput extends specialInput {
         this.filterSrc.forEach(potRes => {
                 if (potRes.toLowerCase().search(query) >= 0) {
                     let thisOpt = document.createElement('li')
+                    thisOpt.tabIndex = -1
                     if (first) {
                         thisOpt.className = 'active-auto'
                         first = false
@@ -138,6 +153,7 @@ class autoCompeteInput extends specialInput {
     clear() { 
         this.itemWrap.classList.remove('hidden')
         this.currentItems.innerHTML = '' 
+        this.curInd = 0
     }
 
     showActive() {
@@ -149,9 +165,11 @@ class autoCompeteInput extends specialInput {
 
     select(item) {
         if (!item) return
-
-        this.director.insert(this.id, item.firstChild.innerHTML)
+        
+        this.director.insert(this.id, item.firstChild.innerHTML, true)
         this.itemWrap.classList.add('hidden')
+
+        this.director.update(this.id)
     }   
 }
 
