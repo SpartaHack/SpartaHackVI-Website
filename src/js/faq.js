@@ -200,9 +200,6 @@ class FAQ {
                         () => this.enterQuestion(i))
                 })
                 this.faqCount = count
-                console.log(this.items)
-
-
         }
 
         request.get(importRq, importApp)

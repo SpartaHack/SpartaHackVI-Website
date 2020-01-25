@@ -232,7 +232,6 @@ class AppDirector {
         let val = components.trueVal ? components.trueVal : this.getInputVal(id),
             valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
 
-        console.log(val, components)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)

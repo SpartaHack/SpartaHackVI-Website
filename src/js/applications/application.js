@@ -51,7 +51,6 @@ class AppHandler {
     validate(id, value) {
         let item = this.items[id]
         if (!item) return
-
         if (!value && this._notNeeded.has(id))
             return true
         
@@ -60,7 +59,6 @@ class AppHandler {
                 : this.validators[item.validate](value, this)
 
         value = valid && valid !== true ? valid : value
-        console.log(value, valid)
         if (valid) {
             if (value instanceof Object && !Array.isArray(value))
                 Object.keys(value).forEach(

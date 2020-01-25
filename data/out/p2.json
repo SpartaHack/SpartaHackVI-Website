@@ -9,6 +9,7 @@
         "default": 0,
         "validate": false
     },
+
     {
         "name": "gradYear",
         "out": "graduation_year",
@@ -35,11 +36,25 @@
             "Summer"
         ]
     },
-
+    {
+        "name": "edLevel",
+        "out": "education",
+        "input": "select",
+        "options": [
+            "Undergrad Student",
+            "Grad Student",
+            "Bachelors Degree",
+            "Advanced Degree",
+            "Secondary Student",
+            "Graduated Secondary"
+        ],
+        "label": "Education Level",
+        "validate": false
+    },
     {
         "name": "university",
         "input": "autocomplete-opt-text",
-        "label": "University",
+        "label": "School",
         "placeholder": "Michigan State University"
     },
     {

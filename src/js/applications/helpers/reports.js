@@ -105,7 +105,11 @@ let success = director => {
         domBase.content.append(check)
         checks.push(check)
     })
-
+    let submitButton = document.createElement('button')
+    submitButton.id="submit-button"
+    submitButton.innerHTML = "Done"
+    submitButton.addEventListener('click', 
+        () => director.handler.submit())
 
     if (Array.isArray(checks)) {
         checks.forEach(c => c.addEventListener('change', () => {
@@ -115,17 +119,13 @@ let success = director => {
             checks.forEach(c => {if (c.checked) ++checked}) 
             
             if (total === checked) 
-                reportWrap.lastChild.appendChild(completeButton)
-            else if (reportWrap.lastChild.lastChild == completeButton)
-                reportWrap.lastChild.removeChild(completeButton)
+                domBase.buttons.appendChild(submitButton)
+            else if (domBase.content.lastChild.lastChild == submitButton)
+                domBase.buttons.removeChild(submitButton)
         }) )
     }
     
-    let submitButton = document.createElement('button')
-    submitButton.id="submit-button"
-    submitButton.innerHTML = "Done"
-    submitButton.addEventListener('click', 
-        () => director.handler.submit())
+
 
     return exp(domBase)
 }

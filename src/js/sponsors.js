@@ -40,11 +40,7 @@ let get = target => {
         url: window.location + "/data/sponsors.json",//"http://api.elephant.spartahack.com/sponsors",
         json: true
     }
-    let getSponsors = (err, response, body) => {
-        console.log(err, body)
-        // cb(body)
-        make(body, target)
-    }
+    let getSponsors = (err, response, body) => make(body, target)
     request.get(sponsorsRq, getSponsors)
 }
 

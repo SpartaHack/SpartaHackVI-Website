@@ -126,6 +126,5 @@ let updateStatus = (statDom, state) => {
 let status = async auth0 =>
     Array.from(document.getElementsByClassName('status'))
         .forEach(s => updateStatus(s, false))
-// *
-// console.log('present')
+
 login([fillBanner, fillInfo, fillButton, status])

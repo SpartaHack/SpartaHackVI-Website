@@ -32,7 +32,6 @@ class autoCompeteInput extends specialInput {
         
         let importCb = (err, response, body) => {
             if (response && response.statusCode === 200 && Array.isArray(body) ) {
-                console.log(body)
                 this.filterSrc = body
                 this.director.handler.importFilter(this.id, body)
                 this.components.inputWrap.addEventListener('keyup', 

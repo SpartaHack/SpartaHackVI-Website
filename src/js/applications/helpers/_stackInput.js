@@ -50,7 +50,6 @@ class stackInput  extends specialInput{
 
     eventHook(components) {
         components['trueVal'] = this.entries
-        console.log("@stack", components)
         this.newEntry()
 
         return components
@@ -75,18 +74,14 @@ class stackInput  extends specialInput{
 
         let curLen = this.entries.length
         let curEnd = curLen ? this.entries[curLen - 1] : false
-        console.log(curEnd, current)
+
         if (current != curEnd)
             this.entries.push(current)
-
         if (refresh)
             this.director.insert(this.id, "", true)
 
         this.components.stackControls.wrap.classList.remove('noPreviousListed')
-
     }
-
-    
 }
 module.exports.default = (director, components, args) =>
     new stackInput(director, components)
