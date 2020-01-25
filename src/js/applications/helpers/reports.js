@@ -87,7 +87,6 @@ let success = director => {
 
         wrap.appendChild(document.createElement('span'))
         wrap.lastChild.innerHTML = body
-
         return wrap
     }
     
@@ -103,8 +102,8 @@ let success = director => {
     Object.keys(conditions).forEach(cond => {
         check = getCheck(conditions[cond], cond)
         domBase.content.append(check)
-        checks.push(check)
     })
+
     let submitButton = document.createElement('button')
     submitButton.id="submit-button"
     submitButton.innerHTML = "Done"
@@ -117,16 +116,13 @@ let success = director => {
             let checked = 0
 
             checks.forEach(c => {if (c.checked) ++checked}) 
-            
+            console.log(checks)
             if (total === checked) 
                 domBase.buttons.appendChild(submitButton)
             else if (domBase.content.lastChild.lastChild == submitButton)
                 domBase.buttons.removeChild(submitButton)
         }) )
     }
-    
-
-
     return exp(domBase)
 }
 module.exports.success = success

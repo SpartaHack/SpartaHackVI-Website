@@ -255,13 +255,9 @@ class AppDirector {
 
         Object.keys(this.domItems).forEach(ik => this.update(ik))
         let needed = this.handler.needed
+        this.report = needed[0] 
+            ? reports.default(this, needed) : reports.success(this, needed)
 
-        if (needed[0])
-            this.report = reports.default(this, needed)
-        else {
-            this.report = reports.success(this, needed)
-            this.handler.submit()
-        }
         document.body.appendChild(this.report.container)
         document.body.appendChild(this.report.underlay)
     }

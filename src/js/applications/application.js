@@ -51,8 +51,10 @@ class AppHandler {
     validate(id, value) {
         let item = this.items[id]
         if (!item) return
-        if (!value && this._notNeeded.has(id))
+        if (!value && this._notNeeded.has(id)) {
+            this.out[id] = undefined
             return true
+        }
         
         let out = item.out ? item.out : item.name,
             valid = !item.validate ? true 
@@ -79,7 +81,33 @@ class AppHandler {
     }
     
     submit(overlayDom) {
+        this.out['other_university'] = ""
+        this.out['outside_north_america'] = ""
+
+        let info = JSON.parse(window.localStorage.getItem('stuinfo')),
+        out = this.out
+        if (!info) { 
+            console.error("Please log out, log back in, then try again")
+            return
+        }
         console.log("WOULD SUBMIT!!", this.out)
+    
+        let submitRq = {
+            headers: {
+                "Content-Type":"application/json",
+                "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
+                "Access-Control-Request-Method": "POST",
+                "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
+            },
+            body: { "application": out },
+            url: "http://api.elephant.spartahack.com/applications",
+            json: true
+        }
+        let submitApp = (err, response, body) => {
+            console.log(err, body)
+        }
+    
+        request.post(submitRq, submitApp)
         return
     }
    
