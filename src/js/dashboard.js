@@ -85,7 +85,7 @@ let fillInfo = async auth0 => {
     refreshItems = [name, email],
     refresh = items => 
         items.forEach(i => i.parentElement.replaceChild(i, i) )
-    
+    // -
     if (info.picture) {
         img = document.createElement('img')
         img.id = "profile-photo"

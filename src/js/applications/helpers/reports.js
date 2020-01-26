@@ -110,7 +110,7 @@ let success = director => {
     submitButton.addEventListener('click', 
         () => director.handler.submit())
 
-    if (Array.isArray(checks)) {
+    if (Array.isArray(checks))
         checks.forEach(c => c.addEventListener('change', () => {
             let total = checks.length
             let checked = 0
@@ -122,7 +122,7 @@ let success = director => {
             else if (domBase.content.lastChild.lastChild == submitButton)
                 domBase.buttons.removeChild(submitButton)
         }) )
-    }
+
     return exp(domBase)
 }
 module.exports.success = success
