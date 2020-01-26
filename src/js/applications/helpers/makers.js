@@ -61,9 +61,16 @@ const number = args => {
     return input
 }
 
+const check = args => {
+    let input = document.createElement('input')
+    input.type = "checkbox"
+    return input
+}
+
 module.exports.default = ({
     "text": text,
     "select": select,
     "date": date,
-    "number": number
+    "number": number,
+    "check": check
 })

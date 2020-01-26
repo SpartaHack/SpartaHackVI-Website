@@ -21,12 +21,11 @@
             2023,
             2024
         ],
-        "label": "Graduation Year",
-        "validate": false
+        "label": "Graduation Year"
     },
     {
         "name": "gradSeason",
-        "out": "graduation_seson",
+        "out": "graduation_season",
         "input": "select",
         "label": "Graduation Season",
         "validate": false,

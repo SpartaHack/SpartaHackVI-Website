@@ -1,6 +1,6 @@
 function test(user, context, callback) {
     let nameSpace = "http://website.elephant.spartahack.com/";
-
+  console.log(context)
     // ---
     // let count = 0;
     let CB = (err, response, body, cb) => {
@@ -14,7 +14,6 @@ function test(user, context, callback) {
         cb();            
       }
       else if (response && response.statusCode >= 400) {
-        console.log('god damn')
         cb();   }
 
     };    

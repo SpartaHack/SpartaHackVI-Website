@@ -169,13 +169,13 @@ body {
 #complete-app-report {
     .consentor {
         @extend .type;
-        cursor: pointer;
         user-select: none;
         font-size: 1rem;
         line-height: 1.25rem;
         margin: 0 0 1rem 0;
 
         input {
+            cursor: pointer;
             font-size: 2rem;
             margin: 0 .5rem;
         }

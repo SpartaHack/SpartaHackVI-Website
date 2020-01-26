@@ -49,6 +49,7 @@ class AppHandler {
     }
 
     validate(id, value) {
+        console.log(id, value)
         let item = this.items[id]
         if (!item) return
         if (!value && this._notNeeded.has(id)) {
@@ -99,10 +100,11 @@ class AppHandler {
                 "Access-Control-Request-Method": "POST",
                 "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
             },
-            body: { "application": out },
+            body: out,
             url: "http://api.elephant.spartahack.com/applications",
             json: true
         }
+        console.log(submitRq)
         let submitApp = (err, response, body) => {
             console.log(err, body)
         }

@@ -98,9 +98,9 @@ let success = director => {
         and the MLH Privacy Policy.',
 
         'conduct': 'I have read and agree to the MLH Code of Conduct.'
-    }, check
+    }
     Object.keys(conditions).forEach(cond => {
-        check = getCheck(conditions[cond], cond)
+        let check = getCheck(conditions[cond], cond)
         domBase.content.append(check)
     })
 
@@ -116,7 +116,7 @@ let success = director => {
             let checked = 0
 
             checks.forEach(c => {if (c.checked) ++checked}) 
-            console.log(checks)
+
             if (total === checked) 
                 domBase.buttons.appendChild(submitButton)
             else if (domBase.content.lastChild.lastChild == submitButton)

@@ -69,7 +69,7 @@
         },
         {
             "name": "gradSeason",
-            "out": "graduation_seson",
+            "out": "graduation_season",
             "input": "select",
             "label": "Graduation Season",
             "validator": false

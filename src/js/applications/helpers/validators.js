@@ -79,9 +79,9 @@ const birthday = value => {
         Math.floor((new Date()-new Date(value))/1000/year)
     
     return (yearsOld > 12 && yearsOld < 120) ? ({
-        'birth_year': value.substr(0,4),
-        'birth_month': value.substr(5,2),
-        'birth_day': value.substr(8,2),
+        'birth_year': Number(value.substr(0,4)),
+        'birth_month': Number(value.substr(5,2)),
+        'birth_day': Number(value.substr(8,2)),
     }) : false
 }
 
@@ -157,5 +157,6 @@ module.exports.default = ({
     "phone": phone,
     "city": city,
     "major": major,
-    "university": university
+    "university": university,
+    "gradYear": yr => Number(yr)
 })

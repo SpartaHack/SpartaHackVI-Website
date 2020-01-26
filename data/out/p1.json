@@ -21,6 +21,12 @@
         "placeholder": "East Lansing"
     },
     {
+        "name": "reimbursement",
+        "label": "Reimbursement Needed",
+        "input": "check",
+        "validate": false
+    },
+    {
         "name": "birthday",
         "out": [],
         "input": "date",

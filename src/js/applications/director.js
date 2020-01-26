@@ -47,7 +47,9 @@ class AppDirector {
         return !srcItems ? undefined : (
             srcItems.input instanceof HTMLSelectElement
             ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
-                : srcItems.input.value
+            : ( srcItems.input instanceof HTMLInputElement 
+                && srcItems.input.type == "checkbox" 
+                ?  srcItems.input.checked : srcItems.input.value )
         ) 
     }
 
@@ -229,9 +231,10 @@ class AppDirector {
             })
         this.setComponents(id, components)
         
-        let val = components.trueVal ? components.trueVal : this.getInputVal(id),
-            valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-
+        let val = components.trueVal ? components.trueVal : this.getInputVal(id)
+        val = components.input.type == "number" ? Number(val) : val
+        let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
+            // console.log(val, valid)
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)

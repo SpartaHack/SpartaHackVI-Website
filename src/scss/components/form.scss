@@ -188,21 +188,15 @@
     }
 }
 
-#personalStatementWrap{
-    margin: 0;
-}
 .personal-statement {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
-    // margin: 0
-
     label { margin: 0 0 .5rem 0; }
-    textarea { 
-        width: 100%;
-
-        height: 15rem;
+    div {
+        &, textarea { width: 100%; }
+        textarea { height: 15rem; }
     }
 }
 
