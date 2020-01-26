@@ -70,6 +70,10 @@ let fail = (director, needed) => {
 }
 module.exports.default = fail
 
+let newToken = domBase => {
+    console.log(domBase)
+}
+
 let success = director => {
     let domBase = overlay('complete-app-report')    
     domBase.title.innerHTML = 'Before we continue...'
@@ -107,8 +111,7 @@ let success = director => {
     let submitButton = document.createElement('button')
     submitButton.id="submit-button"
     submitButton.innerHTML = "Done"
-    submitButton.addEventListener('click', 
-        () => director.handler.submit())
+    
 
     if (Array.isArray(checks))
         checks.forEach(c => c.addEventListener('change', () => {
@@ -122,7 +125,13 @@ let success = director => {
             else if (domBase.content.lastChild.lastChild == submitButton)
                 domBase.buttons.removeChild(submitButton)
         }) )
+    
 
-    return exp(domBase)
+    domBase = exp(domBase)
+    submitButton.addEventListener('click', 
+        () => director.handler.submit({"402": domBase => newToken(domBase)}))
+
+    return domBase
+
 }
 module.exports.success = success

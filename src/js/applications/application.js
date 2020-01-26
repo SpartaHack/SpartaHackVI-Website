@@ -81,7 +81,7 @@ class AppHandler {
         return
     }
     
-    submit(overlayDom) {
+    submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
 
@@ -106,7 +106,11 @@ class AppHandler {
         }
         console.log(submitRq)
         let submitApp = (err, response, body) => {
-            console.log(err, body)
+            let error = body.status != 200 ? body.status.toString() : false
+            console.log(error, conditions)
+            console.log('what')
+            // console.log
+            if (error && conditions[error]) (conditions[error])()
         }
     
         request.post(submitRq, submitApp)

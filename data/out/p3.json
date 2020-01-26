@@ -29,7 +29,6 @@
     {
         "name": "website",
         "class": "user-links",
-        "out": "other_link",
         "input": "text",
         "label": "Your Site",
         "labelVis": "hidden",
