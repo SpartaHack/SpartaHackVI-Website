@@ -84,6 +84,7 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
+        this.out['other_link'] = ""
 
         let info = JSON.parse(window.localStorage.getItem('stuinfo')),
         out = this.out
