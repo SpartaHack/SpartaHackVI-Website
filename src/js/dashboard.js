@@ -1,6 +1,7 @@
 import './../scss/sheets/dashboard.scss'
 let getApp = require('./applications/transactions').getApp
 let login = require('./login').default
+;(require('./util').default)()
 
 let appState = () => {
     let current = window.localStorage.hasOwnProperty('application') ? 

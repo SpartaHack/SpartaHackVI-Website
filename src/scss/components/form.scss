@@ -8,7 +8,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    // flex-wrap: wrap;
+    flex-wrap: wrap;
     
     label {
         display: flex;
@@ -49,6 +49,15 @@
         // flex-direction: row-reverse;
         justify-content: flex-start;
         align-content: center;
+        
+        width: auto; 
+        span {
+            margin: auto 0 auto auto;
+        }
+        @media screen and (max-width: 560px) {
+            width: 100%;
+        }
+
     }
     input[type=number] { max-width: 4rem;}
 

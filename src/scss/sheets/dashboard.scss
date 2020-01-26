@@ -124,15 +124,16 @@ main {
         &, .stat-inner {border-radius: 50%;}
 
         .stat-inner {
+            background-color: $white;
             width: 80%;
             height: 80%;
-            margin: auto;
-            background-color: $white;
-
-            i {
-                margin: auto;
-                color: $black;
-                font-size: 200%;
+            
+            &, svg { margin: auto; }
+            svg {
+                $side: 65%;
+                width: $side;
+                height: $side;
+                path {color: $black;}
             }
         }
     }

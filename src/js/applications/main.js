@@ -1,5 +1,6 @@
 import './../../scss/sheets/application.scss'
 ;(require('../login').default)()
+;(require('./../util').default)()
 
 const Director = require('./director').default
 const Handler = require('./application').default
