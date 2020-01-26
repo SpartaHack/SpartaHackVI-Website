@@ -29,7 +29,7 @@
     {
         "name": "website",
         "class": "user-links",
-        "out": ["website", "other_link"],
+        "out": "other_link",
         "input": "text",
         "label": "Your Site",
         "labelVis": "hidden",
