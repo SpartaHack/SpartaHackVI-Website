@@ -81,10 +81,22 @@ let fillInfo = async auth0 => {
     let email = document.getElementById('user-email')
     email.innerHTML = info.email
     // -
-    let imgArea = document.getElementById('image-area')
-    let img = document.createElement('img')
-    img.id = "profile-photo"
-    img.onload = () => imgArea.appendChild(img)
+    let img,
+    refreshItems = [name, email],
+    refresh = items => 
+        items.forEach(i => i.parentElement.replaceChild(i, i) )
+    
+    if (info.picture) {
+        img = document.createElement('img')
+        img.id = "profile-photo"
+
+        document.getElementById('image-area').appendChild(img)
+        refreshItems.push(img)
+
+        img.addEventListener('load', e => refresh(refreshItems))
+        img.src = info.picture
+    }
+    else refresh(refreshItems)
 
     return
 }

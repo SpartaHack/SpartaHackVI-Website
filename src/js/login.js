@@ -17,10 +17,9 @@ let oldCreds = async auth0 => {
 }
 
 let login = async auth0 => {
-    console.log('hello?')
     let args = window.location.hash
     if (!args.search(/access\_token/)) return oldCreds(auth0)
-    console.log('still here')
+
     auth0.parseHash({hash: args}, (err, info) => {
         if (err || !info) return oldCreds()
 
@@ -80,6 +79,5 @@ module.exports.default = async after => {
     let loginFuncs = after instanceof Function ? [login, after] :
         after instanceof Array ? [login, ...after] : [login]
 
-    console.log(loginFuncs)
     return await auth(loginFuncs)
 }
