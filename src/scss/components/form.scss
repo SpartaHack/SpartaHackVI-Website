@@ -43,6 +43,14 @@
             
             ::placeholder { color: rgba($white, .85); }
         }
+        input[type=checkbox] {
+            transform: scale(1.35);
+            transform: translate(.1525, .1525);
+            cursor: pointer;
+
+
+            &:active, &:focus {outline: none; border: none; }
+        }
     }
     .input-controls {
         display: flex;

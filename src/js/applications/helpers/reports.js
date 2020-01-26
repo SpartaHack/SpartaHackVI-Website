@@ -46,7 +46,89 @@ let exp = domBase => {
     return domBase
 }
 
-let fail = (director, needed) => {
+// ---
+
+let newToken = (domBase, director) => {
+    domBase.content.id = "token-submission-error"
+    domBase.title.innerHTML = 'Have you been here for a while?'
+    domBase.content.innerHTML = "<p>We've saved your application, please re-submit after logging back in!</p>"
+
+    domBase.buttons.removeChild(domBase.buttons.lastChild)
+
+    let autoLogoutButton = document.createElement('button')
+    autoLogoutButton.id="auto-logout-button"
+    autoLogoutButton.innerHTML = "Logout"
+
+    let autoLogoutWrap = document.createElement('div')
+    autoLogoutWrap.appendChild(autoLogoutButton)
+    autoLogoutWrap.appendChild(document.createElement('h5'))
+    // AUTO LOGOUT AND LOGOUT CLICK LISTENER (soft)
+    domBase.buttons.appendChild(autoLogoutWrap)
+
+    console.log(autoLogoutWrap, domBase)
+
+    autoLogoutWrap.lastChild.innerHTML = "(10s)"
+    let updateTime = time => window.setTimeout(() => {
+        autoLogoutWrap.lastChild.innerHTML = "(" + (--time).toString() + "s)"
+        if (time > 0) updateTime(time)
+        else console.log('implement new "logout()"')
+    }, 1000)
+    updateTime(10)
+
+    autoLogoutButton.addEventListener('click', e => console.log('implement new "logout()"'))
+    domBase.container.replaceChild(domBase.report, domBase.report)
+}
+
+let fail = (domBase, director, details) => {
+    domBase.content.id = "other-submission-error"
+    domBase.title.innerHTML = 'Sorry'
+    domBase.content.innerHTML = '<p>Something appears to have gone wrong on our end. Please <a href="mailto:hello@spartahack.com" target="_blank">email us (hello@spartahack.com)</a> the error!:</p>'
+ 
+    let error = document.createElement('p')
+    error.innerHTML = details.status+": "+(details.message ? details.message : "Unkown error")
+    error.className = 'submission-error'
+    domBase.content.appendChild(error)
+    
+    let logoutButton = document.createElement('button')
+    logoutButton.id="logout-button"
+    logoutButton.innerHTML = "Logout"
+    // LOGOUT (hard) CLICK LISTENER
+    
+    domBase.buttons.replaceChild(logoutButton, domBase.buttons.lastChild)
+    domBase.container.replaceChild(domBase.report, domBase.report)
+}
+
+let success = (domBase, director) => {
+    domBase.content.id = "successful-submission"
+    domBase.title.innerHTML = "Thanks!"
+    domBase.content.innerHTML = "<p>We've recieved you application. Once it's reviewed, you'll get an email from us!"  
+
+    domBase.buttons.removeChild(domBase.buttons.lastChild)
+
+    let homeButton = document.createElement('button')
+    homeButton.id="home-button"
+    homeButton.innerHTML = "Home"
+    domBase.buttons.appendChild(homeButton)
+
+    let dashboardButton = document.createElement('button')
+    dashboardButton.id="dashboard-button"
+    dashboardButton.innerHTML = "My Dashboard"
+    domBase.buttons.appendChild(dashboardButton)
+
+    director.isApplied()
+    domBase.container.replaceChild(domBase.report, domBase.report)
+}
+
+let responseConditions = (domBase, director) => ({
+    '200': () => success(domBase, director),
+    '402': () => newToken(domBase, director),
+    '500': () => newToken(domBase, director),
+    'otherError': contents => fail(domBase, director, contents),
+})
+
+// ---
+
+let userFail = (director, needed) => {
     if (needed && (!Array.isArray(needed) || !needed[0])) return
 
     let domBase = overlay('incomplete-app-report')
@@ -68,14 +150,10 @@ let fail = (director, needed) => {
 
     return exp(domBase) 
 }
-module.exports.default = fail
+module.exports.default = userFail
 
-let newToken = domBase => {
-    console.log(domBase)
-}
-
-let success = director => {
-    let domBase = overlay('complete-app-report')    
+let userSuccess = director => {
+    let domBase = overlay('complete-app-report')
     domBase.title.innerHTML = 'Before we continue...'
     checks = []
 
@@ -129,9 +207,9 @@ let success = director => {
 
     domBase = exp(domBase)
     submitButton.addEventListener('click', 
-        () => director.handler.submit({"402": domBase => newToken(domBase)}))
+        () => director.handler.submit(responseConditions(domBase, director)) )
 
     return domBase
 
 }
-module.exports.success = success
+module.exports.success = userSuccess

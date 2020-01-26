@@ -33,7 +33,7 @@ let login = async auth0 => {
         window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
         window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
 
-        console.log(info, window.localStorage)
+        // console.log(info, window.localStorage)
 
         if ( (!info.idTokenPayload.name || info.idTokenPayload.name.search(/\@/) !== -1) 
             && !info.idTokenPayload.family_name ) return

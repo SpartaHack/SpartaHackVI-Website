@@ -151,6 +151,24 @@ body {
         h2, div { margin: .5rem 0 0 0; user-select: none; }
         #report-title { font-size: 1.5rem; }
         #report-summary { font-size: 1rem; }
+
+
+    }
+
+    #report-responses {
+        &, div {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+        }
+        div {
+            width: auto;
+            margin: auto 0;
+            * {
+                display: inline-block;
+                margin: auto 0;
+            }
+        }
     }
 }
 
@@ -181,3 +199,30 @@ body {
     }
 }
 
+#token-submission-error {
+
+}
+
+#other-submission-error {
+    $border: .1rem solid $red; 
+    a {
+        cursor: pointer;
+        border-bottom: $border;
+    }
+    .submission-error {
+        cursor: text;
+        user-select: all !important;
+
+        border: $border;
+        padding: .25rem;
+        display: inline-block;
+
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+}
+
+#successful-submission-error {
+
+}
+ 

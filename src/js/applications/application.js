@@ -49,7 +49,6 @@ class AppHandler {
     }
 
     validate(id, value) {
-        console.log(id, value)
         let item = this.items[id]
         if (!item) return
         if (!value && this._notNeeded.has(id)) {
@@ -86,30 +85,29 @@ class AppHandler {
         this.out['outside_north_america'] = ""
         this.out['other_link'] = "https://www.notneeded.com/"
 
-        let info = JSON.parse(window.localStorage.getItem('stuinfo')),
-        out = this.out
-        if (!info) { 
-            console.error("Please log out, log back in, then try again")
-            return
-        }
-        console.log("WOULD SUBMIT!!", this.out)
-    
+        let info = JSON.parse(window.localStorage.getItem('stuinfo'))
+        if (!info) return
+        let out = this.out
+        console.log("WOULD SUBMIT!!", out)
+        
         let submitRq = {
             headers: {
                 "Content-Type":"application/json",
                 "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
                 "Access-Control-Request-Method": "POST",
-                "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
+                "X-WWW-USER-TOKEN": "402'ing"//info[window.location.origin + "/pt"]
             },
             body: out,
             url: "http://api.elephant.spartahack.com/applications",
             json: true
         }
-        console.log(submitRq)
+
         let submitApp = (err, response, body) => {
-            let error = body.status != 200 ? body.status.toString() : false
-            console.log(body)
-            if (error && conditions[error]) (conditions[error])()
+            body.status = body.status ? body.status.toString() : "Other"
+
+            if (conditions[body.status]) (conditions[body.status])()
+            else if (body.status != "200" && conditions.otherError)
+                conditions.otherError(body) 
         }
     
         request.post(submitRq, submitApp)

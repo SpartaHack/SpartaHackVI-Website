@@ -56,10 +56,6 @@ class AppDirector {
     // ---
 
     getOld(startup) {
-        let returnPage = window.localStorage.getItem('returnPage')
-        if (Number.isInteger(returnPage)) 
-            this.currentPage = returnPage
-
         let oldVals = window.localStorage.getItem('oldApp')
         if (oldVals) {
             this.oldVals = JSON.parse(oldVals)
@@ -245,6 +241,7 @@ class AppDirector {
         }
         return Boolean(valid)
     }
+    
     done(startCheckAt) {
         let id, components
 
@@ -263,6 +260,10 @@ class AppDirector {
 
         document.body.appendChild(this.report.container)
         document.body.appendChild(this.report.underlay)
+    }
+
+    isApplied() {
+        
     }
 }
 module.exports.default = AppDirector
