@@ -12,6 +12,18 @@ let profile = value => {
         && validPortion && validPortion[0] == value )
         ? value : false
 }
+let github = value => {
+    let suffix = profile(value)
+    return suffix ? "https://github.com/" + suffix : suffix
+} 
+let linkedin = value => {
+    let suffix = profile(value)
+    return suffix ? "https://www.linkedin.com/in/" + suffix : suffix
+} 
+let devpost = value => {
+    let suffix = profile(value)
+    return suffix ? "https://devpost.com/" + suffix : suffix
+} 
 
 // ---
 // put into _autoComplete ?
@@ -145,9 +157,9 @@ const phone = value => {
 // ---
 
 module.exports.default = ({
-    "github": profile,
-    "devpost": profile,
-    "linkedin": profile,
+    "github": github,
+    "devpost": devpost,
+    "linkedin": linkedin,
     "website": site,
     "personalStatement": statement,
     "name": name,
