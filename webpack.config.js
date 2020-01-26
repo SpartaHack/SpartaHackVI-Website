@@ -75,6 +75,11 @@ module.exports = {
         to: 'data',
         flatten:true
       }]),
+      new CopyWebpackPlugin([{
+        from:'./assets/sps',
+        to: 'assets/sps',
+        flatten:true
+      }]),
 
       new HtmlWebpackPlugin({
         inject: false,

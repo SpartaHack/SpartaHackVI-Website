@@ -1,37 +1,54 @@
 [
     {
         "name": "Auto-Owners Insurance",
-        "imageName": " ",
-        "url": "https://www.auto-owners.com/"
+        "imageName": "auto-owners-insurance.svg",
+        "url": "https://www.auto-owners.com/",
+        "teir": 2
+    },
+    {   
+        "name": "Linode",
+        "imageName": "linode.svg",
+        "url": "https://www.linode.com/",
+        "teir": 2
     },
     {
         "name": "Michigan State University Federal Credit Union",
-        "imageName": " ",
-        "url": "https://www.msufcu.org"
-    },
-    {
-        "name": "Linode",
-        "imageName": " ",
-        "url": "https://www.linode.com/"
+        "imageName": "msufcu.svg",
+        "url": "https://www.msufcu.org",
+        "teir": 1
     },
     {
         "name": "Michigan State University IT",
-        "imageName": " ",
-        "url": "https://tech.msu.edu/"
-    },
-    {
-        "name": "Michigan State University Tech Store",
-        "imageName": " ",
-        "url": "https://techstore.msu.edu/"
+        "imageName": "msuit-mono.png",
+        "url": "https://tech.msu.edu/",
+        "teir": 3
     },
     {
         "name": "TechSmith",
-        "imageName": " ",
-        "url": "hhttps://www.techsmith.com/"
+        "imageName": "",
+        "url": "hhttps://www.techsmith.com/",
+        "teir": 3
+    },
+    {
+        "name": "Michigan State University Tech Store",
+        "imageName": "",
+        "url": "https://techstore.msu.edu/"
     },
     {
         "name": "5-hour Energy",
-        "imageName": " ",
+        "imageName": "",
         "url": "https://5hourenergy.com/"
+    },
+    {
+        "name": "Redbull",
+        "imageName": "redbull.svg",
+        "url": "https://www.redbull.com",
+        "teir": 3
+    },
+    {
+        "name": "Cognizant",
+        "imageName": "cognizant.svg",
+        "url": "https://www.cognizant.com/",
+        "teir": 1
     }
 ]
