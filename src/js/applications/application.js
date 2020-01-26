@@ -84,7 +84,7 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
-        this.out['other_link'] = ""
+        this.out['other_link'] = "https://www.notneeded.com/"
 
         let info = JSON.parse(window.localStorage.getItem('stuinfo')),
         out = this.out
@@ -108,9 +108,7 @@ class AppHandler {
         console.log(submitRq)
         let submitApp = (err, response, body) => {
             let error = body.status != 200 ? body.status.toString() : false
-            console.log(error, conditions)
-            console.log('what')
-            // console.log
+            console.log(body)
             if (error && conditions[error]) (conditions[error])()
         }
     
