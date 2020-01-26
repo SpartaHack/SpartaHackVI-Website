@@ -4,16 +4,10 @@ const env = require('./../../env.json')
 async function auth_func(cb) {
     let auth = new auth0(env.auth)
 
-    if (Array.isArray(cb)) {        
-        let doNext = at => {
-            if (at >= cb.length - 1) return
-            
-            doNext(++at, cb[at](auth))
-        }
-        doNext(0)
-    }
+    if (Array.isArray(cb))
+        cb.forEach(async f => await f(auth))
     
-    else if (typeof cb == "function") cb(auth)
+    else if (typeof cb == "function") await cb(auth)
 
     return true
 }

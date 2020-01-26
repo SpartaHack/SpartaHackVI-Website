@@ -76,10 +76,10 @@ let loggedIn = auth0 => {
     return true
 }
 
-module.exports.default = after => {
+module.exports.default = async after => {
     let loginFuncs = after instanceof Function ? [login, after] :
         after instanceof Array ? [login, ...after] : [login]
 
     console.log(loginFuncs)
-    return auth(loginFuncs)
+    return await auth(loginFuncs)
 }
