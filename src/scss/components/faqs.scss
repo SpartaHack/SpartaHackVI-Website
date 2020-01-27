@@ -59,7 +59,7 @@ $activeBorderRadius: .5rem;
             flex-direction: row;
             justify-content: flex-end;
             align-content: center;
-
+            label { visibility: hidden; width: 0; }
             input {
                 background: none;
                 border: none;

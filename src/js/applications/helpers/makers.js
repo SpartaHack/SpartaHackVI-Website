@@ -64,6 +64,7 @@ const number = args => {
 const check = args => {
     let input = document.createElement('input')
     input.type = "checkbox"
+    input.className = "form-check"
     return input
 }
 

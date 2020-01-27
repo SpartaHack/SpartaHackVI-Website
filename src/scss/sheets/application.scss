@@ -197,16 +197,11 @@ body {
 
         &:hover, &:focus {
             input {
-
                 transform: scale(1.25);
                 transform: translate(.125, .125);
             }
         }
     }
-
-}
-
-#token-submission-error {
 
 }
 
@@ -227,9 +222,5 @@ body {
         font-size: 1.25rem;
         font-weight: 500;
     }
-}
-
-#successful-submission-error {
-
 }
  

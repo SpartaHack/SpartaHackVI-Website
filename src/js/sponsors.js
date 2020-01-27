@@ -13,6 +13,7 @@ let make = (info, container) => {
         if (sponsor.imageName) {
             wrap = document.createElement('a')
             wrap.href = sponsor.url
+            wrap.rel = "noopener"
             wrap.target = '_blank'
 
             let logo = document.createElement('img')

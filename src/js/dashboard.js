@@ -92,6 +92,7 @@ let fillInfo = async auth0 => {
         if (info.picture) {
             img = document.createElement('img')
             img.id = "profile-photo"
+            img.alt = "Profile photo"
     
             document.getElementById('image-area').appendChild(img)
             refreshItems.push(img)

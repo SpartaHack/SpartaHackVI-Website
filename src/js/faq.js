@@ -143,10 +143,14 @@ class FAQ {
 
         this.filterWrap = document.createElement('span')
         this.filterWrap.appendChild(document.createElement('input'))
-        this.filterWrap.firstElementChild.placeholder = "Filter FAQs"
+        this.filterWrap.firstChild.for = "faq-filter"
+        this.filterWrap.appendChild(document.createElement('input'))
+        this.filterWrap.lastElementChild.placeholder = "Filter FAQs"
+        this.filterWrap.lastElementChild.id = "faq-filter"
         
         this.filterAction = document.createElement('i')
         this.filterAction.className = 'fas fa-search'
+        this.filterAction.id = 'faq-filter'
         this.filterWrap.appendChild(this.filterAction)
 
         wrap.firstElementChild.appendChild(this.filterWrap)
