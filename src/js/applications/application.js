@@ -95,7 +95,7 @@ class AppHandler {
                 "Content-Type":"application/json",
                 "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
                 "Access-Control-Request-Method": "POST",
-                "X-WWW-USER-TOKEN": "402'ing"//info[window.location.origin + "/pt"]
+                "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
             },
             body: out,
             url: "http://api.elephant.spartahack.com/applications",
