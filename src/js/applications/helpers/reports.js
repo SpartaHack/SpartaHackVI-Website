@@ -165,10 +165,11 @@ let userSuccess = director => {
     domBase.title.innerHTML = 'Before we continue...'
     checks = []
 
-    let getCheck = (body, sId) => {
+    let getCheck = (body, sId, tI) => {
         let wrap = document.createElement('p')
         wrap.className = "consentor"
         wrap.id = sId + 'Wrap'
+        wrap.tabIndex = tI
 
         wrap.appendChild(document.createElement('input'))
         wrap.lastChild.type = "checkbox"
@@ -189,10 +190,11 @@ let userSuccess = director => {
 
         'conduct': 'I have read and agree to the MLH Code of Conduct.'
     }
-    Object.keys(conditions).forEach(cond => {
-        let check = getCheck(conditions[cond], cond)
+    let cKeys = Object.keys(conditions)
+    for (let i = 0; i < cKeys.length; i++) {
+        let check = getCheck(conditions[cKeys[i]], cKeys[i], i)
         domBase.content.append(check)
-    })
+    }
 
     let submitButton = document.createElement('button')
     submitButton.id="submit-button"

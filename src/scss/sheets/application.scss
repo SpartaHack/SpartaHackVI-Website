@@ -191,8 +191,19 @@ body {
             cursor: pointer;
             font-size: 2rem;
             margin: 0 .5rem;
+
+            transition: transform ease-in .5s;
+        }
+
+        &:hover, &:focus {
+            input {
+
+                transform: scale(1.25);
+                transform: translate(.125, .125);
+            }
         }
     }
+
 }
 
 #token-submission-error {

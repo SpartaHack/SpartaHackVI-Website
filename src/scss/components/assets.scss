@@ -83,8 +83,8 @@ button {
     color: $black;
 
     border: none;
-    border-radius: .5rem;
-    padding: .75rem !important;
+    border-radius: 1.5rem;
+    padding: 1rem !important;
     box-sizing: border-box;
     
     font-weight: 350;
@@ -92,11 +92,13 @@ button {
     text-transform: uppercase;
 
     transform: scale(.9);
-    transition: transform .35s ease-in-out;
+    transition: all .35s ease-in-out;
 
-    &:hover, &:active {
+    &:hover, &:active, &:focus {
         background-color: $white;
         transform: scale(1);
+        font-weight: 450;
+        padding: .75rem;
     }
 }
 
