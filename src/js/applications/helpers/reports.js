@@ -48,6 +48,7 @@ let exp = domBase => {
 
 // ---
 
+let logout = director => director.handler.logout()
 let newToken = (domBase, director) => {
     domBase.content.id = "token-submission-error"
     domBase.title.innerHTML = 'Have you been here for a while?'
@@ -71,11 +72,11 @@ let newToken = (domBase, director) => {
     let updateTime = time => window.setTimeout(() => {
         autoLogoutWrap.lastChild.innerHTML = "(" + (--time).toString() + "s)"
         if (time > 0) updateTime(time)
-        else console.log('implement new "logout()"')
+        else logout(director)
     }, 1000)
     updateTime(10)
 
-    autoLogoutButton.addEventListener('click', e => console.log('implement new "logout()"'))
+    autoLogoutButton.addEventListener('click', e => logout(director))
     domBase.container.replaceChild(domBase.report, domBase.report)
 }
 
@@ -92,6 +93,8 @@ let fail = (domBase, director, details) => {
     let logoutButton = document.createElement('button')
     logoutButton.id="logout-button"
     logoutButton.innerHTML = "Logout"
+
+    logoutButton.addEventListener('click', e => logout(director))
     // LOGOUT (hard) CLICK LISTENER
     
     domBase.buttons.replaceChild(logoutButton, domBase.buttons.lastChild)
@@ -109,11 +112,16 @@ let success = (domBase, director) => {
     homeButton.id="home-button"
     homeButton.innerHTML = "Home"
     domBase.buttons.appendChild(homeButton)
+    homeButton.addEventListener('click', 
+        () => window.location = window.location.origin)
 
     let dashboardButton = document.createElement('button')
     dashboardButton.id="dashboard-button"
     dashboardButton.innerHTML = "My Dashboard"
     domBase.buttons.appendChild(dashboardButton)
+
+    dashboardButton.addEventListener('click', 
+        () => window.location = window.location.origin + '/dashboard.html')
 
     director.isApplied()
     domBase.container.replaceChild(domBase.report, domBase.report)
@@ -193,15 +201,17 @@ let userSuccess = director => {
 
     if (Array.isArray(checks))
         checks.forEach(c => c.addEventListener('change', () => {
-            let total = checks.length
             let checked = 0
-
+            let total = checks.length
             checks.forEach(c => {if (c.checked) ++checked}) 
 
             if (total === checked) 
                 domBase.buttons.appendChild(submitButton)
-            else if (domBase.content.lastChild.lastChild == submitButton)
+            else if (domBase.buttons.lastChild == submitButton)
                 domBase.buttons.removeChild(submitButton)
+                
+
+            checked = 0
         }) )
     
 

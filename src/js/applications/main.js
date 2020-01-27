@@ -1,9 +1,7 @@
 import './../../scss/sheets/application.scss'
-;(require('../login').default)()
-;(require('./../util').default)()
-
 const Director = require('./director').default
 const Handler = require('./application').default
+;(require('./../util').default)()
 
 let validatorDictionaries = {
     'city': 'cities.json',
@@ -11,6 +9,12 @@ let validatorDictionaries = {
     'universities': 'unis.json'
 }
 let handler = new Handler(validatorDictionaries)
+
+let go = async auth0 => {
+    handler.auth = auth0
+    console.log(handler, handler.auth)
+}
+;(require('../login').default)(go)
 
 let directorArgs = {
     'container': 'application-area',

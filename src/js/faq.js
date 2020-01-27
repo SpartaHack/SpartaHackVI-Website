@@ -43,6 +43,7 @@ class FAQ {
             this.wrap.appendChild(this.answerSpace) 
             
         window.addEventListener('resize', () => this.close())
+        this.active.addEventListener('click', () => this.close())
     }
 
     close () { 

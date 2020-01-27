@@ -103,7 +103,12 @@ class AppHandler {
         }
 
         let submitApp = (err, response, body) => {
-            body.status = body.status ? body.status.toString() : "Other"
+            if (body)
+                body.status = body.status ? body.status.toString() : "Other"
+            else body = {
+                'status': 'Other',
+                'message': 'Probable CORS issue' 
+            }
 
             if (conditions[body.status]) (conditions[body.status])()
             else if (body.status != "200" && conditions.otherError)
@@ -112,6 +117,11 @@ class AppHandler {
     
         request.post(submitRq, submitApp)
         return
+    }
+
+    logout() {
+        console.log(this.auth)
+        if (this.auth) this.auth.logout({returnTo: window.location.origin})
     }
    
 }

@@ -30,6 +30,7 @@ class AppDirector {
         this.currentPage = 0
         this.getOld(true)
     }
+
     set current(val) {
         this.currentPage = val
         this.showCurrent()
@@ -59,10 +60,10 @@ class AppDirector {
         let oldVals = window.localStorage.getItem('oldApp')
         if (oldVals) {
             this.oldVals = JSON.parse(oldVals)
-            if (this.oldVals.PAGE) {
-                this.current = this.oldVals.PAGE
-                return
-            }
+            // if (this.oldVals.PAGE) {
+            //     this.current = this.oldVals.PAGE
+            //     return
+            // }
         }
 
         if (startup) this.showCurrent()
@@ -263,7 +264,7 @@ class AppDirector {
     }
 
     isApplied() {
-        
+
     }
 }
 module.exports.default = AppDirector
