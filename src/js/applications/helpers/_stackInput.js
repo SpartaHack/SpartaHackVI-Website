@@ -26,7 +26,7 @@ class stackInput  extends specialInput{
 
         items.p.innerHTML = '+'
         items.p.className = 'add-new-entry'
-        items.p.addEventListener('click', e => this.newEntry(true))
+        items.p.addEventListener('click', e => this.update(true))
 
         items.wrap.appendChild(items.p)
     
@@ -50,7 +50,7 @@ class stackInput  extends specialInput{
 
     eventHook(components) {
         components['trueVal'] = this.entries
-        this.newEntry()
+        this.update()
 
         return components
     }
@@ -67,20 +67,23 @@ class stackInput  extends specialInput{
             this.components.stackControls.wrap.classList.add('noPreviousListed')
     }
 
-    newEntry(refresh) {
+    update(newEntry) {
         let current = this.curVal
         if (current === "" || current === undefined)
             return
-
-        let curLen = this.entries.length
-        let curEnd = curLen ? this.entries[curLen - 1] : false
-
-        if (current != curEnd)
+            
+        let last = this.entries.pop()
+        if (newEntry) {
+            if (last != current)
+                this.entries.push(last)
             this.entries.push(current)
-        if (refresh)
+            this.entries.push("")
             this.director.insert(this.id, "", true)
+        }
+        else this.entries.push(current)
 
-        this.components.stackControls.wrap.classList.remove('noPreviousListed')
+        if (this.entries[0])
+            this.components.stackControls.wrap.classList.remove('noPreviousListed')
     }
 }
 module.exports.default = (director, components, args) =>
