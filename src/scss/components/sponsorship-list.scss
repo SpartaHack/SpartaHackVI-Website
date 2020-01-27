@@ -16,17 +16,16 @@
         flex-direction: column;
         justify-content: center;
         
+        box-sizing: border-box; 
         
         &, section {
-            box-sizing: border-box; 
             width: 100%;
             align-content: center;
         }
         h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin: auto;
-            display: inline-block;
-            user-select: none;
+            @extend .bgHeader;
         }
         section {
             &, a {
@@ -38,16 +37,35 @@
             flex-wrap: wrap;
             padding: 2.5rem;
             
+            &#teir1Sponsors a {
+                width: 49%;
+                max-height: 12.5rem;
+            }
+            &#teir2Sponsors a {
+                width: 32%;
+                max-height: 10rem;;
+
+            }
+            &#teir3Sponsors a { 
+                max-height: 7.5rem;
+                width: 24%;
+            }
             a {
-                margin: auto 1rem;
+                box-sizing: border-box;
+                margin: auto;
+                
                 img {
-                    width: 100%;
-                    height: auto;
+                    width: auto;
+                    height: 100%;
+                    max-height: 100%;
                     max-width: 100%;
     
                     transition: transform, .5s;
                     transform: scale(.9);
                     transform: translate(.05, .05);
+
+                    padding: 0 1rem;
+                    margin: auto;
                 }
 
                 &:hover {
@@ -57,20 +75,10 @@
                     }
                 }
 
-                &:visited, &:active, &:hover { outline: none; border: none; }
+                &:visited, &:active, &:hover, &:focus { outline: none; border: none; }
             }
     
-            &#teir1Sponsors a { 
-                flex: 1;
-            }
-            &#teir2Sponsors a {
-                max-height: 10rem;
-                width: 30%;
-            }
-            &#teir3Sponsors a { 
-                max-height: 7.5rem;
-                width: 25%; 
-            }
+            
         }
     }
 }

@@ -100,6 +100,16 @@ button {
     }
 }
 
+.bgHeader {
+    user-select: none;
+    display: inline-block;
+
+    padding: .25rem .5rem .15rem .15rem;
+
+    background-color: rgba($red, .5);
+    box-shadow: -1px 1px .35rem 2px rgba($white, .5);
+}
+
 
 // Defaults
 
