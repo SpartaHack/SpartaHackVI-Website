@@ -1,6 +1,4 @@
 import './../scss/sheets/index.scss'
-import './../scss/sheets/footer.scss'
-
 ;(require('./util').default)()
 
 ;(require('./auth_cofig').default)(authObj => {
