@@ -1,7 +1,7 @@
 import './../scss/sheets/dashboard.scss'
 let getApp = require('./applications/transactions').getApp
 let login = require('./login').default
-;(require('./util').default)()
+;(require('./fa').default)()
 
 let appState = () => {
     let current = window.localStorage.hasOwnProperty('application') ? 
@@ -63,7 +63,10 @@ let fillBanner = async auth0 => {
 // -
 let fillInfo = async auth0 => {
     let info
-    let updateInfo = () => info = JSON.parse(window.localStorage.getItem('stuinfo'))
+    let updateInfo = () => {
+        info = JSON.parse(window.localStorage.getItem('stuinfo'))
+        return Boolean(info)
+    }
 
     let tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
         tryNum = typeof tryNum == "number" ? tryNum : 0
@@ -72,32 +75,34 @@ let fillInfo = async auth0 => {
             tryLoaded(test, after, ++tryNum)
     }, 500)
 
-    updateInfo()
-
-    // *
-    let name = document.getElementById('user-name')
-    if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
-    else name.innerHTML = info.name
-    // -
-    let email = document.getElementById('user-email')
-    email.innerHTML = info.email
-    // -
-    let img,
-    refreshItems = [name, email],
-    refresh = items => 
-        items.forEach(i => i.parentElement.replaceChild(i, i) )
-    // -
-    if (info.picture) {
-        img = document.createElement('img')
-        img.id = "profile-photo"
-
-        document.getElementById('image-area').appendChild(img)
-        refreshItems.push(img)
-
-        img.addEventListener('load', e => refresh(refreshItems))
-        img.src = info.picture
+    
+    let fill = () => {
+        let name = document.getElementById('user-name')
+        if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
+        else name.innerHTML = info.name
+        // -
+        let email = document.getElementById('user-email')
+        email.innerHTML = info.email
+        // -
+        let img,
+        refreshItems = [name, email],
+        refresh = items => 
+            items.forEach(i => i.parentElement.replaceChild(i, i) )
+        // -
+        if (info.picture) {
+            img = document.createElement('img')
+            img.id = "profile-photo"
+    
+            document.getElementById('image-area').appendChild(img)
+            refreshItems.push(img)
+    
+            img.addEventListener('load', e => refresh(refreshItems))
+            img.src = info.picture
+        }
+        else refresh(refreshItems)
     }
-    else refresh(refreshItems)
+
+    tryLoaded(updateInfo, fill)
 
     return
 }

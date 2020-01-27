@@ -1,7 +1,7 @@
 import './../../scss/sheets/application.scss'
 const Director = require('./director').default
 const Handler = require('./application').default
-;(require('./../util').default)()
+;(require('./../fa').default)()
 
 let validatorDictionaries = {
     'city': 'cities.json',

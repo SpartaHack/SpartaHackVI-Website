@@ -1,5 +1,5 @@
 import './../scss/sheets/index.scss'
-;(require('./util').default)()
+;(require('./fa').default)()
 
 ;(require('./auth_cofig').default)(authObj => {
     document.getElementById('nav-apply')
