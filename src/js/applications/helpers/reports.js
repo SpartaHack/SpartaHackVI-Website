@@ -83,7 +83,10 @@ let newToken = (domBase, director) => {
 let fail = (domBase, director, details) => {
     domBase.content.id = "other-submission-error"
     domBase.title.innerHTML = 'Sorry'
-    domBase.content.innerHTML = '<p>Something appears to have gone wrong on our end. Please <a href="mailto:hello@spartahack.com" target="_blank">email us (hello@spartahack.com)</a> the error!</p>'
+    domBase.content.innerHTML = ' \
+        <p>Something appears to have gone wrong on our end. Please \
+        <a href="mailto:hello@spartahack.com" target="_blank">email us \
+        (hello@spartahack.com)</a> the error!</p>'
  
     let error = document.createElement('p')
     error.innerHTML = details.status+": "+(details.message ? details.message : "Unkown error")

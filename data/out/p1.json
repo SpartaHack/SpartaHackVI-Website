@@ -8,12 +8,6 @@
         "placeholder": "First Last"
     },
     {
-        "name": "phone",
-        "input": "text",
-        "label": "Phone",
-        "placeholder": "555-556-2020"
-    },
-    {
         "name": "city",
         "out": "travel_origin",
         "input": "autocomplete-text",
@@ -25,6 +19,12 @@
         "label": "Reimbursement Needed",
         "input": "check",
         "validate": false
+    },
+    {
+        "name": "phone",
+        "input": "text",
+        "label": "Phone",
+        "placeholder": "555-556-2020"
     },
     {
         "name": "birthday",
