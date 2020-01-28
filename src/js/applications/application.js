@@ -36,7 +36,7 @@ class AppHandler {
             "name": item.name,
             "validate": (item.validate || item.validate === false) ? item.validate : item.name,
             "optional": item.optional ? item.optional : false,
-            "error": item.error,
+            "error": item.error ? item.error : item.label,
             "out": item.out ? item.out : item.name
         }
 
