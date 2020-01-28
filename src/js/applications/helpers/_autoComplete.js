@@ -121,29 +121,30 @@ class autoCompeteInput extends specialInput {
         if (this.components.input.value.length < 3) 
             return
 
-        let query = this.components.input.value.toLowerCase()
-        let first = true
+        let query = this.components.input.value.toLowerCase(),
+        totalFound = 0
 
         this.filterSrc.forEach(potRes => {
-                if (potRes.toLowerCase().search(query) >= 0) {
-                    let thisOpt = document.createElement('li')
-                    thisOpt.tabIndex = -1
-                    if (first) {
-                        thisOpt.className = 'active-auto'
-                        first = false
-                    }
+            if (potRes.toLowerCase().search(query) >= 0) {
+                let thisOpt = document.createElement('li')
+                thisOpt.tabIndex = -1
 
-                    thisOpt.appendChild(document.createElement('p'))
-                    thisOpt.firstChild.innerHTML = potRes
+                thisOpt.dataset['index'] = totalFound
+                if (!totalFound)
+                    thisOpt.className = 'active-auto'
+                ++totalFound
+                
+                thisOpt.appendChild(document.createElement('p'))
+                thisOpt.firstChild.innerHTML = potRes
 
-                    thisOpt.addEventListener('click', 
-                        e => this.select(thisOpt) )
-                    
-                    this.currentItems.appendChild(thisOpt)
-                }
-            })
+                thisOpt.addEventListener('click', 
+                    e => this.select(thisOpt) )
+                
+                this.currentItems.appendChild(thisOpt)
+            }
+        })
 
-        if (!first) this.show()
+        if (totalFound) this.show()
     }
 
     clear() { 
@@ -161,11 +162,11 @@ class autoCompeteInput extends specialInput {
 
     select(item) {
         if (!item) return
-
+        // watch out for other event listeners
+        this.curInd = item.dataset['index']
         this.director.insert(this.id, item.firstChild.innerHTML, true)
-        this.itemWrap.classList.add('hidden')
-
         this.director.update(this.id)
+        this.itemWrap.classList.add('hidden')
     }   
 }
 

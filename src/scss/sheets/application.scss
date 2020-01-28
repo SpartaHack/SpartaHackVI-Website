@@ -137,17 +137,28 @@ body {
 
         max-width: 95vw;
         min-width: 560px;
-        box-sizing: border-box;
+
+        
         
         margin: auto;
         padding: 1rem;
         border-radius: .5rem;
         background-color: #000;
+        box-sizing: border-box;
+        * {
+            max-width: 90vw;
+        }
 
         h2, div { margin: .5rem 0 0 0; user-select: none; }
         #report-title { font-size: 1.5rem; }
         #report-summary { font-size: 1rem; }
 
+        @media only screen and (max-width: 600px) {
+            min-width: 1px;
+            width: 95vw;
+
+            #report-title {font-size: 1.25rem}
+        }
 
     }
 
