@@ -11,10 +11,8 @@ let validatorDictionaries = {
     'universities': 'unis.json'
 },
 handler,
-handlerInit = async auth0 => {
-    handler = new Handler(validatorDictionaries, auth0)
-    console.log(handler, handler.auth)
-},
+handlerInit = async auth0 =>
+    handler = new Handler(validatorDictionaries, auth0),
 directorArgs = {
     'container': 'application-area',
     'buttons': {

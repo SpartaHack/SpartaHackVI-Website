@@ -122,11 +122,8 @@ const name = (value, outFields) => {
     return out
 }
 
-const regWords = value => {
-    // console.log(value, value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ))
-    return (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ) === 0)
+const regWords = value => (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]{1,50}/ ) === 0)
     ? value : false
-}
 
 const race = value =>
     listValidator(value, val => val)

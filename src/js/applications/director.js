@@ -143,7 +143,8 @@ class AppDirector {
 
                 if (this.currentPage === this.pages.length - 1) {
                     this.buttons.next.classList.add('hidden')
-                    this.buttons.done.classList.remove('hidden')
+                    if (!this.fromApi)
+                        this.buttons.done.classList.remove('hidden')
                 }
                 else {
                     this.buttons.done.classList.add('hidden')
@@ -168,7 +169,6 @@ class AppDirector {
         oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
 
-        // console.log(args.name, oldVal, this.domItems)
         if (insertVal && !Array.isArray(insertVal)) {
             if (components.specialHandlers) {
                 Object.keys(components.specialHandlers).forEach(sh =>
@@ -192,21 +192,20 @@ class AppDirector {
             let cc = items.input.childElementCount,
                 potVals = items.input.childNodes,
                 i = 0
+
             while (i < cc) { 
-                if (potVals[i].value == "other") {
+                if (potVals[i].value == "other")
                     otherIndex = i
-                }
                 if (potVals[i].value == val) {
                     val = i
                     break
                 }
                 ++i
             }
-
             items.input.selectedIndex = Number.isInteger(val) ? val : 0
         }
         else items.input.value = val
-        // console.log(id, val, items)
+
         items.inputWrap.replaceChild(items.input, items.input)
         if (!noUpdate && typeof id != "string") this.update(id)
         return items
@@ -238,7 +237,7 @@ class AppDirector {
         let val = components.trueVal ? components.trueVal : this.getInputVal(id)
         val = components.input.type == "number" ? Number(val) : val
         let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-            // console.log(val, valid)
+
         this.approve(id)
         if (!valid && val.length > 0)
             this.error(id)
@@ -251,8 +250,6 @@ class AppDirector {
     }
     
     done(startCheckAt) {
-        let id, components
-
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
             if (!this.pages[i]) {
@@ -262,6 +259,7 @@ class AppDirector {
         }
 
         Object.keys(this.domItems).forEach(ik => this.update(ik))
+
         let needed = this.handler.needed
         this.report = needed[0] 
             ? reports.default(this, needed) : reports.success(this, needed)
@@ -271,7 +269,9 @@ class AppDirector {
     }
 
     postSubmission() {
-        let items
+        let items, 
+        header = document.createElement('aside')
+
         Object.keys(this.domItems).forEach(ik => {
             items = this.getComponents(ik)
             items.input.readOnly = true
@@ -280,17 +280,14 @@ class AppDirector {
             this.update(ik)
         })
 
-        let header = document.createElement('aside')
         header.appendChild(document.createElement('p'))
         header.className = "submitted-message-wrap"
         header.firstChild.className = "submitted-message"
         header.firstChild.innerHTML = '\
             Thanks for submitting your appliction! If you made a meaningful error \
-            while completing the form,<a href="mailto:hello@spartahack.com" target="_blank"> \
+            while completing the form, <a href="mailto:hello@spartahack.com" target="_blank"> \
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
-            '
-        
-        console.log(this.container)
+        '        
         this.container.prepend(header)
     }
 }
