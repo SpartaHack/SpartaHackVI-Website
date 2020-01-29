@@ -1,32 +1,16 @@
 import './../scss/sheets/dashboard.scss'
-let getApp = require('./applications/transactions').getApp
-let login = require('./login').default
+let getApp = require('./applications/transactions').getApp,
+login = require('./login').default
 ;(require('./fa').default)()
-
-let appState = () => {
-    let current = window.localStorage.hasOwnProperty('application') ? 
-        window.localStorage.getItem('application') : undefined
-
-    let info = window.localStorage.hasOwnProperty('stutoken') ? 
-        JSON.parse(window.localStorage.getItem('stutoken')) : undefined
-
-    if (info && info.rsvp) return 5
-
-    else if (!current && (!info || !info.aid)) return 0
-
-    else if (info && info.aid) 
-        return getApp(info, current)
-
-    return 1
-}
-const thisState = appState()
 // *
-let fillBanner = async auth0 => {
+
+// *
+let fillBanner = async (auth0, userInfo) => {
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
     now = now.getHours()
-    
+
     switch (true) {
         case (now > 2 && now < 12):
         temp = 'morning'; break
@@ -38,21 +22,22 @@ let fillBanner = async auth0 => {
     tod.innerHTML = temp
     // -
     let message = document.getElementById('user-message')
-    switch (thisState) {
+    console.log(userInfo, userInfo.state)
+    switch (userInfo.state) {
         case 0:
         temp = "You're set to start your application"; break
         case 1:
-        temp = "We've saved your spot"; break
-        case 2:
-        temp = "Thanks for applying, we'll get back to you shortly"
-        case 3:
-        temp = "Thanks for applying, but we have too many participants \
-        and couldn't give you a spot this year :("; break
+        temp = "We've saved your progress"; break
+        case 2: case 3:
+        temp = "Thanks for applying, we'll get back to you shortly"; break
         case 4:
-        temp = "Congratulations on your acceptance! Please RSVP to \
-        secure your spot"; break
-        case 5: 
-        temp = "Thanks for the RSVP! See you January 31st"; break
+        temp = "Thanks for applying, but we have too many participants \
+        and couldn't give you a spot this year."; break
+        case 5:
+        temp = "We've reviewed your application and hope you can attend! \
+        Please RSVP to secure your spot"; break
+        case 6: 
+        temp = "Thanks for the RSVP, see you at Spartahack!"; break
 
         default: temp = "Something went wrong..."
     }
@@ -61,22 +46,19 @@ let fillBanner = async auth0 => {
     return
 }
 // -
-let fillInfo = async auth0 => {
-    let info
-    let updateInfo = () => {
+let fillInfo = async (auth0, userInfo) => {
+    let info,
+    updateInfo = () => {
         info = JSON.parse(window.localStorage.getItem('stuinfo'))
         return Boolean(info)
-    }
-
-    let tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
+    },
+    tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
         tryNum = typeof tryNum == "number" ? tryNum : 0
         if (test()) after()
         else if (tryNum < 10) 
             tryLoaded(test, after, ++tryNum)
-    }, 500)
-
-    
-    let fill = () => {
+    }, 500),
+    fill = () => {
         let name = document.getElementById('user-name')
         if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
         else name.innerHTML = info.name
@@ -108,11 +90,11 @@ let fillInfo = async auth0 => {
     return
 }
 // -
-let fillButton = async auth0 => {
+let fillButton = async (auth0, userInfo) => {
     let button = document.getElementById('app-button')
     let btnIco = document.createElement('i')
     //*
-    if (!thisState) {
+    if (userInfo.state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
 
@@ -142,8 +124,54 @@ let updateStatus = (statDom, state) => {
     statDom.firstElementChild.appendChild(indicator)
     return
 }
-let status = async auth0 =>
+let status = async auth0 => {
     Array.from(document.getElementsByClassName('status'))
         .forEach(s => updateStatus(s, false))
+}
 
-login([fillBanner, fillInfo, fillButton, status])
+let startUp = () => {
+    let locApp = () => window.localStorage.getItem('locApp'),
+    apiApp = () => window.localStorage.getItem('apiApp'),
+    info = JSON.parse(window.localStorage.getItem('stuinfo')),
+    userInfo = {
+        'appId': info['http://website.elephant.spartahack.com' + '/aid'],
+        'rsvpId': info['http://website.elephant.spartahack.com' + '/rsvp'],
+        'auth': info['http://website.elephant.spartahack.com' + '/pt']
+    },
+    getState = () => {
+        let state = 0
+
+        if (userInfo.rsvpId) state = 6
+        else if (apiApp())
+            switch(JSON.parse(apiApp()).status) {
+                case "Accepted":
+                    state = 5
+                break
+                case "Rejected":
+                    state = 4
+                break
+                default:
+                    state = 3
+            }
+        else if (userInfo.appId)
+            state = 2
+        else if (locApp())
+            state = 1
+        
+        return state
+    }
+    userInfo['state'] = getState()
+
+    let startUpSequence = info => 
+        login([fillBanner, fillInfo, fillButton, status], info)
+
+    if (userInfo.state == 2)
+        getApp(userInfo.auth, userInfo.appId, app => {
+            window.localStorage.setItem('apiApp', JSON.stringify(app)),
+            userInfo.state = getState()
+            startUpSequence(userInfo)
+        })
+    else startUpSequence(userInfo)
+
+}
+startUp()

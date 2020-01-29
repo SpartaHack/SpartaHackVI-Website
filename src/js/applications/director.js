@@ -222,7 +222,7 @@ class AppDirector {
 
     save() {
         this.inputVals['PAGE'] = this.currentPage
-        window.localStorage.setItem('oldApp', JSON.stringify(this.inputVals))
+        window.localStorage.setItem('locApp', JSON.stringify(this.inputVals))
     }
     update(id, noSave) {
         let components  = this.getComponents(id)

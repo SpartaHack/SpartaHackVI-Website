@@ -29,26 +29,22 @@ directorArgs = {
 director,
 directorInit = async auth0 => {
     let stuinfo = JSON.parse(window.localStorage.getItem('stuinfo')),
-    localApp = JSON.parse(window.localStorage.getItem('oldApp')),
+    apiApp = window.localStorage.getItem('apiApp'),
     auth = stuinfo["http://website.elephant.spartahack.com" + "/pt"],
     aid = stuinfo["http://website.elephant.spartahack.com" + "/aid"],
     getDirector = (old, fromAPI) => 
         director = new Director(directorArgs, handler, old, fromAPI)
-    console.log('change url form')
-
-    if (aid) {
-        let oldApp = src => {
+    
+    if (aid && !apiApp) 
+        getApiApp(auth, aid, oldsrc => {
             if (src) getDirector(src, true)
-            else {
-                console.error("Couldn't get old app")
-                getDirector(localApp)
-            }
-        }
-        getApiApp(auth, aid, oldApp)
-    }
-    else {
-        getDirector(localApp)
-    }
+            else 
+                console.error("Couldn't get submitted app")
+        })
+    else if (apiApp)
+        getDirector(JSON.parse(apiApp), true)
+    else
+        getDirector(JSON.parse(window.localStorage.getItem('locApp')))
 }
 
 ;(require('../login').default)([handlerInit, directorInit])

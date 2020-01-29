@@ -73,9 +73,9 @@ let loggedIn = auth0 => {
     return true
 }
 
-module.exports.default = async after => {
+module.exports.default = async (after, args) => {
     let loginFuncs = after instanceof Function ? [login, after] :
         after instanceof Array ? [login, ...after] : [login]
 
-    return await auth(loginFuncs)
+    return await auth(loginFuncs, args)
 }
