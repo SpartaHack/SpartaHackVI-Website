@@ -1,11 +1,10 @@
-const validators = require('./helpers/validators').default
-
-const request = require('request')
-
-// const sendApp = require('.//appTransactions').sendApp
+const validators = require('./helpers/validators').default,
+equest = require('request')
 
 class AppHandler {
-    constructor(valDicts, existing) {
+    constructor(auth) {
+        this.auth = auth
+
         this.items = {}
         this.filters = {}
         this.validators = validators
@@ -24,8 +23,8 @@ class AppHandler {
         // implement a more fully featured wrapper function
         let item = this.items[id]
         return !item ? undefined :
-        ( item.error ? item.error 
-        : (item.label ? item.label : item.name) )
+            ( item.error ? item.error 
+            : (item.label ? item.label : item.name) )
     }
 
     get needed() { return Array.from(this._needed) }
@@ -58,7 +57,7 @@ class AppHandler {
         
         let out = item.out ? item.out : item.name,
             valid = !item.validate ? true 
-                : this.validators[item.validate](value, this)
+                : this.validators[item.validate](value, out, this)
 
         value = valid && valid !== true ? valid : value
         if (valid) {
@@ -88,7 +87,6 @@ class AppHandler {
         let info = JSON.parse(window.localStorage.getItem('stuinfo'))
         if (!info) return
         let out = this.out
-        console.log("WOULD SUBMIT!!", out)
         
         let submitRq = {
             headers: {
@@ -121,8 +119,9 @@ class AppHandler {
 
     logout() {
         console.log(this.auth)
-        if (this.auth) this.auth.logout({returnTo: window.location.origin})
+        if (this.auth) 
+            this.auth.logout(
+                { returnTo: window.location.origin })
     }
-   
 }
 module.exports.default = AppHandler

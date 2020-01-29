@@ -131,7 +131,7 @@ let success = (domBase, director) => {
 }
 
 let responseConditions = (domBase, director) => ({
-    '200': () => success(domBase, director),
+    '201': () => success(domBase, director),
     '402': () => newToken(domBase, director),
     '500': () => newToken(domBase, director),
     'otherError': contents => fail(domBase, director, contents),

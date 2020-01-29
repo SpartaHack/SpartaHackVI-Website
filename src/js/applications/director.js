@@ -1,15 +1,16 @@
-const domFuncs = require('./dom')
-const reports = require('./helpers/reports')
-const request = require('request')
+const domFuncs = require('./dom'),
+reports = require('./helpers/reports'),
+request = require('request')
 
 class AppDirector {
-    constructor(args, handler) {
+    constructor(args, handler, old, fromApi) {
         this.handler = handler
         this.domItems = {}
         this.inputVals = {}
 
-        this.pageURLs = args.urls
         this.pages = []
+        this.oldVals = old
+        this.pageURLs = args.urls
         this.pageURLs.forEach(
             p => this.pages.push(undefined) )
         
@@ -26,9 +27,11 @@ class AppDirector {
             e => this.nextPage() )
         this.buttons.done.addEventListener('click', 
             e => this.done() )
-        
+            
+        this.fromApi = fromApi
         this.currentPage = 0
-        this.getOld(true)
+        this.showCurrent()
+        if (this.fromApi) this.postSubmission()
     }
 
     set current(val) {
@@ -44,10 +47,11 @@ class AppDirector {
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
-
+        console.log(srcItems, id, this.domItems)
+        // console.log(srcItems, srcItems.input.selectedIndex)
         return !srcItems ? undefined : (
             srcItems.input instanceof HTMLSelectElement
-            ? srcItems.input.childNodes[srcItems.input.selectedIndex].value
+            ? srcItems.selectedIndex >= 0 && srcItems.input.childNodes[srcItems.input.selectedIndex].value
             : ( srcItems.input instanceof HTMLInputElement 
                 && srcItems.input.type == "checkbox" 
                 ?  srcItems.input.checked : srcItems.input.value )
@@ -56,22 +60,22 @@ class AppDirector {
 
     // ---
 
-    getOld(startup) {
-        let oldVals = window.localStorage.getItem('oldApp')
-        if (oldVals) {
-            this.oldVals = JSON.parse(oldVals)
-            // if (this.oldVals.PAGE) {
-            //     this.current = this.oldVals.PAGE
-            //     return
-            // }
-        }
+    getOldVal(out, type) {
+        if (!this.oldVals instanceof Object) 
+            return
 
-        if (startup) this.showCurrent()
-    }
+        let val = o => this.oldVals[o] ? this.oldVals[o] : undefined
 
-    getOldVal(id) {
-        return this.oldVals instanceof Object 
-            ? this.oldVals[id] : undefined
+        if (!Array.isArray(out)) return val(out)
+        // Maybe this could be done better
+        let vals = []
+        out.forEach(
+            o => vals.push(val(o)) )
+
+        return vals.length > 1 
+            ? vals.join(type == "date" ? "-" : " " )
+            : vals[0] ? vals[0] : undefined
+
     }
 
     getPageSrc(pageNum, cb) {
@@ -159,8 +163,12 @@ class AppDirector {
         this.setComponents(args.name, components)
         this.handler.import(args)
 
-        let oldVal = this.getOldVal(args.name),
+        let out = args.out && this.fromApi 
+            ? args.out : args.name,
+        oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
+
+        // console.log(args.name, oldVal, this.domItems)
         if (insertVal && !Array.isArray(insertVal)) {
             if (components.specialHandlers) {
                 Object.keys(components.specialHandlers).forEach(sh =>
@@ -181,25 +189,24 @@ class AppDirector {
         let items = typeof id == "string" ? this.getComponents(id) : id
         
         if (items.input.nodeName == "SELECT") {
-            if (typeof val == "string") {
-                let cc = items.input.childElementCount,
-                    potVals = items.input.childNodes,
-                    i = 0
-                while (i < cc) { 
-                    if (potVals[i].value == "other") {
-                        otherIndex = i
-                    }
-                    if (potVals[i].value == val) {
-                        val = i
-                        break
-                    }
-                    ++i
+            let cc = items.input.childElementCount,
+                potVals = items.input.childNodes,
+                i = 0
+            while (i < cc) { 
+                if (potVals[i].value == "other") {
+                    otherIndex = i
                 }
+                if (potVals[i].value == val) {
+                    val = i
+                    break
+                }
+                ++i
             }
+            
             items.input.selectedIndex = Number.isInteger(val) ? val : 0
         }
         else items.input.value = val
-        
+        console.log(id, val, items)
         items.inputWrap.replaceChild(items.input, items.input)
         if (!noUpdate && typeof id != "string") this.update(id)
         return items
@@ -263,8 +270,8 @@ class AppDirector {
         document.body.appendChild(this.report.underlay)
     }
 
-    isApplied() {
-
+    postSubmission() {
+        console.log("is applied")
     }
 }
 module.exports.default = AppDirector

@@ -17,6 +17,10 @@ const text = args => {
         input = document.createElement('input')
         input.type = 'text'
     }
+    if (args.oldVal)
+        input.value = args.oldVal
+
+    console.log(args)
     return input
 }
 

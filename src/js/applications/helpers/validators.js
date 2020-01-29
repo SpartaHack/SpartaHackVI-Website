@@ -42,17 +42,17 @@ let filterCheck = (value, filterSrc) => {
     return found ? true : false
 }
 // ^^
-const major = (value, handler) => {
+const major = (value, out, handler) => {
     let filter = handler.getFilter('major')
     return listValidator(value, 
         val => filterCheck(val, filter) )
         ? value : false
     }
-const university = (value, handler) => {
+const university = (value, out, handler) => {
     let filter = handler.getFilter('university')
     return filterCheck(value, filter)
 }
-const city = (value, handler) => {
+const city = (value, out, handler) => {
     let filter = handler.getFilter('city')
     return filterCheck(value, filter)
 }
@@ -84,17 +84,24 @@ const site = value => {
 
 // ---
 
-const birthday = value => {
+const birthday = (value, outFields) => {
     let year = 3600 * 24 * 365
     year -= (year/365)/4 // for leap years
     let yearsOld = // epoch subtraction /1000 bc JS is weird
-        Math.floor((new Date()-new Date(value))/1000/year)
+        Math.floor((new Date()-new Date(value))/1000/year),
+    out = {}
     
-    return (yearsOld > 12 && yearsOld < 120) ? ({
-        'birth_year': Number(value.substr(0,4)),
-        'birth_month': Number(value.substr(5,2)),
-        'birth_day': Number(value.substr(8,2)),
-    }) : false
+    if (yearsOld > 12 && yearsOld < 120) {
+        let vals = [
+            Number(value.substr(8,2)),
+            Number(value.substr(0,4)),
+            Number(value.substr(5,2))
+        ]
+        for (let i = 0; i < 3; i++)
+            out[outFields[i]] = vals[i]
+        return out
+    }
+    return false
 }
 
 // ---
@@ -103,16 +110,15 @@ const statement = value =>
     (value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
     ? value : false
 
-const name = value => {
+const name = (value, outFields) => {
     if (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ]+\s[A-Za-zÀ-ÖØ-öø-ÿ]+/ ) != 0)
         return
 
-    let nameParts = value.split(' ')
-    let nameNames = ['first_name', 'last_name']
+    let nameParts = value.split(' '),
+    out = {}
 
-    let out = {}
     for (let i = 0; i < 2; i++)
-        out[nameNames[i]] = nameParts[i]
+        out[outFields[i]] = nameParts[i]
     return out
 }
 

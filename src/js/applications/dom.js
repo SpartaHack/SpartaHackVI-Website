@@ -81,10 +81,10 @@ let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
-    opts.oldVal = director.getOldVal(opts.name)
 
-    let inputType = opts.input.pop()
-    return makerWrapping(director, makers[inputType](opts), opts)
+    
+    let type = opts.input.pop()
+    return makerWrapping(director, makers[type](opts), opts)
 }
 module.exports.item = makersRouting
 

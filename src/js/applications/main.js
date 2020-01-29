@@ -1,22 +1,21 @@
 import './../../scss/sheets/application.scss'
-const Director = require('./director').default
-const Handler = require('./application').default
 ;(require('./../fa').default)()
+
+const Director = require('./director').default,
+Handler = require('./application').default,
+getApiApp = require('./transactions').getApp
 
 let validatorDictionaries = {
     'city': 'cities.json',
     'major': 'majors.json',
     'universities': 'unis.json'
-}
-let handler = new Handler(validatorDictionaries)
-
-let go = async auth0 => {
-    handler.auth = auth0
+},
+handler,
+handlerInit = async auth0 => {
+    handler = new Handler(validatorDictionaries, auth0)
     console.log(handler, handler.auth)
-}
-;(require('../login').default)(go)
-
-let directorArgs = {
+},
+directorArgs = {
     'container': 'application-area',
     'buttons': {
         'prev': document.querySelector('aside ul button:first-child'),
@@ -28,5 +27,32 @@ let directorArgs = {
         window.location.origin + "/data/p2", 
         window.location.origin + "/data/p3"
     ]
+},
+director,
+directorInit = async auth0 => {
+    let stuinfo = JSON.parse(window.localStorage.getItem('stuinfo')),
+    localApp = JSON.parse(window.localStorage.getItem('oldApp')),
+    auth = stuinfo["http://website.elephant.spartahack.com" + "/pt"],
+    aid = stuinfo["http://website.elephant.spartahack.com" + "/aid"],
+    getDirector = (old, fromAPI) => 
+        director = new Director(directorArgs, handler, old, fromAPI)
+    console.log('change url form')
+
+    console.log(stuinfo, auth, aid, window.location.origin + "/aid")
+    if (aid) {
+        let oldApp = src => {
+            console.log(src)
+            if (src) getDirector(src, true)
+            else {
+                console.error("Couldn't get old app")
+                getDirector(localApp)
+            }
+        }
+        getApiApp(auth, aid, oldApp)
+    }
+    else {
+        getDirector(localApp)
+    }
 }
-let director = new Director(directorArgs, handler)
+
+;(require('../login').default)([handlerInit, directorInit])
