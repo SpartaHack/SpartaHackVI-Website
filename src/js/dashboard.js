@@ -124,9 +124,13 @@ let updateStatus = (statDom, state) => {
     statDom.firstElementChild.appendChild(indicator)
     return
 }
-let status = async auth0 => {
-    Array.from(document.getElementsByClassName('status'))
-        .forEach(s => updateStatus(s, false))
+let status = async (auth0, userInfo) => {
+    let indicators = Array.from(document.getElementsByClassName('status')),
+    indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
+    checkedIndicators = indicatorDirections[userInfo.state]
+    
+    for (let i = 0; i < 3; i++)
+        updateStatus(indicators[i], i < checkedIndicators)
 }
 
 let startUp = () => {
