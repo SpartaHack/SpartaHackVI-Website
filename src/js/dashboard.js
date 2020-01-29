@@ -23,8 +23,10 @@ const thisState = appState()
 // *
 let fillBanner = async auth0 => {
     let temp,
-    now = new Date(); now = now.getHours(),
+    now = new Date(),
     tod = document.getElementById('time-of-day')
+    now = now.getHours()
+    
     switch (true) {
         case (now > 2 && now < 12):
         temp = 'morning'; break
