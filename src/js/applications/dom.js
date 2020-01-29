@@ -20,7 +20,7 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-const makers = require('./helpers/makers').default
+const makers = require('./helpers/makers')
 const special = {
     'other': require('./helpers/_other').default,
     'list': require('./helpers/_stackInput').default,
@@ -66,7 +66,8 @@ const makerWrapping = (director, item, args) => {
     
     
     components.itemWrap.appendChild(components.inputWrap)
-    components.itemWrap.appendChild(components.controlWrap)
+    if (!director.fromApi)
+        components.itemWrap.appendChild(components.controlWrap)
 
     let specialHandlers = {}
     args.input.forEach(arg => {
@@ -81,10 +82,11 @@ let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
-
+    console.log(director, director.fromApi)
     
-    let type = opts.input.pop()
-    return makerWrapping(director, makers[type](opts), opts)
+    let type = opts.input.pop(),
+    mkrs = director.fromApi ? makers.readOnly : makers.default
+    return makerWrapping(director, mkrs[type](opts), opts)
 }
 module.exports.item = makersRouting
 

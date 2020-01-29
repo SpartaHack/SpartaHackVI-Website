@@ -57,7 +57,7 @@ class otherThanListed extends specialInput{
 
     eventHook(components) {
         let val = this.director.getInputVal(this.id)
-
+        console.log(val, components)
         if (components.input != this.other && val == "Other")
             components = this.swapInput(components)
         

@@ -47,11 +47,12 @@ class AppDirector {
 
     getInputVal(id) {
         let srcItems = this.getComponents(id)
-        console.log(srcItems, id, this.domItems)
-        // console.log(srcItems, srcItems.input.selectedIndex)
+        if (!srcItems) return
+
         return !srcItems ? undefined : (
-            srcItems.input instanceof HTMLSelectElement
-            ? srcItems.selectedIndex >= 0 && srcItems.input.childNodes[srcItems.input.selectedIndex].value
+            srcItems.input instanceof HTMLSelectElement && srcItems.selectedIndex >= 0 
+            && srcItems.input.childNodes[srcItems.input.selectedIndex]
+            ? srcItems.input.childNodes[srcItems.input.selectedIndex].value 
             : ( srcItems.input instanceof HTMLInputElement 
                 && srcItems.input.type == "checkbox" 
                 ?  srcItems.input.checked : srcItems.input.value )
@@ -150,8 +151,7 @@ class AppDirector {
                 }
             }
 
-            this.container.innerHTML = ''
-            this.container.appendChild(this.current)
+            this.container.replaceChild(this.current, this.container.lastChild)
             return true
         }
         return
@@ -202,11 +202,11 @@ class AppDirector {
                 }
                 ++i
             }
-            
+
             items.input.selectedIndex = Number.isInteger(val) ? val : 0
         }
         else items.input.value = val
-        console.log(id, val, items)
+        // console.log(id, val, items)
         items.inputWrap.replaceChild(items.input, items.input)
         if (!noUpdate && typeof id != "string") this.update(id)
         return items
@@ -271,7 +271,27 @@ class AppDirector {
     }
 
     postSubmission() {
-        console.log("is applied")
+        let items
+        Object.keys(this.domItems).forEach(ik => {
+            items = this.getComponents(ik)
+            items.input.readOnly = true
+
+            this.setComponents(ik, items)
+            this.update(ik)
+        })
+
+        let header = document.createElement('aside')
+        header.appendChild(document.createElement('p'))
+        header.className = "submitted-message-wrap"
+        header.firstChild.className = "submitted-message"
+        header.firstChild.innerHTML = '\
+            Thanks for submitting your appliction! If you made a meaningful error \
+            while completing the form,<a href="mailto:hello@spartahack.com" target="_blank"> \
+            email us (hello@spartahack.com)</a> so we can resolve it!</p>\
+            '
+        
+        console.log(this.container)
+        this.container.prepend(header)
     }
 }
 module.exports.default = AppDirector

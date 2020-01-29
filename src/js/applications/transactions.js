@@ -10,7 +10,6 @@ module.exports.getApp = (auth, aid, cb) => {
         json: true
     },
     importApp = (err, response, body) => {
-        console.log(body)
         if (response && response.statusCode === 200)
             cb(body)
         else cb()

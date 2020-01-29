@@ -66,8 +66,6 @@ let newToken = (domBase, director) => {
     // AUTO LOGOUT AND LOGOUT CLICK LISTENER (soft)
     domBase.buttons.appendChild(autoLogoutWrap)
 
-    console.log(autoLogoutWrap, domBase)
-
     autoLogoutWrap.lastChild.innerHTML = "(10s)"
     let updateTime = time => window.setTimeout(() => {
         autoLogoutWrap.lastChild.innerHTML = "(" + (--time).toString() + "s)"

@@ -118,7 +118,6 @@ class AppHandler {
     }
 
     logout() {
-        console.log(this.auth)
         if (this.auth) 
             this.auth.logout(
                 { returnTo: window.location.origin })

@@ -38,10 +38,8 @@ directorInit = async auth0 => {
         director = new Director(directorArgs, handler, old, fromAPI)
     console.log('change url form')
 
-    console.log(stuinfo, auth, aid, window.location.origin + "/aid")
     if (aid) {
         let oldApp = src => {
-            console.log(src)
             if (src) getDirector(src, true)
             else {
                 console.error("Couldn't get old app")

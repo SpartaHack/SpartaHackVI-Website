@@ -17,10 +17,8 @@ const text = args => {
         input = document.createElement('input')
         input.type = 'text'
     }
-    if (args.oldVal)
-        input.value = args.oldVal
 
-    console.log(args)
+    // console.log(args)
     return input
 }
 
@@ -71,11 +69,22 @@ const check = args => {
     input.className = "form-check"
     return input
 }
+const rdOnly = input => {
+    input.readOnly = true
+    return input
+}
 
-module.exports.default = ({
+let makers = {
     "text": text,
     "select": select,
     "date": date,
     "number": number,
     "check": check
-})
+},
+readOnly = {}
+
+Object.keys(makers).forEach(k => 
+    readOnly[k] = args => rdOnly(makers[k](args)) )
+
+module.exports.default = makers
+module.exports.readOnly = readOnly
