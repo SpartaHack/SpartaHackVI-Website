@@ -133,13 +133,11 @@ class AppDirector {
     nextPage() {
         if (this.currentPage === this.pages.length) return
         this.changeHash(++this.currentPage)
-        // this.showCurrent()
         this.save()
     }
     prevPage() {
         if (this.currentPage === 0) return
         this.changeHash(--this.currentPage)
-        // this.showCurrent()
         this.save()
     }
     showCurrent() {
@@ -167,6 +165,9 @@ class AppDirector {
                 }
             }
             this.container.replaceChild(this.current, this.container.lastChild)
+            console.log(this.current.querySelector('.input-wrap'))
+            this.current.querySelector('.input-wrap').firstChild.focus()
+
 
             return true
         }
