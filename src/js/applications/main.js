@@ -5,14 +5,15 @@ const Director = require('./director').default,
 Handler = require('./application').default,
 transactions = require('./../transactions')
 
-let validatorDictionaries = {
+let user = transactions.userIn(),
+validatorDicts = {
     'city': 'cities.json',
     'major': 'majors.json',
     'universities': 'unis.json'
 },
 handler,
 handlerInit = async auth0 =>
-    handler = new Handler(validatorDictionaries, auth0),
+    handler = new Handler(auth0, user, validatorDicts),
 directorArgs = {
     'container': 'application-area',
     'buttons': {
@@ -28,15 +29,12 @@ directorArgs = {
 },
 director,
 directorInit = async auth0 => {
-    let stuinfo = transactions.stuinfoIn(),
-    apiApp = window.localStorage.getItem('apiApp'),
-    auth = stuinfo["http://website.elephant.spartahack.com" + "/pt"],
-    aid = stuinfo["http://website.elephant.spartahack.com" + "/aid"],
+    let apiApp = transactions.appIn(true),
     getDirector = (old, fromAPI) => 
         director = new Director(directorArgs, handler, old, fromAPI)
     
-    if (aid && !apiApp) 
-        transactions.getApp(auth, aid, oldsrc => {
+    if (user.aid && !apiApp) 
+        transactions.getApp(user.pt, user.aid, src => {
             if (src) getDirector(src, true)
             else 
                 console.error("Couldn't get submitted app")

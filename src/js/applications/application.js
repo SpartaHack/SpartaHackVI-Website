@@ -3,8 +3,9 @@ transactions = require('./../transactions')
 request = require('request')
 
 class AppHandler {
-    constructor(auth) {
+    constructor(auth, user) {
         this.auth = auth
+        this.user = user
 
         this.items = {}
         this.filters = {}
@@ -85,24 +86,19 @@ class AppHandler {
         this.out['outside_north_america'] = ""
         this.out['other_link'] = "https://www.notneeded.com/"
 
-        console.log(transactions)
-        let info = transactions.stuinfoIn()
-        if (!info) return
-        let out = this.out
-        
-        let submitRq = {
+        let user = transactions.userIn(),
+        submitRq = {
             headers: {
                 "Content-Type":"application/json",
                 "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
                 "Access-Control-Request-Method": "POST",
-                "X-WWW-USER-TOKEN": info[window.location.origin + "/pt"]
+                "X-WWW-USER-TOKEN": user.pt
             },
-            body: out,
+            body: this.out,
             url: "http://api.elephant.spartahack.com/applications",
             json: true
-        }
-
-        let submitApp = (err, response, body) => {
+        },
+        submitApp = (err, response, body) => {
             if (body)
                 body.status = body.status ? body.status.toString() : "Other"
             else body = {
