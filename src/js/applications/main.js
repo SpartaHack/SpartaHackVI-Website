@@ -40,7 +40,7 @@ directorInit = async auth0 => {
                 console.error("Couldn't get submitted app")
         })
     else if (apiApp)
-        getDirector(transactions.appIn(true))
+        getDirector(transactions.appIn(true), true)
     else
         getDirector(transactions.appIn())
 }
