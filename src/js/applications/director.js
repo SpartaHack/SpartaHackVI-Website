@@ -66,7 +66,7 @@ class AppDirector {
         if (!this.oldVals instanceof Object) 
             return
 
-        let val = o => this.oldVals[o] ? this.oldVals[o] : undefined
+        let val = o => this.oldVals && this.oldVals[o] ? this.oldVals[o] : undefined
 
         if (!Array.isArray(out)) return val(out)
         // Maybe this could be done better

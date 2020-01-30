@@ -30,8 +30,16 @@ directorArgs = {
 director,
 directorInit = async auth0 => {
     let apiApp = transactions.appIn(true),
-    getDirector = (old, fromAPI) => 
+    getDirector = (old, fromAPI) => {
+        if (!fromAPI) {
+            old = old ? old : {}
+            if (user.github) 
+                old.github = old.github ? old.github : user.github
+            if (user.name) 
+                old.name = old.name ? old.name : user.name
+        }
         director = new Director(directorArgs, handler, old, fromAPI)
+    }
     
     if (user.aid && !apiApp) 
         transactions.getApp(user.pt, user.aid, src => {
