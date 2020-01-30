@@ -3,7 +3,7 @@ import './../../scss/sheets/application.scss'
 
 const Director = require('./director').default,
 Handler = require('./application').default,
-getApiApp = require('./transactions').getApp
+transactions = require('./../transactions')
 
 let validatorDictionaries = {
     'city': 'cities.json',
@@ -28,7 +28,7 @@ directorArgs = {
 },
 director,
 directorInit = async auth0 => {
-    let stuinfo = JSON.parse(window.localStorage.getItem('stuinfo')),
+    let stuinfo = transactions.stuinfoIn(),
     apiApp = window.localStorage.getItem('apiApp'),
     auth = stuinfo["http://website.elephant.spartahack.com" + "/pt"],
     aid = stuinfo["http://website.elephant.spartahack.com" + "/aid"],
@@ -36,15 +36,15 @@ directorInit = async auth0 => {
         director = new Director(directorArgs, handler, old, fromAPI)
     
     if (aid && !apiApp) 
-        getApiApp(auth, aid, oldsrc => {
+        transactions.getApp(auth, aid, oldsrc => {
             if (src) getDirector(src, true)
             else 
                 console.error("Couldn't get submitted app")
         })
     else if (apiApp)
-        getDirector(JSON.parse(apiApp), true)
+        getDirector(transactions.appIn(true))
     else
-        getDirector(JSON.parse(window.localStorage.getItem('locApp')))
+        getDirector(transactions.appIn())
 }
 
 ;(require('../login').default)([handlerInit, directorInit])

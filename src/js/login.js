@@ -1,77 +1,58 @@
-const auth = require('./auth_cofig').default
+const auth = require('./auth_cofig').default,
+transactions = require('./transactions')
 
 let newCreds = async auth0 => {
-    if (!auth0 || !auth0.authorize) return
+    if (!auth0 || !auth0.authorize) 
+        return
     await auth0.authorize()
     return true
-}
+},
+oldCreds = async auth0 => {
+    let user = transactions.userIn()
+    if (!user) 
+        return newCreds(auth0)
 
-let oldCreds = async auth0 => {
-    let creds = JSON.parse(window.localStorage.getItem('stutoken'))
-    let info = JSON.parse(window.localStorage.getItem('stuinfo'))
-
-    if (!creds || !info) return newCreds(auth0)
-
-    let now = new Date(); now = now.getTime()/1000
-    return (now < info.exp) ? loggedIn(auth0) : await newCreds(auth0)
-}
-
-let login = async auth0 => {
+    let now = new Date()
+    now = now.getTime()/1000
+    return (now < user.payload.exp) 
+        ? loggedIn(auth0) : newCreds(auth0)
+},
+login = async auth0 => {
     let args = window.location.hash
-    if (!args.search(/access\_token/)) return oldCreds(auth0)
+    if (args.search(/.{2}/) !== 0) 
+        return oldCreds(auth0)
+    
+    auth0.parseHash({hash: args}, (err, hashedInfo) => {
+        console.log(hashedInfo)
+        if (err) return oldCreds()
 
-    auth0.parseHash({hash: args}, (err, info) => {
-        if (err || !info) return oldCreds()
+        let getUserItem = name => 
+            hashedInfo.idTokenPayload["http://website.elephant.spartahack.com"+"/"+name],
+        userItems = ['pt', 'aid', 'rsvp'],
+        userOut = {}
 
-        let getUserItem = name => info.hasOwnProperty(window.location.origin+"/"+name) ? 
-            info[window.location.origin+"/"+name] : false
-
-        let userItems = ['pt', 'aid', 'rsvp']
         userItems.forEach(
-            i => info.idTokenPayload[i] = getUserItem(i) )
-            
-        window.localStorage.setItem('stutoken', JSON.stringify(info)) // never do this in effectual contexts
-        window.localStorage.setItem('stuinfo', JSON.stringify(info.idTokenPayload))
+            i => userOut[i] = getUserItem(i) )
+        userOut['payload'] = hashedInfo.idTokenPayload
 
-        if ( (!info.idTokenPayload.name || info.idTokenPayload.name.search(/\@/) !== -1) 
-            && !info.idTokenPayload.family_name ) return
-
-        let out = window.localStorage.hasOwnProperty('out') ? 
-            JSON.parse(window.localStorage.getItem('out')) : {}
-        if (!out) out = {}
-        
-        out['name'] = out['name'] ? out['name'] 
-            : info.idTokenPayload.name ? info.idTokenPayload.name 
-            : (info.idTokenPayload.family_name && info.idTokenPayload.given_name) ?
-                info.idTokenPayload.given_name + ' ' + info.idTokenPayload.family_name
-            : null
-        
-        if (out.name) 
-            window.localStorage.setItem('application', JSON.stringify(out))
+        transactions.userOut(userOut)
     })
-
-    
     return loggedIn(auth0)
-}
-let logout = auth0 => {
-    if (window.localStorage.hasOwnProperty('stutoken'))
-        window.localStorage.removeItem('stutoken')
-    if (window.localStorage.hasOwnProperty('stuinfo'))
-        window.localStorage.removeItem('stuinfo')
+},
+loggedIn = auth0 => {
+    let key = transactions.getKey(),
+    bttn = document.getElementById('nav-logout')
+    document.cookie = key
 
-    auth0.logout({returnTo: window.location.origin})
-
-}
-let loggedIn = auth0 => {
     window.location.hash = ""
-    
-    let bttn = document.getElementById('nav-logout')
+    // console.log('l', document.cookie)
+    // THIS REALLY NEEDS TO BE DONE PROPERLY @ SOME POINT
     if (!bttn) return
-
     bttn.addEventListener('click', e => logout(auth0))
-
     return true
-}
+},
+logout = auth0 =>
+    auth0.logout({returnTo: window.location.origin})
 
 module.exports.default = async (after, args) => {
     let loginFuncs = after instanceof Function ? [login, after] :

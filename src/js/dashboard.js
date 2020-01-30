@@ -1,11 +1,13 @@
 import './../scss/sheets/dashboard.scss'
-let getApp = require('./applications/transactions').getApp,
+let transactions = require('./transactions'),
 login = require('./login').default
 ;(require('./fa').default)()
 // *
 
 // *
 let fillBanner = async (auth0, userInfo) => {
+    userInfo = userInfo ? userInfo
+        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -47,50 +49,41 @@ let fillBanner = async (auth0, userInfo) => {
 }
 // -
 let fillInfo = async (auth0, userInfo) => {
-    let info,
-    updateInfo = () => {
-        info = JSON.parse(window.localStorage.getItem('stuinfo'))
-        return Boolean(info)
-    },
-    tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
-        tryNum = typeof tryNum == "number" ? tryNum : 0
-        if (test()) after()
-        else if (tryNum < 10) 
-            tryLoaded(test, after, ++tryNum)
-    }, 500),
-    fill = () => {
-        let name = document.getElementById('user-name')
-        if (info.name === info.email) document.getElementById('user-attrs').removeChild(name)
-        else name.innerHTML = info.name
-        // -
-        let email = document.getElementById('user-email')
-        email.innerHTML = info.email
-        // -
-        let img,
-        refreshItems = [name, email],
-        refresh = items => 
-            items.forEach(i => i.parentElement.replaceChild(i, i) )
-        // -
-        if (info.picture) {
-            img = document.createElement('img')
-            img.id = "profile-photo"
-            img.alt = "Profile photo"
-    
-            document.getElementById('image-area').appendChild(img)
-            refreshItems.push(img)
-    
-            img.addEventListener('load', e => refresh(refreshItems))
-            img.src = info.picture
-        }
-        else refresh(refreshItems)
+    userInfo = userInfo ? userInfo
+        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
+    let info = transactions.stuinfoIn,
+    name = document.getElementById('user-name')
+
+    if (info.name === info.email) 
+        document.getElementById('user-attrs').removeChild(name)
+    else name.innerHTML = info.name
+    // -
+    let email = document.getElementById('user-email'),
+    img,
+    refreshItems = [name, email],
+    refresh = items => 
+        items.forEach(i => i.parentElement.replaceChild(i, i) )
+
+    email.innerHTML = info.email
+    // -
+    if (info.picture) {
+        img = document.createElement('img')
+        img.id = "profile-photo"
+        img.alt = "Profile photo"
+
+        document.getElementById('image-area').appendChild(img)
+        refreshItems.push(img)
+
+        img.addEventListener('load', e => refresh(refreshItems))
+        img.src = info.picture
     }
-
-    tryLoaded(updateInfo, fill)
-
+    else refresh(refreshItems)
     return
 }
 // -
 let fillButton = async (auth0, userInfo) => {
+    userInfo = userInfo ? userInfo
+        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
     let button = document.getElementById('app-button')
     let btnIco = document.createElement('i')
     btnIco.className = 'fas fa-chevron-circle-right'
@@ -110,6 +103,8 @@ let fillButton = async (auth0, userInfo) => {
 }
 // -
 let status = async (auth0, userInfo) => {
+    userInfo = userInfo ? userInfo
+        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
     checkedIndicators = indicatorDirections[userInfo.state],
@@ -133,50 +128,66 @@ let status = async (auth0, userInfo) => {
         updateStatus(indicators[i], i < checkedIndicators)
 }
 
-let startUp = () => {
-    let locApp = () => window.localStorage.getItem('locApp'),
-    apiApp = () => window.localStorage.getItem('apiApp'),
-    info = JSON.parse(window.localStorage.getItem('stuinfo')),
-    userInfo = {
-        'appId': info['http://website.elephant.spartahack.com' + '/aid'],
-        'rsvpId': info['http://website.elephant.spartahack.com' + '/rsvp'],
-        'auth': info['http://website.elephant.spartahack.com' + '/pt']
+
+let startUp = async auth0 => {
+    let info,
+    updateInfo = () => { 
+        info = transactions.userIn()
+        console.log('here', info)
+        return Boolean(info)
     },
-    getState = () => {
-        let state = 0
+    tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
+        tryNum = typeof tryNum == "number" ? tryNum : 0
+        console.log(tryNum)
+        if (test()) after()
+        else if (tryNum < 10) 
+            tryLoaded(test, after, ++tryNum)
+    }, 500),
+    after = () => {
+        console.log(info)
+        console.log('here')
+        let userInfo = {
+            'appId': info['http://website.elephant.spartahack.com' + '/aid'],
+            'rsvpId': info['http://website.elephant.spartahack.com' + '/rsvp'],
+            'auth': info['http://website.elephant.spartahack.com' + '/pt']
+        },
+        getState = apiApp => {
+            let state = 0
+            apiApp = apiApp 
+                ? apiApp : transactions.appIn(true)
+    
+            if (userInfo.rsvpId) state = 6
+            else if (apiApp)
+                switch(apiApp.status) {
+                    case "Accepted":
+                        state = 5
+                    break
+                    case "Rejected":
+                        state = 4
+                    break
+                    default:
+                        state = 3
+                }
+            else if (userInfo.appId)
+                state = 2
+            else if (transactions.appIn())
+                state = 1
+            
+            return state
+        }
 
-        if (userInfo.rsvpId) state = 6
-        else if (apiApp())
-            switch(JSON.parse(apiApp()).status) {
-                case "Accepted":
-                    state = 5
-                break
-                case "Rejected":
-                    state = 4
-                break
-                default:
-                    state = 3
-            }
-        else if (userInfo.appId)
-            state = 2
-        else if (locApp())
-            state = 1
-        
-        return state
+        let setState = apiApp => {
+            let state = getState(apiApp)
+            window.localStorage.setItem('appState', state)
+            return state
+        }
+        if (setState() == 2)
+            transactions.getApp(userInfo.auth, userInfo.appId, app => {
+                transactions.appOut(app, true)
+                setState()
+                login([fillBanner, status, fillInfo, fillButton])
+            })
     }
-    userInfo['state'] = getState()
-
-    let startUpSequence = info => 
-        login([fillBanner, fillInfo, fillButton, status], info)
-
-    if (userInfo.state == 2)
-        getApp(userInfo.auth, userInfo.appId, app => {
-            window.localStorage.setItem('apiApp', JSON.stringify(app)),
-            userInfo.state = getState()
-            startUpSequence(userInfo)
-        })
-    else startUpSequence(userInfo)
-
+    tryLoaded(updateInfo, after)
 }
-
-startUp()
+login([startUp, fillBanner, status, fillInfo, fillButton])

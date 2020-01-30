@@ -1,5 +1,6 @@
 const domFuncs = require('./dom'),
 reports = require('./helpers/reports'),
+transactions = require('../transactions'),
 request = require('request')
 
 class AppDirector {
@@ -222,7 +223,7 @@ class AppDirector {
 
     save() {
         this.inputVals['PAGE'] = this.currentPage
-        window.localStorage.setItem('locApp', JSON.stringify(this.inputVals))
+        transactions.appOut(this.inputVals)
     }
     update(id, noSave) {
         let components  = this.getComponents(id)

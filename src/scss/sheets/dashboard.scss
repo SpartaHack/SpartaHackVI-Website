@@ -5,9 +5,10 @@
 
 body {
     display: flex;
+    align-content: center;
     flex-direction: column;
     justify-content: flex-start;
-    align-content: center;
+
     height: 100vh;
     margin-bottom: 5rem;
 }
@@ -25,19 +26,18 @@ main {
 #app-preview, #image-area, #app-button, #app-button-wrap {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-content: center;
+    justify-content: center;
 }
 
 #user-info {
-    margin: 0 0 0 1rem;
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-content: center;
     justify-content: flex-start;
     
+    margin: 0 0 0 1rem;
     #banner {
         width: 100%;
         margin: 0 0 5rem 0;
@@ -53,17 +53,13 @@ main {
         }
     }
 
-    #image-area {
-        // width: 40%;
-
-        img {
-            height: auto;
-            margin: 0 auto;
-            max-width: 10rem;
-            border-radius: 50%;
-        }
+    #image-area img {
+        height: auto;
+        margin: 0 auto;
+        max-width: 10rem;
+        border-radius: 50%;
     }
-
+    
     #user-attrs {
         display: flex;
         flex-direction: column;
@@ -78,7 +74,8 @@ main {
 
     #app-button-wrap {
         width: 40%;
-        margin: 1rem 0 0 0;        
+        margin: 1rem 0 0 0;    
+
         &, button { 
             display: flex;
             flex-direction: row;
@@ -89,20 +86,15 @@ main {
             * { 
                 margin: 0 .25rem;
                 color: $black; 
-                // display: inline-block;
             }
         }
     }
 }
 
-#app-preview {
-    
-}
-
 .status {
+    flex: 1;
     margin: auto 1rem;
     
-    flex: 1;
     display: flex;
     align-content: center;
     flex-direction: column;
@@ -126,7 +118,7 @@ main {
 
         margin: 0 auto;
         background-color: rgba($red, .75);
-        &, .stat-inner {border-radius: 50%;}
+        &, .stat-inner { border-radius: 50%; }
 
         .stat-inner {
             background-color: $white;
@@ -186,9 +178,7 @@ main {
     .status { margin: auto 5vw; }
 
     #user-info {
-        #banner {
-            margin: 0 0 1.5rem 0;
-        }
+        #banner { margin: 0 0 1.5rem 0; }
         #app-button-wrap { margin: .5rem 0 0 0; }
     }
 }

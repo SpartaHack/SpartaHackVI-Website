@@ -1,5 +1,6 @@
 const validators = require('./helpers/validators').default,
-equest = require('request')
+transactions = require('./../transactions')
+request = require('request')
 
 class AppHandler {
     constructor(auth) {
@@ -84,7 +85,8 @@ class AppHandler {
         this.out['outside_north_america'] = ""
         this.out['other_link'] = "https://www.notneeded.com/"
 
-        let info = JSON.parse(window.localStorage.getItem('stuinfo'))
+        console.log(transactions)
+        let info = transactions.stuinfoIn()
         if (!info) return
         let out = this.out
         
