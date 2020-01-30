@@ -3,9 +3,9 @@ let transactions = require('./transactions'),
 login = require('./login').default
 ;(require('./fa').default)()
 // *
-
+let appState = () => window.localStorage.getItem('appState')
 // *
-let fillBanner = async (auth0, userInfo) => {
+let fillBanner = async auth0 => {
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -22,11 +22,14 @@ let fillBanner = async (auth0, userInfo) => {
     tod.innerHTML = temp
     // -
     let message = document.getElementById('user-message')
-    // console.log(userInfo, userInfo.state)
-    switch (window.localStorage.appState) {        
+
+    switch (+appState()) { 
+        case 0:
+        temp = "You're set to start your application"; break
         case 1:
         temp = "We've saved your progress"; break
-        case 2: case 3:
+        case 2: 
+        case 3:
         temp = "Thanks for applying, we'll get back to you shortly"; break
         case 4:
         temp = "Thanks for applying, but we have too many participants \
@@ -35,16 +38,14 @@ let fillBanner = async (auth0, userInfo) => {
         temp = "We've reviewed your application and hope you can attend! \
         Please RSVP to secure your spot"; break
         case 6: 
-        temp = "Thanks for the RSVP, see you at Spartahack!"; break
-        default:
-        temp = "You're set to start your application"
+        temp = "Thanks for the RSVP, see you on 3/27!"
+        
     }
     message.innerHTML = temp
-
     return
 }
 // -
-let fillInfo = auth0 => {
+let fillInfo = async auth0 => {
     let user = transactions.userIn(),
     name = document.getElementById('user-name')
 
@@ -75,17 +76,17 @@ let fillInfo = auth0 => {
     return
 }
 // -
-let fillButton = auth0 => {
+let fillButton = async auth0 => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
-    appState = window.localStorage.appState
+    state = +appState()
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
-    if (appState) {
+    if (!state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
     }
-    else if (appState)
+    else if (state == 1)
         button.firstElementChild.innerHTML = "Continue"
     else
         button.firstElementChild.innerHTML = "Review"
@@ -95,11 +96,11 @@ let fillButton = auth0 => {
     return
 }
 // -
-let status = auth0 => {
+let status = async auth0 => {
     
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
-    checkedIndicators = indicatorDirections[window.localStorage.appState],
+    checkedIndicators = indicatorDirections[appState()],
     updateStatus = (statDom, state) => {
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
@@ -140,7 +141,8 @@ let startUp = async auth0 => {
             let state = 0
             apiApp = apiApp 
                 ? apiApp : transactions.appIn(true)
-    
+            
+            
             if (user.rsvp) state = 6
             else if (apiApp)
                 switch(apiApp.status) {
@@ -157,7 +159,7 @@ let startUp = async auth0 => {
                 state = 2
             else if (transactions.appIn())
                 state = 1
-            
+            console.log(state, )
             return state
         },
         setState = apiApp => {
