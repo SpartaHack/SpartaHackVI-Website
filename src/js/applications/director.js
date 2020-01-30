@@ -30,8 +30,9 @@ class AppDirector {
             e => this.done() )
             
         this.fromApi = fromApi
-        this.currentPage = 0
-        this.showCurrent()
+        this.hashNavigation()
+        this.changeHash(0)
+        // this.showCurrent()
         if (this.fromApi) this.postSubmission()
     }
 
@@ -115,17 +116,30 @@ class AppDirector {
     }
 
     // ---
+    hashNavigation(remove) {
+        let hashChange = e => {
+            let urlLen = e.newURL.length,
+            newPage = e.newURL.substr(urlLen-3, 1)
 
+            this.currentPage = +(newPage-1)
+            this.showCurrent()
+        }
+    
+        window.addEventListener('hashchange', hashChange)
+    }
+    changeHash(page) {
+        window.location.hash = "p"+(page + 1).toString()+"/"+this.pages.length
+    }
     nextPage() {
         if (this.currentPage === this.pages.length) return
-        ++this.currentPage
-        this.showCurrent()
+        this.changeHash(++this.currentPage)
+        // this.showCurrent()
         this.save()
     }
     prevPage() {
         if (this.currentPage === 0) return
-        --this.currentPage
-        this.showCurrent()
+        this.changeHash(--this.currentPage)
+        // this.showCurrent()
         this.save()
     }
     showCurrent() {
@@ -152,8 +166,8 @@ class AppDirector {
                     this.buttons.next.classList.remove('hidden')
                 }
             }
-
             this.container.replaceChild(this.current, this.container.lastChild)
+
             return true
         }
         return

@@ -23,7 +23,7 @@ let getKey = key => {
     if (key) return key
     key = window.location.hash
 
-    if (key.search(/.{2}/) === 0) {
+    if (key.search(/id_token/) != -1) {
         key = key.charAt(13) == "=" ?
             key.split('&').pop().substr(9,25)
             : key.substr(1)
@@ -50,7 +50,6 @@ decrypt = src => {
 },
 encrypt = (data, out) => {
     let key = getKey()
-    console.log(key)
     if (!data || !out) return
     
     let encryptor = new simpleCrypto(key)

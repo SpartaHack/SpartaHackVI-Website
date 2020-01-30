@@ -129,12 +129,11 @@ let startUp = async auth0 => {
     let user,
     updateInfo = () => { 
         user = transactions.userIn()
-        console.log('here', user)
         return Boolean(user)
     },
     tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
         tryNum = typeof tryNum == "number" ? tryNum : 0
-        console.log(tryNum)
+
         if (test()) after()
         else if (tryNum < 10) 
             tryLoaded(test, after, ++tryNum)
@@ -161,7 +160,6 @@ let startUp = async auth0 => {
                 state = 2
             else if (transactions.appIn())
                 state = 1
-            console.log(state, )
             return state
         },
         setState = apiApp => {

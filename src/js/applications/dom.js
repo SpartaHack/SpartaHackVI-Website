@@ -82,7 +82,6 @@ let makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
-    console.log(director, director.fromApi)
     
     let type = opts.input.pop(),
     mkrs = director.fromApi ? makers.readOnly : makers.default

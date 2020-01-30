@@ -21,8 +21,6 @@ class FAQ {
     }
 
     questionClick(question) {
-        console.log(this.active, question.listing)
-        // if (this.active) this.close()
         if (question.listing != this.active)
             this.enterQuestion(question)
         else this.close()
@@ -65,9 +63,8 @@ class FAQ {
     }
 
     startFilter() {
-        console.log('here')
         if (!this.filterWrap) return
-        console.log('not', this.filterWrap)        
+
         let revert = () => {
             this.resetFilter()
             this.filterAction.className = 'fas fa-search'
@@ -79,9 +76,8 @@ class FAQ {
             this.filterWrap.firstElementChild.value = ''
             this.filterWrap.replaceChild(this.filterWrap.firstElementChild, this.filterWrap.firstElementChild)
             this.filterWrap.replaceChild(this.filterAction, this.filterWrap.lastElementChild)
-        }
-        let go = () => {
-            console.log('what')
+        },
+        go = () => {
             this.filter(this.filterWrap.firstElementChild.value)
             this.filterAction.className = 'fas fa-times'
 
@@ -91,12 +87,10 @@ class FAQ {
             this.filterWrap.replaceChild(this.filterAction, this.filterWrap.lastElementChild)
         }
 
-        this.filterAction.addEventListener('click', go)
-        
-        // , 
         this.filterWrap.removeChild(this.filterWrap.firstChild)
         this.filterWrap.firstChild.addEventListener('keyup', 
-            e => { console.log('okay....');if (e.keyCode === 13) go() } )
+            e => { if (e.keyCode === 13) go() } )
+        this.filterAction.addEventListener('click', go)
     }
     filter(query) {
         console.log('here', query)
@@ -216,6 +210,10 @@ class FAQ {
                     i.pos = count++
                     i.listing.addEventListener('click', 
                         () => this.questionClick(i))
+                    i.listing.addEventListener('keyup', e => {
+                        if (e.keyCode == 9 || e.keyCode == 32)
+                            this.questionClick(i)
+                    })
                 })
                 this.faqCount = count
         }
