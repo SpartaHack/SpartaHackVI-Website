@@ -93,7 +93,7 @@ let fillInfo = async (auth0, userInfo) => {
 let fillButton = async (auth0, userInfo) => {
     let button = document.getElementById('app-button')
     let btnIco = document.createElement('i')
-    btnIco.className = 'far fa-caret-square-right'
+    btnIco.className = 'fas fa-chevron-circle-right'
     //*
     if (!userInfo.state) {
         button.firstElementChild.innerHTML = "New"
