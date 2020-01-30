@@ -45,13 +45,12 @@ let fillBanner = async (auth0, userInfo) => {
 }
 // -
 let fillInfo = auth0 => {
-    let userInfo = transactions.userIn(),
-    info = transactions.stuinfoIn,
+    let user = transactions.userIn(),
     name = document.getElementById('user-name')
 
-    if (info.name === info.email) 
+    if (!user.name) 
         document.getElementById('user-attrs').removeChild(name)
-    else name.innerHTML = info.name
+    else name.innerHTML = user.name
     // -
     let email = document.getElementById('user-email'),
     img,
@@ -59,9 +58,9 @@ let fillInfo = auth0 => {
     refresh = items => 
         items.forEach(i => i.parentElement.replaceChild(i, i) )
 
-    email.innerHTML = info.email
+    email.innerHTML = user.email
     // -
-    if (info.picture) {
+    if (user.picture) {
         img = document.createElement('img')
         img.id = "profile-photo"
         img.alt = "Profile photo"
@@ -70,7 +69,7 @@ let fillInfo = auth0 => {
         refreshItems.push(img)
 
         img.addEventListener('load', e => refresh(refreshItems))
-        img.src = info.picture
+        img.src = user.picture
     }
     else refresh(refreshItems)
     return

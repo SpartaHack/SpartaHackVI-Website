@@ -14,7 +14,7 @@ oldCreds = async auth0 => {
 
     let now = new Date()
     now = now.getTime()/1000
-    return (now < user.payload.exp) 
+    return (now < user.exp) 
         ? loggedIn(auth0) : newCreds(auth0)
 },
 login = async auth0 => {
@@ -29,15 +29,18 @@ login = async auth0 => {
         getUserItem = name => 
             payload["http://website.elephant.spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
-        userOut = {}
+        userOut = {
+            'email': payload.email,
+            'name': payload.name != payload.email
+                ? payload.name : undefined,
+            'exp': payload.exp,
+            'picture': payload.picture,
+            'github': payload.sub.substr(0,6) == "github" 
+                ? payload.nickname : undefined
+        }
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
-        userOut['name'] = 
-            payload['name'] != payload['email']
-            ? payload['name'] : undefined
-        userOut['payload'] = hashedInfo.idTokenPayload
-
         transactions.userOut(userOut)
     })
     return loggedIn(auth0)
