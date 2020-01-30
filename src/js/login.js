@@ -21,18 +21,21 @@ login = async auth0 => {
     let args = window.location.hash
     if (args.search(/.{2}/) !== 0) 
         return oldCreds(auth0)
-    
-    auth0.parseHash({hash: args}, (err, hashedInfo) => {
-        console.log(hashedInfo)
-        if (err) return oldCreds()
 
-        let getUserItem = name => 
-            hashedInfo.idTokenPayload["http://website.elephant.spartahack.com"+"/"+name],
+    auth0.parseHash({hash: args}, (err, hashedInfo) => {
+        if (err || !hashedInfo) return oldCreds()
+
+        let payload = hashedInfo.idTokenPayload
+        getUserItem = name => 
+            payload["http://website.elephant.spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {}
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
+        userOut['name'] = 
+            payload['name'] != payload['email']
+            ? payload['name'] : undefined
         userOut['payload'] = hashedInfo.idTokenPayload
 
         transactions.userOut(userOut)
@@ -45,8 +48,7 @@ loggedIn = auth0 => {
     document.cookie = key
 
     window.location.hash = ""
-    // console.log('l', document.cookie)
-    // THIS REALLY NEEDS TO BE DONE PROPERLY @ SOME POINT
+
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
     return true

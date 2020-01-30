@@ -6,8 +6,6 @@ login = require('./login').default
 
 // *
 let fillBanner = async (auth0, userInfo) => {
-    userInfo = userInfo ? userInfo
-        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -24,10 +22,8 @@ let fillBanner = async (auth0, userInfo) => {
     tod.innerHTML = temp
     // -
     let message = document.getElementById('user-message')
-    console.log(userInfo, userInfo.state)
-    switch (userInfo.state) {
-        case 0:
-        temp = "You're set to start your application"; break
+    // console.log(userInfo, userInfo.state)
+    switch (window.localStorage.appState) {        
         case 1:
         temp = "We've saved your progress"; break
         case 2: case 3:
@@ -40,18 +36,17 @@ let fillBanner = async (auth0, userInfo) => {
         Please RSVP to secure your spot"; break
         case 6: 
         temp = "Thanks for the RSVP, see you at Spartahack!"; break
-
-        default: temp = "Something went wrong..."
+        default:
+        temp = "You're set to start your application"
     }
     message.innerHTML = temp
 
     return
 }
 // -
-let fillInfo = async (auth0, userInfo) => {
-    userInfo = userInfo ? userInfo
-        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
-    let info = transactions.stuinfoIn,
+let fillInfo = auth0 => {
+    let userInfo = transactions.userIn(),
+    info = transactions.stuinfoIn,
     name = document.getElementById('user-name')
 
     if (info.name === info.email) 
@@ -81,18 +76,17 @@ let fillInfo = async (auth0, userInfo) => {
     return
 }
 // -
-let fillButton = async (auth0, userInfo) => {
-    userInfo = userInfo ? userInfo
-        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
-    let button = document.getElementById('app-button')
-    let btnIco = document.createElement('i')
+let fillButton = auth0 => {
+    let button = document.getElementById('app-button'),
+    btnIco = document.createElement('i'),
+    appState = window.localStorage.appState
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
-    if (!userInfo.state) {
+    if (appState) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
     }
-    else if (userInfo.state === 1)
+    else if (appState)
         button.firstElementChild.innerHTML = "Continue"
     else
         button.firstElementChild.innerHTML = "Review"
@@ -102,12 +96,11 @@ let fillButton = async (auth0, userInfo) => {
     return
 }
 // -
-let status = async (auth0, userInfo) => {
-    userInfo = userInfo ? userInfo
-        : JSON.parse(window.sessionStorage.getItem('userInfo', userInfo))
+let status = auth0 => {
+    
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
-    checkedIndicators = indicatorDirections[userInfo.state],
+    checkedIndicators = indicatorDirections[window.localStorage.appState],
     updateStatus = (statDom, state) => {
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
@@ -130,11 +123,11 @@ let status = async (auth0, userInfo) => {
 
 
 let startUp = async auth0 => {
-    let info,
+    let user,
     updateInfo = () => { 
-        info = transactions.userIn()
-        console.log('here', info)
-        return Boolean(info)
+        user = transactions.userIn()
+        console.log('here', user)
+        return Boolean(user)
     },
     tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
         tryNum = typeof tryNum == "number" ? tryNum : 0
@@ -144,19 +137,12 @@ let startUp = async auth0 => {
             tryLoaded(test, after, ++tryNum)
     }, 500),
     after = () => {
-        console.log(info)
-        console.log('here')
-        let userInfo = {
-            'appId': info['http://website.elephant.spartahack.com' + '/aid'],
-            'rsvpId': info['http://website.elephant.spartahack.com' + '/rsvp'],
-            'auth': info['http://website.elephant.spartahack.com' + '/pt']
-        },
-        getState = apiApp => {
+        let getState = apiApp => {
             let state = 0
             apiApp = apiApp 
                 ? apiApp : transactions.appIn(true)
     
-            if (userInfo.rsvpId) state = 6
+            if (user.rsvp) state = 6
             else if (apiApp)
                 switch(apiApp.status) {
                     case "Accepted":
@@ -168,23 +154,23 @@ let startUp = async auth0 => {
                     default:
                         state = 3
                 }
-            else if (userInfo.appId)
+            else if (user.aid)
                 state = 2
             else if (transactions.appIn())
                 state = 1
             
             return state
-        }
-
-        let setState = apiApp => {
+        },
+        setState = apiApp => {
             let state = getState(apiApp)
             window.localStorage.setItem('appState', state)
             return state
         }
+
         if (setState() == 2)
-            transactions.getApp(userInfo.auth, userInfo.appId, app => {
+            transactions.getApp(user.pt, user.aid, app => {
                 transactions.appOut(app, true)
-                setState()
+                setState(app) 
                 login([fillBanner, status, fillInfo, fillButton])
             })
     }
