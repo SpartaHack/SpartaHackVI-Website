@@ -20,11 +20,18 @@ class FAQ {
         this._getFaq()
     }
 
-    enterQuestion(faqItem) {
-        this.close()
+    questionClick(question) {
+        console.log(this.active, question.listing)
+        // if (this.active) this.close()
+        if (question.listing != this.active)
+            this.enterQuestion(question)
+        else this.close()
+    }
 
+    enterQuestion(faqItem) {
+        if (this.active) this.active.className = ''
         this.active = faqItem.listing
-        this.active.classList.add('active-listing')
+        this.active.className = 'active-listing'
 
         this.answerSpace.lastElementChild.innerHTML = faqItem.answer
         this.answerSpace.lastElementChild.dataset.question = faqItem.question
@@ -36,25 +43,25 @@ class FAQ {
                 break
             }
         }
-        
         if (insertBefore)
             this.wrap.insertBefore(this.answerSpace, this.items[insertBefore].listing)
         else 
             this.wrap.appendChild(this.answerSpace) 
             
-        window.addEventListener('resize', () => this.close())
-        this.active.addEventListener('click', () => this.close())
+        
+        let close = () => {
+            window.removeEventListener('resize', close)
+            this.close()
+        }
+        window.addEventListener('resize', close)
     }
 
     close () { 
         if (!this.active) return
-
-        let wasActive = this.active
-        this.active = undefined
-        wasActive.classList.remove('active-listing')
-        this.wrap.removeChild(this.answerSpace)
-
-        return wasActive
+        this.active.className = ''
+        
+        this.answerSpace = this.wrap.removeChild(this.answerSpace)
+        this.active = false
     }
 
     startFilter() {
@@ -63,7 +70,7 @@ class FAQ {
         console.log('not', this.filterWrap)        
         let revert = () => {
             this.resetFilter()
-            this.filterAction.classList = 'fas fa-search'
+            this.filterAction.className = 'fas fa-search'
 
 
             this.filterAction.removeEventListener('click', revert)
@@ -208,7 +215,7 @@ class FAQ {
 
                     i.pos = count++
                     i.listing.addEventListener('click', 
-                        () => this.enterQuestion(i))
+                        () => this.questionClick(i))
                 })
                 this.faqCount = count
         }

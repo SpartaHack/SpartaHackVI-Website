@@ -50,7 +50,7 @@ loggedIn = auth0 => {
     bttn = document.getElementById('nav-logout')
     document.cookie = key
 
-    window.location.hash = ""
+    history.replaceState(null, null, ' ')
 
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
