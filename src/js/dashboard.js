@@ -93,41 +93,41 @@ let fillInfo = async (auth0, userInfo) => {
 let fillButton = async (auth0, userInfo) => {
     let button = document.getElementById('app-button')
     let btnIco = document.createElement('i')
+    btnIco.className = 'far fa-caret-square-right'
     //*
-    if (userInfo.state) {
+    if (!userInfo.state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
-
     }
-    else {
+    else if (userInfo.state === 1)
         button.firstElementChild.innerHTML = "Continue"
-        btnIco.className = 'far fa-caret-square-right'
-    }
+    else
+        button.firstElementChild.innerHTML = "Review"
+    
     button.appendChild(btnIco)
     button.addEventListener('click', () => window.location = "/application.html")
     return
 }
 // -
-
-let updateStatus = (statDom, state) => {
-    statDom = statDom.lastElementChild
-    let indicator = document.createElement('i')
-    
-    if (state) {
-        statDom.firstElementChild.classList.add('on-indicator')
-        indicator.className = "fas fa-check"
-    }
-    else {
-        statDom.firstElementChild.classList.remove('on-indicator')
-        indicator.className = "fas fa-times"
-    }
-    statDom.firstElementChild.appendChild(indicator)
-    return
-}
 let status = async (auth0, userInfo) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
-    checkedIndicators = indicatorDirections[userInfo.state]
+    checkedIndicators = indicatorDirections[userInfo.state],
+    updateStatus = (statDom, state) => {
+        statDom = statDom.lastElementChild
+        let indicator = document.createElement('i')
+        
+        if (state) {
+            statDom.firstElementChild.classList.add('on-indicator')
+            indicator.className = "fas fa-check"
+        }
+        else {
+            statDom.firstElementChild.classList.remove('on-indicator')
+            indicator.className = "fas fa-times"
+        }
+        statDom.firstElementChild.appendChild(indicator)
+        return
+    }
     
     for (let i = 0; i < 3; i++)
         updateStatus(indicators[i], i < checkedIndicators)
@@ -178,4 +178,5 @@ let startUp = () => {
     else startUpSequence(userInfo)
 
 }
+
 startUp()

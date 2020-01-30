@@ -5,7 +5,7 @@ class FAQ {
     constructor(container, tabOffset) {
         this.items = []
         this.active
-        this.tabOffset = tabOffset ? tabOffset : 3
+        this.tabOffset = tabOffset ? tabOffset : 0
 
         this.filterAction
         this.filterWrap
@@ -58,8 +58,9 @@ class FAQ {
     }
 
     startFilter() {
+        console.log('here')
         if (!this.filterWrap) return
-
+        console.log('not', this.filterWrap)        
         let revert = () => {
             this.resetFilter()
             this.filterAction.classList = 'fas fa-search'
@@ -73,6 +74,7 @@ class FAQ {
             this.filterWrap.replaceChild(this.filterAction, this.filterWrap.lastElementChild)
         }
         let go = () => {
+            console.log('what')
             this.filter(this.filterWrap.firstElementChild.value)
             this.filterAction.className = 'fas fa-times'
 
@@ -84,10 +86,13 @@ class FAQ {
 
         this.filterAction.addEventListener('click', go)
         
-        this.filterWrap.firstElementChild.addEventListener('keyup', 
-            e => { if (e.keyCode === 13) go() } )
+        // , 
+        this.filterWrap.removeChild(this.filterWrap.firstChild)
+        this.filterWrap.firstChild.addEventListener('keyup', 
+            e => { console.log('okay....');if (e.keyCode === 13) go() } )
     }
     filter(query) {
+        console.log('here', query)
         if (typeof query !== "string" && query !== undefined) return
         if (!query || query.length == 0) this.resetFilter()
         if (!query || query.length < 2) return
@@ -141,7 +146,7 @@ class FAQ {
         wrap.firstElementChild.firstElementChild.innerHTML = 'FAQs'
         wrap.firstElementChild.firstElementChild.id ="questions-title"
 
-        this.filterWrap = document.createElement('span')
+        this.filterWrap = document.createElement('div')
         this.filterWrap.appendChild(document.createElement('input'))
         this.filterWrap.firstChild.for = "faq-filter"
         this.filterWrap.appendChild(document.createElement('input'))
@@ -157,6 +162,7 @@ class FAQ {
         this.startFilter()
 
         wrap.appendChild(document.createElement('article'))
+        wrap.lastChild.tabIndex = 0
         container.appendChild(wrap)
 
         if (append)
@@ -197,7 +203,7 @@ class FAQ {
                     i.listing.firstElementChild.innerHTML = i.question
                     i.listing.class="question-wrap"
         
-                    i.listing.tabIndex = this.tabOffset + count
+                    i.listing.tabIndex = this.tabOffset
                     this.wrap.appendChild(i.listing)
 
                     i.pos = count++
