@@ -82,6 +82,7 @@ let fillButton = async auth0 => {
     state = +appState()
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
+    button.removeChild(button.lastElementChild)
     if (!state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
@@ -91,6 +92,7 @@ let fillButton = async auth0 => {
     else
         button.firstElementChild.innerHTML = "Review"
     
+    // button.innerHTML = ''
     button.appendChild(btnIco)
     button.addEventListener('click', () => window.location = "/application.html")
     return
@@ -113,6 +115,7 @@ let status = async auth0 => {
             statDom.firstElementChild.classList.remove('on-indicator')
             indicator.className = "fas fa-times"
         }
+        statDom.firstElementChild.innerHTML = ''
         statDom.firstElementChild.appendChild(indicator)
         return
     }
@@ -141,7 +144,6 @@ let startUp = async auth0 => {
             let state = 0
             apiApp = apiApp 
                 ? apiApp : transactions.appIn(true)
-            
             
             if (user.rsvp) state = 6
             else if (apiApp)
