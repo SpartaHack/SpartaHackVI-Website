@@ -98,8 +98,8 @@ class FAQ {
         if (!query || query.length < 2) return
         this.close()
         
-        let found = 0
-        let first
+        let first,
+        found = 0
         this.items.forEach(i => {
             if (i.question.indexOf(query) !== -1 || i.answer.indexOf(query) !== -1) {
                 i.listing.classList.remove('filtered-out')

@@ -201,7 +201,7 @@ class AppDirector {
     insert(id, val, noUpdate) {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
-        
+
         if (items.input.nodeName == "SELECT") {
             let cc = items.input.childElementCount,
                 potVals = items.input.childNodes,
@@ -252,19 +252,24 @@ class AppDirector {
             })
         this.setComponents(id, components)
         
-        let val = components.trueVal ? components.trueVal : this.getInputVal(id)
-        val = components.input.type == "number" ? Number(val) : val
-        let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-
-        this.approve(id)
-        if (!valid && val.length > 0)
-            this.error(id)
-
-        else {
-            this.inputVals[id] = val
-            if (!noSave) this.save()
+        if (this.fromApi) {
+            components.inputWrap.classList.add('post-submission')
+            return true
         }
-        return Boolean(valid)
+        else {
+            let val = components.trueVal ? components.trueVal : this.getInputVal(id)
+            val = components.input.type == "number" ? Number(val) : val
+            let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
+
+            if (!valid && val.length > 0)
+                this.error(id)
+            else {
+                this.inputVals[id] = val
+                this.approve(id)
+                if (!noSave) this.save()
+            }
+            return Boolean(valid)
+        }
     }
     
     done(startCheckAt) {

@@ -77,9 +77,6 @@ const makerWrapping = (director, item, args) => {
         if (handlerLocation[arg])
             specialHandlers[arg] = handlerLocation[arg](director, components, args)
     })
-
-
-    if (director.fromApi) components.noValidate = true
     
     if (Object.keys(specialHandlers)[0]) {
         components['specialHandlers'] = specialHandlers

@@ -14,10 +14,13 @@ class otherThanListed extends specialInput{
         input.id = this.id
         input.placeholder = "List: Backspace"
 
-        input.addEventListener('keyup', e => {
-            if (!input.value.length && e.keyCode == 8) 
-                this.swapInput()
-        })
+        if (this.director.fromApi) input.readOnly = true
+        else {
+            input.addEventListener('keyup', e => {
+                if (!input.value.length && e.keyCode == 8) 
+                    this.swapInput()
+            })
+        }
 
         return input
     }
@@ -48,7 +51,7 @@ class otherThanListed extends specialInput{
         
         for (let i = 0; i < opts.length; i++) {
             if (opts[i].value == val) {
-                found = true;
+                found = true
                 break
             }
         } return found 
@@ -57,10 +60,24 @@ class otherThanListed extends specialInput{
 
     eventHook(components) {
         let val = this.director.getInputVal(this.id)
-        console.log('other', val)
     
         if (components.input != this.other && val == "Other")
             components = this.swapInput(components)
+        else if (components.input.type == "text") {
+
+            let opts = components.altInput.childNodes
+            console.log(opts)
+            for (let i = 0; i < opts.length; i++) {
+                if (opts[i].value == val) {
+                    opts = i
+                    break
+                }
+            }
+            if (Number.isInteger(opts)) {
+                components = this.swapInput(components)
+                components.input.selectedIndex = ++opts
+            }
+        }
         
         return components
 
