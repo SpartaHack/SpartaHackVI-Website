@@ -93,7 +93,6 @@ class FAQ {
         this.filterAction.addEventListener('click', go)
     }
     filter(query) {
-        console.log('here', query)
         if (typeof query !== "string" && query !== undefined) return
         if (!query || query.length == 0) this.resetFilter()
         if (!query || query.length < 2) return

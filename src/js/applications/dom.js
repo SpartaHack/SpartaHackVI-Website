@@ -20,12 +20,16 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-const makers = require('./helpers/makers')
-const special = {
+const makers = require('./helpers/makers'),
+special = {
     'other': require('./helpers/_other').default,
     'list': require('./helpers/_stackInput').default,
     'autocomplete': require('./helpers/_autoComplete').default,
     'opt': require('./helpers/_noValidation').default
+},
+readOnlySpecial = {
+    'list': require('./helpers/_stackNavigation').default,
+    'other': special.other
 }
 
 const makerWrapping = (director, item, args) => {
@@ -66,19 +70,24 @@ const makerWrapping = (director, item, args) => {
     
     
     components.itemWrap.appendChild(components.inputWrap)
-    if (!director.fromApi)
-        components.itemWrap.appendChild(components.controlWrap)
+    let specialHandlers = {},
+    handlerLocation = director.fromApi ? readOnlySpecial : special
 
-    let specialHandlers = {}
     args.input.forEach(arg => {
-        if (special[arg])
-            specialHandlers[arg] = special[arg](director, components, args)
+        if (handlerLocation[arg])
+            specialHandlers[arg] = handlerLocation[arg](director, components, args)
     })
-    if (Object.keys(specialHandlers)[0]) 
+
+
+    if (director.fromApi) components.noValidate = true
+    
+    if (Object.keys(specialHandlers)[0]) {
         components['specialHandlers'] = specialHandlers
+        components.itemWrap.appendChild(components.controlWrap)
+    }
     return components
-}
-let makersRouting = (director, opts) => {
+},
+makersRouting = (director, opts) => {
     if (!opts || !opts.input) return
     
     opts.input = opts.input.split("-")
@@ -86,10 +95,8 @@ let makersRouting = (director, opts) => {
     let type = opts.input.pop(),
     mkrs = director.fromApi ? makers.readOnly : makers.default
     return makerWrapping(director, mkrs[type](opts), opts)
-}
-module.exports.item = makersRouting
-
-let getPage = (pageName, src, director) => {
+},
+getPage = (pageName, src, director) => {
     let page = document.createElement('section')
     page.id = pageName
     page.className = "app-section"
@@ -109,3 +116,4 @@ let getPage = (pageName, src, director) => {
     return page
 }
 module.exports.page = getPage
+module.exports.item = makersRouting

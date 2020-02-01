@@ -165,9 +165,7 @@ class AppDirector {
                 }
             }
             this.container.replaceChild(this.current, this.container.lastChild)
-            console.log(this.current.querySelector('.input-wrap'))
             this.current.querySelector('.input-wrap').firstChild.focus()
-
 
             return true
         }
@@ -207,10 +205,12 @@ class AppDirector {
         if (items.input.nodeName == "SELECT") {
             let cc = items.input.childElementCount,
                 potVals = items.input.childNodes,
+                otherIndex,
                 i = 0
 
-            while (i < cc) { 
-                if (potVals[i].value == "other")
+            while (i < cc) {
+                // console.log(potVals[i])
+                if (potVals[i].value == "Other")
                     otherIndex = i
                 if (potVals[i].value == val) {
                     val = i
@@ -218,7 +218,9 @@ class AppDirector {
                 }
                 ++i
             }
-            items.input.selectedIndex = Number.isInteger(val) ? val : 0
+            console.log(otherIndex)
+            items.input.selectedIndex = Number.isInteger(val) ? val :
+                (val && Number.isInteger(otherIndex)) ? otherIndex : 0
         }
         else items.input.value = val
 

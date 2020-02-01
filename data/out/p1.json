@@ -60,5 +60,5 @@
         ], 
         "placeholder": "Your Race"
     },
-    {"pageName": "Personal Information"}
+    { "pageName": "Personal Information" }
 ]

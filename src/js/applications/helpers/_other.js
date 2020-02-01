@@ -3,7 +3,7 @@ const specialInput = require('./__specialInput').default
 class otherThanListed extends specialInput{
     constructor(director, components) {
         super(director, components)
-
+        
         components['altInput'] = this.other
         this.director.setComponents(this.id, components)
     }
@@ -57,8 +57,9 @@ class otherThanListed extends specialInput{
 
     eventHook(components) {
         let val = this.director.getInputVal(this.id)
+        console.log(components, val)
     
-        if (components.input != this.other && val == "Other")
+        if (components.input != this.other && val)
             components = this.swapInput(components)
         
         return components
