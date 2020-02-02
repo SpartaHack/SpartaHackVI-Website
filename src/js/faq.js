@@ -91,7 +91,6 @@ class FAQ {
             this.filterAction.addEventListener('click', go)
         },
         go = () => {
-            // console.log('wtf')
             this.filter(this.filterWrap.firstElementChild.value)
             this.filterAction.firstElementChild.replaceWith(this.clearIcon)
             this.filterAction.removeEventListener('click', go)
@@ -104,8 +103,7 @@ class FAQ {
 
         this.filterWrap.firstChild.addEventListener('keyup', 
             e => { if (e.keyCode === 13) go() } )
-        console.log(this.filterAction)
-    }
+        }
     filter(query) {
         if (typeof query !== "string" && query !== undefined) return
         if (!query || query.length == 0) this.resetFilter()

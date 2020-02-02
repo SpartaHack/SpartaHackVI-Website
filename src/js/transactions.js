@@ -23,7 +23,6 @@ let getKey = key => {
     if (key) return key
     key = window.location.hash
 
-    console.log('getting key')
     if (key.search(/id_token/) != -1) {
         key = key.charAt(13) == "=" ?
             key.split('&').pop().substr(9,25)
@@ -70,5 +69,4 @@ module.exports.appOut = (data, api) =>
 
 module.exports.userIn = () => decrypt('user')
 
-module.exports.userOut = data =>{
-    console.log(data); encrypt(data, 'user')}
+module.exports.userOut = data => encrypt(data, 'user')
