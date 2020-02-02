@@ -22,8 +22,13 @@ login = async auth0 => {
 
     auth0.parseHash({hash: args}, (err, hashedInfo) => {
         if (err || !hashedInfo) return oldCreds()
+        else {
+            window.localStorage.removeItem('locApp')
+            window.localStorage.removeItem('apiApp')
+            window.localStorage.removeItem('user')
+        }
 
-        let payload = hashedInfo.idTokenPayload
+        let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
             payload["http://website.elephant.spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
@@ -48,8 +53,6 @@ loggedIn = auth0 => {
     bttn = document.getElementById('nav-logout')
     document.cookie = key
 
-    history.replaceState(null, null, ' ')
-
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
     return true
@@ -60,8 +63,10 @@ logout = auth0 => {
 }
 
 module.exports.default = async (after, args) => {
-    let loginFuncs = after instanceof Function ? [login, after] :
-        after instanceof Array ? [login, ...after] : [login]
-
+    let urlClear = async () => history.replaceState(null, null, ' ')
+    let loginFuncs = after instanceof Function ? [login, after, urlClear] :
+        after instanceof Array ? [login, ...after, urlClear] : [login, urlClear]
+    
+    loginFuncs.pop()
     return await auth(loginFuncs, args)
 }

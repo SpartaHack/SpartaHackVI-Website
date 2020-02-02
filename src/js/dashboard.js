@@ -3,7 +3,7 @@ let transactions = require('./transactions'),
 login = require('./login').default
 ;(require('./fa').default)()
 // *
-let appState = () => window.localStorage.getItem('appState')
+let appState = () => +(window.localStorage.getItem('appState'))
 // *
 let fillBanner = async auth0 => {
     let temp,
@@ -23,7 +23,7 @@ let fillBanner = async auth0 => {
     // -
     let message = document.getElementById('user-message')
 
-    switch (+appState()) { 
+    switch (appState()) { 
         case 0:
         temp = "You're set to start your application"; break
         case 1:
@@ -57,7 +57,7 @@ let fillInfo = async auth0 => {
     img,
     refreshItems = [name, email],
     refresh = items => 
-        items.forEach(i => i.parentElement.replaceChild(i, i) )
+        items.forEach(i => { console.log(i); i.replaceWith(i, i) })
 
     email.innerHTML = user.email
     // -
@@ -81,7 +81,7 @@ let fillInfo = async auth0 => {
 let fillButton = async auth0 => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
-    state = +appState()
+    state = appState()
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
     button.removeChild(button.lastElementChild)

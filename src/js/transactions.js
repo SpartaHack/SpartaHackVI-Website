@@ -23,11 +23,12 @@ let getKey = key => {
     if (key) return key
     key = window.location.hash
 
+    console.log('getting key')
     if (key.search(/id_token/) != -1) {
         key = key.charAt(13) == "=" ?
             key.split('&').pop().substr(9,25)
             : key.substr(1)
-
+        
         return "!!--"+key
     } // I'm sure theres a better way, but I'm dead rn
     key = document.cookie.split(";")
