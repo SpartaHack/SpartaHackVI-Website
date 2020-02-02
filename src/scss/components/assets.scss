@@ -81,6 +81,7 @@ $break-d3: 320px;
 button {
     cursor: pointer;
     color: $black;
+    background-color: $white;
 
     border: none;
     border-radius: 1.5rem;
@@ -95,10 +96,10 @@ button {
     transition: all .35s ease-in-out;
 
     &:hover, &:active, &:focus {
-        background-color: $white;
         transform: scale(1);
         font-weight: 450;
         padding: .75rem;
+        color: $red;
     }
 }
 

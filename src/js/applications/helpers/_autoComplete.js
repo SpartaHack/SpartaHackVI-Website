@@ -100,16 +100,16 @@ class autoCompeteInput extends specialInput {
 
     route(keycode) {
         switch (keycode) {
+            case 13:
+            if (!this.curInd)
+                this.currentIndex = 0
+            this.select(this.currentItems.childNodes[this.curInd])
+            break
             case 40: 
             this.currentIndex = this.curInd + 1
             break
             case 38: 
             this.currentIndex = this.curInd - 1
-            break
-            case 13:
-            if (!this.curInd)
-                this.currentIndex = 0
-            this.select(this.currentItems.childNodes[this.curInd])
             break
             default: 
             this.filter()

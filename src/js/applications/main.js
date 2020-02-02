@@ -16,11 +16,6 @@ handlerInit = async auth0 =>
     handler = new Handler(auth0, user, validatorDicts),
 directorArgs = {
     'container': 'application-area',
-    'buttons': {
-        'prev': document.querySelector('aside ul button:first-child'),
-        'next': document.querySelector('aside ul button:nth-child(2)'),
-        'done': document.querySelector('aside ul button:last-child')
-    },
     'urls': [
         window.location.origin + "/data/p1", 
         window.location.origin + "/data/p2", 

@@ -1,33 +1,33 @@
 .field-container {
     height: auto;
     width: 100%;
+
     padding: 0;
     margin: .25rem 0;
     
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-content: center;
     flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
     
     label {
         display: flex;
         flex-direction: column;
         justify-content: center;
 
+        user-select: none;
         font-weight: 500;
         font-size: 1.25rem;
-        user-select: none;
         padding-right: 1rem;
     }
     .input-wrap {
-        margin: 0 0 0 auto;
-
-        position: relative;
-        
         display: flex;
         flex-direction: row;
         align-content: center;
+        
+        margin: 0 0 0 auto;
+        position: relative;
 
         input, select, textarea {
             background: none;
@@ -41,17 +41,21 @@
 
             width: 100%;
             ::placeholder { color: rgba($white, .85); }
-            
         }
 
         .form-check {
             width: 1rem;
             height: 1rem;
             cursor: pointer;
-
-            &:active, &:focus {outline: none; border: none; }
         }
-
+    }
+    .input-wrap, .input-controls {
+        input[type=checkbox] {
+            &:hover, &:focus { 
+                border: none; outline: none; 
+                box-shadow: 0 0 .25rem .1rem $red;
+            }
+        }
     }
     .input-controls {
         display: flex;
@@ -237,21 +241,21 @@
 
         $hover-transition-time: 2.5s;
         transition: transform $hover-transition-time;
+
+        &:hover, &:focus {
+            color: $red;
+            outline: none;
+        }
     }
 
     transition: all .25s;
 }
 
 .noPreviousListed {
-   
+    .add-new-entry 
+        { box-shadow: 0 0  0 .225rem rgba($red, .75); }
 
-   .add-new-entry {
-        box-shadow: 0 0  0 .225rem rgba($red, .75);
-   }
-
-   .remove-last-entry {
-       display: none;
-   }
+    .remove-last-entry { display: none; }
 }
 
 

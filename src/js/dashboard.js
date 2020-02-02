@@ -99,7 +99,6 @@ let fillButton = async auth0 => {
 }
 // -
 let status = async auth0 => {
-    
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
     checkedIndicators = indicatorDirections[appState()],

@@ -66,7 +66,6 @@ class otherThanListed extends specialInput{
         else if (components.input.type == "text") {
 
             let opts = components.altInput.childNodes
-            console.log(opts)
             for (let i = 0; i < opts.length; i++) {
                 if (opts[i].value == val) {
                     opts = i

@@ -18,17 +18,19 @@ class stackInput  extends specialInput{
             "wrap": document.createElement('span'),
         }
         items.wrap.className = 'list-input-control noPreviousListed'
+        items.wrap.tabIndex = -1
 
         items.m.innerHTML = '-'
         items.m.className = 'remove-last-entry'
         items.m.addEventListener('click', e => this.removeEntry())
         items.wrap.appendChild(items.m)
+        items.m.tabIndex = 0
 
         items.p.innerHTML = '+'
         items.p.className = 'add-new-entry'
         items.p.addEventListener('click', e => this.update(true))
-
         items.wrap.appendChild(items.p)
+        items.p.tabIndex = 0
     
         return items
     }

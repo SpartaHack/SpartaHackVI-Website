@@ -17,9 +17,9 @@ class AppDirector {
         
         this.container = document.getElementById(args.container)
         this.buttons = args.buttons ? args.buttons : {
-            'prev': document.getElementById("previous-page-button"),
-            'next': document.getElementById("next-page-button"),
-            'done': document.getElementById("done-button")
+            'prev': document.getElementById("previous-page"),
+            'next': document.getElementById("next-page"),
+            'done': document.getElementById("finish-app")
         }
         
         this.buttons.prev.addEventListener('click', 
@@ -165,7 +165,12 @@ class AppDirector {
                 }
             }
             this.container.replaceChild(this.current, this.container.lastChild)
-            this.current.querySelector('.input-wrap').firstChild.focus()
+            .firstChild.focus()
+
+            let focusInto = this.current.querySelector('.input-wrap')
+            focusInto = focusInto.firstChild instanceof HTMLInputElement || focusInto.firstChild instanceof HTMLSelectElement
+                || focusInto.firstChild instanceof HTMLTextAreaElement ? focusInto.firstChild : focusInto.lastChild
+            focusInto.focus()
 
             return true
         }
@@ -209,7 +214,6 @@ class AppDirector {
                 i = 0
 
             while (i < cc) {
-                // console.log(potVals[i])
                 if (potVals[i].value == "Other")
                     otherIndex = i
                 if (potVals[i].value == val) {
@@ -218,7 +222,6 @@ class AppDirector {
                 }
                 ++i
             }
-            console.log(otherIndex)
             items.input.selectedIndex = Number.isInteger(val) ? val :
                 (val && Number.isInteger(otherIndex)) ? otherIndex : 0
         }
@@ -276,11 +279,11 @@ class AppDirector {
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
             if (!this.pages[i]) {
-                this.getPageSrc(i, () => this.makePage(i, () => this.done(++i)))
+                this.getPageSrc(i,
+                    () => this.makePage(i, () => this.done(++i)) )
                 return
             }
         }
-
         Object.keys(this.domItems).forEach(ik => this.update(ik))
 
         let needed = this.handler.needed
