@@ -20,6 +20,20 @@ class FAQ {
         this._getFaq()
     }
 
+    get searchIcon() {
+        let icon = document.createElement('i')
+        icon.className = 'fas fa-search'
+        icon.id = 'faq-filter-action'
+        return icon
+    }
+
+    get clearIcon() {
+        let icon = document.createElement('i')
+        icon.className = 'fas fa-times'
+        icon.id = 'faq-filter-action'
+        return icon
+    }
+
     questionClick(question) {
         if (question.listing != this.active)
             this.enterQuestion(question)
@@ -40,7 +54,7 @@ class FAQ {
                 insertBefore = i
                 break
             }
-        }
+        } 
         if (insertBefore)
             this.wrap.insertBefore(this.answerSpace, this.items[insertBefore].listing)
         else 
@@ -64,33 +78,33 @@ class FAQ {
 
     startFilter() {
         if (!this.filterWrap) return
-
+    
         let revert = () => {
             this.resetFilter()
-            this.filterAction.className = 'fas fa-search'
-
-
-            this.filterAction.removeEventListener('click', revert)
-            this.filterAction.addEventListener('click', go)
+            this.filterAction.firstElementChild.replaceWith(this.searchIcon)
 
             this.filterWrap.firstElementChild.value = ''
             this.filterWrap.replaceChild(this.filterWrap.firstElementChild, this.filterWrap.firstElementChild)
-            this.filterWrap.replaceChild(this.filterAction, this.filterWrap.lastElementChild)
+
+            this.filterAction = this.filterWrap.lastElementChild
+            this.filterAction.removeEventListener('click', revert)
+            this.filterAction.addEventListener('click', go)
         },
         go = () => {
+            // console.log('wtf')
             this.filter(this.filterWrap.firstElementChild.value)
-            this.filterAction.className = 'fas fa-times'
-
+            this.filterAction.firstElementChild.replaceWith(this.clearIcon)
             this.filterAction.removeEventListener('click', go)
             this.filterAction.addEventListener('click', revert)
 
-            this.filterWrap.replaceChild(this.filterAction, this.filterWrap.lastElementChild)
         }
 
         this.filterWrap.removeChild(this.filterWrap.firstChild)
+        this.filterAction.addEventListener('click', go)
+
         this.filterWrap.firstChild.addEventListener('keyup', 
             e => { if (e.keyCode === 13) go() } )
-        this.filterAction.addEventListener('click', go)
+        console.log(this.filterAction)
     }
     filter(query) {
         if (typeof query !== "string" && query !== undefined) return
@@ -153,10 +167,10 @@ class FAQ {
         this.filterWrap.lastElementChild.placeholder = "Filter FAQs"
         this.filterWrap.lastElementChild.id = "faq-filter"
         
-        this.filterAction = document.createElement('i')
-        this.filterAction.className = 'fas fa-search'
-        this.filterAction.id = 'faq-filter'
-        this.filterWrap.appendChild(this.filterAction)
+        this.filterAction = this.searchIcon
+        this.filterWrap.appendChild(document.createElement('span'))
+        this.filterWrap.lastChild.appendChild(this.filterAction)
+        this.filterAction = this.filterWrap.lastChild
 
         wrap.firstElementChild.appendChild(this.filterWrap)
         this.startFilter()

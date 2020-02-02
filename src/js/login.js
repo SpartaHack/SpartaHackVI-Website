@@ -63,10 +63,9 @@ logout = auth0 => {
 }
 
 module.exports.default = async (after, args) => {
-    let urlClear = async () => history.replaceState(null, null, ' ')
-    let loginFuncs = after instanceof Function ? [login, after, urlClear] :
+    let urlClear = async () => history.replaceState(null, null, ' '),
+    loginFuncs = after instanceof Function ? [login, after, urlClear] :
         after instanceof Array ? [login, ...after, urlClear] : [login, urlClear]
     
-    loginFuncs.pop()
     return await auth(loginFuncs, args)
 }

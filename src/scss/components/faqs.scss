@@ -76,6 +76,7 @@ $activeBorderRadius: .5rem;
                 cursor: pointer;
                 margin: auto .5rem auto 0;
                 font-size: 1.25rem;
+                position: relative;
             }
         }
         @media screen and (max-width: $break-d2) {
