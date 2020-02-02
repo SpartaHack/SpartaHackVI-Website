@@ -48,6 +48,7 @@ let fillBanner = async auth0 => {
 let fillInfo = async auth0 => {
     let user = transactions.userIn(),
     name = document.getElementById('user-name')
+    if (!user) return 
 
     if (!user.name) 
         document.getElementById('user-attrs').removeChild(name)
@@ -57,7 +58,7 @@ let fillInfo = async auth0 => {
     img,
     refreshItems = [name, email],
     refresh = items => 
-        items.forEach(i => { console.log(i); i.replaceWith(i, i) })
+        items.forEach(i => i.replaceWith(i, i))
 
     email.innerHTML = user.email
     // -
