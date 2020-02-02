@@ -66,7 +66,9 @@ let fillInfo = async auth0 => {
         img.id = "profile-photo"
         img.alt = "Profile photo"
 
-        document.getElementById('image-area').appendChild(img)
+        let imgArea = document.getElementById('image-area')
+        imgArea.innerHTML = ''
+        imgArea.appendChild(img)
         refreshItems.push(img)
 
         img.addEventListener('load', e => refresh(refreshItems))

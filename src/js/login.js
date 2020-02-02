@@ -19,8 +19,6 @@ oldCreds = async auth0 => {
 },
 login = async auth0 => {
     let args = window.location.hash
-    if (args.search(/.{2}/) !== 0) 
-        return oldCreds(auth0)
 
     auth0.parseHash({hash: args}, (err, hashedInfo) => {
         if (err || !hashedInfo) return oldCreds()
@@ -56,8 +54,10 @@ loggedIn = auth0 => {
     bttn.addEventListener('click', e => logout(auth0))
     return true
 },
-logout = auth0 =>
+logout = auth0 => {
     auth0.logout({returnTo: window.location.origin})
+    window.localStorage.removeItem('user')
+}
 
 module.exports.default = async (after, args) => {
     let loginFuncs = after instanceof Function ? [login, after] :
