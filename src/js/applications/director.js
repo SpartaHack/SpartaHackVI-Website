@@ -164,8 +164,11 @@ class AppDirector {
                     this.buttons.next.classList.remove('hidden')
                 }
             }
-            this.container.replaceChild(this.current, this.container.lastChild)
-            .firstChild.focus()
+            if (this.container.lastChild)
+                this.container.replaceChild(this.current, this.container.lastChild)
+            else
+                this.container.appendChild(this.current)
+            // .firstChild.focus()
 
             let focusInto = this.current.querySelector('.input-wrap')
             focusInto = focusInto.firstChild instanceof HTMLInputElement || focusInto.firstChild instanceof HTMLSelectElement
