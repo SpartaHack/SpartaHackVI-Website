@@ -1,8 +1,8 @@
 function test(user, context, callback) {
     let nameSpace = "http://website.elephant.spartahack.com/";
-  console.log(context)
+    console.log(context);
     // ---
-    // let count = 0;
+    let count = 0;
     let CB = (err, response, body, cb) => {
       console.log(++count, "\n----->>>>\n", body, "\n----->>>>\n");
       if (response && response.statusCode === 200) {
@@ -13,8 +13,10 @@ function test(user, context, callback) {
           context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
         cb();            
       }
-      else if (response && response.statusCode >= 400) {
-        cb();   }
+      else if (response && response.statusCode === 409 || response.statusCode === 201) {
+        cb();
+      }
+      else CB(err, response, body, cb);
 
     };    
     // ---

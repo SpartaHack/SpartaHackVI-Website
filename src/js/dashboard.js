@@ -124,6 +124,8 @@ let status = async auth0 => {
     
     for (let i = 0; i < 3; i++)
         updateStatus(indicators[i], i < checkedIndicators)
+
+    return true
 }
 
 
@@ -176,7 +178,12 @@ let startUp = async auth0 => {
                 setState(app) 
                 login([fillBanner, status, fillInfo, fillButton])
             })
+
+        let afterAfter = [fillBanner, status, fillInfo, fillButton]
+        afterAfter.forEach(f => f(auth0))
     }
     tryLoaded(updateInfo, after)
+
+    return true
 }
-login([startUp, fillBanner, status, fillInfo, fillButton])
+login(startUp)
