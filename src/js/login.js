@@ -2,13 +2,14 @@ const auth = require('./auth_cofig').default,
 transactions = require('./transactions')
 
 let newCreds = async auth0 => {
-    if (!auth0 || !auth0.authorize) 
-        return
+    // if (!auth0 || !auth0.authorize) 
+    //     return
     await auth0.authorize()
     return true
 },
 oldCreds = async auth0 => {
     let user = transactions.userIn()
+    console.log(user)
     if (!user) 
         return newCreds(auth0)
 
@@ -21,7 +22,7 @@ login = async auth0 => {
     let args = window.location.hash
 
     auth0.parseHash({hash: args}, (err, hashedInfo) => {
-        if (err || !hashedInfo) return oldCreds()
+        if (err || !hashedInfo) return oldCreds(auth0)
         else {
             window.localStorage.removeItem('locApp')
             window.localStorage.removeItem('apiApp')

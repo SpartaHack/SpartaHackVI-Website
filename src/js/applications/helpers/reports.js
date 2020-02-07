@@ -129,7 +129,7 @@ let success = (domBase, director) => {
 }
 
 let responseConditions = (domBase, director) => ({
-    '201': () => success(domBase, director),
+    'Applied': () => success(domBase, director),
     '402': () => newToken(domBase, director),
     '500': () => newToken(domBase, director),
     'otherError': contents => fail(domBase, director, contents),

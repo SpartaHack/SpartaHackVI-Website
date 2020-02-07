@@ -141,6 +141,7 @@ let startUp = async auth0 => {
         if (test()) after()
         else if (tryNum < 10) 
             tryLoaded(test, after, ++tryNum)
+        else (login(() => {}))
     }, 500),
     after = () => {
         let getState = apiApp => {

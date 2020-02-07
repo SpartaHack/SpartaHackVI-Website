@@ -93,7 +93,7 @@ class AppHandler {
                 "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
                 "Access-Control-Request-Method": "POST",
                 "X-WWW-USER-TOKEN": user.pt
-            },
+            },  
             body: this.out,
             url: "http://api.elephant.spartahack.com/applications",
             json: true
@@ -105,9 +105,9 @@ class AppHandler {
                 'status': 'Other',
                 'message': 'Probable CORS issue' 
             }
-
+            console.log(body)
             if (conditions[body.status]) (conditions[body.status])()
-            else if (body.status != "200" && conditions.otherError)
+            else if (body.status != "201" && conditions.otherError)
                 conditions.otherError(body) 
         }
     

@@ -131,12 +131,14 @@ class AppDirector {
         window.location.hash = "p"+(page + 1).toString()+"/"+this.pages.length
     }
     nextPage() {
-        if (this.currentPage === this.pages.length) return
+        if (this.currentPage === this.pages.length)
+            return
         this.changeHash(++this.currentPage)
         this.save()
     }
     prevPage() {
-        if (this.currentPage === 0) return
+        if (this.currentPage === 0)
+            return
         this.changeHash(--this.currentPage)
         this.save()
     }

@@ -35,13 +35,14 @@ let getKey = key => {
         if (key[i].substr(0,4) == "!!--")
         return key[i]
     }
-    console.error('not found')
+    return false
+    console.error('not logged in')
     // return val
 },
 decrypt = src => {
     let key = getKey(),
     item = window.localStorage.getItem(src)
-    if (!item) return
+    if (!item || !key) return
 
     let decryptor = new simpleCrypto(key),
     data = decryptor.decrypt(item)
@@ -50,7 +51,7 @@ decrypt = src => {
 },
 encrypt = (data, out) => {
     let key = getKey()
-    if (!data || !out) return
+    if (!data || !out || !key) return
     
     let encryptor = new simpleCrypto(key)
     data = encryptor.encrypt(JSON.stringify(data))
