@@ -31,7 +31,7 @@ login = async auth0 => {
         console.log(payload)
         let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
-            payload["http://spartahack.com"+"/"+name],
+            payload["https://spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {
             'email': payload.email,

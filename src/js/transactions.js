@@ -7,7 +7,7 @@ module.exports.getApp = (auth, aid, cb) => {
           "Content-Type":"application/json",
           "X-WWW-USER-TOKEN": auth
         },
-        url: "http://api.spartahack.com/applications/" + aid,
+        url: "https://api.spartahack.com/applications/" + aid,
         json: true
     },
     importApp = (err, response, body) => {
