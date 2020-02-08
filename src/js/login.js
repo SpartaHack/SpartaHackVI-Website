@@ -28,10 +28,10 @@ login = async auth0 => {
             window.localStorage.removeItem('apiApp')
             window.localStorage.removeItem('user')
         }
-
+        console.log(payload)
         let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
-            payload["http://website.elephant.spartahack.com"+"/"+name],
+            payload["http://spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {
             'email': payload.email,
