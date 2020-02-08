@@ -28,7 +28,6 @@ login = async auth0 => {
             window.localStorage.removeItem('apiApp')
             window.localStorage.removeItem('user')
         }
-        console.log(payload)
         let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
             payload["https://spartahack.com"+"/"+name],
@@ -42,6 +41,7 @@ login = async auth0 => {
             'github': payload.sub.substr(0,6) == "github" 
                 ? payload.nickname : undefined
         }
+        console.log(payload)
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
