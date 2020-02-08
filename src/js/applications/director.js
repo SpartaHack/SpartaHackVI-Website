@@ -320,6 +320,8 @@ class AppDirector {
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
         this.container.prepend(header)
+        window.localStorage.setItem('getApiApp', true)
+
     }
 }
 module.exports.default = AppDirector

@@ -161,8 +161,10 @@ let startUp = async auth0 => {
                     default:
                         state = 3
                 }
-            else if (user.aid)
+            else if (user.aid || window.localStorage.getItem('getApiApp')) {
+                window.localStorage.removeItem('getApiApp')
                 state = 2
+            }
             else if (transactions.appIn())
                 state = 1
             return state

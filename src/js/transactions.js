@@ -36,7 +36,6 @@ let getKey = key => {
         return key[i]
     }
     return false
-    console.error('not logged in')
     // return val
 },
 decrypt = src => {
@@ -65,8 +64,11 @@ module.exports.getKey = getKey
 module.exports.appIn = api =>
     decrypt(api ? 'apiApp' : 'locApp')
 
-module.exports.appOut = (data, api) =>
-    encrypt(data, api ? 'apiApp' : 'locApp')
+module.exports.appOut = (data, api) => {
+        if (api === 1) {}
+        else
+            return encrypt(data, api ? 'apiApp' : 'locApp')
+    }
 
 module.exports.userIn = () => decrypt('user')
 
