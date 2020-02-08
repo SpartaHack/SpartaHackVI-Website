@@ -25,7 +25,7 @@ function test(user, context, callback) {
           "Content-Type":"application/json",
           "Accept": "vnd.example.v2"
         },
-        url: "http://api.elephant.spartahack.com/sessions",
+        url: "http://api.spartahack.com/sessions",
         body: {
           "email": user.email ? user.email : "null",
           "ID_Token": context.clientID
@@ -36,7 +36,7 @@ function test(user, context, callback) {
       headers: {
         "Content-Type":"application/json",
       },
-      url: "http://api.elephant.spartahack.com/users",
+      url: "http://api.spartahack.com/users",
       body: {
         "email": user.email,
         "first_name": user.given_name ? user.given_name : "null",
