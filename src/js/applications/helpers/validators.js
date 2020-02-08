@@ -107,7 +107,7 @@ const birthday = (value, outFields) => {
 // ---
 
 const statement = value =>
-    (value.search(/([a-zA-z]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
+    (value.search(/([a-zA-z\s]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
     ? value : false
 
 const name = (value, outFields) => {
@@ -129,33 +129,9 @@ const race = value =>
     listValidator(value, val => val)
 // ---
 
-const phone = value => {
-    if (value.search(/[0-9]{10,13}/) != -1)
-        return value.length > 10 ? value : '01' + value
-    
-    let country = value.match(/^\+[0-9]{1,3}[^0-9]/)
-    country = country ? 
-        country[0].substr(0, country[0].length - 2) : '01'
-
-    let findSections = str => str.match(/(?:^|[^\+])(\d{3})/gi)
-    let findLastSection = str => str.match(/[0-9]{4}$/)
-    let otherParts = findSections(value)
-    let finalPart = findLastSection(value)
-
-    if (!finalPart || otherParts.length != 3) 
-        return false
-    
-    let phoneNumber = country + 
-        (otherParts[0].length == 3 ? otherParts[0] : otherParts[0].substr(1)) + 
-        otherParts[1].substr(1) + finalPart[0]
-
-    let parsedString = new String(Number.parseInt(phoneNumber)),
-        origLength = out[input.id].length    
-
-    return (Number.parseInt(parsedString) == Number.parseInt(phoneNumber) &&
-        origLength < 14 && origLength > 11)
-        ? phoneNumber : false
-}
+const phone = value => value =>
+(value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
+? value : false
 
 // ---
 
