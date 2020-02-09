@@ -33,7 +33,8 @@ class AppDirector {
         this.hashNavigation()
         this.changeHash(0)
         // this.showCurrent()
-        if (this.fromApi) this.postSubmission()
+        if (this.fromApi || window.localStorage.getItem('appState') == 7) 
+            this.postSubmission()
     }
 
     set current(val) {
@@ -315,8 +316,8 @@ class AppDirector {
         header.className = "submitted-message-wrap"
         header.firstChild.className = "submitted-message"
         header.firstChild.innerHTML = '\
-            Thanks for submitting your appliction! If you made a meaningful error \
-            while completing the form, <a href="mailto:hello@spartahack.com" target="_blank"> \
+            Thanks! If you feel there is a meaningful error in your application, \
+            <a href="mailto:hello@spartahack.com" target="_blank"> \
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
         this.container.prepend(header)
