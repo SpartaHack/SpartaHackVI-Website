@@ -85,7 +85,8 @@ let fillButton = async auth0 => {
     state = appState()
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
-    button.removeChild(button.lastElementChild)
+    if (button.lastElementChild)
+        button.removeChild(button.lastElementChild)
     if (!state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
