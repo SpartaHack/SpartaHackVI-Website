@@ -129,9 +129,14 @@ const race = value =>
     listValidator(value, val => val)
 // ---
 
-const phone = value => value =>
-(value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
-? value : false
+const phone = value => {
+    if (!value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
+        return false
+    let from = value.match(/((\d{4}$)|(\d{3}))/g)
+    let phone = (from[0] + from[1] + from[2])
+    console.log(phone, from)
+    return phone
+}
 
 // ---
 
