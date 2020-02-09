@@ -32,8 +32,10 @@ class AppDirector {
         this.fromApi = fromApi
         this.hashNavigation()
         this.changeHash(0)
+
+        this.appState = window.localStorage.getItem('appState')
         // this.showCurrent()
-        if (this.fromApi || window.localStorage.getItem('appState') == 7) 
+        if (this.fromApi || this.appState == 7)
             this.postSubmission()
     }
 
@@ -159,7 +161,7 @@ class AppDirector {
 
                 if (this.currentPage === this.pages.length - 1) {
                     this.buttons.next.classList.add('hidden')
-                    if (!this.fromApi)
+                    if (!this.fromApi && this.appState != 7)
                         this.buttons.done.classList.remove('hidden')
                 }
                 else {
