@@ -133,11 +133,9 @@ const phone = value => {
     if (!value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
         return false
 
-    let from = value.match(/(^\d{1,3}|\d{4}$|\d{3})/g),
-    sectCount = from.length
-    console.log(from)
-    return sectCount > 4 ? false : 
-        from.join("")
+    let from = value.match(/(^\d{1,3}|\d{4}$|\d{3})/g)
+    return (!from[0] || from.length > 4) 
+        ? false : from.join("")
 }
 
 // ---
