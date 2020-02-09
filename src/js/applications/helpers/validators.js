@@ -132,10 +132,12 @@ const race = value =>
 const phone = value => {
     if (!value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
         return false
-    let from = value.match(/((\d{4}$)|(\d{3}))/g)
-    let phone = (from[0] + from[1] + from[2])
-    console.log(phone, from)
-    return phone
+
+    let from = value.match(/((^\d{1,3}|\d{4}$)|(\d{3}))/g),
+    sectCount = from.length
+    
+    return sectCount > 4 ? false : 
+        from.join("")
 }
 
 // ---
