@@ -31,7 +31,8 @@
         "out": ["birth_year", "birth_month", "birth_day"],
         "input": "date",
         "label": "Birthday",
-        "error": "Birthday (Above 13)"
+        "error": "Birthday (Above 13)",
+        "placeholder": "mm/dd/yyyy"
     },
     {
         "name": "gender",
