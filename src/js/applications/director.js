@@ -323,6 +323,7 @@ class AppDirector {
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
         this.container.prepend(header)
+        this.buttons.done.classList.add('hidden')
         window.localStorage.setItem('getApiApp', true)
 
     }
