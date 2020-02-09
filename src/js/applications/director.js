@@ -324,6 +324,10 @@ class AppDirector {
         '        
         this.container.prepend(header)
         this.buttons.done.classList.add('hidden')
+        Object.keys(this.domItems).forEach(dk => {
+            this.domItems[dk].input.readOnly = true
+            this.update(dk, true)
+        })
         window.localStorage.setItem('getApiApp', true)
 
     }
