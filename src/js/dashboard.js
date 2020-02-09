@@ -48,9 +48,9 @@ let fillBanner = async auth0 => {
 let fillInfo = async auth0 => {
     let user = transactions.userIn(),
     name = document.getElementById('user-name')
-    if (!user) return 
-
-    if (!user.name) 
+    
+    if (!user) return
+    if (name && !user.name) 
         document.getElementById('user-attrs').removeChild(name)
     else name.innerHTML = user.name
     // -
