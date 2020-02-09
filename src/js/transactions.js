@@ -29,14 +29,11 @@ let getKey = key => {
             : key.substr(1)
         
         return "!!--"+key
-    } // I'm sure theres a better way, but I'm dead rn
-    key = document.cookie.split(";")
-    for (let i = 0; i < key.length; i++) {
-        if (key[i].substr(0,4) == "!!--")
-        return key[i]
     }
-    return false
-    // return val
+
+    key = window.sessionStorage.getItem('st')
+    return (key && key.substr(0,4) == "!!--" )
+        ? key : false
 },
 decrypt = src => {
     let key = getKey(),
