@@ -52,7 +52,7 @@ login = async auth0 => {
 loggedIn = auth0 => {
     let key = transactions.getKey(),
     bttn = document.getElementById('nav-logout')
-    document.cookie = "Set-Cookie: "+key+"; SameSite=Strict"
+    document.cookie = 'Set-Cookie: "'+key+'"; SameSite=Strict';
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
     return true
