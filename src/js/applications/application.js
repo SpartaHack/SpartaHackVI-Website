@@ -84,7 +84,7 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
-        this.out['other_link'] = "https://www.notneeded.com/"
+        // this.out['other_link'] = "https://www.notneeded.com/"
 
         let user = transactions.userIn(),
         submitRq = {
