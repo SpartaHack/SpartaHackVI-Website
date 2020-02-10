@@ -93,9 +93,9 @@ const birthday = (value, outFields) => {
     
     if (yearsOld > 12 && yearsOld < 120) {
         let vals = [
-            Number(value.substr(8,2)),
             Number(value.substr(0,4)),
-            Number(value.substr(5,2))
+            Number(value.substr(5,2)),
+            Number(value.substr(8,2))
         ]
         for (let i = 0; i < 3; i++)
             out[outFields[i]] = vals[i]
