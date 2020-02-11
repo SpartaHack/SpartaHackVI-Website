@@ -17,6 +17,10 @@ const text = args => {
         input = document.createElement('input')
         input.type = 'text'
     }
+
+    if (args.placeholder)
+        input.placeholder = args.placeholder
+
     return input
 }
 

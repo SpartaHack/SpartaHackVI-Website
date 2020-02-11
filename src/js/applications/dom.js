@@ -56,8 +56,9 @@ const makerWrapping = (director, item, args) => {
     components.itemWrap.className = 
         "field-container " + (args.class ? args.class : '')
 
-    if (item.type == "text" && args.placeholder)
-        { item.placeholder = args.placeholder }
+    // if (item.type == "text" && args.placeholder)
+        // { item.placeholder = args.placeholder }
+    // ^^ oops
 
     if (args.labelVis && args.labelVis === "inline"){
         components.itemWrap.classList.add('inline-label')
