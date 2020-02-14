@@ -84,18 +84,18 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
-        this.out['other_link'] = "https://www.notneeded.com/"
+        // this.out['other_link'] = "https://www.notneeded.com/"
 
         let user = transactions.userIn(),
         submitRq = {
             headers: {
                 "Content-Type":"application/json",
-                "Access-Control-Allow-Origin": "http://api.elephant.spartahack.com",
+                "Access-Control-Allow-Origin": "https://api.spartahack.com",
                 "Access-Control-Request-Method": "POST",
                 "X-WWW-USER-TOKEN": user.pt
             },  
             body: this.out,
-            url: "http://api.elephant.spartahack.com/applications",
+            url: "https://api.spartahack.com/applications",
             json: true
         },
         submitApp = (err, response, body) => {

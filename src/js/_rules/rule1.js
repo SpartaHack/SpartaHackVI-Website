@@ -1,5 +1,5 @@
 function test(user, context, callback) {
-    let nameSpace = "http://website.elephant.spartahack.com/";
+    let nameSpace = "https://spartahack.com/";
     console.log(context);
     // ---
     let count = 0;
@@ -25,7 +25,7 @@ function test(user, context, callback) {
           "Content-Type":"application/json",
           "Accept": "vnd.example.v2"
         },
-        url: "http://api.elephant.spartahack.com/sessions",
+        url: "https://api.spartahack.com/sessions",
         body: {
           "email": user.email ? user.email : "null",
           "ID_Token": context.clientID
@@ -36,7 +36,7 @@ function test(user, context, callback) {
       headers: {
         "Content-Type":"application/json",
       },
-      url: "http://api.elephant.spartahack.com/users",
+      url: "https://api.spartahack.com/users",
       body: {
         "email": user.email,
         "first_name": user.given_name ? user.given_name : "null",

@@ -59,7 +59,7 @@ let get = target => {
             "Content-Type":"application/json",
             // "X-IMAGE-FORMAT": "SVG+XML"
         },
-        url: window.location + "/data/sponsors.json",//"http://api.elephant.spartahack.com/sponsors",
+        url: window.location + "/data/sponsors.json",//"http://api.spartahack.com/sponsors",
         json: true
     }
     let getSponsors = (err, response, body) => make(body, target)

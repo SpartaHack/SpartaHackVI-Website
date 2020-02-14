@@ -28,10 +28,9 @@ login = async auth0 => {
             window.localStorage.removeItem('apiApp')
             window.localStorage.removeItem('user')
         }
-
         let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
-            payload["http://website.elephant.spartahack.com"+"/"+name],
+            payload["https://spartahack.com"+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {
             'email': payload.email,
@@ -42,6 +41,7 @@ login = async auth0 => {
             'github': payload.sub.substr(0,6) == "github" 
                 ? payload.nickname : undefined
         }
+        console.log(payload)
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
@@ -52,8 +52,7 @@ login = async auth0 => {
 loggedIn = auth0 => {
     let key = transactions.getKey(),
     bttn = document.getElementById('nav-logout')
-    document.cookie = key
-
+    window.sessionStorage.setItem('st', key)
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
     return true

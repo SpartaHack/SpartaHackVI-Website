@@ -17,6 +17,10 @@ const text = args => {
         input = document.createElement('input')
         input.type = 'text'
     }
+
+    if (args.placeholder)
+        input.placeholder = args.placeholder
+
     return input
 }
 
@@ -50,6 +54,7 @@ const select = args => {
 const date = args => {
     let input = document.createElement('input')
     input.type = "date"
+    input.placeholder = "yyyy-mm-dd"
     return input
 }
 

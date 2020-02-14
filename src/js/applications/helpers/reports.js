@@ -124,7 +124,7 @@ let success = (domBase, director) => {
     dashboardButton.addEventListener('click', 
         () => window.location = window.location.origin + '/dashboard.html')
 
-    director.isApplied()
+    director.postSubmission()
     domBase.container.replaceChild(domBase.report, domBase.report)
 }
 

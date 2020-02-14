@@ -7,7 +7,7 @@ module.exports.getApp = (auth, aid, cb) => {
           "Content-Type":"application/json",
           "X-WWW-USER-TOKEN": auth
         },
-        url: "http://api.elephant.spartahack.com/applications/" + aid,
+        url: "https://api.spartahack.com/applications/" + aid,
         json: true
     },
     importApp = (err, response, body) => {
@@ -29,15 +29,11 @@ let getKey = key => {
             : key.substr(1)
         
         return "!!--"+key
-    } // I'm sure theres a better way, but I'm dead rn
-    key = document.cookie.split(";")
-    for (let i = 0; i < key.length; i++) {
-        if (key[i].substr(0,4) == "!!--")
-        return key[i]
     }
-    return false
-    console.error('not logged in')
-    // return val
+
+    key = window.sessionStorage.getItem('st')
+    return (key && key.substr(0,4) == "!!--" )
+        ? key : false
 },
 decrypt = src => {
     let key = getKey(),
@@ -65,8 +61,11 @@ module.exports.getKey = getKey
 module.exports.appIn = api =>
     decrypt(api ? 'apiApp' : 'locApp')
 
-module.exports.appOut = (data, api) =>
-    encrypt(data, api ? 'apiApp' : 'locApp')
+module.exports.appOut = (data, api) => {
+        if (api === 1) {}
+        else
+            return encrypt(data, api ? 'apiApp' : 'locApp')
+    }
 
 module.exports.userIn = () => decrypt('user')
 

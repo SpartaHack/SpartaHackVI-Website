@@ -46,6 +46,8 @@ directorInit = async auth0 => {
         getDirector(transactions.appIn(true), true)
     else
         getDirector(transactions.appIn())
+
+        
 }
 
 ;(require('../login').default)([handlerInit, directorInit])

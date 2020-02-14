@@ -7,7 +7,7 @@ let profile = value => {
         input.parentNode.replaceChild(input, input)
     }
 
-    let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}/)
+    let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}\?\//)
     return (value.length > 3 && value.length < 100 
         && validPortion && validPortion[0] == value )
         ? value : false
@@ -60,25 +60,12 @@ const city = (value, out, handler) => {
 // ---
 
 const site = value => {
-    let p0 = str => str.search(/^http?s\:\/\//)
-    let p1 = str => str.search(/www\./)
-    let p2 = str => str.search(/([\w|\d|\-|\_]{3,}\.){1,5}\w{1,3}\/?(.+)$/)
-    // definitely could have better regex for url contents
+    if (value.search(/(https?\:\/\/)?(www\.)?[\w\s\-\_]+\.\w{2,3}.+/) !== 0)
+        return false
 
-    let domainStart = p2(value)
-    let urlStart = p1(value)
-    domainStart += !domainStart && domainStart == urlStart ? 4 : 0
-
-    if (domainStart == 0 && urlStart) 
-        value = 'https://' + value
-    else if (p2 < 3) return
-    else if (
-        (urlStart == 0 && domainStart != 4) ||
-        (p0(value) == 0 && 
-        (urlStart != 7 && urlStart != 8))
-    ) return
-    else value = 'https://' + value.substr(domainStart)
-
+    if (value.search(/(https?\:\/\/)/) !== 0)
+        return "https://" + value
+    
     return value
 }
 
@@ -93,9 +80,9 @@ const birthday = (value, outFields) => {
     
     if (yearsOld > 12 && yearsOld < 120) {
         let vals = [
-            Number(value.substr(8,2)),
             Number(value.substr(0,4)),
-            Number(value.substr(5,2))
+            Number(value.substr(5,2)),
+            Number(value.substr(8,2))
         ]
         for (let i = 0; i < 3; i++)
             out[outFields[i]] = vals[i]
@@ -107,8 +94,7 @@ const birthday = (value, outFields) => {
 // ---
 
 const statement = value =>
-    (value.search(/([a-zA-z\s]+[\s\,\&\(\)\[\]\/\\\-\.\?\!]{0,3}){25,}/) === 0)
-    ? value : false
+    value.split(" ").length >= 25 ? value : false
 
 const name = (value, outFields) => {
     if (value.search(/^[A-Za-zÀ-ÖØ-öø-ÿ]+\s[A-Za-zÀ-ÖØ-öø-ÿ]+/ ) != 0)
@@ -129,9 +115,14 @@ const race = value =>
     listValidator(value, val => val)
 // ---
 
-const phone = value => value =>
-(value.search(/(\d{1,3}(\-||\s)?)?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
-? value : false
+const phone = value => {
+    if (!value.search(/(\d{1,3}(\-||\s))?\(?\d{3}\)?(\-||\s)?\d{3}(\-||\s)?\d{4}/) === 0)
+        return false
+
+    let from = value.match(/(^\d{1,3}|\d{4}$|\d{3})/g)
+    return (!from || !from[0] || from.length > 4) 
+        ? false : from.join("")
+}
 
 // ---
 

@@ -29,6 +29,7 @@ let fillBanner = async auth0 => {
         case 1:
         temp = "We've saved your progress"; break
         case 2: 
+        case 7:
         case 3:
         temp = "Thanks for applying, we'll get back to you shortly"; break
         case 4:
@@ -48,9 +49,9 @@ let fillBanner = async auth0 => {
 let fillInfo = async auth0 => {
     let user = transactions.userIn(),
     name = document.getElementById('user-name')
-    if (!user) return 
 
-    if (!user.name) 
+    if (!user) return
+    if (name && !user.name) 
         document.getElementById('user-attrs').removeChild(name)
     else name.innerHTML = user.name
     // -
@@ -85,7 +86,8 @@ let fillButton = async auth0 => {
     state = appState()
     btnIco.className = 'fas fa-chevron-circle-right'
     //*
-    button.removeChild(button.lastElementChild)
+    if (button.lastElementChild)
+        button.removeChild(button.lastElementChild)
     if (!state) {
         button.firstElementChild.innerHTML = "New"
         btnIco.className = 'fas fa-plus-square'
@@ -103,7 +105,7 @@ let fillButton = async auth0 => {
 // -
 let status = async auth0 => {
     let indicators = Array.from(document.getElementsByClassName('status')),
-    indicatorDirections = [0, 0, 1, 1, 1, 2, 3],
+    indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
     checkedIndicators = indicatorDirections[appState()],
     updateStatus = (statDom, state) => {
         statDom = statDom.lastElementChild
@@ -150,6 +152,10 @@ let startUp = async auth0 => {
                 ? apiApp : transactions.appIn(true)
             
             if (user.rsvp) state = 6
+            else if (window.localStorage.getItem('getApiApp')) {
+                window.localStorage.removeItem('getApiApp')
+                state = 7
+            }
             else if (apiApp)
                 switch(apiApp.status) {
                     case "Accepted":
@@ -161,8 +167,9 @@ let startUp = async auth0 => {
                     default:
                         state = 3
                 }
-            else if (user.aid)
+            else if (user.aid) {
                 state = 2
+            }
             else if (transactions.appIn())
                 state = 1
             return state
