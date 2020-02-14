@@ -1,12 +1,12 @@
 function test(user, context, callback) {
   let nameSpace, apiBase;
-  if (context.request.query.redirect_uri.substr(8, 3) != "api") {
+  if (context.request.query.redirect_uri.substr(8, 10) === "spartahack") {
     nameSpace = "https://spartahack.com/";
     apiBase = "https://api.spartahack.com/";
   }
   else {
     nameSpace = "http://website.elephant.spartahack.com/";
-    apiBase = "http://api.elephant.spartahack.com";
+    apiBase = "http://api.elephant.spartahack.com/";
   }
   console.log(context);
   // ---
@@ -21,11 +21,10 @@ function test(user, context, callback) {
         context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
       cb();            
     }
-    else if (response && response.statusCode === 409 || response.statusCode === 201) {
+    else if (response && response.statusCode === 409 || response.statusCode === 201)
       cb();
-    }
-    else CB(err, response, body, cb);
-
+    else if (response && response.statusCode !== 400)
+      CB(err, response, body, cb);
   };    
   // ---
   let loginReq = {
