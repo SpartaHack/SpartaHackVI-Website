@@ -91,19 +91,27 @@ const birthday = (value, outFields) => {
     else if (value.search(/[A-Za-z]{3,9}\s?\d{1,2}([A-Za-z]{2})?,?\s?\d{2}(\d{2})?/) === 0) {
         let months = {
             'january': 1,
+            'jan': 1,
             'february': 2,
+            'feb': 2,
             'march': 3,
             'april': 4,
+            'apr': 4,
             'may': 5,
             'june': 6,
             'july': 7,
             'august': 8,
+            'aug': 8,
             'september': 9,
+            'sept': 9,
             'october': 10,
+            'oct': 10,
             'november': 11,
-            'december': 12
+            'nov': 11,
+            'december': 12,
+            'dec': 12
         },
-        userMonth = value.substr(0,value.search(/\d/)-2)
+        userMonth = value.substr(0,value.search(/\d/)-1).toLowerCase()
         console.log(userMonth)
         year = Number(prependYear(value.match(/\d{2,4}$/)[0]))
         month = months[userMonth]
