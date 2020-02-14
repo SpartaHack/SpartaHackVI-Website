@@ -74,9 +74,9 @@ const site = value => {
 const birthday = (value, outFields) => {
     console.log(value)
     let year, month, day,
-    prependYear = base => {console.log(base); return (base.length == 2) ? 
-        (Number(base.length) < 20 ? "20" : 19) + userYear
-        : userYear}
+    prependYear = base => (base.length == 2) ? 
+        (Number(base.length) < 20 ? "20" : 19) + base
+        : base
 
     if (value.search(/\d{1,2}[\-\/\s]\d{1,2}[\-\/\s]\d{2}(\d{2})?/) === 0) {
         year = Number(prependYear(value.match(/\d{2,4}$/)[0]))
