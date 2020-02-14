@@ -63,7 +63,7 @@ const site = value => {
     if (value.search(/(https?\:\/\/)?(www\.)?[\w\s\-\_]+\.\w{2,3}.+/) !== 0)
         return false
 
-    if (value.search(/(https?\:\/\/)/) !== 0 && value.search(/(www\.)/) !== 0)
+    if (value.search(/(https?\:\/\/)/) !== 0)
         return "https://" + value
     
     return value
