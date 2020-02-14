@@ -72,6 +72,7 @@ const site = value => {
 // ---
 
 const birthday = (value, outFields) => {
+    console.log(value)
     let year, month, day,
     prependYear = base => {console.log(base); return (base.length == 2) ? 
         (Number(base.length) < 20 ? "20" : 19) + userYear
