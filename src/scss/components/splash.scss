@@ -88,10 +88,12 @@
 
             nav button
                 { padding: 1rem; }
-            
         }
+        #splash-logo { 
+            width: 47.5%;
 
-        // #splash-logo { width: 35%; }
+            margin: auto auto auto 2.5%; 
+        }
     }
     @media only screen and (max-width: $break-c3) {
         #splash-info nav button { margin: .5rem; }
