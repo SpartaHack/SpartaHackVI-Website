@@ -1,6 +1,6 @@
 const validators = require('./helpers/validators').default,
 transactions = require('./../transactions')
-request = require('request')
+req = require('./../req')
 
 class AppHandler {
     constructor(auth, user) {
@@ -84,18 +84,16 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
-        // this.out['other_link'] = "https://www.notneeded.com/"
 
         let user = transactions.userIn(),
         submitRq = {
             headers: {
                 "Content-Type":"application/json",
-                "Access-Control-Allow-Origin": "https://api.spartahack.com",
                 "Access-Control-Request-Method": "POST",
                 "X-WWW-USER-TOKEN": user.pt
             },  
             body: this.out,
-            url: "https://api.spartahack.com/applications",
+            url: req.base + "/applications",
             json: true
         },
         submitApp = (err, response, body) => {
@@ -111,7 +109,7 @@ class AppHandler {
                 conditions.otherError(body) 
         }
     
-        request.post(submitRq, submitApp)
+        req.uest.post(submitRq, submitApp)
         return
     }
 

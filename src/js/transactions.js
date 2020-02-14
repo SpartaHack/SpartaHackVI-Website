@@ -1,13 +1,13 @@
-const request = require('request'),
+const req = require('./req'),
 simpleCrypto = require("simple-crypto-js").default
 
 module.exports.getApp = (auth, aid, cb) => {
     let importRq = {
         headers: {
-          "Content-Type":"application/json",
+          "Content-Type": "application/json",
           "X-WWW-USER-TOKEN": auth
         },
-        url: "https://api.spartahack.com/applications/" + aid,
+        url: req.base + aid,
         json: true
     },
     importApp = (err, response, body) => {
@@ -16,7 +16,7 @@ module.exports.getApp = (auth, aid, cb) => {
         else cb()
     }
     
-    request.get(importRq, importApp)
+    req.uest.get(importRq, importApp)
 }
 
 let getKey = key => {

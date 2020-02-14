@@ -1,5 +1,5 @@
 require('./../scss/components/faqs.scss')
-const request = require('request')
+const req = require('./req')
 
 class FAQ {
     constructor(container, tabOffset) {
@@ -186,10 +186,9 @@ class FAQ {
     _getFaq() {
         let importRq = {
             headers: {
-                "Content-Type":"application/json",
-                "Access-Control-Allow-Origin": "https://api.spartahack.com/faqs"
+                "Content-Type":"application/json"
             },
-            url: "https://api.spartahack.com/faqs",
+            url: req.base+"/faqs",
             json: true
         }
 
@@ -229,7 +228,7 @@ class FAQ {
                 this.faqCount = count
         }
 
-        request.get(importRq, importApp)
+        req.uest.get(importRq, importApp)
     }
 }
 

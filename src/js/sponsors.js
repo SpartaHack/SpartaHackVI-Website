@@ -1,14 +1,11 @@
 const request = require('request')
 require('../scss/components/sponsorship-list.scss')
 
-
-
 let make = (info, container) => {
     if (!info) return
 
-    let imageURL = sponsor => "/assets/sps/" + sponsor.imageName
-
-    let makeInd = sponsor => {
+    let imageURL = sponsor => "/assets/sps/" + sponsor.imageName,
+    makeInd = sponsor => {
         let wrap
         if (sponsor.imageName) {
             wrap = document.createElement('a')
@@ -26,8 +23,8 @@ let make = (info, container) => {
         return wrap
     }
     
-    let wrap = document.createElement('article')
-    let title = document.createElement('h2')
+    let wrap = document.createElement('article'),
+    title = document.createElement('h2')
     title.innerHTML = "2020's Sponsors"
     wrap.appendChild(title)
     wrap.id = "sponsor-list"
@@ -55,15 +52,13 @@ let make = (info, container) => {
 
 let get = target => {
     let sponsorsRq = {
-        headers: {
-            "Content-Type":"application/json",
-            // "X-IMAGE-FORMAT": "SVG+XML"
-        },
-        url: window.location + "/data/sponsors.json",//"http://api.spartahack.com/sponsors",
+        headers: 
+            { "Content-Type": "application/json" },
+        url: window.location + "/data/sponsors.json",
         json: true
-    }
-    let getSponsors = (err, response, body) => make(body, target)
-    request.get(sponsorsRq, getSponsors)
+    },
+    getSponsors = (err, response, body) => make(body, target)
+    req.uest.get(sponsorsRq, getSponsors)
 }
 
 module.exports.default = container => {
