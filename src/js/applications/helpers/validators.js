@@ -72,7 +72,6 @@ const site = value => {
 // ---
 
 const birthday = (value, outFields) => {
-    console.log(value)
     let year, month, day,
     prependYear = base => (base.length == 2) ? 
         (Number(base.length) < 20 ? "20" : 19) + base
@@ -112,11 +111,10 @@ const birthday = (value, outFields) => {
             'dec': 12
         },
         userMonth = value.substr(0,value.search(/\d/)-1).toLowerCase()
-        console.log(userMonth)
+        
         year = Number(prependYear(value.match(/\d{2,4}$/)[0]))
         month = months[userMonth]
         day = Number(value.match(/\d{1,2}/)[0])
-        console.log(year, month, day)
     }
 
     if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day))
