@@ -298,6 +298,8 @@ class AppDirector {
         this.report = needed[0] 
             ? reports.default(this, needed) : reports.success(this, needed)
 
+        window.scrollTo(0,0)
+
         document.body.appendChild(this.report.container)
         document.body.appendChild(this.report.underlay)
     }
