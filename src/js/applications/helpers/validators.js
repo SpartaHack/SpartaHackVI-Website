@@ -80,6 +80,8 @@ const birthday = (value, outFields) => {
 
     if (value.search(/\d{1,2}[\-\/\s]\d{1,2}[\-\/\s]\d{2}(\d{2})?/) === 0) {
         let dayYear = value.match(/[\-\/\s]\d+/)
+
+        console.log(dayYear)
         
         year = Number(prependYear(dayYear[1].substr(1)))
         month = Number(value.substr(0, value.search(/[\-\/\s]/)))
