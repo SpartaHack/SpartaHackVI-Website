@@ -41,7 +41,7 @@ login = async auth0 => {
             'github': payload.sub.substr(0,6) == "github" 
                 ? payload.nickname : undefined
         }
-        console.log(payload)
+        console.log("---", payload)
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )

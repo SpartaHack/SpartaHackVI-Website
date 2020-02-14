@@ -38,6 +38,7 @@ let getKey = key => {
 decrypt = src => {
     let key = getKey(),
     item = window.localStorage.getItem(src)
+    console.log(key, 'what')
     if (!item || !key) return
 
     let decryptor = new simpleCrypto(key),
