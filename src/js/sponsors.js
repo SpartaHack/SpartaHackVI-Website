@@ -58,7 +58,7 @@ let get = target => {
         json: true
     },
     getSponsors = (err, response, body) => make(body, target)
-    req.uest.get(sponsorsRq, getSponsors)
+    request.get(sponsorsRq, getSponsors)
 }
 
 module.exports.default = container => {
