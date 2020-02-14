@@ -54,7 +54,7 @@ const select = args => {
 const date = args => {
     let input = document.createElement('input')
     input.type = "date"
-    input.placeholder = "yyyy-mm-dd"
+    input.placeholder = "mm/dd/yyyy"
     return input
 }
 

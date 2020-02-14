@@ -72,18 +72,57 @@ const site = value => {
 // ---
 
 const birthday = (value, outFields) => {
+    let year, month, day,
+    prependYear = base => (base.length == 2) ? 
+        (Number(base.length) < 20 ? "20" : 19) + userYear
+        : userYear
+
+    if (value.search(/\d{1,2}[\-\/\s]\d{1,2}[\-\/\s]\d{2}(\d{2})?/) === 0) {
+        let dayYear = value.match(/[\-\/\s]\d+/)
+        
+        year = Number(prependYear(dayYear[1].substr(1)))
+        month = Number(value.substr(0, value.search(/[\-\/\s]/)))
+        day = Number(dayYear[0].substr(1))
+    }
+    else if (value.search(/\d{4}\-\d{2}\-\d{2}/) === 0) {
+        year = Number(value.substr(0,4))
+        month = Number(value.substr(5,2))
+        day = Number(value.substr(8,2))
+    }
+    else if (value.search(/[A-Za-z]{3,9}\s?\d{1,2}([A-Za-z]{2})?,?\s?\d{2}(\d{2})?/) === 0) {
+        let months = {
+            'january': 1,
+            'february': 2,
+            'march': 3,
+            'april': 4,
+            'may': 5,
+            'june': 6,
+            'july': 7,
+            'august': 8,
+            'september': 9,
+            'october': 10,
+            'november': 11,
+            'december': 12
+        },
+        userMonth = value.substr(0,value.search(/\d/)-2),
+        dayYear = value.match(/\d{1,4}/)
+
+        year = Number(prependYear(dayYear[1]))
+        month = months[userMonth]
+        day = Number(dayYear[0])
+    }
+
+    if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day))
+        return false
+        
     let year = 3600 * 24 * 365
     year -= (year/365)/4 // for leap years
     let yearsOld = // epoch subtraction /1000 bc JS is weird
-        Math.floor((new Date()-new Date(value))/1000/year),
+    Math.floor((new Date()-new Date(year,month,day))/1000/year),
     out = {}
     
     if (yearsOld > 12 && yearsOld < 120) {
-        let vals = [
-            Number(value.substr(0,4)),
-            Number(value.substr(5,2)),
-            Number(value.substr(8,2))
-        ]
+        let vals = [year, month, day]
         for (let i = 0; i < 3; i++)
             out[outFields[i]] = vals[i]
         return out
