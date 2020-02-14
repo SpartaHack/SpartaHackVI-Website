@@ -114,11 +114,11 @@ const birthday = (value, outFields) => {
 
     if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day))
         return false
-        
-    let year = 3600 * 24 * 365
-    year -= (year/365)/4 // for leap years
+
+    let secYear = 3600 * 24 * 365
+    secYear -= (secYear/365)/4 // for leap years
     let yearsOld = // epoch subtraction /1000 bc JS is weird
-    Math.floor((new Date()-new Date(year,month,day))/1000/year),
+    Math.floor((new Date()-new Date(year,month,day))/1000/secYear),
     out = {}
     
     if (yearsOld > 12 && yearsOld < 120) {
