@@ -79,13 +79,9 @@ const birthday = (value, outFields) => {
         : userYear}
 
     if (value.search(/\d{1,2}[\-\/\s]\d{1,2}[\-\/\s]\d{2}(\d{2})?/) === 0) {
-        let dayYear = value.match(/[\-\/\s]\d+/)
-
-        console.log(dayYear)
-        
-        year = Number(prependYear(dayYear[1].substr(1)))
+        year = Number(prependYear(value.match(/\d{2,4}$/)[0]))
         month = Number(value.substr(0, value.search(/[\-\/\s]/)))
-        day = Number(dayYear[0].substr(1))
+        day = Number(value.match(/\-\d{2}/)[0].substr(1))
     }
     else if (value.search(/\d{4}\-\d{2}\-\d{2}/) === 0) {
         year = Number(value.substr(0,4))
@@ -107,12 +103,11 @@ const birthday = (value, outFields) => {
             'november': 11,
             'december': 12
         },
-        userMonth = value.substr(0,value.search(/\d/)-2),
-        dayYear = value.match(/\d{1,4}/)
+        userMonth = value.substr(0,value.search(/\d/)-2)
 
-        year = Number(prependYear(dayYear[1]))
+        year = Number(prependYear(value.match(/\d{2,4}$/)[0]))
         month = months[userMonth]
-        day = Number(dayYear[0])
+        day = Number(value.match(/\d{1,2}/)[0])
     }
 
     if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day))
