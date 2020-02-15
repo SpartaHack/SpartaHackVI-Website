@@ -7,7 +7,7 @@ module.exports.getApp = (auth, aid, cb) => {
           "Content-Type": "application/json",
           "X-WWW-USER-TOKEN": auth
         },
-        url: req.base+"/"+aid,
+        url: req.base+"/applications/"+aid,
         json: true
     },
     importApp = (err, response, body) => {
