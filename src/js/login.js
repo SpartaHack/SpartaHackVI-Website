@@ -9,7 +9,7 @@ let newCreds = async auth0 => {
 },
 oldCreds = async auth0 => {
     let user = transactions.userIn()
-    console.log(user)
+
     if (!user) 
         return newCreds(auth0)
 
@@ -41,8 +41,6 @@ login = async auth0 => {
             'github': payload.sub.substr(0,6) == "github" 
                 ? payload.nickname : undefined
         }
-        
-        console.log("---", payload)
 
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )

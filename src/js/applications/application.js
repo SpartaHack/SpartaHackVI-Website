@@ -103,12 +103,12 @@ class AppHandler {
                 'status': 'Other',
                 'message': 'Probable CORS issue' 
             }
-            console.log(body)
+
             if (conditions[body.status]) (conditions[body.status])()
             else if (body.status != "201" && conditions.otherError)
                 conditions.otherError(body) 
         }
-    
+
         req.uest.post(submitRq, submitApp)
         return
     }
