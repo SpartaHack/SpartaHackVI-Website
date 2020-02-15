@@ -46,8 +46,8 @@ function test(user, context, callback) {
     url: apiBase+"users",
     body: {
       "email": user.email,
-      "first_name": user.given_name ? user.given_name : "null",
-      "last_name": user.family_name ? user.family_name : "null",
+      "first_name": user.given_name ? user.given_name : (user.first_name ? user.first_name : "null"),
+      "last_name": user.family_name ? user.family_name : (user.last_name ? user.last_nae : "null"),
       "auth_id": user.user_id,
       "ID_Token": context.clientID
     },
