@@ -25,8 +25,8 @@ const text = args => {
 }
 
 const select = args => {
-    let input = document.createElement('select')
-    let opt = (val, txt) => {
+    let input = document.createElement('select'),
+    opt = (val, txt) => {
         let opt = document.createElement('option')
         opt.value = val
         opt.innerText = txt

@@ -2,16 +2,13 @@ const auth = require('./auth_cofig').default,
 transactions = require('./transactions')
 
 let newCreds = async auth0 => {
-    // if (!auth0 || !auth0.authorize) 
-    //     return
     await auth0.authorize()
     return true
 },
 oldCreds = async auth0 => {
     let user = transactions.userIn()
 
-    if (!user) 
-        return newCreds(auth0)
+    if (!user) return newCreds(auth0)
 
     let now = new Date()
     now = now.getTime()/1000
@@ -52,6 +49,7 @@ loggedIn = auth0 => {
     let key = transactions.getKey(),
     bttn = document.getElementById('nav-logout')
     window.sessionStorage.setItem('st', key)
+    
     if (!bttn) return
     bttn.addEventListener('click', e => logout(auth0))
     return true
