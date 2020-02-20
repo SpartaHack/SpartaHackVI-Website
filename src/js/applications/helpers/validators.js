@@ -2,10 +2,8 @@ const listValidator = require('./_stackInput').validate
 
 let profile = value => {
     let lastHalf = value.match(/.+\/.+/)
-    if (lastHalf) {
+    if (lastHalf)
         value = (value.match(/\/.+/))[0].substr(1)
-        input.parentNode.replaceChild(input, input)
-    }
 
     let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}\?\//)
     return (value.length > 3 && value.length < 100 

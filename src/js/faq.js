@@ -111,9 +111,11 @@ class FAQ {
         this.close()
         
         let first,
-        found = 0
+        found = 0,
+        thisFilter = new RegExp(query, "i")
+
         this.items.forEach(i => {
-            if (i.question.indexOf(query) !== -1 || i.answer.indexOf(query) !== -1) {
+            if (i.question.search(thisFilter) !== -1 || i.answer.search(thisFilter) !== -1) {
                 i.listing.classList.remove('filtered-out')
                 i.listing.classList.add('filtered-in')
                 ++found

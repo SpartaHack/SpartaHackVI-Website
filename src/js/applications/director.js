@@ -214,7 +214,7 @@ class AppDirector {
     insert(id, val, noUpdate) {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
-
+        
         if (items.input.nodeName == "SELECT") {
             let cc = items.input.childElementCount,
                 potVals = items.input.childNodes,
@@ -233,6 +233,8 @@ class AppDirector {
             items.input.selectedIndex = Number.isInteger(val) ? val :
                 (val && Number.isInteger(otherIndex)) ? otherIndex : 0
         }
+        else if (items.input.type == "checkbox")
+            items.input.checked = Boolean(val)
         else items.input.value = val
 
         items.inputWrap.replaceChild(items.input, items.input)
