@@ -20,15 +20,26 @@ class stackInput  extends specialInput{
         items.wrap.className = 'list-input-control noPreviousListed'
         items.wrap.tabIndex = -1
 
+        let enterSpace = (target, cb) => {
+            target.addEventListener('keyup', e => {
+                if (e.keyCode == 13 || e.keyCode == 32)
+                    cb()
+            })
+        },
+        remove = e => this.removeEntry(),
+        update = e => this.update(true)
+
         items.m.innerHTML = '-'
         items.m.className = 'remove-last-entry'
-        items.m.addEventListener('click', e => this.removeEntry())
+        items.m.addEventListener('click', remove)
+        enterSpace(items.m, remove)
         items.wrap.appendChild(items.m)
         items.m.tabIndex = 0
 
         items.p.innerHTML = '+'
         items.p.className = 'add-new-entry'
-        items.p.addEventListener('click', e => this.update(true))
+        items.p.addEventListener('click', update)
+        enterSpace(items.p, update)
         items.wrap.appendChild(items.p)
         items.p.tabIndex = 0
     
