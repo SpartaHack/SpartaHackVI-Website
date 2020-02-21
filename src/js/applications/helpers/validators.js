@@ -5,10 +5,13 @@ let profile = value => {
     if (lastHalf)
         value = (value.match(/\/.+/))[0].substr(1)
 
-    let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}\?\//)
-    return (value.length > 3 && value.length < 100 
-        && validPortion && validPortion[0] == value )
-        ? value : false
+        
+    if (!(value.length > 3 && value.length < 100))
+        return false
+    let validPortion = value.match(/[a-zA-Z0-9\-\_]{3,99}\/?/)
+    if (validPortion && validPortion[0] && validPortion[0] == value)
+        return value
+    return false
 }
 let github = value => {
     let suffix = profile(value)
