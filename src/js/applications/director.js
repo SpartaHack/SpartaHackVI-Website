@@ -215,6 +215,10 @@ class AppDirector {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
         
+        if ( this.fromApi && 
+            (id == "github" || id == "linkedin" || id == "devpost") ) 
+            val = (re.match(/[\w\-\_]+\/?$/))[0]
+
         if (items.input.nodeName == "SELECT") {
             let cc = items.input.childElementCount,
                 potVals = items.input.childNodes,
