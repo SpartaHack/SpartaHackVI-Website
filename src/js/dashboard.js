@@ -100,6 +100,8 @@ let fillButton = async auth0 => {
     // button.innerHTML = ''
     button.appendChild(btnIco)
     button.addEventListener('click', () => window.location = "/application.html")
+
+    if (state == 5) rsvpDialougue(auth0)
     return
 }
 // -
