@@ -11,23 +11,26 @@ class AppDirector {
 
         this.pages = []
         this.oldVals = old
-        this.pageURLs = args.urls
-        this.pageURLs.forEach(
+        this.pageUrls = args.urls
+        this.pageUrls.forEach(
             p => this.pages.push(undefined) )
         
         this.container = document.getElementById(args.container)
-        this.buttons = args.buttons ? args.buttons : {
-            'prev': document.getElementById("previous-page"),
-            'next': document.getElementById("next-page"),
-            'done': document.getElementById("finish-app")
+
+        if (args.buttons !== false) {
+            this.buttons = args.buttons ? args.buttons : {
+                'prev': document.getElementById("previous-page"),
+                'next': document.getElementById("next-page"),
+                'done': document.getElementById("finish-app")
+            }
+            
+            this.buttons.prev.addEventListener('click', 
+                e => this.prevPage() )
+            this.buttons.next.addEventListener('click', 
+                e => this.nextPage() )
+            this.buttons.done.addEventListener('click', 
+                e => this.done() )
         }
-        
-        this.buttons.prev.addEventListener('click', 
-            e => this.prevPage() )
-        this.buttons.next.addEventListener('click', 
-            e => this.nextPage() )
-        this.buttons.done.addEventListener('click', 
-            e => this.done() )
             
         this.fromApi = fromApi
         this.hashNavigation()
@@ -35,7 +38,7 @@ class AppDirector {
 
         this.appState = window.localStorage.getItem('appState')
         // this.showCurrent()
-        if (this.fromApi || this.appState == 7)
+        if ((this.fromApi || this.appState == 7) && this.fromApi !== -1)
             this.postSubmission()
     }
 
@@ -44,7 +47,19 @@ class AppDirector {
         this.showCurrent()
     }
     get current() { return this.pages[this.currentPage] }
+    // ---
+    buttonDisplayChange(which, visible) {
+        if (!this.buttons) return
 
+        let target = this.buttons[which],
+        action = visible ?
+            button => button.classList.remove('hidden')
+            : button => button.classList.add('hidden')
+        
+        action(target)
+        return true
+    }
+    
     // ---
 
     getComponents(id) { return id  ? this.domItems[id] : undefined}
@@ -89,8 +104,7 @@ class AppDirector {
             headers: { 
                 "Content-Type": "application/json" 
             },
-            url: window.location.origin + "/data/p" +
-                (pageNum + 1)  + ".json",
+            url: this.pageUrls[pageNum] + ".json",
             json: true
         }
         let pageCb = (err, response, body) => {
@@ -153,20 +167,21 @@ class AppDirector {
         else {
             // show only the appropriate buttons
             if (this.currentPage === 0) {
-                this.buttons.prev.classList.add('hidden')
-                this.buttons.done.classList.add('hidden')
+                this.buttonDisplayChange('prev', false)
+                this.buttonDisplayChange('done', false)
             }
             else {
-                this.buttons.prev.classList.remove('hidden')
+                this.buttonDisplayChange('prev', true)
 
                 if (this.currentPage === this.pages.length - 1) {
-                    this.buttons.next.classList.add('hidden')
+                    this.buttonDisplayChange('next', false)
+
                     if (!this.fromApi && this.appState != 7)
-                        this.buttons.done.classList.remove('hidden')
+                        this.buttonDisplayChange('done', true)
                 }
                 else {
-                    this.buttons.done.classList.add('hidden')
-                    this.buttons.next.classList.remove('hidden')
+                    this.buttonDisplayChange('done', false)
+                    this.buttonDisplayChange('next', true)
                 }
             }
             if (this.container.lastChild)
@@ -331,7 +346,8 @@ class AppDirector {
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
         this.container.prepend(header)
-        this.buttons.done.classList.add('hidden')
+
+        this.buttonDisplayChange('done', false)
         Object.keys(this.domItems).forEach(dk => {
             this.domItems[dk].input.readOnly = true
             this.update(dk, true)
