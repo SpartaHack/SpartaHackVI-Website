@@ -1,0 +1,54 @@
+[
+    {
+        "name": "resume",
+        "input": "file",
+        "label": "Resume",
+        "placeholder": "PDF || DOCX"
+    },
+    {
+        "name": "shirt",
+        "input": "select",
+        "label": "Shirt Size",
+        "options": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+        ], 
+        "placeholder": "Your Size"
+    },
+    {
+        "name": "jobPreference",
+        "input": "select",
+        "label": "Seeking work",
+        "options": [
+            "Internship",
+            "Co-op",
+            "Full Time",
+            "No"
+        ], 
+        "placeholder": "Your Size"
+    },
+    {
+        "name": "diet",
+        "input": "list-other-select",
+        "label": "Dietary Restrictions",
+        "options": [
+            "Vegetarian",
+            "Vegan",
+            "Kosher",
+            "Other",
+            "None"
+        ], 
+        "placeholder": "Your Diet"
+    },
+    {
+        "name": "carpool",
+        "label": "Carpooling",
+        "input": "check",
+        "out": "carpool_sharing",
+        "validate": false
+    },
+    { "pageName": "Personal Information" }
+]
