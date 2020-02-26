@@ -20,6 +20,25 @@ module.exports.getApp = (auth, aid, cb) => {
     req.uest.get(importRq, importApp)
 }
 
+module.exports.getRsvp = (auth, rid, cb) => {
+    let importRq = {
+        headers: {
+          "Content-Type": "application/json",
+          "X-WWW-USER-TOKEN": auth
+        },
+        url: req.base+"/rsvps/"+rid,
+        json: true
+    },
+    importApp = (err, response, body) => {
+        console.log(body)
+        if (response && response.statusCode === 200)
+            cb(body)
+        else cb()
+    }
+    
+    req.uest.get(importRq, importApp)
+}
+
 let getKey = key => {
     if (key) return key
     key = window.location.hash

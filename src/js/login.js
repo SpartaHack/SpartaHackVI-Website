@@ -1,5 +1,6 @@
 const auth = require('./auth_cofig').default,
-transactions = require('./transactions')
+transactions = require('./transactions'),
+baseUrl = require('./req').base
 
 let newCreds = async auth0 => {
     await auth0.authorize()
@@ -25,9 +26,10 @@ login = async auth0 => {
             window.localStorage.removeItem('apiApp')
             window.localStorage.removeItem('user')
         }
+        
         let payload = hashedInfo.idTokenPayload,
         getUserItem = name => 
-            payload["https://spartahack.com"+"/"+name],
+            payload[window.location.origin+"/"+name],
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {
             'email': payload.email,
@@ -38,9 +40,9 @@ login = async auth0 => {
             'github': payload.sub.substr(0,6) == "github" 
                 ? payload.nickname : undefined
         }
-
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
+        console.log(payload, userOut)
         transactions.userOut(userOut)
     })
     return loggedIn(auth0)

@@ -39,7 +39,7 @@ let fillBanner = async auth0 => {
         temp = "We've reviewed your application and hope you can attend! \
         Please RSVP to secure your spot"; break
         case 6: 
-        temp = "Thanks for the RSVP, see you on 3/27!"
+        temp = "Your spot is reserved, see you on 3/27!"
         
     }
     message.innerHTML = temp
@@ -83,25 +83,32 @@ let fillInfo = async auth0 => {
 let fillButton = async auth0 => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
+    btnText, btnLocation,
     state = appState()
-    btnIco.className = 'fas fa-chevron-circle-right'
-    //*
+
     if (button.lastElementChild)
         button.removeChild(button.lastElementChild)
-    if (!state) {
-        button.firstElementChild.innerHTML = "New"
-        btnIco.className = 'fas fa-plus-square'
-    }
-    else if (state == 1)
-        button.firstElementChild.innerHTML = "Continue"
-    else
-        button.firstElementChild.innerHTML = "Review"
-    
-    // button.innerHTML = ''
-    button.appendChild(btnIco)
-    button.addEventListener('click', () => window.location = "/application.html")
 
-    if (state == 5) rsvpDialougue(auth0)
+    switch(state) {
+        case 0: btnText = "New"
+        break
+        case 1: btnText = "Continue"
+        break
+        case 5: btnText = "RSVP!"
+        break
+        default: btnText = "Review"
+    }
+    button.innerHTML = btnText
+
+    if (state == 5 || state == 0)
+        btnIco.className = 'fas fa-plus-square'
+    else btnIco.className = 'fas fa-chevron-circle-right'
+
+    btnLocation = state >= 5 
+        ? "/rsvp.html" : "/application.html"
+    button.addEventListener('click', () => window.location = btnLocation )
+
+    button.appendChild(btnIco)
     return
 }
 // -
@@ -153,11 +160,12 @@ let startUp = async auth0 => {
             apiApp = apiApp 
                 ? apiApp : transactions.appIn(true)
             
-            if (user.rsvp) state = 6
-            else if (window.localStorage.getItem('getApiApp')) {
+            if (window.localStorage.getItem('getApiApp')) {
                 window.localStorage.removeItem('getApiApp')
                 state = 7
             }
+            else if (user.rsvp)
+                state = 6
             else if (apiApp)
                 switch(apiApp.status) {
                     case "Accepted":
@@ -180,13 +188,20 @@ let startUp = async auth0 => {
             let state = getState(apiApp)
             window.localStorage.setItem('appState', state)
             return state
-        }
-
-        if (setState() == 2)
+        },
+        state = setState(),
+        after = () => login([fillBanner, status, fillInfo, fillButton])
+        
+        if (state == 2)
             transactions.getApp(user.pt, user.aid, app => {
                 transactions.appOut(app, true)
                 setState(app) 
-                login([fillBanner, status, fillInfo, fillButton])
+                after()
+            })
+        else if (state == 6)
+            transactions.getRsvp(user.pt, user.rsvp, rsvp => {
+                transactions.appOut(rsvp, true)
+                after()
             })
 
         let afterAfter = [fillBanner, status, fillInfo, fillButton]

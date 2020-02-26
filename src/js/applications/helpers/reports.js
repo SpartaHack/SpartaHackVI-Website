@@ -41,8 +41,6 @@ let overlay = name => {
     }
 }
 
-
-
 let exp = domBase => {
     domBase.buttons.appendChild(domBase.exitButton)
     return domBase
@@ -230,15 +228,29 @@ rsvpSuccess = (director, response) => {
     let domBase = overlay('rsvp-submission-report')
     director.handler.altSubmit(rsvpReponses)
 
+    domBase.title = "RSVP'd"
+
+    domBase.content.innerHTML = "<p>We'll see you there! About a week before the event, \
+    you'll recieve an email with specific logistics.</p>"
+
+    let homeButton = document.createElement('button')
+    homeButton.id="home-button"
+    homeButton.innerHTML = "Home"
+    domBase.buttons.appendChild(homeButton)
+    homeButton.addEventListener('click', 
+        () => window.location = window.location.origin)
+
     document.body.appendChild(domBase.underlay)
     document.body.appendChild(domBase.reportContainer)
+
 },
 rsvpFail = (director, response) => {
     let domBase = overlay('rsvp-submission-report')
 
-    document.body.appendChild(domBase.underlay)
-    document.body.appendChild(domBase.reportContainer)    
+    fail(domBase, director, response)
 
+    document.body.appendChild(domBase.underlay)
+    document.body.appendChild(domBase.reportContainer)
 },
 rsvpReponses = ({
     '201': rsvpSuccess,

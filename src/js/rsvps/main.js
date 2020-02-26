@@ -8,6 +8,19 @@ submit = require('./rsvpSubmit').default
 let user = transactions.userIn(),
 rsvpCheck = async auth0 => {
     console.log('what', user)
+    let apiApp = transactions.appIn(true),
+    redirect = () => window.location = "/dashboard.html",
+    check = apiApp => {
+        console.log(apiApp)
+        if (apiApp.status != "accepted")
+            redirect()
+    }
+
+    if (!user.aid) redirect()
+    if (!apiApp) 
+        transactions.getApp(user.pt, user.aid, 
+            src => redirect(src) )
+    else redirect(apiApp)
 },
 handler,
 handlerInit = async auth0 =>
