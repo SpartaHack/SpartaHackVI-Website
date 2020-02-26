@@ -97,7 +97,7 @@ let fail = (domBase, director, details) => {
 
     logoutButton.addEventListener('click', e => logout(director))
     // LOGOUT (hard) CLICK LISTENER
-    
+    console.log(domBase)
     domBase.buttons.replaceChild(logoutButton, domBase.buttons.lastChild)
     domBase.container.replaceChild(domBase.report, domBase.report)
 }
@@ -248,7 +248,8 @@ rsvpFail = (director, response) => {
     let domBase = overlay('rsvp-submission-report')
 
     fail(domBase, director, response)
-    console.log(domBase)
+    // domBase.buttons.appendChild(document.createElement('div'))
+    // // console.log(domBase)
     document.body.appendChild(domBase.underlay)
     document.body.appendChild(domBase.reportContainer)
 },
