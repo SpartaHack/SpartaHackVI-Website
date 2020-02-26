@@ -26,7 +26,7 @@ let submit = (main, conditions) => {
         else if (body.status != "201" && conditions.otherError)
             conditions.otherError(body) 
     }
-
+    console.log(submitRq, main)
     req.uest.post(submitRq, submitApp)
 }
 

@@ -348,6 +348,8 @@ class AppDirector {
 
         window.scrollTo(0,0)
 
+        if (this.fromApi == -1) return 
+        
         document.body.appendChild(this.report.container)
         document.body.appendChild(this.report.underlay)
     }
