@@ -72,7 +72,7 @@ const makerWrapping = (director, item, args) => {
     
     components.itemWrap.appendChild(components.inputWrap)
     let specialHandlers = {},
-    handlerLocation = director.fromApi ? readOnlySpecial : special
+    handlerLocation = director.readOnly ? readOnlySpecial : special
 
     args.input.forEach(arg => {
         if (handlerLocation[arg])

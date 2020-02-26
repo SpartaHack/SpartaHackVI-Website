@@ -3,7 +3,7 @@ transactions = require('./../transactions')
 req = require('./../req')
 
 class AppHandler {
-    constructor(auth, user) {
+    constructor(auth, user, altSubmit) {
         this.auth = auth
         this.user = user
 
@@ -14,6 +14,7 @@ class AppHandler {
         this._needed = new Set()
         this._notNeeded = new Set()
         this.out = {}
+        this.altSubmit = conditions => altSubmit(this, conditions)
     }
 
     importFilter(id, filterSrc) {
@@ -51,6 +52,7 @@ class AppHandler {
 
     validate(id, value) {
         let item = this.items[id]
+
         if (!item) return
         if (!value && this._notNeeded.has(id)) {
             this.out[id] = undefined
@@ -85,12 +87,12 @@ class AppHandler {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
         console.log(this.out)
-        let user = transactions.userIn(),
-        submitRq = {
+        
+        let submitRq = {
             headers: {
                 "Content-Type":"application/json",
                 "Access-Control-Request-Method": "POST",
-                "X-WWW-USER-TOKEN": user.pt
+                "X-WWW-USER-TOKEN": this.user.pt
             },  
             body: this.out,
             url: req.base + "/applications",

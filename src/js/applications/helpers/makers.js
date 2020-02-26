@@ -66,6 +66,15 @@ const number = args => {
     return input
 }
 
+const file = args => {
+    let input = document.createElement('input')
+    input.type = "file"
+    if (args.accept)
+        input.accept = args.accept
+
+    return input
+}
+
 const check = args => {
     let input = document.createElement('input')
     input.type = "checkbox"
@@ -82,7 +91,8 @@ let makers = {
     "select": select,
     "date": date,
     "number": number,
-    "check": check
+    "check": check,
+    "file": file
 },
 readOnly = {}
 

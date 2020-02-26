@@ -220,7 +220,13 @@ let userSuccess = director => {
 
     domBase = exp(domBase)
     submitButton.addEventListener('click', 
-        () => director.handler.submit(responseConditions(domBase, director)) )
+        () => {
+            let responses = responseConditions(domBase, director)
+            
+            if (director.handler.altSubmit)
+                director.handler.altSubmit(responses)
+            else director.handler.submit(responses)
+        } )
 
     return domBase
 

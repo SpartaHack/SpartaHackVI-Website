@@ -2,8 +2,8 @@
     {
         "name": "resume",
         "input": "file",
-        "label": "Resume",
-        "placeholder": "PDF || DOCX"
+        "accept": ".pdf, .docx, .doc",
+        "label": "Resume (PDF || Word)"
     },
     {
         "name": "shirt",
@@ -15,8 +15,8 @@
             "M",
             "L",
             "XL"
-        ], 
-        "placeholder": "Your Size"
+        ],
+        "placeholder": "XS-XL"
     },
     {
         "name": "jobPreference",
@@ -27,8 +27,8 @@
             "Co-op",
             "Full Time",
             "No"
-        ], 
-        "placeholder": "Your Size"
+        ],
+        "placeholder": "Job Pref"
     },
     {
         "name": "diet",

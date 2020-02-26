@@ -24,10 +24,13 @@ class AppDirector {
                 'done': document.getElementById("finish-app")
             }
             
-            this.buttons.prev.addEventListener('click', 
-                e => this.prevPage() )
-            this.buttons.next.addEventListener('click', 
-                e => this.nextPage() )
+            if (this.buttons.prev)
+                this.buttons.prev.addEventListener('click', 
+                    e => this.prevPage() )
+            if (this.buttons.next)
+                this.buttons.next.addEventListener('click', 
+                    e => this.nextPage() )
+
             this.buttons.done.addEventListener('click', 
                 e => this.done() )
         }
@@ -38,7 +41,7 @@ class AppDirector {
 
         this.appState = window.localStorage.getItem('appState')
         // this.showCurrent()
-        if ((this.fromApi || this.appState == 7) && this.fromApi !== -1)
+        if (this.readOnly || this.appState == 7)
             this.postSubmission()
     }
 
@@ -47,12 +50,16 @@ class AppDirector {
         this.showCurrent()
     }
     get current() { return this.pages[this.currentPage] }
+
+    get readOnly() { return this.fromApi && this.fromApi != -1}
     // ---
     buttonDisplayChange(which, visible) {
         if (!this.buttons) return
 
-        let target = this.buttons[which],
-        action = visible ?
+        let target = this.buttons[which]
+        if (!target) return
+
+        let action = visible ?
             button => button.classList.remove('hidden')
             : button => button.classList.add('hidden')
         
@@ -160,6 +167,8 @@ class AppDirector {
         this.save()
     }
     showCurrent() {
+        let pagesLength = this.pages.length
+
         if (this.current === undefined)
             this.getPageSrc(this.currentPage, () => this.showCurrent())
         else if (Array.isArray(this.current))
@@ -168,12 +177,12 @@ class AppDirector {
             // show only the appropriate buttons
             if (this.currentPage === 0) {
                 this.buttonDisplayChange('prev', false)
-                this.buttonDisplayChange('done', false)
+                this.buttonDisplayChange('done', pagesLength == 1)
             }
             else {
                 this.buttonDisplayChange('prev', true)
 
-                if (this.currentPage === this.pages.length - 1) {
+                if (this.currentPage === pagesLength - 1) {
                     this.buttonDisplayChange('next', false)
 
                     if (!this.fromApi && this.appState != 7)
@@ -274,7 +283,22 @@ class AppDirector {
         this.inputVals['PAGE'] = this.currentPage
         transactions.appOut(this.inputVals)
     }
-    update(id, noSave) {
+
+    async getFileEncoding(id) {
+        let components  = this.getComponents(id)
+
+        if (!components.input.files[0]) return
+        
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        })
+        return await toBase64(components.input.files[0])
+    }
+    async update(id, noSave) {
+
         let components  = this.getComponents(id)
         if (components.specialHandlers) 
             Object.keys(components.specialHandlers).forEach(h => {
@@ -284,15 +308,18 @@ class AppDirector {
             })
         this.setComponents(id, components)
         
-        if (this.fromApi) {
+        if (this.readOnly) {
             components.inputWrap.classList.add('post-submission')
             return true
         }
         else {
-            let val = components.trueVal ? components.trueVal : this.getInputVal(id)
+            let val = components.trueVal ? components.trueVal :
+                components.input.type == "file" ? await this.getFileEncoding(id)
+                : this.getInputVal(id)
             val = components.input.type == "number" ? Number(val) : val
             let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-
+            
+            if (components.input.type == "file") return
             if (!valid && val.length > 0)
                 this.error(id)
             else {

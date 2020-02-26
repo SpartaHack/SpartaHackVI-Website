@@ -2,7 +2,8 @@ import './../../scss/sheets/rsvp.scss'
 
 const Director = require('./../applications/director').default,
 Handler = require('./../applications/application').default,
-transactions = require('./../transactions')
+transactions = require('./../transactions'),
+submit = require('./rsvpSubmit').default
 
 let user = transactions.userIn(),
 rsvpCheck = async auth0 => {
@@ -10,11 +11,11 @@ rsvpCheck = async auth0 => {
 },
 handler,
 handlerInit = async auth0 =>
-    handler = new Handler(auth0, user),
+    handler = new Handler(auth0, user, submit),
 directorArgs = {
     'container': 'rsvp-area',
     'urls': [ window.location.origin + "/data/rsvp" ],
-    'buttons': false
+    'buttons': {'done': document.getElementById('submit-rsvp')}
 },
 director,
 directorInit = async auth0 => {
