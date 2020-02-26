@@ -41,6 +41,8 @@ let overlay = name => {
     }
 }
 
+
+
 let exp = domBase => {
     domBase.buttons.appendChild(domBase.exitButton)
     return domBase
@@ -224,14 +226,26 @@ let appSuccess = director => {
 
     return domBase
 },
-rsvpReponses = ({
-    '201': () => console.log('cool')
-}),
-rsvpSuccess = director => {
+rsvpSuccess = (director, response) => {
+    let domBase = overlay('rsvp-submission-report')
     director.handler.altSubmit(rsvpReponses)
+
+    document.body.appendChild(domBase.underlay)
+    document.body.appendChild(domBase.reportContainer)
 },
+rsvpFail = (director, response) => {
+    let domBase = overlay('rsvp-submission-report')
+
+    document.body.appendChild(domBase.underlay)
+    document.body.appendChild(domBase.reportContainer)    
+
+},
+rsvpReponses = ({
+    '201': rsvpSuccess,
+    'otherError': rsvpFail,
+}),
 userSuccess = director =>
     director.fromApi != -1 ? 
-        appSuccess(director) : rsvpSuccess(director)
+        appSuccess(director) : director.handler.altSubmit(rsvpReponses)
 
 module.exports.success = userSuccess
