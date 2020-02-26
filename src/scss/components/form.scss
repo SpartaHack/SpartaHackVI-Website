@@ -74,6 +74,8 @@
     }
     input[type=number] { max-width: 4rem;}
 
+    input[type=file] { max-width: 15rem; }
+
     select {
         padding-right: .25rem;
         option {
