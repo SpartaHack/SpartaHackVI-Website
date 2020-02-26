@@ -86,7 +86,6 @@ class AppHandler {
     submit(conditions) {
         this.out['other_university'] = ""
         this.out['outside_north_america'] = ""
-        console.log(this.out)
         
         let submitRq = {
             headers: {

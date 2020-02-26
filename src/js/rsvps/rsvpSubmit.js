@@ -1,6 +1,9 @@
 const req = require('./../req')
 
 let submit = (main, conditions) => {
+    main.out.other_dietary_restrictions = "None"
+    main.out.attending = "Yes"
+    
     submitRq = {
         headers: {
             "Content-Type":"application/json",

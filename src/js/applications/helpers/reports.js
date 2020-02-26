@@ -142,7 +142,7 @@ let userFail = (director, needed) => {
 
     let domBase = overlay('incomplete-app-report')
     
-    domBase.title.innerHTML = 'Application Incomplete'
+    domBase.title.innerHTML = 'Incomplete Fields'
     domBase.content.appendChild(document.createElement('p'))
     domBase.content.firstChild.innerHTML = 
         'The following fields need to be completed or changed'

@@ -30,7 +30,7 @@ let devpost = value => {
 // put into _autoComplete ?
 let filterCheck = (value, filterSrc) => {
     if (!Array.isArray(filterSrc)) return
-    console.log(value)
+
     let query = value.toLowerCase(),
     i = 0, potRes, found
 
@@ -192,5 +192,6 @@ module.exports.default = ({
     "resume": val => val,
     "diet": race,
     "shirt": shirt,
-    "jobPreference": shirt
+    "jobPreference": shirt,
+    "carpool": shirt,
 })

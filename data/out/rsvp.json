@@ -46,9 +46,12 @@
     {
         "name": "carpool",
         "label": "Carpooling",
-        "input": "check",
-        "out": "carpool_sharing",
-        "validate": false
+        "input": "select",
+        "options": [
+            "No",
+            "Yes"
+        ],
+        "out": "carpool_sharing"
     },
     { "pageName": "Personal Information" }
 ]

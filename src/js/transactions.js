@@ -29,14 +29,14 @@ module.exports.getRsvp = (auth, rid, cb) => {
         url: req.base+"/rsvps/"+rid,
         json: true
     },
-    importApp = (err, response, body) => {
+    importRsvp = (err, response, body) => {
         console.log(body)
         if (response && response.statusCode === 200)
             cb(body)
         else cb()
     }
     
-    req.uest.get(importRq, importApp)
+    req.uest.get(importRq, importRsvp)
 }
 
 let getKey = key => {
