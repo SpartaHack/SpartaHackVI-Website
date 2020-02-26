@@ -248,7 +248,7 @@ rsvpFail = (director, response) => {
     let domBase = overlay('rsvp-submission-report')
 
     fail(domBase, director, response)
-
+    console.log(domBase)
     document.body.appendChild(domBase.underlay)
     document.body.appendChild(domBase.reportContainer)
 },
