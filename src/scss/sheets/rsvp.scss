@@ -4,6 +4,25 @@
 './../components/reports.scss',
 './../components/formSkeleton.scss';
 
-// html {
-//     visibility: visible;
-// }
+#rsvp-header {
+    width: 100%;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    * {
+        width: 100%;
+        text-align: center;
+        margin: .5rem 0;
+    }
+    a {
+        text-decoration: underline;
+        margin: 0 0 0 .25rem;
+    }
+}
+
+aside {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 1rem 0;
+}

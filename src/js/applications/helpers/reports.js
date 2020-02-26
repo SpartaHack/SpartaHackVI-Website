@@ -161,7 +161,7 @@ let userFail = (director, needed) => {
 }
 module.exports.default = userFail
 
-let userSuccess = director => {
+let appSuccess = director => {
     let domBase = overlay('complete-app-report')
     domBase.title.innerHTML = 'Before we continue...'
     checks = []
@@ -220,15 +220,18 @@ let userSuccess = director => {
 
     domBase = exp(domBase)
     submitButton.addEventListener('click', 
-        () => {
-            let responses = responseConditions(domBase, director)
-            
-            if (director.handler.altSubmit)
-                director.handler.altSubmit(responses)
-            else director.handler.submit(responses)
-        } )
+        () => director.handler.submit(responseConditions(domBase, director)) )
 
     return domBase
+},
+rsvpReponses = ({
+    '201': () => console.log('cool')
+}),
+rsvpSuccess = director => {
+    director.handler.altSubmit(rsvpReponses)
+},
+userSuccess = director =>
+    director.fromApi != -1 ? 
+        appSuccess(director) : rsvpSuccess(director)
 
-}
 module.exports.success = userSuccess

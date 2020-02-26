@@ -288,7 +288,7 @@ class AppDirector {
         let components  = this.getComponents(id)
 
         if (!components.input.files[0]) return
-        
+
         const toBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -368,7 +368,7 @@ class AppDirector {
         header.className = "submitted-message-wrap"
         header.firstChild.className = "submitted-message"
         header.firstChild.innerHTML = '\
-            Thanks! If you feel there is a meaningful error in your application, \
+            Thanks! If you feel there is a meaningful error, \
             <a href="mailto:hello@spartahack.com" target="_blank"> \
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
