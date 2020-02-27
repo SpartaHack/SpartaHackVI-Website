@@ -244,7 +244,7 @@ rsvpSuccess = (director, response) => {
         () => window.location = window.location.origin)
 
     document.body.appendChild(domBase.underlay)
-    document.body.appendChild(domBase.reportContainer)
+    document.body.appendChild(domBase.container)
 
 },
 rsvpFail = (director, response) => {
