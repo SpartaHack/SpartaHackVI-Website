@@ -42,7 +42,7 @@ login = async auth0 => {
         }
         userItems.forEach(
             i => userOut[i] = getUserItem(i) )
-
+        console.log(payload)
         transactions.userOut(userOut)
     })
     return loggedIn(auth0)
