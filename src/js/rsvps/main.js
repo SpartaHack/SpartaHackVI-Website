@@ -6,21 +6,6 @@ transactions = require('./../transactions'),
 submit = require('./rsvpSubmit').default
 
 let user = transactions.userIn(),
-rsvpCheck = async auth0 => {
-    // let apiApp = transactions.appIn(true),
-    // redirect = () => window.location = "/dashboard.html",
-    // check = apiApp => {
-    //     console.log(apiApp)
-    //     if (apiApp.status != "accepted")
-    //         redirect()
-    // }
-
-    // if (!user.aid) redirect()
-    // if (!apiApp) 
-    //     transactions.getApp(user.pt, user.aid, 
-    //         src => redirect(src) )
-    // else redirect(apiApp)
-},
 handler,
 handlerInit = async auth0 =>
     handler = new Handler(auth0, user, submit),
@@ -51,6 +36,31 @@ directorInit = async auth0 => {
         getDirector(transactions.appIn())
 
         
-}
+}, 
+rsvpCheck = async auth0 => {
+    let apiApp = transactions.appIn(true),
+    redirect = () => window.location = "/dashboard.html",
+    check = apiApp => {
+        console.log(apiApp)
+        if (apiApp.status != "accepted")
+            redirect()
+    },
+    after = () => ([handlerInit, directorInit]).forEach(f => f(auth))
+    console.log(apiApp)
 
-;(require('../login').default)([rsvpCheck, handlerInit, directorInit])
+    if (!user.aid) redirect()
+    else if (user.rsvp)
+        transactions.getRsvp(user.pid, user.rsvp, rsvp => {
+            console.log(rsvp)
+            after()
+        })
+    else if (!apiApp)
+    transactions.getApp(user.pt, user.aid, 
+        src => redirect(src) )
+    else if (apiApp) after()
+    else redirect(apiApp)
+
+    rsvpCheck 
+},
+
+;(require('../login').default)(rsvpCheck)

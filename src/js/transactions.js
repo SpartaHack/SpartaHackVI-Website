@@ -20,13 +20,13 @@ module.exports.getApp = (auth, aid, cb) => {
     req.uest.get(importRq, importApp)
 }
 
-module.exports.getRsvp = (auth, rid, cb) => {
+module.exports.getRsvp = (auth, rsvp, cb) => {
     let importRq = {
         headers: {
           "Content-Type": "application/json",
           "X-WWW-USER-TOKEN": auth
         },
-        url: req.base+"/rsvps/"+rid,
+        url: req.base+"/rsvps/"+rsvp,
         json: true
     },
     importRsvp = (err, response, body) => {
