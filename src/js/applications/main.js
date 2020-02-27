@@ -29,4 +29,4 @@ directorInit = (auth, user, state) => {
     director = new Director(directorArgs, handler, args[0], args[1])        
 }
 
-;(require('../login').default)([handlerInit, directorInit])
+;(require('./../startup/login').default)([handlerInit, directorInit])

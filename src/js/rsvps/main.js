@@ -65,4 +65,4 @@ rsvpCheck = async auth0 => {
     rsvpCheck 
 }
 
-;(require('../login').default)(rsvpCheck)
+;(require('./../startup/login').default)(rsvpCheck)

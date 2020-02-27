@@ -2,7 +2,7 @@ import './../scss/sheets/dashboard.scss'
 ;(require('./fa').default)()
 
 const transactions = require('./transactions'),
-login = require('./login').default
+login = require('./startup/login').default
 
 let fillBanner = (auth, user, state) => {
     let temp,
@@ -19,9 +19,8 @@ let fillBanner = (auth, user, state) => {
         temp = 'afternoon'
     }
     tod.innerHTML = temp
-    // -
-    let message = document.getElementById('user-message')
 
+    let message = document.getElementById('user-message')
     switch (state) { 
         case 0:
         temp = "You're set to start your application"; break
@@ -42,6 +41,7 @@ let fillBanner = (auth, user, state) => {
         
     }
     message.innerHTML = temp
+
     return
 }
 // -
@@ -135,8 +135,5 @@ let status = (auth, user, state) => {
 
     return true
 }
-
-
-
 
 login([fillBanner, status, fillButton, fillInfo])

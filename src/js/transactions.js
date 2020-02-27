@@ -85,7 +85,8 @@ let importCb = (which, cb, response, body) => {
         ? body : false
     encrypt(contents, which)
 
-    cb(body)
+    if (contents)
+        cb(body)
 }
 
 module.exports.getApp = (user, cb) => {
