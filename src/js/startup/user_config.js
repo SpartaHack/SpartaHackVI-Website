@@ -6,7 +6,7 @@ async function auth_func(cb) {
     let args = window.location.hash, 
     auth = await new auth0(env.auth),
     key = transactions.getKey()
-    console.log(args)
+
     if (!args && !key) auth.authorize()
 
     else if (args && args.substr(0, 13).search(/token/) != -1) 
@@ -37,6 +37,7 @@ async function auth_func(cb) {
 
             cb(auth, userOut)
         } )
+
     else {
         let user = transactions.userIn()
 

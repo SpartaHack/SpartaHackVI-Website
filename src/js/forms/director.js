@@ -11,6 +11,7 @@ class AppDirector {
         this.inputVals = {}
         this.domItems = {}
         this.pages = []
+        this.current
 
         this.saveTo = args.saveTo
         this.oldVals = args.oldVals
@@ -42,13 +43,12 @@ class AppDirector {
             this.hashNavigation()
             this.changeHash(0)
         }
-        else {
-            this.currentPage = 0
-            this.showCurrent()
-        }
+        else this.current = 0
     }
 
     set current(val) {
+        val = Number.isNaN(val) ? 0 : Math.floor(val)
+
         this.currentPage = val
         this.showCurrent()
     }
@@ -114,16 +114,18 @@ class AppDirector {
             headers: { 
                 "Content-Type": "application/json" 
             },
-            url: this.pageUrls[pageNum] + ".json",
+            url: window.location.origin + this.pageUrls[pageNum] + ".json",
             json: true
-        }
-        let pageCb = (err, response, body) => {
+        },
+        pageCb = (err, response, body) => {
+            console.log(body, response)
             if (body && body.forEach) {
                 this.pages[pageNum] = body
 
                 if (cb) cb()
             }
         }
+
         this.pages[pageNum] = false
         request.get(pageRq, pageCb)
     }
