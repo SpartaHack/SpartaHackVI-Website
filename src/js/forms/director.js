@@ -14,6 +14,8 @@ class AppDirector {
         this.current
 
         this.saveTo = args.saveTo
+        // this neds a better solutionm
+        this.fromApi = (this.saveTo.search(/api/) == 0)
         this.oldVals = args.oldVals
         this.readOnly = args.readOnly
 
@@ -222,7 +224,7 @@ class AppDirector {
         this.setComponents(args.name, components)
         this.handler.import(args)
 
-        let out = args.out && this.fromApi 
+        let out = args.out && this.readOnly 
             ? args.out : args.name,
         oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
@@ -246,7 +248,7 @@ class AppDirector {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
         
-        if ( this.fromApi && 
+        if ( this.readOnly && 
             (id == "github" || id == "linkedin" || id == "devpost") ) 
             val = (re.match(/[\w\-\_]+\/?$/))[0]
 
