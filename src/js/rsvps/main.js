@@ -49,7 +49,7 @@ rsvpCheck = async auth0 => {
     // console.log(apiApp)
     console.log(auth0, user)
     if (!user.aid) redirect()
-    else if (user.rsvp){
+    else if (user.rsvp) {
         let cb = rsvp => {
             console.log(rsvp)
             after()

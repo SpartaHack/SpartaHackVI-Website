@@ -1,11 +1,10 @@
 import './../scss/sheets/dashboard.scss'
-let transactions = require('./transactions'),
-login = require('./login').default
 ;(require('./fa').default)()
-// *
-let appState = () => +(window.localStorage.getItem('appState'))
-// *
-let fillBanner = async auth0 => {
+
+const transactions = require('./transactions'),
+login = require('./login').default
+
+let fillBanner = (auth, user, state) => {
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -23,7 +22,7 @@ let fillBanner = async auth0 => {
     // -
     let message = document.getElementById('user-message')
 
-    switch (appState()) { 
+    switch (state) { 
         case 0:
         temp = "You're set to start your application"; break
         case 1:
@@ -46,11 +45,9 @@ let fillBanner = async auth0 => {
     return
 }
 // -
-let fillInfo = async auth0 => {
-    let user = transactions.userIn(),
-    name = document.getElementById('user-name')
-
-    if (!user) return
+let fillInfo = (auth, user, state) => {
+    let name = document.getElementById('user-name')
+    // console.log(name, user)
     if (name && !user.name) 
         document.getElementById('user-attrs').removeChild(name)
     else name.innerHTML = user.name
@@ -80,15 +77,14 @@ let fillInfo = async auth0 => {
     return
 }
 // -
-let fillButton = async auth0 => {
+let fillButton = (auth, user, state) => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
-    btnText, btnLocation,
-    state = appState()
+    btnText, btnLocation
 
     if (button.lastElementChild)
         button.removeChild(button.lastElementChild)
-
+    // console.log(state)
     switch(state) {
         case 0: btnText = "New"
         break
@@ -112,10 +108,11 @@ let fillButton = async auth0 => {
     return
 }
 // -
-let status = async auth0 => {
+let status = (auth, user, state) => {
+
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
-    checkedIndicators = indicatorDirections[appState()],
+    checkedIndicators = indicatorDirections[state],
     updateStatus = (statDom, state) => {
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
@@ -140,75 +137,6 @@ let status = async auth0 => {
 }
 
 
-let startUp = async auth0 => {
-    let user,
-    updateInfo = () => { 
-        user = transactions.userIn()
-        return Boolean(user)
-    },
-    tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
-        tryNum = typeof tryNum == "number" ? tryNum : 0
 
-        if (test()) after()
-        else if (tryNum < 10) 
-            tryLoaded(test, after, ++tryNum)
-        else (login(() => {}))
-    }, 500),
-    after = () => {
-        let getState = apiApp => {
-            let state = 0
-            apiApp = apiApp 
-                ? apiApp : transactions.appIn(true)
-            
-            if (window.localStorage.getItem('getApiApp')) {
-                window.localStorage.removeItem('getApiApp')
-                state = 7
-            }
-            else if (user.rsvp)
-                state = 6
-            else if (apiApp)
-                switch(apiApp.status) {
-                    case "Accepted":
-                        state = 5
-                    break
-                    case "Rejected":
-                        state = 4
-                    break
-                    default:
-                        state = 3
-                }
-            else if (user.aid) {
-                state = 2
-            }
-            else if (transactions.appIn())
-                state = 1
-            return state
-        },
-        setState = apiApp => {
-            let state = getState(apiApp)
-            window.localStorage.setItem('appState', state)
-            return state
-        },
-        state = setState(),
-        after = () => login([fillBanner, status, fillInfo, fillButton])
-        
-        if (state == 2)
-            transactions.getApp(user.pt, user.aid, app => {
-                transactions.appOut(app, true)
-                setState(app) 
-                after()
-            })
-        else if (state == 6)
-            transactions.getRsvp(user, rsvp => {
-                transactions.appOut(rsvp, true)
-                after()
-            })
 
-        let afterAfter = [fillBanner, status, fillInfo, fillButton]
-        afterAfter.forEach(f => f(auth0))
-    }
-    tryLoaded(updateInfo, after)
-
-    return true
-}
-login(startUp)
+login([fillBanner, status, fillButton, fillInfo])
