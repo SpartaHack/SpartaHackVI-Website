@@ -50,11 +50,13 @@ rsvpCheck = async auth0 => {
     console.log(apiApp)
 
     if (!user.aid) redirect()
-    else if (user.rsvp)
-        transactions.getRsvp(user, rsvp => {
+    else if (user.rsvp){
+        let cb = rsvp => {
             console.log(rsvp)
             after()
-        })
+        }
+        transactions.getRsvp(user, cb)
+    }
     else if (!apiApp)
     transactions.getApp(user.pt, user.aid, 
         src => redirect(src) )

@@ -26,7 +26,7 @@ module.exports.getRsvp = (user, cb) => {
           "Content-Type": "application/json",
           "X-WWW-USER-TOKEN": user.pt
         },
-        // body: {email: user.email},
+        body: {email: user.email},
         url: req.base+"/rsvps/"+user.rsvp,
         json: true
     },
