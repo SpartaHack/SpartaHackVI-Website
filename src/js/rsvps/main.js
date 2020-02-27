@@ -18,14 +18,15 @@ director,
 directorInit = async auth0 => {
     let apiApp = transactions.appIn(true),
     getDirector = (old, fromAPI) => {
+        console.log(fromAPI)
         if (!fromAPI) {
             old = old ? old : {}
         }
         director = new Director(directorArgs, handler, old, -1)
     }
     
-    if (user.aid && !apiApp) 
-        transactions.getApp(user.pt, user.aid, src => {
+    if (user.rsvp && !apiApp) 
+        transactions.getRsvp(user.pt, user.aid, src => {
             if (src) getDirector(src, true)
             else 
                 console.error("Couldn't get submitted app")
@@ -45,7 +46,7 @@ rsvpCheck = async auth0 => {
         if (apiApp.status != "accepted")
             redirect()
     },
-    after = () => ([handlerInit, directorInit]).forEach(f => f(auth))
+    after = () => ([handlerInit, directorInit]).forEach(f => f(auth0))
     console.log(apiApp)
 
     if (!user.aid) redirect()
