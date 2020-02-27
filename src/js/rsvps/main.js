@@ -47,8 +47,8 @@ rsvpCheck = async auth0 => {
             redirect()
     },
     after = () => ([handlerInit, directorInit]).forEach(f => f(auth0))
-    console.log(apiApp)
-
+    // console.log(apiApp)
+    console.log(auth0, user)
     if (!user.aid) redirect()
     else if (user.rsvp){
         let cb = rsvp => {
