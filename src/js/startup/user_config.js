@@ -14,21 +14,20 @@ let auth_func = async cb => {
             let payload = hashedInfo.idTokenPayload,
             getUserItem = name => 
                 payload[window.location.origin+"/"+name],
-            userItems = ['pt', 'aid', 'rsvp'],
             userOut = {
                 'email': payload.email,
-                'oaid': payload.sub,
                 'name': payload.name != payload.email
                     ? payload.name : undefined,
                 'exp': payload.exp,
                 'picture': payload.picture,
                 'github': payload.sub.substr(0,6) == "github" 
                     ? payload.nickname : undefined
-            }
+            },
 
+            userItems = ['pt', 'aid', 'pid', 'rsvp']
             userItems.forEach(
                 i => userOut[i] = getUserItem(i) )
-
+            console.log(payload)
             window.sessionStorage.setItem('st',
                 transactions.getKey() )
 

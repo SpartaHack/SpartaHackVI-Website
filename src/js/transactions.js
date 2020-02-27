@@ -113,7 +113,7 @@ module.exports.getRsvp = (user, cb) => {
           "Content-Type": "application/json",
           "X-WWW-USER-TOKEN": user.pt
         },
-        url: req.base+"/rsvps/"+user.oaid,
+        url: req.base+"/rsvps/"+user.pid,
         json: true
     },
     importRsvp = (err, response, body) =>
