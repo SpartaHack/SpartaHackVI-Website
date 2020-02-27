@@ -17,11 +17,11 @@ startCheck = async cb => {
     else if (existing.rsvp)
         thisState = 5
     else if (existing.apiApp) {
-        if (apiApp.status == "Accepted")
+        if (existing.apiApp.status == "Accepted")
             thisState = 5
-        else if (apiApp.status == "Rejected")
+        else if (existing.apiApp.status == "Rejected")
             thisState = 4
-        else if (apiApp.status == "Applied")
+        else if (existing.apiApp.status == "Applied")
             thisState = 3
     }
     else if (user.aid)

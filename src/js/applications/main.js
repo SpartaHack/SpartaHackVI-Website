@@ -5,15 +5,14 @@ const Director = require('./director').default,
 Handler = require('./application').default,
 transactions = require('./../transactions')
 
-let user = transactions.userIn(),
-validatorDicts = {
+let validatorDicts = {
     'city': 'cities.json',
     'major': 'majors.json',
     'universities': 'unis.json'
 },
 handler,
-handlerInit = async auth0 =>
-    handler = new Handler(auth0, user, validatorDicts),
+handlerInit = (auth, user, state) =>
+    handler = new Handler(auth, user, validatorDicts),
 directorArgs = {
     'container': 'application-area',
     'urls': [
@@ -23,31 +22,11 @@ directorArgs = {
     ]
 },
 director,
-directorInit = async auth0 => {
+directorInit = (auth, user, state) => {
     let apiApp = transactions.appIn(true),
-    getDirector = (old, fromAPI) => {
-        if (!fromAPI) {
-            old = old ? old : {}
-            if (user.github) 
-                old.github = old.github ? old.github : user.github
-            if (user.name) 
-                old.name = old.name ? old.name : user.name
-        }
-        director = new Director(directorArgs, handler, old, fromAPI)
-    }
-    
-    if (user.aid && !apiApp) 
-        transactions.getApp(user.pt, user.aid, src => {
-            if (src) getDirector(src, true)
-            else 
-                console.error("Couldn't get submitted app")
-        })
-    else if (apiApp)
-        getDirector(transactions.appIn(true), true)
-    else
-        getDirector(transactions.appIn())
+    args = apiApp ? [apiApp, true] : [transactions.appIn, false]
 
-        
+    director = new Director(directorArgs, handler, args[0], args[1])        
 }
 
 ;(require('../login').default)([handlerInit, directorInit])
