@@ -27,7 +27,7 @@ module.exports.getRsvp = (user, cb) => {
           "X-WWW-USER-TOKEN": user.pt
         },
         // body: {email: user.email},
-        url: req.base+"/rsvps/"+user.getRsvp,
+        url: req.base+"/rsvps/"+user.rsvp,
         json: true
     },
     importRsvp = (err, response, body) => {
