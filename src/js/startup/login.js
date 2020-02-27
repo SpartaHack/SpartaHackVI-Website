@@ -8,11 +8,11 @@ let login = async cb => {
         eventState(state => 
             cb.forEach(func => func(auth, user, state)) )
 
-    let auth = await authConfig(after),
-    logoutButton = document.getElementById('nav-logout')
+    let auth = await authConfig(after)
+    // logoutButton = document.getElementById('nav-logout')
 
-    if (logoutButton)
-        logoutButton.addEventListener('click', e => auth.logout())
+    // if (logoutButton)
+    //     logoutButton.addEventListener('click', e => auth.logout())
     
     return
 }

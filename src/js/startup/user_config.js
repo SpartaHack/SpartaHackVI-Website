@@ -38,7 +38,8 @@ async function auth_func(cb) {
     } )
     else {
         let user = transactions.userIn()
-        if (Date.now()/1000 - user.exp < 600)
+
+        if ((user.exp - Math.floor(Date.now()/1000)) < 900)
             auth.authorize()
 
         cb(auth, user)
