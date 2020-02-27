@@ -17,7 +17,7 @@ directorArgs = {
     'buttons': {
         'done': document.getElementById('submit-rsvp')
     },
-    'urls': [ "/data/rsvp" ]
+    'pageUrls': [ "/data/rsvp" ]
 },
 director,
 directorInit = async auth0 => {

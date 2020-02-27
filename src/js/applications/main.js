@@ -15,11 +15,11 @@ directorArgs = {
     'reports': reports,
     'container': 'application-area',
     "buttons": {
-        "done": document.getElementById('done'),
-        "prev": document.getElementById('prev'),
-        "next": document.getElementById('next')
+        "next": document.getElementById('next-page'),
+        "done": document.getElementById('finish-app'),
+        "prev": document.getElementById('previous-page'),
     },
-    'urls': 
+    'pageUrls': 
         [ "/data/p1",  "/data/p2",  "/data/p3" ]
 },
 director,
@@ -35,7 +35,9 @@ directorInit = (auth, user, state) => {
         directorArgs.oldVals = transactions.appIn()
     }
 
-    director = new Director(directorArgs, handler)        
+    director = new Director(directorArgs, handler)    
+    
+    console.log(director, handler)
 }
 
 ;(require('./../startup/login').default)([handlerInit, directorInit])

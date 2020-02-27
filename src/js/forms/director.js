@@ -1,6 +1,6 @@
-const domFuncs = require('./helpers/dom'),
-reports = require('./reports'),
+const Reports = require('./reports').default,
 transactions = require('../transactions'),
+domFuncs = require('./helpers/dom'),
 request = require('request')
 
 class AppDirector {
@@ -338,7 +338,7 @@ class AppDirector {
             this.handler.submit(this)
             return
         }
-        
+
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
             if (!this.pages[i]) {
