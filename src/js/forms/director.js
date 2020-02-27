@@ -1,29 +1,32 @@
-const domFuncs = require('./dom'),
-reports = require('./helpers/reports'),
+const domFuncs = require('./helpers/dom'),
+reports = require('./reports'),
 transactions = require('../transactions'),
 request = require('request')
 
 class AppDirector {
-    constructor(args, handler, old, fromApi) {
+    constructor(args, handler) {
+        this.reports = new Reports(this, args.reports)
         this.handler = handler
-        this.domItems = {}
-        this.inputVals = {}
 
+        this.inputVals = {}
+        this.domItems = {}
         this.pages = []
-        this.oldVals = old
-        this.pageUrls = args.urls
+
+        this.saveTo = args.saveTo
+        this.oldVals = args.oldVals
+        this.readOnly = args.readOnly
+
+        // if (this.readOnly) this.postSubmission()
+
+        this.pageUrls = args.pageUrls
         this.pageUrls.forEach(
             p => this.pages.push(undefined) )
-        
-        this.container = document.getElementById(args.container)
+        this.totalPages = this.pageUrls.length
 
-        if (args.buttons !== false) {
-            this.buttons = args.buttons ? args.buttons : {
-                'prev': document.getElementById("previous-page"),
-                'next': document.getElementById("next-page"),
-                'done': document.getElementById("finish-app")
-            }
-            
+        this.container = document.getElementById(args.container)
+        if (args.buttons) {
+            this.buttons = args.buttons
+
             if (this.buttons.prev)
                 this.buttons.prev.addEventListener('click', 
                     e => this.prevPage() )
@@ -34,15 +37,15 @@ class AppDirector {
             this.buttons.done.addEventListener('click', 
                 e => this.done() )
         }
-            
-        this.fromApi = fromApi
-        this.hashNavigation()
-        this.changeHash(0)
 
-        this.appState = window.localStorage.getItem('appState')
-        // this.showCurrent()
-        if (this.readOnly || this.appState == 7)
-            this.postSubmission()
+        if (this.totalPages > 1) {
+            this.hashNavigation()
+            this.changeHash(0)
+        }
+        else {
+            this.currentPage = 0
+            this.showCurrent()
+        }
     }
 
     set current(val) {
@@ -51,7 +54,7 @@ class AppDirector {
     }
     get current() { return this.pages[this.currentPage] }
 
-    get readOnly() { return this.fromApi && this.fromApi != -1}
+    // get readOnly() { return this.fromApi && this.fromApi != -1 }
     // ---
     buttonDisplayChange(which, visible) {
         if (!this.buttons) return
@@ -281,7 +284,7 @@ class AppDirector {
 
     save() {
         this.inputVals['PAGE'] = this.currentPage
-        transactions.appOut(this.inputVals)
+        transactions.encrypt(this.saveTo, this.inputVals)
     }
 
     async getFileEncoding(id) {
@@ -298,7 +301,6 @@ class AppDirector {
         return await toBase64(components.input.files[0])
     }
     async update(id, noSave) {
-
         let components  = this.getComponents(id)
         if (components.specialHandlers) 
             Object.keys(components.specialHandlers).forEach(h => {
@@ -332,6 +334,11 @@ class AppDirector {
     }
     
     done(startCheckAt) {
+        if (startCheckAt === "confirmed") {
+            this.handler.submit(this)
+            return
+        }
+        
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
             if (!this.pages[i]) {
@@ -343,15 +350,13 @@ class AppDirector {
         Object.keys(this.domItems).forEach(ik => this.update(ik))
 
         let needed = this.handler.needed
-        this.report = needed[0] 
-            ? reports.default(this, needed) : reports.success(this, needed)
+        if (needed[0])
+            this.reports.userErrored(needed)
 
-        window.scrollTo(0,0)
+        else if (this.reports.needsConfirmation)
+            this.reports.confirmForm()
 
-        if (this.fromApi == -1) return 
-        
-        document.body.appendChild(this.report.container)
-        document.body.appendChild(this.report.underlay)
+        else this.handler.submit(this)
     }
 
     postSubmission() {
@@ -381,7 +386,7 @@ class AppDirector {
             this.domItems[dk].input.readOnly = true
             this.update(dk, true)
         })
-        window.localStorage.setItem('getApiApp', true)
+        window.localStorage.setItem((this.saveTo + "Done"), true)
 
     }
 }

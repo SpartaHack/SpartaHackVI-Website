@@ -1,32 +1,41 @@
 import './../../scss/sheets/application.scss'
 ;(require('./../fa').default)()
 
-const Director = require('./director').default,
-Handler = require('./application').default,
+const Director = require('./../forms/director').default,
+Handler = require('./../forms/handler').default,
+reports = require('./reports'),
+submit = require('./submit').default,
 transactions = require('./../transactions')
 
-let validatorDicts = {
-    'city': 'cities.json',
-    'major': 'majors.json',
-    'universities': 'unis.json'
-},
-handler,
+let handler,
 handlerInit = (auth, user, state) =>
-    handler = new Handler(auth, user, validatorDicts),
+    handler = new Handler(auth, user, submit),
 directorArgs = {
+    'name': 'SpartaHack-VI-Hacker-Application',
+    'reports': reports,
     'container': 'application-area',
-    'urls': [
-        window.location.origin + "/data/p1", 
-        window.location.origin + "/data/p2", 
-        window.location.origin + "/data/p3"
-    ]
+    "buttons": {
+        "done": document.getElementById('done'),
+        "prev": document.getElementById('prev'),
+        "next": document.getElementById('next')
+    },
+    'urls': 
+        [ "/data/p1",  "/data/p2",  "/data/p3" ]
 },
 director,
 directorInit = (auth, user, state) => {
-    let apiApp = transactions.appIn(true),
-    args = apiApp ? [apiApp, true] : [transactions.appIn, false]
+    let apiApp = transactions.appIn(true)
+    if (apiApp) {
+        directorArgs.saveTo = 'apiApp'
+        directorArgs.oldVals = apiApp
+        directorArgs.readOnly = true
+    }
+    else {
+        directorArgs.saveTo = 'locApp'
+        directorArgs.oldVals = transactions.appIn()
+    }
 
-    director = new Director(directorArgs, handler, args[0], args[1])        
+    director = new Director(directorArgs, handler)        
 }
 
 ;(require('./../startup/login').default)([handlerInit, directorInit])

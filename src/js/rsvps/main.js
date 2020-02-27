@@ -1,68 +1,38 @@
 import './../../scss/sheets/rsvp.scss'
 
-const Director = require('./../applications/director').default,
-Handler = require('./../applications/application').default,
-transactions = require('./../transactions'),
-submit = require('./rsvpSubmit').default
+const Director = require('../forms/director').default,
+Handler = require('./../forms/handler').default,
+reports = require('./reports'),
+submit = require('./submit').default,
+transactions = require('./../transactions')
 
 let user = transactions.userIn(),
 handler,
 handlerInit = async auth0 =>
     handler = new Handler(auth0, user, submit),
 directorArgs = {
+    'name': 'SpartaHack-VI-Hacker-RSVP',
+    'reports': reports,
     'container': 'rsvp-area',
-    'urls': [ window.location.origin + "/data/rsvp" ],
-    'buttons': {'done': document.getElementById('submit-rsvp')}
+    'buttons': {
+        'done': document.getElementById('submit-rsvp')
+    },
+    'urls': [ "/data/rsvp" ]
 },
 director,
 directorInit = async auth0 => {
-    let apiApp = transactions.appIn(true),
-    getDirector = (old, fromAPI) => {
-        if (!fromAPI) {
-            old = old ? old : {}
-        }
-        director = new Director(directorArgs, handler, old, -1)
+    let apiRsvp = transactions.appIn(true)
+    if (apiRsvp) {
+        directorArgs.saveTo = 'apiRsvp'
+        directorArgs.oldVals = apiRsvp
+        directorArgs.readOnly = true
     }
-    
-    if (user.rsvp && !apiApp) 
-        transactions.getRsvp(user.pt, user.aid, src => {
-            if (src) getDirector(src, true)
-            else 
-                console.error("Couldn't get submitted app")
-        })
-    else if (apiApp)
-        getDirector(transactions.appIn(true), true)
-    else
-        getDirector(transactions.appIn())
-
-        
-}, 
-rsvpCheck = async auth0 => {
-    let apiApp = transactions.appIn(true),
-    redirect = () => window.location = "/dashboard.html",
-    check = apiApp => {
-        console.log(apiApp)
-        if (apiApp.status != "accepted")
-            redirect()
-    },
-    after = () => ([handlerInit, directorInit]).forEach(f => f(auth0))
-    // console.log(apiApp)
-    console.log(auth0, user)
-    if (!user.aid) redirect()
-    else if (user.rsvp) {
-        let cb = rsvp => {
-            console.log(rsvp)
-            after()
-        }
-        transactions.getRsvp(user, cb)
+    else {
+        directorArgs.saveTo = 'locRsvp'
+        directorArgs.oldVals = transactions.rsvpIn()
     }
-    else if (!apiApp)
-    transactions.getApp(user.pt, user.aid, 
-        src => redirect(src) )
-    else if (apiApp) after()
-    else redirect(apiApp)
 
-    rsvpCheck 
+    director = new Director(directorArgs, handler)        
 }
 
-;(require('./../startup/login').default)(rsvpCheck)
+;(require('./../startup/login').default)([handlerInit, directorInit])

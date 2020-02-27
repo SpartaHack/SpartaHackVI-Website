@@ -1,11 +1,11 @@
 const validators = require('./helpers/validators').default,
-transactions = require('./../transactions')
-req = require('./../req')
+req = require('../req')
 
-class AppHandler {
-    constructor(auth, user, altSubmit) {
+class Handler {
+    constructor(auth, user, submit) {
         this.auth = auth
         this.user = user
+        this.submitFunc = submit
 
         this.items = {}
         this.filters = {}
@@ -14,8 +14,11 @@ class AppHandler {
         this._needed = new Set()
         this._notNeeded = new Set()
         this.out = {}
-        this.altSubmit = conditions => altSubmit(this, conditions)
     }
+
+    get token() { return this.user.pt }
+
+    get needed() { return Array.from(this._needed) }
 
     importFilter(id, filterSrc) {
         if (Array.isArray(filterSrc)) this.filters[id] = filterSrc
@@ -29,8 +32,6 @@ class AppHandler {
             ( item.error ? item.error 
             : (item.label ? item.label : item.name) )
     }
-
-    get needed() { return Array.from(this._needed) }
 
     import(item) {
         if (!item || !item.name) return
@@ -83,41 +84,8 @@ class AppHandler {
         return
     }
     
-    submit(conditions) {
-        this.out['other_university'] = ""
-        this.out['outside_north_america'] = ""
-        
-        let submitRq = {
-            headers: {
-                "Content-Type":"application/json",
-                "Access-Control-Request-Method": "POST",
-                "X-WWW-USER-TOKEN": this.user.pt
-            },  
-            body: this.out,
-            url: req.base + "/applications",
-            json: true
-        },
-        submitApp = (err, response, body) => {
-            if (body)
-                body.status = body.status ? body.status.toString() : "Other"
-            else body = {
-                'status': 'Other',
-                'message': 'Probable CORS issue' 
-            }
-
-            if (conditions[body.status]) (conditions[body.status])()
-            else if (body.status != "201" && conditions.otherError)
-                conditions.otherError(body) 
-        }
-
-        req.uest.post(submitRq, submitApp)
-        return
-    }
-
-    logout() {
-        if (this.auth) 
-            this.auth.logout(
-                { returnTo: window.location.origin })
-    }
+    submit(director) { this.submitFunc(this, director) }
+    logout() 
+        { this.auth.logout({ returnTo: window.location.origin }) }
 }
-module.exports.default = AppHandler
+module.exports.default = Handler

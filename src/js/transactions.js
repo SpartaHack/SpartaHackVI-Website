@@ -38,6 +38,7 @@ encrypt = (data, out) => {
     window.localStorage.setItem(out, data)
     return true
 }
+module.exports.encrypt = encrypt
 
 module.exports.getKey = getKey
 

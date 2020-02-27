@@ -20,15 +20,15 @@
     ,out: "" || ["field1", "field2"]
 }
 */
-const makers = require('./helpers/makers'),
+const makers = require('./makers'),
 special = {
-    'other': require('./helpers/_other').default,
-    'list': require('./helpers/_stackInput').default,
-    'autocomplete': require('./helpers/_autoComplete').default,
-    'opt': require('./helpers/_noValidation').default
+    'other': require('./_other').default,
+    'list': require('./_stackInput').default,
+    'autocomplete': require('./_autoComplete').default,
+    'opt': require('./_noValidation').default
 },
 readOnlySpecial = {
-    'list': require('./helpers/_stackNavigation').default,
+    'list': require('./_stackNavigation').default,
     'other': special.other
 }
 
