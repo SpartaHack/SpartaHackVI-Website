@@ -254,7 +254,7 @@ rsvpFail = (director, response) => {
     // domBase.buttons.appendChild(document.createElement('div'))
     // // console.log(domBase)
     document.body.appendChild(domBase.underlay)
-    document.body.appendChild(domBase.reportContainer)
+    document.body.appendChild(domBase.container)
 },
 rsvpReponses = ({
     '201': rsvpSuccess,
