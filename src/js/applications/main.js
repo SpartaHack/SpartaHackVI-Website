@@ -36,9 +36,7 @@ directorInit = (auth, user, state) => {
         directorArgs.oldVals = transactions.appIn()
     }
 
-    director = new Director(directorArgs, handler)    
-    
-    console.log(director, handler)
+    director = new Director(directorArgs, handler)
 }
 
 ;(require('./../startup/login').default)([handlerInit, directorInit])

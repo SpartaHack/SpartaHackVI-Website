@@ -27,7 +27,7 @@ let auth_func = async cb => {
             userItems = ['pt', 'aid', 'pid', 'rsvp']
             userItems.forEach(
                 i => userOut[i] = getUserItem(i) )
-            console.log(payload)
+
             window.sessionStorage.setItem('st',
                 transactions.getKey() )
 

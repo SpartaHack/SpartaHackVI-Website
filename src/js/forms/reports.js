@@ -79,7 +79,7 @@ otherError = (main, director, details) => {
 
     logoutButton.addEventListener('click', e => director.handler.logout())
     // LOGOUT (hard) CLICK LISTENER
-    console.log(main.dom)
+
     if (main.dom.buttons.lastChild)
         main.dom.buttons.replaceChild(logoutButton, main.dom.buttons.lastChild)
     else main.dom.buttons.appendChild(logoutButton)
@@ -150,7 +150,7 @@ class reports {
             document.body.removeChild(this.dom.underlay)
         if (document.body.contains(this.dom.report))
             document.body.removeChild(this.dom.report)
-            
+
         this.dom = reportDomBase()
         condition = String(condition)
         condition = this.conditions.hasOwnProperty(condition)

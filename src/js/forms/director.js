@@ -17,8 +17,6 @@ class AppDirector {
         this.oldVals = args.oldVals
         this.readOnly = args.readOnly
 
-        // if (this.readOnly) this.postSubmission()
-
         this.pageUrls = args.pageUrls
         this.pageUrls.forEach(
             p => this.pages.push(undefined) )
@@ -40,8 +38,13 @@ class AppDirector {
         }
 
         if (this.totalPages > 1) {
+            let args = window.location.hash,
+            manualPageSet = window.location.hash
+
             this.hashNavigation()
             this.changeHash(0)
+
+            if (manualPageSet) this.current = 0
         }
         else this.current = 0
     }
@@ -118,7 +121,6 @@ class AppDirector {
             json: true
         },
         pageCb = (err, response, body) => {
-            console.log(body, response)
             if (body && body.forEach) {
                 this.pages[pageNum] = body
 
@@ -285,8 +287,10 @@ class AppDirector {
     // ---'underlay': underlay,
 
     save() {
+        if (this.readOnly) return
+
         this.inputVals['PAGE'] = this.currentPage
-        transactions.encrypt(this.saveTo, this.inputVals)
+        transactions.encrypt(this.inputVals, this.saveTo)
     }
 
     async getFileEncoding(id) {

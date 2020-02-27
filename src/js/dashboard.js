@@ -109,10 +109,10 @@ let fillButton = (auth, user, state) => {
 }
 // -
 let status = (auth, user, state) => {
-    console.log(state)
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
     checkedIndicators = indicatorDirections[state],
+
     updateStatus = (statDom, state) => {
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
@@ -135,5 +135,5 @@ let status = (auth, user, state) => {
 
     return true
 }
-console.log('what')
+
 login([fillBanner, status, fillButton, fillInfo])
