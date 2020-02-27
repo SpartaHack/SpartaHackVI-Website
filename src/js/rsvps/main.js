@@ -61,6 +61,6 @@ rsvpCheck = async auth0 => {
     else redirect(apiApp)
 
     rsvpCheck 
-},
+}
 
 ;(require('../login').default)(rsvpCheck)
