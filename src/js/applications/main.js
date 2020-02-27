@@ -3,7 +3,7 @@ import './../../scss/sheets/application.scss'
 
 const Director = require('./../forms/director').default,
 Handler = require('./../forms/handler').default,
-reports = require('./reports'),
+reports = require('./reports').default,
 submit = require('./submit').default,
 transactions = require('./../transactions')
 
