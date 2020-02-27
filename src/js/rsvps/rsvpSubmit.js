@@ -22,10 +22,10 @@ let submit = (main, conditions) => {
             'message': 'Probable CORS issue' 
         }
 
-        if (conditions[body.status]) (conditions[body.status])()
-
+        if (conditions[body.status]) 
+            (conditions[body.status])()
         else if (body.status != "201" && conditions.otherError)
-            conditions.otherError(main, response) 
+            conditions.otherError(main, body) 
     }
     console.log(submitRq, main)
     req.uest.post(submitRq, submitApp)
