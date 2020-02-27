@@ -98,7 +98,10 @@ let fail = (domBase, director, details) => {
     logoutButton.addEventListener('click', e => logout(director))
     // LOGOUT (hard) CLICK LISTENER
     console.log(domBase)
-    domBase.buttons.replaceChild(logoutButton, domBase.buttons.lastChild)
+    if (domBase.buttons.lastChild)
+        domBase.buttons.replaceChild(logoutButton, domBase.buttons.lastChild)
+    else domBase.buttons.appendChild(logoutButton)
+
     domBase.container.replaceChild(domBase.report, domBase.report)
 }
 
