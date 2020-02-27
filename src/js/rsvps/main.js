@@ -18,7 +18,6 @@ director,
 directorInit = async auth0 => {
     let apiApp = transactions.appIn(true),
     getDirector = (old, fromAPI) => {
-        console.log(fromAPI)
         if (!fromAPI) {
             old = old ? old : {}
         }

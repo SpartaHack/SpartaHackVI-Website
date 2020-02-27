@@ -33,6 +33,7 @@ login = async auth0 => {
         userItems = ['pt', 'aid', 'rsvp'],
         userOut = {
             'email': payload.email,
+            'oaid': payload.sub,
             'name': payload.name != payload.email
                 ? payload.name : undefined,
             'exp': payload.exp,
