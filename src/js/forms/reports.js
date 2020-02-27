@@ -52,9 +52,9 @@ userError = (main, director, details) => {
     let neededItems = document.createElement('ul')
     neededItems.id = 'needed-items'
 
-    needed.forEach(nf => {
+    details.forEach(neededField => {
         neededItems.appendChild(document.createElement('li'))
-        neededItems.lastChild.innerHTML = director.handler.getError(nf)
+        neededItems.lastChild.innerHTML = director.handler.getError(neededField)
     })
     main.dom.content.appendChild(neededItems)
 
@@ -141,11 +141,17 @@ class reports {
             document.body.appendChild(this.dom.underlay)
 
         if (document.body.contains(this.dom.container))
-            container.replaceWith(this.dom.container)
+            document.querySelector('.report-container').replaceWith(this.dom.container)
         else document.body.appendChild(this.dom.container)
     }
 
     update(condition, details) {
+        if (document.body.contains(this.dom.underlay))
+            document.body.removeChild(this.dom.underlay)
+        if (document.body.contains(this.dom.report))
+            document.body.removeChild(this.dom.report)
+            
+        this.dom = reportDomBase()
         condition = String(condition)
         condition = this.conditions.hasOwnProperty(condition)
             ? condition : otherError

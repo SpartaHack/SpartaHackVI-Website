@@ -1,4 +1,4 @@
-require.context('./../../assets')
+// require.context('./../../assets')
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -9,5 +9,5 @@ let fontAwesome = () => {
     console.log(library)
     dom.i2svg()
 }
-export default fontAwesome
 
+export default fontAwesome
