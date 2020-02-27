@@ -51,7 +51,7 @@ rsvpCheck = async auth0 => {
 
     if (!user.aid) redirect()
     else if (user.rsvp)
-        transactions.getRsvp(user.pid, user.rsvp, rsvp => {
+        transactions.getRsvp(user, rsvp => {
             console.log(rsvp)
             after()
         })

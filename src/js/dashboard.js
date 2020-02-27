@@ -199,7 +199,7 @@ let startUp = async auth0 => {
                 after()
             })
         else if (state == 6)
-            transactions.getRsvp(user.pt, user.rsvp, rsvp => {
+            transactions.getRsvp(user, rsvp => {
                 transactions.appOut(rsvp, true)
                 after()
             })
