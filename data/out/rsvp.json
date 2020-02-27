@@ -38,9 +38,11 @@
         "label": "Dietary Restrictions",
         "out": "dietary_restrictions",
         "options": [
-            "Vegetarian",
             "Vegan",
-            "Kosher",
+            "Vegetarian",
+            "Gluten Free",
+            "Peanut Allergy",
+            "Lactose Intolerant",
             "Other",
             "None"
         ], 
