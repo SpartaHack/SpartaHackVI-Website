@@ -59,7 +59,7 @@ userError = (main, director, details) => {
     main.dom.content.appendChild(neededItems)
 
     return main.dom
-}
+},
 otherError = (main, director, details) => {
     main.dom.content.id = "other-submission-error"
     main.dom.title.innerHTML = 'Sorry'

@@ -1,4 +1,4 @@
-rsvpSent = (main, director, details) => {
+let rsvpSent = (main, director, details) => {
     main.dom.title = "RSVP'd"
     main.dom.content.innerHTML = "<p>We'll see you there! About a week before the event, \
     you'll recieve an email with specific logistics.</p>"
@@ -13,9 +13,7 @@ rsvpSent = (main, director, details) => {
     document.body.appendChild(main.dom.underlay)
     document.body.appendChild(main.dom.container)
 
-}
+},
+rsvpReport = { '201': rsvpSent}
 
-module.exports.default = {
-    '201': rsvpSent
-}
-
+module.exports.default = rsvpReport

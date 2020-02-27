@@ -1,4 +1,4 @@
-import './../../scss/sheets/rsvp.scss'
+require('./../../scss/sheets/rsvp.scss')
 
 const Director = require('../forms/director').default,
 Handler = require('./../forms/handler').default,

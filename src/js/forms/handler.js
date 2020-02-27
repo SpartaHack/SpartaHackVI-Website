@@ -1,5 +1,4 @@
-const validators = require('./helpers/validators').default,
-req = require('../req')
+const validators = require('./helpers/validators').default
 
 class Handler {
     constructor(auth, user, submit) {
@@ -88,4 +87,5 @@ class Handler {
     logout() 
         { this.auth.logout({ returnTo: window.location.origin }) }
 }
+
 module.exports.default = Handler

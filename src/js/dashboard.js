@@ -1,10 +1,10 @@
-import './../scss/sheets/dashboard.scss'
+require('./../scss/sheets/dashboard.scss') 
+const login = require('./startup/login').default
 ;(require('./fa').default)()
 
-const transactions = require('./transactions'),
-login = require('./startup/login').default
 
 let fillBanner = (auth, user, state) => {
+    console.log(user, state)
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -109,7 +109,7 @@ let fillButton = (auth, user, state) => {
 }
 // -
 let status = (auth, user, state) => {
-
+    console.log(state)
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
     checkedIndicators = indicatorDirections[state],
@@ -135,5 +135,5 @@ let status = (auth, user, state) => {
 
     return true
 }
-
+console.log('what')
 login([fillBanner, status, fillButton, fillInfo])

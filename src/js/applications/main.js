@@ -1,11 +1,12 @@
-import './../../scss/sheets/application.scss'
-;(require('./../fa').default)()
+require('./../../scss/sheets/application.scss')
 
 const Director = require('./../forms/director').default,
 Handler = require('./../forms/handler').default,
 reports = require('./reports').default,
 submit = require('./submit').default,
 transactions = require('./../transactions')
+
+;(require('./../fa').default)()
 
 let handler,
 handlerInit = (auth, user, state) =>

@@ -1,5 +1,6 @@
-const req = require('./../req'),
-submit = (handler, director) => {
+const req = require('./../req')
+
+let submit = (handler, director) => {
     handler.out.other_dietary_restrictions = "None"
     handler.out.attending = "Yes"
     

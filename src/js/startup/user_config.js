@@ -2,7 +2,7 @@ const auth0 = require('auth0-js').default.WebAuth,
 transactions = require('./../transactions'),
 env = require('./../../../env.json')
 
-async function auth_func(cb) {
+let auth_func = async cb => {
     let args = window.location.hash, 
     auth = await new auth0(env.auth),
     key = transactions.getKey()
@@ -50,4 +50,4 @@ async function auth_func(cb) {
     return auth
 }
 
-export default auth_func
+module.exports.default = auth_func
