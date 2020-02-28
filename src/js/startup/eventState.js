@@ -15,7 +15,8 @@ startCheck = async cb => {
     else if (user.rsvp)
         transactions.getRsvp(user, () => startCheck(cb))
     else if (existing.rsvp)
-        thisState = 5
+        thisState = window.localStorage.getItem('locRsvpDone')
+            ? 8 : 5
     else if (existing.apiApp) {
         if (existing.apiApp.status == "Accepted")
             thisState = 5

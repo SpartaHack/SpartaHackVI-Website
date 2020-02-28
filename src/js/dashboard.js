@@ -4,7 +4,6 @@ const login = require('./startup/login').default
 
 
 let fillBanner = (auth, user, state) => {
-    console.log(user, state)
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -27,8 +26,8 @@ let fillBanner = (auth, user, state) => {
         case 1:
         temp = "We've saved your progress"; break
         case 2: 
-        case 7:
         case 3:
+        case 7:
         temp = "Thanks for applying, we'll get back to you shortly"; break
         case 4:
         temp = "Thanks for applying, but we have too many participants \
@@ -37,15 +36,15 @@ let fillBanner = (auth, user, state) => {
         temp = "We've reviewed your application and hope you can attend! \
         Please RSVP to secure your spot"; break
         case 6: 
+        case 8:
         temp = "Your spot is reserved, see you on 3/27!"
-        
     }
     message.innerHTML = temp
 
     return
-}
-// -
-let fillInfo = (auth, user, state) => {
+},
+
+fillInfo = (auth, user, state) => {
     let name = document.getElementById('user-name')
     // console.log(name, user)
     if (name && !user.name) 
@@ -75,9 +74,9 @@ let fillInfo = (auth, user, state) => {
     }
     else refresh(refreshItems)
     return
-}
-// -
-let fillButton = (auth, user, state) => {
+},
+
+fillButton = (auth, user, state) => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
     btnText, btnLocation
@@ -106,11 +105,11 @@ let fillButton = (auth, user, state) => {
 
     button.appendChild(btnIco)
     return
-}
-// -
-let status = (auth, user, state) => {
+},
+
+status = (auth, user, state) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
-    indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
+    indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1, 3],
     checkedIndicators = indicatorDirections[state],
 
     updateStatus = (statDom, state) => {

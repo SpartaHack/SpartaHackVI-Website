@@ -13,11 +13,11 @@ class AppDirector {
         this.pages = []
         this.current
 
+        // this neds a better solution, maybe something session based
         this.saveTo = args.saveTo
-        // this neds a better solutionm
-        this.fromApi = (this.saveTo.search(/api/) == 0)
         this.oldVals = args.oldVals
-        this.readOnly = args.readOnly
+        this.readOnly = args.readOnly ? 1 : false
+        this.fromApi = (this.saveTo.search(/api/) == 0)
 
         this.pageUrls = args.pageUrls
         this.pageUrls.forEach(
@@ -194,7 +194,7 @@ class AppDirector {
                 if (this.currentPage === pagesLength - 1) {
                     this.buttonDisplayChange('next', false)
 
-                    if (!this.fromApi && this.appState != 7)
+                    if (!this.readOnly)
                         this.buttonDisplayChange('done', true)
                 }
                 else {
@@ -213,6 +213,8 @@ class AppDirector {
                 || focusInto.firstChild instanceof HTMLTextAreaElement ? focusInto.firstChild : focusInto.lastChild
             focusInto.focus()
 
+            if (this.readOnly === 1) this.postSubmission()
+
             return true
         }
         return
@@ -224,7 +226,7 @@ class AppDirector {
         this.setComponents(args.name, components)
         this.handler.import(args)
 
-        let out = args.out && this.readOnly 
+        let out = args.out && this.fromApi 
             ? args.out : args.name,
         oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
@@ -248,7 +250,7 @@ class AppDirector {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
         
-        if ( this.readOnly && 
+        if ( this.fromApi && 
             (id == "github" || id == "linkedin" || id == "devpost") ) 
             val = (re.match(/[\w\-\_]+\/?$/))[0]
 
@@ -395,6 +397,7 @@ class AppDirector {
             this.update(dk, true)
         })
         window.localStorage.setItem((this.saveTo + "Done"), true)
+        this.readOnly = true
 
     }
 }
