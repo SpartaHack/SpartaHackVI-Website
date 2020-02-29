@@ -20,7 +20,9 @@ directorArgs = {
     'buttons': {
         'done': document.getElementById('submit-rsvp')
     },
-    'pageUrls': [ "/data/rsvp" ]
+    'pageUrls': [ "/data/rsvp" ],
+    'postSubmissionCb': domItems =>
+        domItems.resume.itemWrap.parentNode.removeChild(domItems.resume.itemWrap)
 },
 director,
 directorInit = (auth, user, state) => {
