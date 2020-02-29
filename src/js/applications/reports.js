@@ -83,7 +83,7 @@ appSent = (main, director, details) => {
 },
 reportItems = {
     'completed': completedApp,
-    'Applied': appSent
+    'sent': appSent
 }
 
 module.exports.default = reportItems

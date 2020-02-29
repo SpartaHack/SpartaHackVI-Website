@@ -24,7 +24,7 @@ let submit = (handler, director) => {
         }
         // console.log(body)
         if (body.status == "Applied")
-            director.reports.update('sent')
+            director.reports.isSent()
         else
             director.reports.update(body.status, body)
     }
