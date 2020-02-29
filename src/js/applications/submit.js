@@ -15,17 +15,18 @@ let submit = (handler, director) => {
         json: true
     },
     submitApp = (err, response, body) => {
+        console.log(err, response)
         if (body)
             body.status = body.status ? body.status.toString() : "Other"
         else body = {
             'status': 'Other',
             'message': 'Please let us know with screenshots of your aplication/console!'
         }
-        console.log(body)
+        // console.log(body)
         if (body.status)
             director.reports.update(body.status, body)
     }
-
+    console.log(submitRq)
     req.uest.post(submitRq, submitApp)
     return
 }

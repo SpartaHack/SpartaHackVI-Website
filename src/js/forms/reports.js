@@ -137,6 +137,8 @@ class reports {
     toDom() {
         window.scrollTo(0,0)
 
+        this.hide()
+
         if (!document.body.contains(this.dom.underlay))
             document.body.appendChild(this.dom.underlay)
 
@@ -165,7 +167,7 @@ class reports {
         let report = document.body.querySelector('.report-content'),
         container = document.body.querySelector('.report-container'),
         underlay = document.body.querySelector('.report-underlay')
-        console.log(underlay)
+
         if (report) report.parentElement.removeChild(report)
         if (container) underlay.parentElement.removeChild(container)
         if (underlay) underlay.parentElement.removeChild(underlay)
