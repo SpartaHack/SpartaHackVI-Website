@@ -8,10 +8,7 @@ let rsvpSent = (main, director, details) => {
     homeButton.innerHTML = "Home"
     main.dom.buttons.appendChild(homeButton)
     homeButton.addEventListener('click', 
-        () => window.location = window.location.origin)
-
-    document.body.appendChild(main.dom.underlay)
-    document.body.appendChild(main.dom.container)
+        () => window.location = window.location.origin )
 
     return main.dom
 },

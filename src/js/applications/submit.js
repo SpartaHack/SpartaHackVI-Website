@@ -15,15 +15,7 @@ let submit = (handler, director) => {
         json: true
     },
     submitApp = (err, response, body) => {
-
-        if (body)
-            body.status = body.status ? body.status.toString() : "Other"
-        else body = {
-            'status': 'Other',
-            'message': 'Please let us know with screenshots of your aplication/console!'
-        }
-
-        if (body.status == "Applied") {
+        if (response && response.statusCode == 201) {
             director.reports.isSent(body)
             window.localStorage.setItem('appSent', true)
         }
