@@ -85,7 +85,7 @@ let importCb = (which, cb, response, body) => {
     let contents = (response && response.statusCode === 200)
         ? body : false
     encrypt(contents, which)
-
+    console.log(response)
     if (contents)
         cb(body)
 }

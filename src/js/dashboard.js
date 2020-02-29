@@ -117,7 +117,7 @@ fillButton = (auth, user, state) => {
 
 status = (auth, user, state) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
-    indicatorDirections = [0, 0, 1, 1, 1, 1, 2, 3, 3],
+    indicatorDirections = [0, 0, 1, 1, 1, 2, 2, 3, 3],
     checkedIndicators = indicatorDirections[state],
     updateStatus = (statDom, state) => {
         console.log(indicatorDirections, state)
