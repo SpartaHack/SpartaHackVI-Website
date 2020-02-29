@@ -25,12 +25,12 @@ directorArgs = {
 },
 director,
 directorInit = (auth, user, state) => {
-    let apiRsvp = transactions.appIn(true)
-    console.log(apiRsvp)
+    let apiRsvp = transactions.rsvpIn(true)
+    // console.log(apiRsvp)
     if (apiRsvp) {
-        directorArgs.saveTo = 'apiRsvp'
-        directorArgs.oldVals = apiRsvp
-        directorArgs.readOnly = true
+        directorArgs['saveTo'] = 'apiRsvp'
+        directorArgs['oldVals'] = apiRsvp
+        directorArgs['readOnly'] = true
     }
     else {
         directorArgs.saveTo = 'locRsvp'
