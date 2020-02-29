@@ -10,6 +10,7 @@ startCheck = async cb => {
     }, 
     state = s => transactions.setState(s), thisState
 
+    console.log(user, existing)
     if (existing.apiRsvp)
         thisState = 6
     else if (user.rsvp)
@@ -32,6 +33,7 @@ startCheck = async cb => {
     else
         thisState = 0
 
+    console.log("---", state)
     if (thisState !== undefined)
         cb(state(thisState))
 }

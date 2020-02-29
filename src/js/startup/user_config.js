@@ -39,10 +39,10 @@ let auth_func = async cb => {
 
     else {
         let user = transactions.userIn()
-        console.log('weirder')
+
         if ((user.exp - Math.floor(Date.now()/1000)) < 900)
             auth.authorize()
-        console.log('weirder')
+
         cb(auth, user)
     }
 
