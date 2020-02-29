@@ -3,15 +3,22 @@ import './../scss/sheets/index.scss'
 
 let auth0 = require('auth0-js').default.WebAuth,
 env = require('./../../env.json'),
+navApply = document.getElementById('nav-apply'),
+infoApply = document.getElementById('info-apply'),
 applyButton = async () => {
-    let auth = await new auth0(env.auth)
+    let auth = await new auth0(env.auth),
+    startAuth = targetButton => {
+        targetButton.visibility = 'visible'
+        targetButton.addEventListener('click', () => auth.authorize())
+    }
 
-    document.getElementById('nav-apply')
-        .addEventListener('click', () => auth.authorize())
-
-    document.getElementById('info-apply')
-        .addEventListener('click', () => auth.authorize())
+    startAuth(navApply)
+    startAuth(infoApply)
 }
+
+navApply.style.visibility = 'hidden'
+infoApply.style.visibility = 'hidden'
+
 applyButton()
 
 let faqs = new (require('./faq')).default(
