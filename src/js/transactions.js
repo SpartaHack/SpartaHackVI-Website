@@ -7,7 +7,7 @@ let getKey = key => {
 
     if (key.search(/id_token/) != -1) {
         key = key.charAt(13) == "=" ?
-            key.split('&').pop().substr(9,25)
+            key.split('&').pop().substr(9,48)
             : key.substr(1)
         
         return "!!--"+key

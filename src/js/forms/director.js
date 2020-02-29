@@ -251,6 +251,7 @@ class AppDirector {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
         
+        if (items.input.type == "file") return
         if ( this.fromApi && 
             (id == "github" || id == "linkedin" || id == "devpost") ) 
             val = (re.match(/[\w\-\_]+\/?$/))[0]
