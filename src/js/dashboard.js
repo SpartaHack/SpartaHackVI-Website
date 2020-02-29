@@ -18,7 +18,7 @@ let fillBanner = (auth, user, state) => {
         temp = 'afternoon'
     }
     tod.innerHTML = temp
-    console.log(user, state)
+
     let message = document.getElementById('user-message')
     switch (state) { 
         case 0:
@@ -46,7 +46,7 @@ let fillBanner = (auth, user, state) => {
 
 fillInfo = (auth, user, state) => {
     let name = document.getElementById('user-name')
-    // console.log(name, user)
+
     if (name && !user.name) 
         document.getElementById('user-attrs').removeChild(name)
     else name.innerHTML = user.name
@@ -83,7 +83,7 @@ fillButton = (auth, user, state) => {
 
     if (button.lastElementChild)
         button.removeChild(button.lastElementChild)
-    // console.log(state)
+
     switch(state) {
         case 0: btnText = "New"
         break

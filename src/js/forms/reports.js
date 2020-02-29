@@ -72,7 +72,7 @@ otherError = (main, director, details) => {
 
     logoutButton.addEventListener('click', e => director.handler.logout({ returnTo: window.location.origin }))
     // LOGOUT (hard) CLICK LISTENER
-    console.log(main.dom.button)
+
     if (main.dom.buttons.lastChild)
         main.dom.buttons.replaceChild(logoutButton, main.dom.buttons.lastChild)
     else main.dom.buttons.appendChild(logoutButton)
@@ -157,7 +157,6 @@ class reports {
         condition = this.conditions.hasOwnProperty(condition)
             ? condition : "otherError"
 
-        console.log(condition, this.conditions)
         this.dom = this.conditions[condition](this, this.director, details)
         
         this.toDom()

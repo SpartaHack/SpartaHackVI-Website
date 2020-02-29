@@ -13,6 +13,7 @@ let rsvpSent = (main, director, details) => {
     document.body.appendChild(main.dom.underlay)
     document.body.appendChild(main.dom.container)
 
+    return main.dom
 },
 rsvpReport = { 'sent': rsvpSent}
 

@@ -21,7 +21,12 @@ let submit = (handler, director) => {
             'message': 'Please let us know with screenshots of your aplication/console!' 
         }
 
-        director.reports.update(body.status, body)
+        if (body) {
+            director.reports.isSent(body) 
+            window.localStorage.setItem('rsvpSent', true)
+        }
+        else
+            director.reports.update(body.message, body)
     }
 
     req.uest.post(submitRq, submitRsvp)

@@ -345,7 +345,6 @@ class AppDirector {
     
     done(startCheckAt) {
         if (startCheckAt === "confirmed") {
-            console.log('what the fuck')
             this.handler.submit(this)
             return
         }
