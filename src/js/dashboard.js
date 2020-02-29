@@ -104,14 +104,17 @@ fillButton = (auth, user, state) => {
         default: btnText = "Review"
     }
     button.innerHTML = btnText
-    console.log(btnIco, btnIco.className)
+    console.log(btnIco)
     if (!btnIco.className) 'fas fa-chevron-circle-right'
-
+    console.log(btnIco.className)
     btnLocation = state > 4
         ? "/rsvp.html" : "/application.html"
     button.addEventListener('click', () => window.location = btnLocation )
 
-    button.appendChild(btnIco)
+    if (button.contains(btnIco))
+        button.replaceChild(btnIco, btnIcfo)
+    else button.appendChild(btnIco)
+
     return
 },
 
