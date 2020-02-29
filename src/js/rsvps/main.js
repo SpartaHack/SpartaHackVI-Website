@@ -9,7 +9,7 @@ transactions = require('./../transactions')
 let user = transactions.userIn(),
 handler,
 rsvpCheck = (auth, user, state) => {
-    if (!user.aid || transactions.appIn(true).status !== "Accepted")
+    if (state < 4 || state == 7)
         window.location = "/dashboard.html"
 },
 handlerInit = (auth, user, state) =>
