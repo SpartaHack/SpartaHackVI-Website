@@ -99,7 +99,7 @@ fillButton = (auth, user, state) => {
         btnIco.className = 'fas fa-plus-square'
     else btnIco.className = 'fas fa-chevron-circle-right'
 
-    btnLocation = state >= 5 
+    btnLocation = state > 5 && state != 7
         ? "/rsvp.html" : "/application.html"
     button.addEventListener('click', () => window.location = btnLocation )
 
