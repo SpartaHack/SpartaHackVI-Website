@@ -108,7 +108,7 @@ getPage = (pageName, src, director) => {
 
         if (inParts) {
             pageContent.appendChild(inParts.itemWrap)
-            console.log(inParts, si)
+            // console.log(inParts, si)
             director.import(inParts, si)
         }
     })

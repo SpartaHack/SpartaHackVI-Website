@@ -20,7 +20,7 @@ let submit = (handler, director) => {
         //     'status': 'Other',
         //     'message': 'Please let us know with screenshots of your aplication/console!' 
         // }
-        console.log('check here')
+        // console.log('check here')
 
         if (body && body.response == 201) {
             director.reports.isSent(body) 
