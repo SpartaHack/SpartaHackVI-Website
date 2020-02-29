@@ -93,19 +93,19 @@ fillButton = (auth, user, state) => {
 
     switch(state) {
         case 0: btnText = "New"
+        btnIco.className = 'fas fa-plus-square'
         break
         case 1: btnText = "Continue"
         break
         case 5: 
         case 6: btnText = "RSVP!"
+        btnIco.className = 'fas fa-plus-square'
         break
         default: btnText = "Review"
     }
     button.innerHTML = btnText
-
-    if (state == 5 || state == 0)
-        btnIco.className = 'fas fa-plus-square'
-    else btnIco.className = 'fas fa-chevron-circle-right'
+    console.log(btnIco, btnIco.className)
+    if (!btnIco.className) 'fas fa-chevron-circle-right'
 
     btnLocation = state > 4
         ? "/rsvp.html" : "/application.html"
@@ -117,10 +117,10 @@ fillButton = (auth, user, state) => {
 
 status = (auth, user, state) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
-    indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1, 3],
+    indicatorDirections = [0, 0, 1, 1, 1, 1, 2, 3, 3],
     checkedIndicators = indicatorDirections[state],
-
     updateStatus = (statDom, state) => {
+        console.log(indicatorDirections, state)
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
         

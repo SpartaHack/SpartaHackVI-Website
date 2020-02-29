@@ -33,8 +33,10 @@ let startCheck = async cb => {
     else
         thisState = 0
     console.log(thisState)
-    if (thisState !== undefined)
+    if (thisState !== undefined){
         cb(state(thisState))
+        console.log('alright')
+    }
 }
 
 module.exports.default = startCheck
