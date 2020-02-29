@@ -1,6 +1,6 @@
 const transactions = require('./../transactions')
 
-startCheck = async cb => {
+let startCheck = async cb => {
     let user = transactions.userIn(),
     existing = {
         'apiRsvp': transactions.rsvpIn(true),

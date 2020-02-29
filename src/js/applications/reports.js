@@ -80,6 +80,8 @@ appSent = (main, director, details) => {
         () => window.location = window.location.origin + '/dashboard.html')
 
     main.dom.container.replaceChild(main.dom.report, main.dom.report)
+
+    return main.dom
 },
 reportItems = {
     'completed': completedApp,
