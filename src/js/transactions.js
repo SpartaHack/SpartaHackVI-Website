@@ -85,7 +85,7 @@ let importCb = (which, cb, response, body) => {
     let contents = (response && response.statusCode === 200)
         ? body : false
     encrypt(contents, which)
-
+    console.log("??", contents)
     if (contents)
         cb(body)
 }
@@ -100,10 +100,11 @@ module.exports.getApp = (user, cb) => {
         json: true
     },
     importApp = (err, response, body) => {
+        console.log("<>", response, body)
         if (response && response.status == 200)
             importCb('apiApp', cb, response, body)
     }
-    
+    // console.log()
     req.uest.get(importRq, importApp)
 }
 // what

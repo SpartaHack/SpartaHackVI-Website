@@ -33,7 +33,7 @@ let startCheck = async cb => {
     else
         thisState = 0
 
-    console.log("---", thisState)
+    console.log("---", thisState, startCheck)
     if (thisState !== undefined)
         cb(state(thisState))
 }
