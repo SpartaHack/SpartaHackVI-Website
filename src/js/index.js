@@ -8,16 +8,13 @@ infoApply = document.getElementById('info-apply'),
 applyButton = async () => {
     let auth = await new auth0(env.auth),
     startAuth = targetButton => {
-        targetButton.visibility = 'visible'
+        targetButton.style.visibility = 'visible'
         targetButton.addEventListener('click', () => auth.authorize())
     }
 
     startAuth(navApply)
     startAuth(infoApply)
 }
-
-navApply.style.visibility = 'hidden'
-infoApply.style.visibility = 'hidden'
 
 applyButton()
 
