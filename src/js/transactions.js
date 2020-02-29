@@ -99,11 +99,8 @@ module.exports.getApp = (user, cb) => {
         url: req.base+"/applications/"+user.aid,
         json: true
     },
-    importApp = (err, response, body) => {
-        console.log("<>", response, body)
-        if (response && response.status == 200)
+    importApp = (err, response, body) =>
             importCb('apiApp', cb, response, body)
-    }
     // console.log()
     req.uest.get(importRq, importApp)
 }
