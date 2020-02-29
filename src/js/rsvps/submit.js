@@ -21,13 +21,14 @@ let submit = (handler, director) => {
         //     'message': 'Please let us know with screenshots of your aplication/console!' 
         // }
         // console.log('check here')
-
+        console.log(response, body)
         if (body && !body.message) {
             director.reports.isSent(body) 
             window.localStorage.setItem('rsvpSent', true)
         }
         else {
             let errorCode = body ? body.message : "otherError"
+            console.log("!!", errorCode)
             director.reports.update(errorCode, body)
         }
     }
