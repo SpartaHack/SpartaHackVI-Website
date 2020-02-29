@@ -8,8 +8,12 @@ transactions = require('./../transactions')
 
 let user = transactions.userIn(),
 handler,
-handlerInit = async auth0 =>
-    handler = new Handler(auth0, user, submit),
+rsvpCheck = (auth, user, state) => {
+    if (!user.aid || transactions.appIn(true).status !== "Accepted")
+        window.location = "/dashboard.html"
+},
+handlerInit = (auth, user, state) =>
+    handler = new Handler(auth, user, submit),
 directorArgs = {
     'name': 'SpartaHack-VI-Hacker-RSVP',
     'reports': reports,
@@ -20,7 +24,7 @@ directorArgs = {
     'pageUrls': [ "/data/rsvp" ]
 },
 director,
-directorInit = async auth0 => {
+directorInit = (auth, user, state) => {
     let apiRsvp = transactions.appIn(true)
     if (apiRsvp) {
         directorArgs.saveTo = 'apiRsvp'
@@ -35,4 +39,4 @@ directorInit = async auth0 => {
     director = new Director(directorArgs, handler)        
 }
 
-;(require('./../startup/login').default)([handlerInit, directorInit])
+;(require('./../startup/login').default)([rsvpCheck, handlerInit, directorInit])
