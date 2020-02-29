@@ -27,13 +27,6 @@ let reportDomBase = name => {
     exitButton.innerHTML = "Exit"
     buttons.appendChild(exitButton)
 
-    let removeModal = () => {
-        document.body.removeChild(reportContainer)
-        document.body.removeChild(underlay)
-    }
-    exitButton.addEventListener('click', removeModal)
-    underlay.addEventListener('click', removeModal)
-
     return {
         'container': reportContainer, 'report': reportWrap,
         'title': reportTitle, 'content':reportContent,
@@ -77,14 +70,15 @@ otherError = (main, director, details) => {
     logoutButton.id="logout-button"
     logoutButton.innerHTML = "Logout"
 
-    logoutButton.addEventListener('click', e => director.handler.logout())
+    logoutButton.addEventListener('click', e => director.handler.logout({ returnTo: window.location.origin }))
     // LOGOUT (hard) CLICK LISTENER
-
+    console.log(main.dom.button)
     if (main.dom.buttons.lastChild)
         main.dom.buttons.replaceChild(logoutButton, main.dom.buttons.lastChild)
     else main.dom.buttons.appendChild(logoutButton)
 
     main.dom.container.replaceChild(main.dom.report, main.dom.report)
+    main.dom.report = main.dom.report
     return main.dom
 },
 authError = (main, director, details) => {
@@ -115,7 +109,13 @@ authError = (main, director, details) => {
     autoLogoutButton.addEventListener('click', e => logout(director))
     return main.dom
 }
+/*
+!!!!!!!
 
+THIS NEEDS TO BE REFACTORED
+
+!!!!!!!
+*/
 class reports {
     constructor(director, conditions) {
         this.director = director
@@ -143,21 +143,32 @@ class reports {
         if (document.body.contains(this.dom.container))
             document.querySelector('.report-container').replaceWith(this.dom.container)
         else document.body.appendChild(this.dom.container)
+
+        this.dom.exitButton.addEventListener('click', () => this.hide())
+        this.dom.underlay.addEventListener('click', () => this.hide())
     }
 
     update(condition, details) {
-        if (document.body.contains(this.dom.underlay))
-            document.body.removeChild(this.dom.underlay)
-        if (document.body.contains(this.dom.report))
-            document.body.removeChild(this.dom.report)
-
         this.dom = reportDomBase()
+
         condition = String(condition)
         condition = this.conditions.hasOwnProperty(condition)
-            ? condition : otherError
+            ? condition : "otherError"
 
-        this.conditions[condition](this, this.director, details)
+        console.log(condition, this.conditions)
+        this.dom = this.conditions[condition](this, this.director, details)
+        
         this.toDom()
+    }
+
+    hide() {
+        let report = document.body.querySelector('.report-content'),
+        container = document.body.querySelector('.report-container'),
+        underlay = document.body.querySelector('.report-underlay')
+        console.log(underlay)
+        if (report) report.parentElement.removeChild(report)
+        if (container) underlay.parentElement.removeChild(container)
+        if (underlay) underlay.parentElement.removeChild(underlay)
     }
 
     isSent(details) { this.update('sent', details) }

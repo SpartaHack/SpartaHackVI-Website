@@ -3,7 +3,6 @@ const req = require('./../req')
 let submit = (handler, director) => {
     handler.out.other_dietary_restrictions = "None"
     handler.out.attending = "Yes"
-    
     let submitRq = {
         headers: {
             "Content-Type":"application/json",

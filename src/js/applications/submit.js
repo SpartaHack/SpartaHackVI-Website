@@ -21,8 +21,9 @@ let submit = (handler, director) => {
             'status': 'Other',
             'message': 'Please let us know with screenshots of your aplication/console!'
         }
-
-        director.reports.update(body.status, body)
+        console.log(body)
+        if (body.status)
+            director.reports.update(body.status, body)
     }
 
     req.uest.post(submitRq, submitApp)

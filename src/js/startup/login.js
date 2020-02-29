@@ -11,7 +11,7 @@ let login = async cb => {
     
     logoutButton = document.getElementById('nav-logout')
     if (logoutButton)
-        logoutButton.addEventListener('click', e => auth.logout())
+        logoutButton.addEventListener('click', e => auth.logout({ returnTo: window.location.origin }))
     
     return
 }

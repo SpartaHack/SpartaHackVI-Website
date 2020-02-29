@@ -202,7 +202,7 @@ class AppDirector {
                     this.buttonDisplayChange('next', true)
                 }
             }
-            if (this.container.lastChild)
+            if (this.current && this.container.lastChild)
                 this.container.replaceChild(this.current, this.container.lastChild)
             else
                 this.container.appendChild(this.current)
@@ -345,6 +345,7 @@ class AppDirector {
     
     done(startCheckAt) {
         if (startCheckAt === "confirmed") {
+            console.log('what the fuck')
             this.handler.submit(this)
             return
         }
