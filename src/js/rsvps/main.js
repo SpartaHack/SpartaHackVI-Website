@@ -21,8 +21,10 @@ directorArgs = {
         'done': document.getElementById('submit-rsvp')
     },
     'pageUrls': [ "/data/rsvp" ],
-    'postSubmissionCb': domItems =>
+    'postSubmissionCb': domItems => {
         domItems.resume.itemWrap.parentNode.removeChild(domItems.resume.itemWrap)
+        document.body.getElementById('invited-message').innerHTML = "You're set for SpartaHack VI!"
+    }
 },
 director,
 directorInit = (auth, user, state) => {
