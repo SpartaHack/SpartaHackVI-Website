@@ -134,5 +134,5 @@ status = (auth, user, state) => {
 
     return true
 }
-
+console.log('okay??')
 login([fillBanner, status, fillButton, fillInfo])
