@@ -23,7 +23,7 @@ directorArgs = {
     'pageUrls': [ "/data/rsvp" ],
     'postSubmissionCb': domItems => {
         domItems.resume.itemWrap.parentNode.removeChild(domItems.resume.itemWrap)
-        document.getElementById('invited-message').innerHTML = "You're set for SpartaHack VI!"
+        document.getElementById('invited-message').innerHTML = "You're set for SpartaHack VI"
     }
 },
 director,
