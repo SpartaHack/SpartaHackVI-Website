@@ -3,7 +3,7 @@ const req = require('./../req')
 let submit = (handler, director) => {
     handler.out['other_university'] = ""
     handler.out['outside_north_america'] = ""
-    
+    console.log(req)
     let submitRq = {
         headers: {
             "Content-Type":"application/json",
