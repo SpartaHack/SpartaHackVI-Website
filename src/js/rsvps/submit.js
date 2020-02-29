@@ -14,19 +14,22 @@ let submit = (handler, director) => {
         json: true
     },
     submitRsvp = (err, response, body) => {
-        if (body)
-            body.status = body.status ? body.status.toString() : "Other"
-        else body = {
-            'status': 'Other',
-            'message': 'Please let us know with screenshots of your aplication/console!' 
-        }
+        // if (body)
+        //     body.status = body.status ? body.status.toString() : "Other"
+        // else body = {
+        //     'status': 'Other',
+        //     'message': 'Please let us know with screenshots of your aplication/console!' 
+        // }
+        console.log('check here')
 
-        if (body) {
+        if (body && body.response == 201) {
             director.reports.isSent(body) 
             window.localStorage.setItem('rsvpSent', true)
         }
-        else
-            director.reports.update(body.message, body)
+        else {
+            let errorCode = body ? body.message : "otherError"
+            director.reports.update(errorCode, body)
+        }
     }
 
     req.uest.post(submitRq, submitRsvp)
