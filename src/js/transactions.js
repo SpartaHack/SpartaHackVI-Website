@@ -4,7 +4,7 @@ simpleCrypto = require("simple-crypto-js").default
 let getKey = key => {
     if (key) return key
     key = window.location.hash
-
+    console.log("--", key)
     if (key.search(/id_token/) != -1) {
         key = key.charAt(13) == "=" ?
             key.split('&').pop().substr(9,48)
@@ -14,6 +14,7 @@ let getKey = key => {
     }
 
     key = window.sessionStorage.getItem('st')
+    history.replaceState(null, null, ' ')
     return (key && key.substr(0,4) == "!!--" )
         ? key : false
 },
