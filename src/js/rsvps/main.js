@@ -26,6 +26,7 @@ directorArgs = {
 director,
 directorInit = (auth, user, state) => {
     let apiRsvp = transactions.appIn(true)
+    console.log(apiRsvp)
     if (apiRsvp) {
         directorArgs.saveTo = 'apiRsvp'
         directorArgs.oldVals = apiRsvp
