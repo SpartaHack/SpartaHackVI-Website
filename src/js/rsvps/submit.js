@@ -22,7 +22,7 @@ let submit = (handler, director) => {
         // }
         // console.log('check here')
 
-        if (body && body.response == 201) {
+        if (body && !body.message) {
             director.reports.isSent(body) 
             window.localStorage.setItem('rsvpSent', true)
         }

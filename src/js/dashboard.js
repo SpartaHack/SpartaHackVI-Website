@@ -93,19 +93,25 @@ fillButton = (auth, user, state) => {
 
     switch(state) {
         case 0: btnText = "New"
-        btnIco.className = 'fas fa-plus-square'
+        
         break
         case 1: btnText = "Continue"
         break
         case 5: 
         case 6: btnText = "RSVP!"
-        btnIco.className = 'fas fa-plus-square'
+        
         break
         default: btnText = "Review"
     }
+
+    if (!state || state == 5 || state == 6)
+        btnIco.className = 'fas fa-plus-square'
+    else 
+        btnIco.className = 'fas fa-chevron-circle-right'
+        
     button.innerHTML = btnText
-    console.log(btnIco)
-    if (!btnIco.className) 'fas fa-chevron-circle-right'
+    // console.log(btnIco)
+    if (!btnIco.className) 
     console.log(btnIco.className)
     btnLocation = state > 4
         ? "/rsvp.html" : "/application.html"
