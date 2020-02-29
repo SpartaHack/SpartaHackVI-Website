@@ -232,7 +232,7 @@ class AppDirector {
         oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
 
-        if (insertVal && !Array.isArray(insertVal)) {
+        if (components.input.type != "file" && insertVal && !Array.isArray(insertVal)) {
             if (components.specialHandlers) {
                 Object.keys(components.specialHandlers).forEach(sh =>
                     components = components.specialHandlers[sh].importHook(components, oldVal) 
