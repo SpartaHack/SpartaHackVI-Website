@@ -45,7 +45,7 @@ module.exports.getKey = getKey
 //
 module.exports.setState = state => {
     state = Number(state)
-    if (Number.isNaN(state) || Math.floor(state) !== state || state > 7)
+    if (Number.isNaN(state) || Math.floor(state) !== state)
         return false
 
     window.localStorage.setItem('state', state)
