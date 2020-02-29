@@ -402,7 +402,7 @@ class AppDirector {
         window.localStorage.setItem((this.saveTo + "Done"), true)
         this.readOnly = true
 
-        if (this.postSubmissionCb) missionCb(this.domItems)
+        if (this.postSubmissionCb) this.postSubmissionCb(this.domItems)
 
     }
 }
