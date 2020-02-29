@@ -23,10 +23,12 @@ let submit = (handler, director) => {
             'message': 'Please let us know with screenshots of your aplication/console!'
         }
         // console.log(body)
-        if (body.status)
+        if (body.status == "Applied")
+            director.reports.update('sent')
+        else
             director.reports.update(body.status, body)
     }
-    console.log(submitRq)
+
     req.uest.post(submitRq, submitApp)
     return
 }

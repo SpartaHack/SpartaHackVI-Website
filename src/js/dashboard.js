@@ -18,7 +18,7 @@ let fillBanner = (auth, user, state) => {
         temp = 'afternoon'
     }
     tod.innerHTML = temp
-
+    console.log(user, state)
     let message = document.getElementById('user-message')
     switch (state) { 
         case 0:

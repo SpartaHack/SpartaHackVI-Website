@@ -14,6 +14,6 @@ let rsvpSent = (main, director, details) => {
     document.body.appendChild(main.dom.container)
 
 },
-rsvpReport = { '201': rsvpSent}
+rsvpReport = { 'sent': rsvpSent}
 
 module.exports.default = rsvpReport
