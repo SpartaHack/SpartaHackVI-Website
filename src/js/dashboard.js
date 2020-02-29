@@ -22,20 +22,27 @@ let fillBanner = (auth, user, state) => {
     let message = document.getElementById('user-message')
     switch (state) { 
         case 0:
-        temp = "You're set to start your application"; break
+        temp = "You're set to start your application"
+        break
         case 1:
-        temp = "We've saved your progress"; break
+        temp = "We've saved your progress!"
+        break
         case 2: 
         case 3:
-        case 7:
-        temp = "Thanks for applying, we'll get back to you shortly"; break
+        temp = "Thanks for applying, we'll get back to you shortly"
+        break
         case 4:
         temp = "Thanks for applying, but we have too many participants \
-        and couldn't give you a spot this year."; break
+        and couldn't give you a spot this year."
+        break
         case 5:
         temp = "We've reviewed your application and hope you can attend! \
-        Please RSVP to secure your spot"; break
-        case 6: 
+        Please RSVP to secure your spot"
+        break
+        case 6:
+        temp = "Almost there, please complete your RSVP!"
+        break
+        case 7: 
         case 8:
         temp = "Your spot is reserved, see you on 3/27!"
     }
@@ -89,7 +96,8 @@ fillButton = (auth, user, state) => {
         break
         case 1: btnText = "Continue"
         break
-        case 5: btnText = "RSVP!"
+        case 5: 
+        case 6: btnText = "RSVP!"
         break
         default: btnText = "Review"
     }
@@ -99,7 +107,7 @@ fillButton = (auth, user, state) => {
         btnIco.className = 'fas fa-plus-square'
     else btnIco.className = 'fas fa-chevron-circle-right'
 
-    btnLocation = state > 5 && state != 7
+    btnLocation = state > 4
         ? "/rsvp.html" : "/application.html"
     button.addEventListener('click', () => window.location = btnLocation )
 

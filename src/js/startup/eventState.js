@@ -11,12 +11,12 @@ let startCheck = async cb => {
     state = s => transactions.setState(s), thisState
 
     if (existing.apiRsvp)
-        thisState = 6
+        thisState = 8
     else if (user.rsvp)
         transactions.getRsvp(user, () => startCheck(cb))
     else if (existing.rsvp)
         thisState = window.localStorage.getItem('rsvpSent')
-            ? 8 : 5
+            ? 7 : 6
     else if (existing.apiApp) {
         if (existing.apiApp.status == "Accepted")
             thisState = 5
@@ -29,7 +29,7 @@ let startCheck = async cb => {
         transactions.getApp(user, () => startCheck(cb))
     else if (existing.app)
         thisState = window.localStorage.getItem('appSent')
-            ? 7 : 1
+            ? 2 : 1
     else
         thisState = 0
 

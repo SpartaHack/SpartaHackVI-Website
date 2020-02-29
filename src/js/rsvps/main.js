@@ -9,8 +9,7 @@ transactions = require('./../transactions')
 let user = transactions.userIn(),
 handler,
 rsvpCheck = (auth, user, state) => {
-    if (state < 4 || state == 7)
-        window.location = "/dashboard.html"
+    if (state < 6) window.location = "/dashboard.html"
 },
 handlerInit = (auth, user, state) =>
     handler = new Handler(auth, user, submit),
