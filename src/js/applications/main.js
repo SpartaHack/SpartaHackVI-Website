@@ -1,53 +1,42 @@
-import './../../scss/sheets/application.scss'
-;(require('./../fa').default)()
+require('./../../scss/sheets/application.scss')
 
-const Director = require('./director').default,
-Handler = require('./application').default,
+const Director = require('./../forms/director').default,
+Handler = require('./../forms/handler').default,
+reports = require('./reports').default,
+submit = require('./submit').default,
 transactions = require('./../transactions')
 
-let user = transactions.userIn(),
-validatorDicts = {
-    'city': 'cities.json',
-    'major': 'majors.json',
-    'universities': 'unis.json'
-},
-handler,
-handlerInit = async auth0 =>
-    handler = new Handler(auth0, user, validatorDicts),
+;(require('./../fa').default)()
+
+let handler,
+handlerInit = (auth, user, state) =>
+    handler = new Handler(auth, user, submit),
 directorArgs = {
+    'name': 'SpartaHack-VI-Hacker-Application',
+    'reports': reports,
     'container': 'application-area',
-    'urls': [
-        window.location.origin + "/data/p1", 
-        window.location.origin + "/data/p2", 
-        window.location.origin + "/data/p3"
-    ]
+    "buttons": {
+        "next": document.getElementById('next-page'),
+        "done": document.getElementById('finish-app'),
+        "prev": document.getElementById('previous-page'),
+    },
+    'pageUrls': 
+        [ "/data/p1",  "/data/p2",  "/data/p3" ]
 },
 director,
-directorInit = async auth0 => {
-    let apiApp = transactions.appIn(true),
-    getDirector = (old, fromAPI) => {
-        if (!fromAPI) {
-            old = old ? old : {}
-            if (user.github) 
-                old.github = old.github ? old.github : user.github
-            if (user.name) 
-                old.name = old.name ? old.name : user.name
-        }
-        director = new Director(directorArgs, handler, old, fromAPI)
+directorInit = (auth, user, state) => {
+    let apiApp = transactions.appIn(true)
+    if (apiApp) {
+        directorArgs.saveTo = 'apiApp'
+        directorArgs.oldVals = apiApp
+        directorArgs.readOnly = true
     }
-    
-    if (user.aid && !apiApp) 
-        transactions.getApp(user.pt, user.aid, src => {
-            if (src) getDirector(src, true)
-            else 
-                console.error("Couldn't get submitted app")
-        })
-    else if (apiApp)
-        getDirector(transactions.appIn(true), true)
-    else
-        getDirector(transactions.appIn())
+    else {
+        directorArgs.saveTo = 'locApp'
+        directorArgs.oldVals = transactions.appIn()
+    }
 
-        
+    director = new Director(directorArgs, handler)
 }
 
-;(require('../login').default)([handlerInit, directorInit])
+;(require('./../startup/login').default)([handlerInit, directorInit])

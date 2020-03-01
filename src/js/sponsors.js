@@ -1,5 +1,5 @@
-const request = require('request')
 require('../scss/components/sponsorship-list.scss')
+const request = require('request')
 
 let make = (info, container) => {
     if (!info) return

@@ -1,50 +1,82 @@
-const domFuncs = require('./dom'),
-reports = require('./helpers/reports'),
+const Reports = require('./reports').default,
 transactions = require('../transactions'),
+domFuncs = require('./helpers/dom'),
 request = require('request')
 
 class AppDirector {
-    constructor(args, handler, old, fromApi) {
+    constructor(args, handler) {
+        this.reports = new Reports(this, args.reports)
         this.handler = handler
-        this.domItems = {}
+
         this.inputVals = {}
-
+        this.domItems = {}
         this.pages = []
-        this.oldVals = old
-        this.pageURLs = args.urls
-        this.pageURLs.forEach(
-            p => this.pages.push(undefined) )
-        
-        this.container = document.getElementById(args.container)
-        this.buttons = args.buttons ? args.buttons : {
-            'prev': document.getElementById("previous-page"),
-            'next': document.getElementById("next-page"),
-            'done': document.getElementById("finish-app")
-        }
-        
-        this.buttons.prev.addEventListener('click', 
-            e => this.prevPage() )
-        this.buttons.next.addEventListener('click', 
-            e => this.nextPage() )
-        this.buttons.done.addEventListener('click', 
-            e => this.done() )
-            
-        this.fromApi = fromApi
-        this.hashNavigation()
-        this.changeHash(0)
+        this.current
 
-        this.appState = window.localStorage.getItem('appState')
-        // this.showCurrent()
-        if (this.fromApi || this.appState == 7)
-            this.postSubmission()
+        // this neds a better solution, maybe something session based
+        this.saveTo = args.saveTo
+        this.oldVals = args.oldVals
+        this.postSubmissionCb = args.postSubmissionCb
+        // console.log(this.oldVals)
+        this.readOnly = args.readOnly ? 1 : false
+        this.fromApi = (this.saveTo.search(/api/) == 0)
+
+        this.pageUrls = args.pageUrls
+        this.pageUrls.forEach(
+            p => this.pages.push(undefined) )
+        this.totalPages = this.pageUrls.length
+
+        this.container = document.getElementById(args.container)
+        if (args.buttons) {
+            this.buttons = args.buttons
+
+            if (this.buttons.prev)
+                this.buttons.prev.addEventListener('click', 
+                    e => this.prevPage() )
+            if (this.buttons.next)
+                this.buttons.next.addEventListener('click', 
+                    e => this.nextPage() )
+
+            this.buttons.done.addEventListener('click', 
+                e => this.done() )
+        }
+
+        if (this.totalPages > 1) {
+            let args = window.location.hash,
+            manualPageSet = window.location.hash
+
+            this.hashNavigation()
+            this.changeHash(0)
+
+            if (manualPageSet) this.current = 0
+        }
+        else this.current = 0
     }
 
     set current(val) {
+        val = Number.isNaN(val) ? 0 : Math.floor(val)
+
         this.currentPage = val
         this.showCurrent()
     }
     get current() { return this.pages[this.currentPage] }
 
+    // get readOnly() { return this.fromApi && this.fromApi != -1 }
+    // ---
+    buttonDisplayChange(which, visible) {
+        if (!this.buttons) return
+
+        let target = this.buttons[which]
+        if (!target) return
+
+        let action = visible ?
+            button => button.classList.remove('hidden')
+            : button => button.classList.add('hidden')
+        
+        action(target)
+        return true
+    }
+    
     // ---
 
     getComponents(id) { return id  ? this.domItems[id] : undefined}
@@ -89,17 +121,17 @@ class AppDirector {
             headers: { 
                 "Content-Type": "application/json" 
             },
-            url: window.location.origin + "/data/p" +
-                (pageNum + 1)  + ".json",
+            url: window.location.origin + this.pageUrls[pageNum] + ".json",
             json: true
-        }
-        let pageCb = (err, response, body) => {
+        },
+        pageCb = (err, response, body) => {
             if (body && body.forEach) {
                 this.pages[pageNum] = body
 
                 if (cb) cb()
             }
         }
+
         this.pages[pageNum] = false
         request.get(pageRq, pageCb)
     }
@@ -146,6 +178,8 @@ class AppDirector {
         this.save()
     }
     showCurrent() {
+        let pagesLength = this.pages.length
+
         if (this.current === undefined)
             this.getPageSrc(this.currentPage, () => this.showCurrent())
         else if (Array.isArray(this.current))
@@ -153,23 +187,24 @@ class AppDirector {
         else {
             // show only the appropriate buttons
             if (this.currentPage === 0) {
-                this.buttons.prev.classList.add('hidden')
-                this.buttons.done.classList.add('hidden')
+                this.buttonDisplayChange('prev', false)
+                this.buttonDisplayChange('done', pagesLength == 1)
             }
             else {
-                this.buttons.prev.classList.remove('hidden')
+                this.buttonDisplayChange('prev', true)
 
-                if (this.currentPage === this.pages.length - 1) {
-                    this.buttons.next.classList.add('hidden')
-                    if (!this.fromApi && this.appState != 7)
-                        this.buttons.done.classList.remove('hidden')
+                if (this.currentPage === pagesLength - 1) {
+                    this.buttonDisplayChange('next', false)
+
+                    if (!this.readOnly)
+                        this.buttonDisplayChange('done', true)
                 }
                 else {
-                    this.buttons.done.classList.add('hidden')
-                    this.buttons.next.classList.remove('hidden')
+                    this.buttonDisplayChange('done', false)
+                    this.buttonDisplayChange('next', true)
                 }
             }
-            if (this.container.lastChild)
+            if (this.current && this.container.lastChild)
                 this.container.replaceChild(this.current, this.container.lastChild)
             else
                 this.container.appendChild(this.current)
@@ -179,6 +214,8 @@ class AppDirector {
             focusInto = focusInto.firstChild instanceof HTMLInputElement || focusInto.firstChild instanceof HTMLSelectElement
                 || focusInto.firstChild instanceof HTMLTextAreaElement ? focusInto.firstChild : focusInto.lastChild
             focusInto.focus()
+
+            if (this.readOnly === 1) this.postSubmission()
 
             return true
         }
@@ -196,7 +233,7 @@ class AppDirector {
         oldVal = this.getOldVal(out, components.input.type),
         insertVal = Array.isArray(oldVal) && oldVal[0] ? oldVal[oldVal.length -  1] : oldVal
 
-        if (insertVal && !Array.isArray(insertVal)) {
+        if (components.input.type != "file" && insertVal && !Array.isArray(insertVal)) {
             if (components.specialHandlers) {
                 Object.keys(components.specialHandlers).forEach(sh =>
                     components = components.specialHandlers[sh].importHook(components, oldVal) 
@@ -215,6 +252,7 @@ class AppDirector {
         val = val !== undefined ? val : ""            
         let items = typeof id == "string" ? this.getComponents(id) : id
         
+        if (items.input.type == "file") return
         if ( this.fromApi && 
             (id == "github" || id == "linkedin" || id == "devpost") ) 
             val = (re.match(/[\w\-\_]+\/?$/))[0]
@@ -256,10 +294,26 @@ class AppDirector {
     // ---'underlay': underlay,
 
     save() {
+        if (this.readOnly) return
+
         this.inputVals['PAGE'] = this.currentPage
-        transactions.appOut(this.inputVals)
+        transactions.encrypt(this.inputVals, this.saveTo)
     }
-    update(id, noSave) {
+
+    async getFileEncoding(id) {
+        let components  = this.getComponents(id)
+
+        if (!components.input.files[0]) return
+
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        })
+        return await toBase64(components.input.files[0])
+    }
+    async update(id, noSave) {
         let components  = this.getComponents(id)
         if (components.specialHandlers) 
             Object.keys(components.specialHandlers).forEach(h => {
@@ -269,15 +323,18 @@ class AppDirector {
             })
         this.setComponents(id, components)
         
-        if (this.fromApi) {
+        if (this.readOnly) {
             components.inputWrap.classList.add('post-submission')
             return true
         }
         else {
-            let val = components.trueVal ? components.trueVal : this.getInputVal(id)
+            let val = components.trueVal ? components.trueVal :
+                components.input.type == "file" ? await this.getFileEncoding(id)
+                : this.getInputVal(id)
             val = components.input.type == "number" ? Number(val) : val
             let valid = components.noValidate ? true : this.handler.validate(id, val, noSave)
-
+            
+            if (components.input.type == "file") return
             if (!valid && val.length > 0)
                 this.error(id)
             else {
@@ -290,6 +347,11 @@ class AppDirector {
     }
     
     done(startCheckAt) {
+        if (startCheckAt === "confirmed") {
+            this.handler.submit(this)
+            return
+        }
+
         for (let i = Number.isInteger(startCheckAt) ? startCheckAt : 0; 
             i < this.pages.length; i++) {
             if (!this.pages[i]) {
@@ -301,13 +363,13 @@ class AppDirector {
         Object.keys(this.domItems).forEach(ik => this.update(ik))
 
         let needed = this.handler.needed
-        this.report = needed[0] 
-            ? reports.default(this, needed) : reports.success(this, needed)
+        if (needed[0])
+            this.reports.userErrored(needed)
 
-        window.scrollTo(0,0)
+        else if (this.reports.needsConfirmation)
+            this.reports.confirmForm()
 
-        document.body.appendChild(this.report.container)
-        document.body.appendChild(this.report.underlay)
+        else this.handler.submit(this)
     }
 
     postSubmission() {
@@ -326,17 +388,21 @@ class AppDirector {
         header.className = "submitted-message-wrap"
         header.firstChild.className = "submitted-message"
         header.firstChild.innerHTML = '\
-            Thanks! If you feel there is a meaningful error in your application, \
+            Thanks! If you feel there is a meaningful error, \
             <a href="mailto:hello@spartahack.com" target="_blank"> \
             email us (hello@spartahack.com)</a> so we can resolve it!</p>\
         '        
         this.container.prepend(header)
-        this.buttons.done.classList.add('hidden')
+
+        this.buttonDisplayChange('done', false)
         Object.keys(this.domItems).forEach(dk => {
             this.domItems[dk].input.readOnly = true
             this.update(dk, true)
         })
-        window.localStorage.setItem('getApiApp', true)
+        window.localStorage.setItem((this.saveTo + "Done"), true)
+        this.readOnly = true
+
+        if (this.postSubmissionCb) this.postSubmissionCb(this.domItems)
 
     }
 }

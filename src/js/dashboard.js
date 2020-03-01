@@ -1,11 +1,9 @@
-import './../scss/sheets/dashboard.scss'
-let transactions = require('./transactions'),
-login = require('./login').default
+require('./../scss/sheets/dashboard.scss') 
+const login = require('./startup/login').default
 ;(require('./fa').default)()
-// *
-let appState = () => +(window.localStorage.getItem('appState'))
-// *
-let fillBanner = async auth0 => {
+
+
+let fillBanner = (auth, user, state) => {
     let temp,
     now = new Date(),
     tod = document.getElementById('time-of-day')
@@ -20,37 +18,42 @@ let fillBanner = async auth0 => {
         temp = 'afternoon'
     }
     tod.innerHTML = temp
-    // -
-    let message = document.getElementById('user-message')
 
-    switch (appState()) { 
+    let message = document.getElementById('user-message')
+    switch (state) { 
         case 0:
-        temp = "You're set to start your application"; break
+        temp = "You're set to start your application"
+        break
         case 1:
-        temp = "We've saved your progress"; break
+        temp = "We've saved your progress!"
+        break
         case 2: 
-        case 7:
         case 3:
-        temp = "Thanks for applying, we'll get back to you shortly"; break
+        temp = "Thanks for applying, we'll get back to you shortly"
+        break
         case 4:
         temp = "Thanks for applying, but we have too many participants \
-        and couldn't give you a spot this year."; break
+        and couldn't give you a spot this year."
+        break
         case 5:
         temp = "We've reviewed your application and hope you can attend! \
-        Please RSVP to secure your spot"; break
-        case 6: 
-        temp = "Thanks for the RSVP, see you on 3/27!"
-        
+        Please RSVP to secure your spot"
+        break
+        case 6:
+        temp = "Almost there, please complete your RSVP!"
+        break
+        case 7: 
+        case 8:
+        temp = "Your spot is reserved, see you on 3/27!"
     }
     message.innerHTML = temp
-    return
-}
-// -
-let fillInfo = async auth0 => {
-    let user = transactions.userIn(),
-    name = document.getElementById('user-name')
 
-    if (!user) return
+    return
+},
+
+fillInfo = (auth, user, state) => {
+    let name = document.getElementById('user-name')
+
     if (name && !user.name) 
         document.getElementById('user-attrs').removeChild(name)
     else name.innerHTML = user.name
@@ -78,36 +81,55 @@ let fillInfo = async auth0 => {
     }
     else refresh(refreshItems)
     return
-}
-// -
-let fillButton = async auth0 => {
+},
+
+fillButton = (auth, user, state) => {
     let button = document.getElementById('app-button'),
     btnIco = document.createElement('i'),
-    state = appState()
-    btnIco.className = 'fas fa-chevron-circle-right'
-    //*
+    btnText, btnLocation
+
     if (button.lastElementChild)
         button.removeChild(button.lastElementChild)
-    if (!state) {
-        button.firstElementChild.innerHTML = "New"
-        btnIco.className = 'fas fa-plus-square'
+
+    switch(state) {
+        case 0: btnText = "New"
+        
+        break
+        case 1: btnText = "Continue"
+        break
+        case 5: 
+        case 6: btnText = "RSVP!"
+        
+        break
+        default: btnText = "Review"
     }
-    else if (state == 1)
-        button.firstElementChild.innerHTML = "Continue"
-    else
-        button.firstElementChild.innerHTML = "Review"
-    
-    // button.innerHTML = ''
-    button.appendChild(btnIco)
-    button.addEventListener('click', () => window.location = "/application.html")
+
+    if (!state || state == 5 || state == 6)
+        btnIco.className = 'fas fa-plus-square'
+    else 
+        btnIco.className = 'fas fa-chevron-circle-right'
+        
+    button.innerHTML = btnText
+    // console.log(btnIco)
+    if (!btnIco.className) 
+    console.log(btnIco.className)
+    btnLocation = state > 4
+        ? "/rsvp.html" : "/application.html"
+    button.addEventListener('click', () => window.location = btnLocation )
+
+    if (button.contains(btnIco))
+        button.replaceChild(btnIco, btnIcfo)
+    else button.appendChild(btnIco)
+
     return
-}
-// -
-let status = async auth0 => {
+},
+
+status = (auth, user, state) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
-    indicatorDirections = [0, 0, 1, 1, 1, 2, 3, 1],
-    checkedIndicators = indicatorDirections[appState()],
+    indicatorDirections = [0, 0, 1, 1, 1, 2, 2, 3, 3],
+    checkedIndicators = indicatorDirections[state],
     updateStatus = (statDom, state) => {
+        console.log(indicatorDirections, state)
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
         
@@ -130,68 +152,4 @@ let status = async auth0 => {
     return true
 }
 
-
-let startUp = async auth0 => {
-    let user,
-    updateInfo = () => { 
-        user = transactions.userIn()
-        return Boolean(user)
-    },
-    tryLoaded = (test, after, tryNum) => window.setTimeout(() => {
-        tryNum = typeof tryNum == "number" ? tryNum : 0
-
-        if (test()) after()
-        else if (tryNum < 10) 
-            tryLoaded(test, after, ++tryNum)
-        else (login(() => {}))
-    }, 500),
-    after = () => {
-        let getState = apiApp => {
-            let state = 0
-            apiApp = apiApp 
-                ? apiApp : transactions.appIn(true)
-            
-            if (user.rsvp) state = 6
-            else if (window.localStorage.getItem('getApiApp')) {
-                window.localStorage.removeItem('getApiApp')
-                state = 7
-            }
-            else if (apiApp)
-                switch(apiApp.status) {
-                    case "Accepted":
-                        state = 5
-                    break
-                    case "Rejected":
-                        state = 4
-                    break
-                    default:
-                        state = 3
-                }
-            else if (user.aid) {
-                state = 2
-            }
-            else if (transactions.appIn())
-                state = 1
-            return state
-        },
-        setState = apiApp => {
-            let state = getState(apiApp)
-            window.localStorage.setItem('appState', state)
-            return state
-        }
-
-        if (setState() == 2)
-            transactions.getApp(user.pt, user.aid, app => {
-                transactions.appOut(app, true)
-                setState(app) 
-                login([fillBanner, status, fillInfo, fillButton])
-            })
-
-        let afterAfter = [fillBanner, status, fillInfo, fillButton]
-        afterAfter.forEach(f => f(auth0))
-    }
-    tryLoaded(updateInfo, after)
-
-    return true
-}
-login(startUp)
+login([fillBanner, status, fillButton, fillInfo])

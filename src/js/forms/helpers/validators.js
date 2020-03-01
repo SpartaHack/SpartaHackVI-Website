@@ -30,6 +30,7 @@ let devpost = value => {
 // put into _autoComplete ?
 let filterCheck = (value, filterSrc) => {
     if (!Array.isArray(filterSrc)) return
+
     let query = value.toLowerCase(),
     i = 0, potRes, found
 
@@ -171,6 +172,8 @@ const phone = value => {
 
 // ---
 
+const shirt = val => regWords(val)
+
 module.exports.default = ({
     "github": github,
     "devpost": devpost,
@@ -185,5 +188,10 @@ module.exports.default = ({
     "city": city,
     "major": major,
     "university": university,
-    "gradYear": yr => Number(yr)
+    "gradYear": yr => Number(yr),
+    "resume": val => val,
+    "diet": race,
+    "shirt": shirt,
+    "jobPreference": shirt,
+    "carpool": shirt,
 })

@@ -14,7 +14,7 @@ class otherThanListed extends specialInput{
         input.id = this.id
         input.placeholder = "List: Backspace"
 
-        if (this.director.fromApi) input.readOnly = true
+        if (this.director.readOnly) input.readOnly = true
         else {
             input.addEventListener('keyup', e => {
                 if (!input.value.length && e.keyCode == 8) 

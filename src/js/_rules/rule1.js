@@ -17,6 +17,8 @@ function test(user, context, callback) {
       context.idToken[nameSpace + "pt"] = body.auth_token;
       if (body.application_id)
         context.idToken[nameSpace + "aid"] = body.application_id;
+      if (body.id)
+        context.idToken[nameSpace + "pid"] = body.id;
       if (body.rsvp_id)
         context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
       cb();            

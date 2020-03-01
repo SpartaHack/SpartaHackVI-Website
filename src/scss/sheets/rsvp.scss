@@ -1,0 +1,43 @@
+@import 
+'./../components/assets.scss',
+'./../components/form.scss',
+'./../components/reports.scss',
+'./../components/formSkeleton.scss';
+
+#rsvp-header {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0 1rem;
+    
+    flex-direction: column;
+    * {
+        width: auto;
+        margin: .5rem auto;
+    }
+    
+    #invited-message { user-select: none; }
+
+    #event-info {
+        padding: 1rem;
+        border-radius: .5rem;
+        
+        $accent: rgba($red, .5);
+        border: 2px solid $accent;
+        box-shadow: inset 0 0 .75rem 0 $accent;
+
+        user-select: all;
+        span { user-select: none; }
+
+        a {
+            text-decoration: underline;
+            margin: 0 0 0 .25rem;
+        }
+    }
+}
+
+#rsvp-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 1rem 0;
+}
