@@ -1,4 +1,4 @@
-require('./../../scss/sheets/application.scss')
+import './../../scss/sheets/application.scss'
 
 const Director = require('./../forms/director').default,
 Handler = require('./../forms/handler').default,
