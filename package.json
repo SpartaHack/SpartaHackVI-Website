@@ -49,6 +49,9 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "cities.json": "^1.1.5",
     "simple-crypto-js": "^2.2.0"
   }
 }
