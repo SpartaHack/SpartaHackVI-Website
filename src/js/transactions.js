@@ -24,8 +24,8 @@ decrypt = src => {
 
     let decryptor = new simpleCrypto(key),
     data = decryptor.decrypt(item)
-
-    return JSON.parse(data)
+    console.log(data) 
+    return !data ? undefined : JSON.parse(data)
 },
 encrypt = (data, out) => {
     let key = getKey()
