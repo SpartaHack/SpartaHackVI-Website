@@ -7,7 +7,7 @@ let getKey = key => {
 
     let tokenAt = key.search(/access_token/)
     if (tokenAt != -1) {
-        key.substr(token+13, 32)
+        key = key.substr(tokenAt+13, 32)
         return "!!--"+key
     }
 
