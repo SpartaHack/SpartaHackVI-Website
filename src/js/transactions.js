@@ -5,11 +5,9 @@ let getKey = key => {
     if (key) return key
     key = window.location.hash
 
-    if (key.search(/id_token/) != -1) {
-        key = key.charAt(13) == "=" ?
-            key.split('&').pop().substr(9,48)
-            : key.substr(1)
-        
+    let tokenAt = key.search(/access_token/)
+    if (tokenAt != -1) {
+        key.substr(token+13, 32)
         return "!!--"+key
     }
 
