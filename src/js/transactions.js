@@ -3,8 +3,8 @@ simpleCrypto = require("simple-crypto-js").default
 
 let getKey = () => {
     let key = window.sessionStorage.getItem('st')
-    return (key && key.search(/\w{5,6}\|/) === 0)
-        ? key : false
+    console.log(key)
+    return key
 },
 decrypt = (src, asObject) => {
     let key = getKey(),

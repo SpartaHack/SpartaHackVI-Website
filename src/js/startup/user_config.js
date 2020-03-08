@@ -15,8 +15,12 @@ let auth_func = async cb => {
                 let payload = hashedInfo.idTokenPayload,
                 payloadNamespace = window.location.origin != "http://localhost:9000" 
                     ? window.location.origin : "http://website.elephant.spartahack.com",
-                getUserItem = name => 
-                    payload[payloadNamespace+"/"+name],
+                getUserItem = name => {
+                    let locInPayload = payloadNamespace+"/"+name
+                    
+                    return payload.hasOwnProperty(locInPayload) 
+                        ? payload[locInPayload] : false
+                },
                 userOut = {
                     'email': payload.email,
                     'name': payload.name != payload.email
@@ -30,7 +34,7 @@ let auth_func = async cb => {
                 userItems = ['pt', 'aid', 'pid', 'rsvp']
                 userItems.forEach(
                     i => userOut[i] = getUserItem(i) )
-
+                console.log(payload)
                 window.sessionStorage.setItem(
                     'st', getUserItem('lk') )
     
@@ -44,7 +48,7 @@ let auth_func = async cb => {
 
     else {
         let user = transactions.userIn()
-
+        console.log('why though')
         if ((user.exp - Math.floor(Date.now()/1000)) < 900)
             auth.authorize()
 
