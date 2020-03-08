@@ -9,7 +9,7 @@ let startCheck = async cb => {
         'app': transactions.appIn()
     }, 
     state = s => transactions.setState(s), thisState
-    // console.log(user, existing)
+
     if (existing.apiRsvp)
         thisState = 8
     else if (user.rsvp)
@@ -32,11 +32,9 @@ let startCheck = async cb => {
             ? 2 : 1
     else
         thisState = 0
-    // console.log(thisState)
-    if (thisState !== undefined)//{
+
+    if (thisState !== undefined)
         cb(state(thisState))
-        // console.log('alright')
-    // }
 }
 
 module.exports.default = startCheck

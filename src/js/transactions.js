@@ -3,7 +3,6 @@ simpleCrypto = require("simple-crypto-js").default
 
 let getKey = () => {
     let key = window.sessionStorage.getItem('st')
-    console.log(key)
     return key
 },
 decrypt = (src, asObject) => {
@@ -17,7 +16,6 @@ decrypt = (src, asObject) => {
     try { data = decryptor.decrypt(item, asObject) }
     catch(err) { data = undefined }
 
-    // console.log("-@ return @-", data, typeof data, src)
     return data
 },
 encrypt = (data, out) => {
@@ -25,11 +23,9 @@ encrypt = (data, out) => {
     if (!data || !out || !key) return
     
     let encryptor = new simpleCrypto(key)
-    // console.log("!@ new @!", data, typeof data, out)
     data = encryptor.encrypt(data)
     
     window.localStorage.setItem(out, data)
-    // console.log('!! encrypted !!', window.localStorage.getItem(out))
     return true
 }
 
@@ -79,9 +75,8 @@ let importCb = (which, cb, response, body) => {
     let contents = (response && response.statusCode === 200)
         ? body : false
     encrypt(contents, which)
-    // console.log(response)
-    if (contents)
-        cb(body)
+
+    if (contents) cb(body)
 }
 
 module.exports.getApp = (user, cb) => {

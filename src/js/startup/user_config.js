@@ -7,7 +7,16 @@ let auth_func = async cb => {
     auth = await new auth0(env.auth),
     key = transactions.getKey()
 
-    if (!args && !key) auth.authorize()
+    if (!args && !key) {
+        if (window.localStorage.getItem('triedAuth')) {
+            window.localStorage.removeItem('triedAuth')
+            window.location = "/"
+        }
+        else {
+            window.localStorage.setItem('triedAuth', 'true')
+            auth.authorize()
+        }
+    }
 
     else if (args && args.substr(0, 13).search(/token/) != -1) 
         auth.parseHash({}, (err, hashedInfo) => {
@@ -30,17 +39,17 @@ let auth_func = async cb => {
                     'github': payload.sub.substr(0,6) == "github" 
                         ? payload.nickname : undefined
                 },
-                
                 userItems = ['pt', 'aid', 'pid', 'rsvp']
+
                 userItems.forEach(
-                    i => userOut[i] = getUserItem(i) )
-                console.log(payload)
+                    i => userOut[i] = getUserItem(i) )    
                 window.sessionStorage.setItem(
                     'st', getUserItem('lk') )
-    
+
                 transactions.userOut(userOut)
                 history.replaceState(null, null, ' ')
-    
+                
+                window.localStorage.removeItem('triedAuth')
                 cb(auth, userOut)
             }
             else console.log(err)
@@ -48,10 +57,10 @@ let auth_func = async cb => {
 
     else {
         let user = transactions.userIn()
-        console.log('why though')
         if ((user.exp - Math.floor(Date.now()/1000)) < 900)
             auth.authorize()
-
+            
+        window.localStorage.removeItem('triedAuth')
         cb(auth, user)
     }
 

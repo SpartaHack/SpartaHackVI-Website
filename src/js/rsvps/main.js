@@ -29,7 +29,6 @@ directorArgs = {
 director,
 directorInit = (auth, user, state) => {
     let apiRsvp = transactions.rsvpIn(true)
-    // console.log(apiRsvp)
     if (apiRsvp) {
         directorArgs['saveTo'] = 'apiRsvp'
         directorArgs['oldVals'] = apiRsvp

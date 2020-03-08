@@ -103,16 +103,13 @@ fillButton = (auth, user, state) => {
         break
         default: btnText = "Review"
     }
+    button.innerHTML = btnText
 
     if (!state || state == 5 || state == 6)
         btnIco.className = 'fas fa-plus-square'
     else 
         btnIco.className = 'fas fa-chevron-circle-right'
-        
-    button.innerHTML = btnText
-    // console.log(btnIco)
-    // if (!btnIco.className) 
-    // console.log(btnIco.className)
+    
     btnLocation = state > 4
         ? "/rsvp.html" : "/application.html"
     button.addEventListener('click', () => window.location = btnLocation )
@@ -129,7 +126,6 @@ status = (auth, user, state) => {
     indicatorDirections = [0, 0, 1, 1, 1, 2, 2, 3, 3],
     checkedIndicators = indicatorDirections[state],
     updateStatus = (statDom, state) => {
-        // console.log(indicatorDirections, state)
         statDom = statDom.lastElementChild
         let indicator = document.createElement('i')
         
