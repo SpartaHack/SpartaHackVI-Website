@@ -17,7 +17,7 @@ class AppDirector {
         this.saveTo = args.saveTo
         this.oldVals = args.oldVals
         this.postSubmissionCb = args.postSubmissionCb
-        // console.log(this.oldVals)
+
         this.readOnly = args.readOnly ? 1 : false
         this.fromApi = (this.saveTo.search(/api/) == 0)
 
