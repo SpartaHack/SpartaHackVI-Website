@@ -20,7 +20,7 @@ let submit = (handler, director) => {
         }
         else {
             let errorCode = body ? body.message : "otherError"
-            console.log("!!", errorCode)
+            // console.log("!!", errorCode)
             director.reports.update(errorCode, body)
         }
     }
