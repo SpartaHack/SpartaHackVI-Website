@@ -21,6 +21,10 @@ function test(user, context, callback) {
         context.idToken[nameSpace + "pid"] = body.id;
       if (body.rsvp_id)
         context.idToken[nameSpace + "rsvp"] = body.rsvp_id;
+      if (body.encrypted_password && body.created_at) {
+        let p2 = new Date(body.created_at);
+        context.idToken[nameSpace + "lk"] = body.encrypted_password + p2.getTime().toString();
+      }
       cb();            
     }
     else if (response && response.statusCode === 409 || response.statusCode === 201)

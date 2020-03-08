@@ -11,30 +11,35 @@ let auth_func = async cb => {
 
     else if (args && args.substr(0, 13).search(/token/) != -1) 
         auth.parseHash({}, (err, hashedInfo) => {
-            let payload = hashedInfo.idTokenPayload,
-            getUserItem = name => 
-                payload[window.location.origin+"/"+name],
-            userOut = {
-                'email': payload.email,
-                'name': payload.name != payload.email
-                    ? payload.name : undefined,
-                'exp': payload.exp,
-                'picture': payload.picture,
-                'github': payload.sub.substr(0,6) == "github" 
-                    ? payload.nickname : undefined
-            },
+            if (hashedInfo) {
+                let payload = hashedInfo.idTokenPayload,
+                payloadNamespace = window.location.origin != "http://localhost:9000" 
+                    ? window.location.origin : "http://website.elephant.spartahack.com",
+                getUserItem = name => 
+                    payload[payloadNamespace+"/"+name],
+                userOut = {
+                    'email': payload.email,
+                    'name': payload.name != payload.email
+                        ? payload.name : undefined,
+                    'exp': payload.exp,
+                    'picture': payload.picture,
+                    'github': payload.sub.substr(0,6) == "github" 
+                        ? payload.nickname : undefined
+                },
+                
+                userItems = ['pt', 'aid', 'pid', 'rsvp']
+                userItems.forEach(
+                    i => userOut[i] = getUserItem(i) )
 
-            userItems = ['pt', 'aid', 'pid', 'rsvp']
-            userItems.forEach(
-                i => userOut[i] = getUserItem(i) )
-
-            window.sessionStorage.setItem('st',
-                transactions.getKey() )
-
-            transactions.userOut(userOut)
-            history.replaceState(null, null, ' ')
-
-            cb(auth, userOut)
+                window.sessionStorage.setItem(
+                    'st', getUserItem('lk') )
+    
+                transactions.userOut(userOut)
+                history.replaceState(null, null, ' ')
+    
+                cb(auth, userOut)
+            }
+            else console.log(err)
         } )
 
     else {

@@ -1,40 +1,35 @@
 const req = require('./req'),
 simpleCrypto = require("simple-crypto-js").default
 
-let getKey = key => {
-    if (key) return key
-    key = window.location.hash
-
-    let tokenAt = key.search(/access_token/)
-    if (tokenAt != -1) {
-        key = key.substr(tokenAt+13, 32)
-        return "!!--"+key
-    }
-
-    key = window.sessionStorage.getItem('st')
-    history.replaceState(null, null, ' ')
-    return (key && key.substr(0,4) == "!!--" )
+let getKey = () => {
+    let key = window.sessionStorage.getItem('st')
+    return (key && key.search(/\w{5,6}\|/) === 0)
         ? key : false
 },
-decrypt = src => {
+decrypt = (src, asObject) => {
     let key = getKey(),
     item = window.localStorage.getItem(src)
 
     if (!item || !key) return
 
-    let decryptor = new simpleCrypto(key),
-    data = decryptor.decrypt(item)
-    console.log(data) 
-    return !data ? undefined : JSON.parse(data)
+    let decryptor = new simpleCrypto(key), data
+    
+    try { data = decryptor.decrypt(item, asObject) }
+    catch(err) { data = undefined }
+
+    // console.log("-@ return @-", data, typeof data, src)
+    return data
 },
 encrypt = (data, out) => {
     let key = getKey()
     if (!data || !out || !key) return
     
     let encryptor = new simpleCrypto(key)
-    data = encryptor.encrypt(JSON.stringify(data))
-
+    // console.log("!@ new @!", data, typeof data, out)
+    data = encryptor.encrypt(data)
+    
     window.localStorage.setItem(out, data)
+    // console.log('!! encrypted !!', window.localStorage.getItem(out))
     return true
 }
 
@@ -56,7 +51,7 @@ module.exports.getState =
 // ---
 
 module.exports.rsvpIn = api =>
-    decrypt(api ? 'apiRsvp' : 'locRsvp')
+    decrypt(api ? 'apiRsvp' : 'locRsvp', true)
 
 module.exports.rsvpOut = (data, api) =>
     encrypt(data, api ? 'apiRsvp' : 'locRsvp')
@@ -64,7 +59,7 @@ module.exports.rsvpOut = (data, api) =>
 // ---
 
 module.exports.appIn = api =>
-    decrypt(api ? 'apiApp' : 'locApp')
+    decrypt(api ? 'apiApp' : 'locApp', true)
 
 module.exports.appOut = (data, api) => {
         if (api === 1) {}
@@ -74,7 +69,7 @@ module.exports.appOut = (data, api) => {
 
 // ---
 
-module.exports.userIn = () => decrypt('user')
+module.exports.userIn = () => decrypt('user', true)
 
 module.exports.userOut = data => encrypt(data, 'user')
 
@@ -84,7 +79,7 @@ let importCb = (which, cb, response, body) => {
     let contents = (response && response.statusCode === 200)
         ? body : false
     encrypt(contents, which)
-    console.log(response)
+    // console.log(response)
     if (contents)
         cb(body)
 }
