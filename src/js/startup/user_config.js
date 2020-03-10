@@ -52,7 +52,11 @@ let auth_func = async cb => {
                 window.localStorage.removeItem('triedAuth')
                 cb(auth, userOut)
             }
-            else console.log(err)
+            else {
+                console.log(err)
+                window.sessionStorage.removeItem('st')
+                window.location = window.location.href+'?eraseCache=true';
+            }
         } )
 
     else {
