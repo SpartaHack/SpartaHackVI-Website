@@ -183,3 +183,8 @@ main {
         #app-button-wrap { margin: .5rem 0 0 0; }
     }
 }
+.modal-lock {
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+}

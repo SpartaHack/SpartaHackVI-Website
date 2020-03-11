@@ -1,4 +1,5 @@
 import './../scss/sheets/index.scss'
+;(require('./covidCancel').default)()
 ;(require('./fa').default)()
 
 let applyButtons = [

@@ -135,4 +135,38 @@ h1, h2, button
     { text-transform: uppercase; }
 
 .hidden { display: none;}
+
+.cancellation-bg {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#cancellation-underlay {
+    z-index: 20;
+    background-color: rgba($white, .6);
+}
+#cancellation-wrapper {
+    z-index: 25;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    article {
+        background-color: black;
+        border-radius: .5rem;
+        max-width: 95vw;
+        min-width: 560px;
+        margin: auto;
+        padding: 1rem;
+
+        * { color: white; }
+        button { color: $black; }
+    }
+}
 // .visible { display: block;}

@@ -4,23 +4,26 @@ const login = require('./startup/login').default
 
 
 let fillBanner = (auth, user, state) => {
-    let temp,
-    now = new Date(),
-    tod = document.getElementById('time-of-day')
-    now = now.getHours()
+    let temp//,
+    // now = new Date(),
+    // tod = document.getElementById('time-of-day')
+    // now = now.getHours()
 
-    switch (true) {
-        case (now > 2 && now < 12):
-        temp = 'morning'; break
-        case (now > 16):
-        temp = 'evening'; break
-        default:
-        temp = 'afternoon'
-    }
-    tod.innerHTML = temp
+    // switch (true) {
+    //     case (now > 2 && now < 12):
+    //     temp = 'morning'; break
+    //     case (now > 16):
+    //     temp = 'evening'; break
+    //     default:
+    //     temp = 'afternoon'
+    // }
+    // tod.innerHTML = temp
 
     let message = document.getElementById('user-message')
-    switch (state) { 
+    switch (state) {
+        default:
+        temp = "We're sorry we won't see you this year!"
+        /*
         case 0:
         temp = "You're set to start your application"
         break
@@ -45,6 +48,7 @@ let fillBanner = (auth, user, state) => {
         case 7: 
         case 8:
         temp = "Your spot is reserved, see you on 3/27!"
+        */
     }
     message.innerHTML = temp
 
@@ -83,44 +87,6 @@ fillInfo = (auth, user, state) => {
     return
 },
 
-fillButton = (auth, user, state) => {
-    let button = document.getElementById('app-button'),
-    btnIco = document.createElement('i'),
-    btnText, btnLocation
-
-    if (button.lastElementChild)
-        button.removeChild(button.lastElementChild)
-
-    switch(state) {
-        case 0: btnText = "New"
-        
-        break
-        case 1: btnText = "Continue"
-        break
-        case 5: 
-        case 6: btnText = "RSVP!"
-        
-        break
-        default: btnText = "Review"
-    }
-    button.innerHTML = btnText
-
-    if (!state || state == 5 || state == 6)
-        btnIco.className = 'fas fa-plus-square'
-    else 
-        btnIco.className = 'fas fa-chevron-circle-right'
-    
-    btnLocation = state > 4
-        ? "/rsvp.html" : "/application.html"
-    button.addEventListener('click', () => window.location = btnLocation )
-
-    if (button.contains(btnIco))
-        button.replaceChild(btnIco, btnIcfo)
-    else button.appendChild(btnIco)
-
-    return
-},
-
 status = (auth, user, state) => {
     let indicators = Array.from(document.getElementsByClassName('status')),
     indicatorDirections = [0, 0, 1, 1, 1, 2, 2, 3, 3],
@@ -148,4 +114,6 @@ status = (auth, user, state) => {
     return true
 }
 
-login([fillBanner, status, fillButton, fillInfo])
+login([fillBanner, status, fillInfo])
+
+;(require('./covidCancel').default)()

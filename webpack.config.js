@@ -12,8 +12,8 @@ module.exports = {
     entry: { 
       util: './src/js/util.js',
       main: './src/js/index.js', 
-      apps: './src/js/applications/main.js', 
-      rsvps: './src/js/rsvps/main.js',
+      apps: './src/js/applications/cancelMain.js', 
+      rsvps: './src/js/rsvps/cancelMain.js',
       dashboard: './src/js/dashboard.js',
       navFooter: './src/js/navFooter.js',
     },
