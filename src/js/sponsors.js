@@ -54,7 +54,7 @@ let get = target => {
     let sponsorsRq = {
         headers: 
             { "Content-Type": "application/json" },
-        url: window.location + "/data/sponsors.json",
+        url: window.location.origin + "/data/sponsors.json",
         json: true
     },
     getSponsors = (err, response, body) => make(body, target)

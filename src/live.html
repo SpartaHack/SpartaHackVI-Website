@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="author" content="Jarek Troyer">
+        <meta charset="UTF-8">
+        <title>Live: SpartaHack VI</title>
+        <meta name="description" content="Live evemt page for SpartaHack VI">
+        <meta name="keywords" content="Spartahack, Major League Hacking, MLH, Hackathon, Michigan State University, MSU, Account, Apply">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+        <link rel="stylesheet" type="text/css" href="<%=htmlWebpackPlugin.files.chunks.navFooter.css %>">
+    </head>
+
+    <body>
+        <!-- <nav id="main-nav">
+            <a href="/" id="home-button">
+                <img src="assets/spartahackVIVector.svg" />
+
+                <h2>Spartahack VI</h2>
+            </a>
+
+            <ul id="nav-options">
+                <li>
+                    <a href="/dashboard.html" tabIndex=-1 id="nav-account">Account</a>
+                </li>
+
+                <div class="vrt-barrier"
+                ></div>
+
+                <li>
+                <p id="nav-logout">Logout<br></p>
+                </li>
+            </ul>
+        </nav> -->
+
+    </body>
+
+    <link rel="stylesheet" type="text/css" href="<%=htmlWebpackPlugin.files.chunks.live.css %>">
+    <!-- <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> -->
+    <!-- <script src="https://kit.fontawesome.com/a31625db37.js"></script> -->
+    <script src="<%= htmlWebpackPlugin.files.chunks.live.entry %>"></script>
+</html>
